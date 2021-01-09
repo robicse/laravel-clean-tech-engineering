@@ -31,9 +31,6 @@ Route::get('/view-clear', function() {
 /* artisan command */
 
 
-
-
-
 Route::get('/', function () {
     //return view('welcome');
     return redirect()->route('login');
@@ -65,7 +62,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productPurchaseRawMaterials','ProductPurchaseRawMaterialsController');
     Route::resource('productProductions','ProductProductionController');
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
+    Route::resource('service','ServiceController');
 
+    Route::get('check-name','ServiceController@checkName');
 
     Route::get('productPurchases-invoice','ProductPurchaseController@invoice')->name('productPurchases-invoice');
     Route::get('productPurchases-invoice-print','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
@@ -135,4 +134,63 @@ Route::group(['middleware' => ['auth']], function() {
     // custom start
     Route::post('/roles/permission','RoleController@create_permission');
     Route::post('/user/active','UserController@activeDeactive')->name('user.active');
+
+
+
+
+
+    ///////////////////////////Account////////////////////////////////////////////
+
+
+
+    Route::resource('voucherType','VoucherTypeController');
+    Route::resource('posting','PostingController');
+
+    //Route::post('pay-due','ServiceSaleController@payDue')->name('pay.due');
+
+    Route::get('account/coa_print','AccountController@coa_print')->name('account.coa_print');
+    Route::get('account/cashbook','AccountController@cash_book_form');
+    Route::post('account/cashbook','AccountController@cash_book_form')->name('account.cashbook');
+    Route::get('account/cashbook-print/{date_from}/{date_to}','AccountController@cash_book_print');
+
+    //Route::get('account/voucher-invoice/{voucher_no}/{transaction_date}','TransactionController@voucher_invoice');
+    Route::get('account/voucher-invoice/{voucher_type_id}/{voucher_no}','PostingController@voucher_invoice');
+    Route::post('account/transaction-delete/{voucher_type_id}/{voucher_no}','PostingController@transactionDelete');
+    Route::get('account/transaction-edit/{voucher_type_id}/{voucher_no}','PostingController@transactionEdit');
+    Route::post('account/posting-update/{voucher_type_id}/{voucher_no}','PostingController@transactionUpdate');
+    Route::get('account/generalledger','PostingController@general_ledger_form')->name('account.generalledger');
+    Route::get('/get-transaction-head/{id}','AccountController@transaction_head');
+    Route::post('account/general-ledger','PostingController@view_general_ledger')->name('account.general_ledger');
+    Route::get('account/general-ledger-print/{headcode}/{date_from}/{date_to}','PostingController@general_ledger_print');
+    Route::get('account/trial-balance','PostingController@trial_balance_form');
+    Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');
+    Route::post('account/trial-balance','PostingController@view_trial_balance')->name('account.trial_balance');
+    Route::get('account/balance-sheet','PostingController@balance_sheet');
+    Route::get('account/balance-sheet-print','PostingController@balance_sheet_print');
+
+    Route::get('account/debit-voucher','AccountController@debit_voucher_form')->name('account.debit.voucher');
+    Route::post('account/debit-voucher','AccountController@view_debit_voucher')->name('account.debit_voucher');
+    Route::get('account/debit-voucher-print/{headcode}/{date_from}/{date_to}','AccountController@debit_voucher_print');
+
+
+    Route::get('account/credit-voucher','AccountController@credit_voucher_form')->name('account.credit.voucher');
+    Route::post('account/credit-voucher','AccountController@view_credit_voucher')->name('account.credit_voucher');
+    Route::get('account/credit-voucher-print/{headcode}/{date_from}/{date_to}','AccountController@credit_voucher_print');
+
+    Route::resource('accounts','AccountController');
+    Route::get('selectedform/{id}','AccountController@selectedform');
+    Route::get('newform/{id}','AccountController@newform');
+    Route::post('insert_coa','AccountController@insert_coa');
+
+
+//relation-data
+
+    Route::get('service-relation-data','ServiceSaleController@serviceRelationData');
+
+    Route::get('employeeSalary-relation-data','EmployeeSalaryController@employeeSalaryRelationData');
+
+    Route::get('get-voucher-no','PostingController@getVoucherNo');
+
+
+
 });

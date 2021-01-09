@@ -161,7 +161,8 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function subCategoryList(Request $request){
+    public function subCategoryList(Request $request)
+    {
         $product_category_id = $request->product_category_id;
         $sub_categories = ProductSubCategory::where('product_category_id',$product_category_id)->get();
         if(count($sub_categories) > 0){
@@ -176,11 +177,14 @@ class ProductController extends Controller
         return response()->json(['success'=>true,'data'=>$options]);
     }
 
-    public function checkBarcode(Request $request){
+    public function checkBarcode(Request $request)
+    {
         $barcode = $request->barcode;
         $exists_barcode = Product::where('barcode',$barcode)->get();
         if(count($exists_barcode) > 0){
             $barcode_check = 'Found';
+
+
         }else{
             $barcode_check = 'Not Found';
         }

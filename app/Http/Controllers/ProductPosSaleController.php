@@ -41,47 +41,6 @@ class ProductPosSaleController extends Controller
 
     public function create()
     {
-        /* check cart with raw data */
-//        Cart::add([
-//            'id' => '293ad',
-//            'name' => 'Product 1',
-//            'qty' => 1,
-//            'price' => 9.99,
-//            'options' => [
-//                'size' => 'large'
-//            ]
-//        ]);
-
-//        Cart::add([
-//            [
-//                'id' => '293ad',
-//                'name' => 'Product 1',
-//                'qty' => 1,
-//                'price' => 10.00
-//            ],
-//            [
-//                'id' => '4832k',
-//                'name' => 'Product 2',
-//                'qty' => 1,
-//                'price' => 10.00,
-//                'options' => [
-//                    'size' => 'large'
-//                ]
-//            ]
-//        ]);
-
-
-//        Cart::add([$product1, $product2]);
-//        Cart::content();
-//        Cart::total();
-//        Cart::count();
-        Cart::destroy();
-//        dd(Cart::count());
-//        echo Cart::count();
-        /* check cart with raw data */
-
-
-
         $auth = Auth::user();
         $auth_user = Auth::user()->roles[0]->name;
         $parties = Party::where('type','customer')->get() ;
@@ -103,89 +62,9 @@ class ProductPosSaleController extends Controller
         return view('backend.productPosSale.create',compact('parties','stores','products','productCategories','productSubCategories','productBrands'));
     }
 
-
-
-
-
-
-
-
-
     public function selectedform($barcode, $store_id){
 
         $baseurl = URL('/pos_insert');
-
-        // One Way
-
-//        $html = '<form name="form" id="form" action="'.$baseurl.'" method="post" enctype="multipart/form-data">
-//                <input type="hidden" name="_token" value="'.csrf_token().'" />
-//                    <table class="table table-striped tabel-penjualan">
-//                        <thead>
-//                            <tr>
-//                                <th width="30">No</th>
-//                                <th>Barcode</th>
-//                                <th>Product Name</th>
-//                                <th align="right">Price</th>
-//                                <th>Quantity</th>
-//                                <th align="right">Sub Total</th>
-//                                <th>Action</th>
-//                            </tr>
-//                        </thead>
-//                        <tbody></tbody>
-//                    </table>
-//                    <div class="row">
-//                        <div class="col-md-8">
-//
-//                        </div>
-//                        <div class="col-md-4">
-//                            <div class="form-group row">
-//                                <label for="totalrp" class="col-md-4 control-label">Sub Total</label>
-//                                <div class="col-md-8">
-//                                    <input type="text" class="form-control" id="totalrp" readonly>
-//                                </div>
-//                            </div>
-//                            <div class="form-group row">
-//                                <label for="member" class="col-md-4 control-label">Customer</label>
-//                                <div class="col-md-8">
-//                                    <div class="input-group">
-//                                        <input id="member" type="text" class="form-control" name="member" value="0">
-//                                        <span class="input-group-btn">
-//                                          <button onclick="showMember()" type="button" class="btn btn-info">...</button>
-//                                        </span>
-//                                    </div>
-//                                </div>
-//                            </div>
-//                            <div class="form-group row">
-//                                <label for="diskon" class="col-md-4 control-label">Discount</label>
-//                                <div class="col-md-8">
-//                                    <input type="text" class="form-control" name="diskon" id="diskon" value="0">
-//                                </div>
-//                            </div>
-//                            <div class="form-group row">
-//                                <label for="bayarrp" class="col-md-4 control-label">Grand Total</label>
-//                                <div class="col-md-8">
-//                                    <input type="text" class="form-control" name="bayarrp" id="diskon" value="0" readonly>
-//                                </div>
-//                            </div>
-//                            <div class="form-group row">
-//                                <label for="diterima" class="col-md-4 control-label">Paid</label>
-//                                <div class="col-md-8">
-//                                    <input type="number" class="form-control" value="0" name="diterima" id="diterima">
-//                                </div>
-//                            </div>
-//                            <div class="form-group row">
-//                                <label for="kembali" class="col-md-4 control-label">Due</label>
-//                                <div class="col-md-8">
-//                                    <input type="text" class="form-control" id="kembali" value="0" readonly>
-//                                </div>
-//                            </div>
-//                            <div class="box-footer">
-//                                <button type="submit" class="btn btn-primary pull-right simpan"><i class="fa fa-floppy-o"></i> Save</button>
-//                            </div>
-//                        </div>
-//                    </div>
-//            </form>';
-
 
 
         $html = "<form name=\"form\" id=\"form\" action=\"".$baseurl."\" method=\"post\" enctype=\"multipart/form-data\">
@@ -357,10 +236,6 @@ class ProductPosSaleController extends Controller
         }else{
             $customer_id = $request->customer;
         }
-
-
-
-
 
 //        echo $customer_id;
 //        echo '<pre>';

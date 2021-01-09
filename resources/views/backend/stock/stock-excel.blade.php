@@ -4,7 +4,7 @@
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>{{$store->name}}</th>
+                        <th>Clean Tech Engineering</th>
                     </tr>
                     <tr>
                         <th>ID#</th>

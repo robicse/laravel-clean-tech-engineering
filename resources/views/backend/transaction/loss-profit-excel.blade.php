@@ -3,7 +3,7 @@
         <table class="table table-bordered mt-3">
             <thead>
             <tr>
-                <th>{{$store->name}}</th>
+                <th>Clean Tech Engineering</th>
                 @php
                     $productPurchaseDetails = DB::table('product_purchase_details')
                         ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
