@@ -4,15 +4,15 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Product Unit</h1>
+                <h1><i class=""></i> All Product Capacity</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('productUnits.create') !!}" class="btn btn-sm btn-primary" type="button">Add Product Unit</a></li>
+                <li class="breadcrumb-item"> <a href="{!! route('productCapacity.create') !!}" class="btn btn-sm btn-primary" type="button">Add Product Capacity</a></li>
             </ul>
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Product Unit Table</h3>
+                <h3 class="tile-title">Product Capacity</h3>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -27,8 +27,8 @@
                         <td>{{ $key+1 }}</td>
                         <td>{{ $productUnit->name}}</td>
                         <td>
-                            <a href="{{ route('productUnits.edit',$productUnit->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                            <form method="post" action="{{ route('productUnits.destroy',$productUnit->id) }}" >
+                            <a href="{{ route('productCapacity.edit',$productUnit->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+                            <form method="post" action="{{ route('productCapacity.destroy',$productUnit->id) }}" >
                                @method('DELETE')
                                 @csrf
                                 <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>

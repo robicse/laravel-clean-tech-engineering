@@ -47,18 +47,14 @@ class ProductController extends Controller
             'name' => 'required',
             'barcode' => 'required',
             'product_category_id' => 'required',
-            //'product_sub_category_id' => 'required',
             'product_brand_id' => 'required',
         ]);
 
 
         $product_name = $request->name . '.' . $request->model;
         $product = new Product;
-        $product->product_type = $request->product_type;
-        $product->barcode = $request->barcode;
-        //$product->name = $request->name;
+        $product->warranty = $request->warranty;
         $product->name = $product_name;
-        //$product->slug = Str::slug($request->name);
         $product->slug = Str::slug($product_name);
         $product->product_category_id = $request->product_category_id;
         $product->product_sub_category_id = $request->product_sub_category_id ? $request->product_sub_category_id : Null;
@@ -109,18 +105,14 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'product_category_id' => 'required',
-            //'product_sub_category_id' => 'required',
             'product_brand_id' => 'required',
         ]);
 
         $product_name = $request->name . '.' . $request->model;
         $product = Product::find($id);
-        $product->product_type = $request->product_type;
-        //$product->name = $request->name;
         $product->name = $product_name;
-        //$product->slug = Str::slug($request->name);
         $product->slug = Str::slug($product_name);
-        $product->barcode = $request->barcode;
+        $product->warranty = $request->warranty;
         $product->product_category_id = $request->product_category_id;
         $product->product_sub_category_id = $request->product_sub_category_id ? $request->product_sub_category_id : Null;
         $product->product_brand_id = $request->product_brand_id;

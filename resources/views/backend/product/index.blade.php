@@ -18,14 +18,12 @@
                         <thead>
                         <tr>
                             <th width="5%">SL NO</th>
-                            <th width="10%">Product Type</th>
-                            <th width="10%">Barcode</th>
+                            <th width="10%">Warranty</th>
                             <th width="10%">Product Name</th>
                             <th width="10%">Product Model</th>
                             <th width="10%">Category Name</th>
-{{--                            <th width="10%">Sub Category Name</th>--}}
                             <th width="10%">Brand Name</th>
-                            <th width="10%">Unit Name</th>
+                            <th width="10%">Capacity</th>
                             <th width="10%">Image</th>
                             <th width="15%">Action</th>
                         </tr>
@@ -34,12 +32,10 @@
                         @foreach($products as $key => $product)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $product->product_type}}</td>
-                                <td>{{ $product->barcode}}</td>
+                                <td>{{ $product->warranty}}</td>
                                 <td>{{ $product->name}}</td>
                                 <td>{{ $product->model}}</td>
                                 <td>{{ $product->product_category ? $product->product_category->name : ''}}</td>
-{{--                                <td>{{ $product->product_sub_category ? $product->product_sub_category->name : ''}}</td>--}}
                                 <td>{{ $product->product_brand ? $product->product_brand->name : ''}}</td>
                                 <td>{{ $product->product_unit ? $product->product_unit->name : ''}}</td>
                                 <td> <img src="{{asset('uploads/product/'.$product->image)}}" alt="" width="100px;"></td>

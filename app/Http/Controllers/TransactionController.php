@@ -28,19 +28,7 @@ class TransactionController extends Controller
     }
 
     public function lossProfit(Request $request){
-//       $productPurchaseDetails = DB::table('product_purchase_details')
-//            ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
-//            ->groupBy('product_id')
-//            ->groupBy('product_category_id')
-//            ->groupBy('product_sub_category_id')
-//            ->groupBy('product_brand_id')
-//            ->get();
 
-//        $productPurchaseDetails = ProductPurchaseDetail::query()
-//        ->select('product_id')
-//        ->selectRaw('count(id) as total')
-//        ->groupBy('product_id')
-//        ->get();
 
         //dd($productPurchaseDetails);
         $start_date = $request->start_date ? $request->start_date : '';
@@ -53,13 +41,11 @@ class TransactionController extends Controller
         $stores = Store::all();
         return view('backend.transaction.transaction_list', compact('stores'));
     }
-
     public function export()
     {
         //return Excel::download(new UsersExport, 'users.xlsx');
         return Excel::download(new TransactionExport, 'transaction.xlsx');
     }
-
     public function deliveryExport()
     {
         return Excel::download(new DeliveryExport, 'delivery.xlsx');

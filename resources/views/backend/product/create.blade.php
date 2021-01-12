@@ -23,16 +23,7 @@
                     @endif
                     <form method="post" action="{{ route('products.store') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Type <span style="color: red">*</span></label>
-                            <div class="col-md-8">
-                                <select name="product_type" id="product_type" class="form-control">
-                                    <option value="">Select</option>
-                                    <option value="Finish Goods">Finish Goods</option>
-                                    <option value="Raw Materials">Raw Materials</option>
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Product Name <span style="color: red">*</span></label>
                             <div class="col-md-8">
@@ -78,22 +69,6 @@
                                 @endif
                             </div>
                         </div>
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="control-label col-md-3 text-right">Product Sub Category <span style="color: red">*</span></label>--}}
-{{--                            <div class="col-md-8">--}}
-{{--                                <select name="product_sub_category_id" id="product_sub_category_id" class="form-control">--}}
-{{--                                    <option value="">Select One</option>--}}
-{{--                                    @foreach($productSubCategories as $productSubCategory)--}}
-{{--                                        <option value="{{$productSubCategory->id}}">{{$productSubCategory->name}}</option>--}}
-{{--                                    @endforeach()--}}
-{{--                                </select>--}}
-{{--                                @if ($errors->has('product_sub_category_id'))--}}
-{{--                                    <span class="invalid-feedback" role="alert">--}}
-{{--                                        <strong>{{ $errors->first('product_sub_category_id') }}</strong>--}}
-{{--                                    </span>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Product Brand <span style="color: red">*</span></label>
                             <div class="col-md-8">
@@ -111,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Unit <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Product Capacity <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_unit_id" id="product_unit_id" class="form-control">
                                     <option value="">Select One</option>
@@ -142,20 +117,15 @@
                             <label class="control-label col-md-3 text-right">Image <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <input type="file" id="image" name="image" class="form-control-file">
-                                {{--                                @if ($errors->has('image'))--}}
-                                {{--                                    <span class="invalid-feedback" role="alert">--}}
-                                {{--                                        <strong>{{ $errors->first('image') }}</strong>--}}
-                                {{--                                    </span>--}}
-                                {{--                                @endif--}}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Barcode <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Warranty <span style="color: red">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control{{ $errors->has('barcode') ? ' is-invalid' : '' }}" type="text" placeholder="Barcode" name="barcode" id="barcode">
-                                @if ($errors->has('barcode'))
+                                <input class="form-control{{ $errors->has('warranty') ? ' is-invalid' : '' }}" type="text" placeholder="Warranty" name="warranty" id="warranty">
+                                @if ($errors->has('warranty'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('barcode') }}</strong>
+                                        <strong>{{ $errors->first('warranty') }}</strong>
                                     </span>
                                 @endif
                             </div>

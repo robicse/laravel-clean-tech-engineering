@@ -32,7 +32,9 @@ class ProductPurchaseController extends Controller
 
     public function index()
     {
-        $productPurchases = ProductPurchase::where('purchase_product_type','Finish Goods')->latest()->get();
+       // $productPurchases = ProductPurchase::where('purchase_product_type','Finish Goods')->latest()->get();
+        $productPurchases = ProductPurchase::latest()->get();
+        //dd($productPurchases);
         return view('backend.productPurchase.index',compact('productPurchases'));
     }
 
@@ -50,7 +52,8 @@ class ProductPurchaseController extends Controller
         $productCategories = ProductCategory::all();
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
-        $products = Product::where('product_type','Finish Goods')->get();
+       // $products = Product::where('product_type','Finish Goods')->get();
+        $products = Product::latest()->get();
         return view('backend.productPurchase.create',compact('parties','stores','products','productCategories','productSubCategories','productBrands'));
     }
 

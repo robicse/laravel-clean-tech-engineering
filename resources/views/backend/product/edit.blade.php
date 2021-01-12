@@ -25,15 +25,6 @@
                         @method('PUT')
                         @csrf
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Type <span style="color: red">*</span></label>
-                            <div class="col-md-8">
-                                <select name="product_type" id="product_type" class="form-control">
-                                    <option value="Finish Goods" {{$product->product_type == 'Finish Goods' ? 'selected' : ''}}>Finish Goods</option>
-                                    <option value="Raw Materials" {{$product->product_type == 'Raw Materials' ? 'selected' : ''}}>Raw Materials</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Product Name <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 @php
@@ -65,22 +56,11 @@
                                 <span><strong>ProductName.ProductModel</strong></span>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Barcode <span style="color: red">*</span></label>
-                            <div class="col-md-8">
-                                <input class="form-control{{ $errors->has('barcode') ? ' is-invalid' : '' }}" type="text" placeholder="Barcode" name="barcode" value="{{$product->barcode}}">
-                                @if ($errors->has('barcode'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('barcode') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Product Category <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_category_id" id="product_category_id" class="form-control">
-                                    <option value="">Select One</option>
                                     @foreach($productCategories as $productCategory)
                                         <option value="{{$productCategory->id}}" {{$productCategory->id == $product->product_category_id ? 'selected' : ''}}>{{$productCategory->name}}</option>
                                     @endforeach()
@@ -92,30 +72,13 @@
                                 @endif
                             </div>
                         </div>
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="control-label col-md-3 text-right">Product Sub Category <span style="color: red">*</span></label>--}}
-{{--                            <div class="col-md-8">--}}
-{{--                                <select name="product_sub_category_id" id="product_sub_category_id" class="form-control">--}}
-{{--                                    <option value="">Select One</option>--}}
-{{--                                    @foreach($productSubCategories as $productSubCategory)--}}
-{{--                                        <option value="{{$productSubCategory->id}}" {{$productSubCategory->id == $product->product_sub_category_id ? 'selected' : ''}}>{{$productSubCategory->name}}</option>--}}
-{{--                                    @endforeach()--}}
-{{--                                </select>--}}
-{{--                                @if ($errors->has('product_sub_category_id'))--}}
-{{--                                    <span class="invalid-feedback" role="alert">--}}
-{{--                                        <strong>{{ $errors->first('product_sub_category_id') }}</strong>--}}
-{{--                                    </span>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Product Brand <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_brand_id" id="product_brand_id" class="form-control">
-                                    <option value="">Select One</option>
                                     @foreach($productBrands as $productBrand)
                                         <option value="{{$productBrand->id}}" {{$productBrand->id == $product->product_brand_id ? 'selected' : ''}}>{{$productBrand->name}}</option>
-                                    @endforeach()
+                                    @endforeach
                                 </select>
                                 @if ($errors->has('product_brand_id'))
                                     <span class="invalid-feedback" role="alert">
@@ -126,10 +89,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Unit <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Product Capacity <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_unit_id" id="product_unit_id" class="form-control">
-                                    <option value="">Select One</option>
                                     @foreach($productUnits as $productUnit)
                                         <option value="{{$productUnit->id}}" {{$productUnit->id == $product->product_unit_id ? 'selected' : ''}}>{{$productUnit->name}}</option>
                                     @endforeach()
@@ -164,6 +126,17 @@
                                 @endif
                                 <br/>
                                 <img src="{{asset('uploads/product/'.$product->image)}}" height="100px" width="100px"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Warranty <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('warranty') ? ' is-invalid' : '' }}" type="text" placeholder="Warranty" name="warranty" value="{{$product->warranty}}">
+                                @if ($errors->has('warranty'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('warranty') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group row">

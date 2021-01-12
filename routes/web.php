@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productCategories','ProductCategoryController');
     Route::resource('productSubCategories','ProductSubCategoryController');
     Route::resource('productBrands','ProductBrandController');
-    Route::resource('productUnits','ProductUnitController');
+    Route::resource('productCapacity','ProductUnitController');
     Route::resource('products','ProductController');
     Route::resource('party','PartyController');
     Route::resource('productPurchases','ProductPurchaseController');
