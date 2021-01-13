@@ -15,7 +15,8 @@
                 <h3 class="tile-title">Add Services</h3>
                 <div class="table-responsive">
                     <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">
-                    <form method="post" action="{{ route('productSales-store-services',$productSale->id) }}">
+                    <form method="post" action="{{ route('productSales-store-services') }}">
+                        @csrf
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>

@@ -356,7 +356,7 @@ class ProductSaleController extends Controller
         return view('backend.productSale.addServices',compact('productSaleDetail','services','productSale'));
     }
 
-    public function Storeservice($id){
+    public function Storeservice(Request $request){
         dd('ss');
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         $services = Service::latest()->get();
