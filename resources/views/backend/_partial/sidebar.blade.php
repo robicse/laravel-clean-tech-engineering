@@ -25,6 +25,7 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productBrands.index') }}"><i class="app-menu__icon fa fa-bandcamp"></i><span class="app-menu__label">Product Brand</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productCapacity.index') }}"><i class="app-menu__icon fa fa-bandcamp"></i><span class="app-menu__label">Product Capacity</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Product</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('free-products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Free Product</span></a></li>
             </ul>
         </li>
         <li class="treeview{{Request::is('party*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-folder-open"></i><span class="app-menu__label">Party </span><i class="treeview-indicator fa fa-angle-right"></i></a>

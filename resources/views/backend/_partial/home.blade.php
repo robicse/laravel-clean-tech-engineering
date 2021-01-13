@@ -17,7 +17,7 @@
                 @if(!empty($stores))
                     @foreach($stores as $store)
                         <div class="col-md-12">
-                            <h1 class="text-center">Clean Tech Engineering</h1>
+                            <h1 class="text-center">{{$store->name}}</h1>
                         </div>
 
                         @php

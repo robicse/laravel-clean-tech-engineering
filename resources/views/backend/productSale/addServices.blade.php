@@ -17,7 +17,9 @@
                     <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">
                     <form method="post" action="{{ route('productSales-store-services') }}">
                         @csrf
+
                     <table id="example1" class="table table-bordered table-striped">
+
                         <thead>
                         <tr>
                             <th >ID</th>
@@ -35,7 +37,9 @@
                         <tbody class="neworderbody">
                             <tr>
                                 <td width="5%" class="no">1</td>
-                                <td>{{$productSaleDetail->product->name}}</td>
+                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id" ></td>
+
+                                <td> <input class="form-control" type="hidden" name="product_id[]" >{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>
                                 <td>{{$productSaleDetail->qty}}</td>
                                 <td>{{$productSaleDetail->price}}</td>
@@ -46,7 +50,7 @@
                                             <option value="{{$service->id}}">{{$service->name}}</option>
                                         @endforeach
                                     </select></td>
-                                <td><input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}"></td>
+                                <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>
 
                             </tr>
                         </tbody>
@@ -59,7 +63,7 @@
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Services For This Product</button>
                         </div>
                     </div>
-
+                    </form>
                 </div>
             </div>
         </div>
@@ -78,16 +82,13 @@
                 var service = $('.service_id').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
-                    // '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
-                    // '<td><input type="text" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
-                    // '<td><input type="text" id="price_'+n+'" min="1" max="" class="price form-control" name="price[]" value="" required></td>' +
-                    // '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
+                    '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
                 $('.neworderbody').append(tr);

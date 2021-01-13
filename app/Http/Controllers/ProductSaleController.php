@@ -12,6 +12,7 @@ use App\ProductSale;
 use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
+use App\SaleService;
 use App\Service;
 use App\Stock;
 use App\Transaction;
@@ -352,14 +353,35 @@ class ProductSaleController extends Controller
     public function Addservice($id){
         $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        //dd($productSaleDetail);
         $services = Service::latest()->get();
         return view('backend.productSale.addServices',compact('productSaleDetail','services','productSale'));
     }
 
-    public function Storeservice(Request $request){
-        dd('ss');
-        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
-        $services = Service::latest()->get();
+    public function Storeservice(Request $request ){
+        dd($request->all());
+
+        $this->validate($request, [
+            'service_id'=> 'required',
+        ]);
+        $row_count = count($request->service_id);
+
+        $product_sale_detail_id =  $request->product_sale_detail_id;
+        //dd($product_sale_detail_id);
+        $insert_id = $product_sale_detail_id->id;
+        if($insert_id) {
+            for ($i = 0; $i < $row_count; $i++) {
+                $saleServices = new SaleService();
+                $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                $saleServices->created_user_id = Auth::id();
+                $saleServices->service_id = $request->service_id[$i];
+                $saleServices->date = $request->date[$i];
+                $saleServices->status = 'pending';
+                dd($saleServices);
+                $saleServices->save();
+
+            }
+        }
         return redirect()->route('productSales.index');
     }
 

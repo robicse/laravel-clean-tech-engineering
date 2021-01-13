@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productBrands','ProductBrandController');
     Route::resource('productCapacity','ProductUnitController');
     Route::resource('products','ProductController');
+    Route::resource('free-products','FreeProductController');
     Route::resource('party','PartyController');
     Route::resource('productPurchases','ProductPurchaseController');
     Route::resource('productSales','ProductSaleController');
