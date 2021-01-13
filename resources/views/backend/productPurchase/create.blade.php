@@ -56,11 +56,13 @@
                             <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" >
-                                    <option value="Cash" selected>Cash</option>
-                                    <option value="Check">Check</option>
+                                    <option value="cash" selected>Cash</option>
+                                    <option value="check">Check</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
+                                <span>&nbsp;</span>
+                                <input type="text" name="check_date" id="check_date" class="datepicker form-control" placeholder="Issue Deposit Date ">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -398,12 +400,15 @@
 
         $(function() {
             $('#check_number').hide();
+            $('#check_date').hide();
             $('#payment_type').change(function(){
-                if($('#payment_type').val() == 'Check') {
+                if($('#payment_type').val() == 'check') {
                     $('#check_number').show();
+                    $('#check_date').show();
                 } else {
                     $('#check_number').val('');
                     $('#check_number').hide();
+                    $('#check_date').hide();
                 }
             });
         });

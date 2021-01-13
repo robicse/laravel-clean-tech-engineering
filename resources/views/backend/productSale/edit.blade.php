@@ -51,11 +51,13 @@
                             <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" >
-                                    <option value="Cash" {{'Cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
-                                    <option value="Check" {{'Check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
+                                    <option value="cash" {{'cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
+                                    <option value="check" {{'check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
+                                <span>&nbsp;</span>
+                                <input type="text" name="check_date" id="check_date" class="datepicker form-control" value="{{$transaction->check_date}}" placeholder="Issue Deposit Date ">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -64,24 +66,6 @@
                                 <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
                             </div>
                         </div>
-
-                        {{--                        <div class="form-group row">--}}
-{{--                            <label class="control-label col-md-3 text-right">Delivery Services  <small class="requiredCustom">*</small></label>--}}
-{{--                            <div class="col-md-8">--}}
-{{--                                <select name="delivery_service" id="delivery_service" class="form-control" >--}}
-{{--                                    <option value="">Select One</option>--}}
-{{--                                    <option value="Sundorban Kuriar Service" {{'Sundorban Kuriar Service' == $productSale->delivery_service ? 'selected' : ''}}>Sundorban Kuriar Service</option>--}}
-{{--                                    <option value="SA Paribahan" {{'SA Paribahan' == $productSale->delivery_service ? 'selected' : ''}}>SA Paribahan</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="control-label col-md-3 text-right">Delivery Services Charge <small class="requiredCustom">*</small></label>--}}
-{{--                            <div class="col-md-8">--}}
-{{--                                <input type="number" class="form-control" name="delivery_service_charge" value="{{$productSale->delivery_service_charge}}" />--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                         <div class="table-responsive">
                             {{--<input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">--}}
                             <table class="table table-bordered table-striped">
@@ -411,16 +395,19 @@
 
         $(function() {
             <?php
-            if($transaction->payment_type == 'Cash'){
+            if($transaction->payment_type == 'cash'){
             ?>
             $('#check_number').hide();
+            $('#check_date').hide();
             <?php } ?>
             $('#payment_type').change(function(){
-                if($('#payment_type').val() == 'Check') {
+                if($('#payment_type').val() == 'check') {
                     $('#check_number').show();
+                    $('#check_date').show();
                 } else {
                     $('#check_number').val('');
                     $('#check_number').hide();
+                    $('#check_date').hide();
                 }
             });
         });

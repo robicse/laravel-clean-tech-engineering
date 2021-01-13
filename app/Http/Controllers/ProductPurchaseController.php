@@ -83,7 +83,6 @@ class ProductPurchaseController extends Controller
         //$productPurchase ->payment_type = $request->payment_type;
         //$productPurchase->check_number = $request->check_number ? $request->check_number : '';
         $productPurchase ->total_amount = $total_amount;
-//        $productPurchase ->purchase_product_type = 'Finish Goods';
         $productPurchase->save();
         $insert_id = $productPurchase->id;
         if($insert_id)
@@ -139,6 +138,7 @@ class ProductPurchaseController extends Controller
             $transaction->transaction_type = 'purchase';
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
+            $transaction->check_date = $request->check_date ? $request->check_date : '';
             $transaction->amount = $total_amount;
             $transaction->save();
         }
@@ -177,7 +177,7 @@ class ProductPurchaseController extends Controller
         $transaction = Transaction::where('ref_id',$id)->first();
         $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
-        //dd($productPurchase);
+        //dd($transaction);
         return view('backend.productPurchase.edit',compact('parties','stores','products','productPurchase','productPurchaseDetails','productCategories','productSubCategories','productBrands','transaction','stock_id'));
     }
 
@@ -263,6 +263,7 @@ class ProductPurchaseController extends Controller
         $transaction->date = $request->date;
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
+        $transaction->check_date = $request->check_date ? $request->check_date : '';
         $transaction->amount = $total_amount;
         $transaction->update();
 

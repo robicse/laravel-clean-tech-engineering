@@ -56,11 +56,13 @@
                             <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" >
-                                    <option value="Cash" {{'Cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
-                                    <option value="Check" {{'Check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
+                                    <option value="cash" {{'cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
+                                    <option value="check" {{'check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
+                                <span>&nbsp;</span>
+                                <input type="text" name="check_date" id="check_date" class="datepicker form-control" value="{{$transaction->check_date}}" placeholder="Issue Deposit Date ">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -264,16 +266,19 @@
 
         $(function() {
             <?php
-            if($transaction->payment_type == 'Cash'){
+            if($transaction->payment_type == 'cash'){
             ?>
             $('#check_number').hide();
+            $('#check_date').hide();
             <?php } ?>
             $('#payment_type').change(function(){
-                if($('#payment_type').val() == 'Check') {
+                if($('#payment_type').val() == 'check') {
                     $('#check_number').show();
+                    $('#check_date').show();
                 } else {
                     $('#check_number').val('');
                     $('#check_number').hide();
+                    $('#check_date').hide();
                 }
             });
         });

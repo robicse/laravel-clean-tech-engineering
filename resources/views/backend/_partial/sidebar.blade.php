@@ -18,7 +18,7 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('service.create') }}"><i class="app-menu__icon fa fa-circle-o"></i> <span class="app-menu__label">Service Create</span></a></li>
             </ul>
         </li>
-        <li class="treeview{{Request::is('productCategories*')|| Request::is('productSubCategories*') || Request::is('productBrands') || Request::is('productUnits') || Request::is('products*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Products </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview{{Request::is('productCategories*')|| Request::is('free-products*') || Request::is('productBrands') || Request::is('productCapacity') || Request::is('products*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Products </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productCategories.index') }}"><i class="app-menu__icon fa fa-deviantart"></i><span class="app-menu__label">Product Category</span></a></li>
 {{--                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productSubCategories.index') }}"><i class="app-menu__icon fa fa-codepen"></i><span class="app-menu__label">Product Sub Category</span></a></li>--}}

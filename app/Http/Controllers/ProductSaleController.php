@@ -181,6 +181,7 @@ class ProductSaleController extends Controller
             $transaction->transaction_type = 'sale';
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
+            $transaction->check_date = $request->check_date ? $request->check_date : '';
             //$transaction->amount = $total_amount;
             $transaction->amount = $request->paid_amount;
             $transaction->save();
@@ -217,13 +218,14 @@ class ProductSaleController extends Controller
             $stores = Store::where('id',$auth->store_id)->get();
         }
         $parties = Party::where('type','customer')->get() ;
-        $products = Product::where('product_type','Finish Goods')->get();
+        $products = Product::all();
         $productSale = ProductSale::find($id);
         $productCategories = ProductCategory::all();
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
+        //dd($productSaleDetails);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
         return view('backend.productSale.edit',compact('parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
@@ -329,6 +331,7 @@ class ProductSaleController extends Controller
         $transaction->date = $request->date;
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
+        $transaction->check_date = $request->check_date ? $request->check_date : '';
         $transaction->amount = $total_amount;
         $transaction->update();
 
@@ -359,27 +362,28 @@ class ProductSaleController extends Controller
     }
 
     public function Storeservice(Request $request ){
-        dd($request->all());
+        //dd($request->all());
 
         $this->validate($request, [
             'service_id'=> 'required',
         ]);
         $row_count = count($request->service_id);
+        for($i=0; $i<$row_count;$i++) {
+            $product_sale_detail_id = $request->product_sale_detail_id[$i];
+            //dd($product_sale_detail_id);
+            $insert_id = $product_sale_detail_id->id;
+            if ($insert_id) {
+                for ($i = 0; $i < $row_count; $i++) {
+                    $saleServices = new SaleService();
+                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                    $saleServices->created_user_id = Auth::id();
+                    $saleServices->service_id = $request->service_id[$i];
+                    $saleServices->date = $request->date[$i];
+                    $saleServices->status = 'pending';
+                    dd($saleServices);
+                    $saleServices->save();
 
-        $product_sale_detail_id =  $request->product_sale_detail_id;
-        //dd($product_sale_detail_id);
-        $insert_id = $product_sale_detail_id->id;
-        if($insert_id) {
-            for ($i = 0; $i < $row_count; $i++) {
-                $saleServices = new SaleService();
-                $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                $saleServices->created_user_id = Auth::id();
-                $saleServices->service_id = $request->service_id[$i];
-                $saleServices->date = $request->date[$i];
-                $saleServices->status = 'pending';
-                dd($saleServices);
-                $saleServices->save();
-
+                }
             }
         }
         return redirect()->route('productSales.index');
@@ -509,7 +513,7 @@ class ProductSaleController extends Controller
         $productCategories = ProductCategory::all();
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
-        $products = Product::where('product_type','Finish Goods')->get();
+        $products = Product::all();
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         return view('backend.productSale.invoice-edit', compact('productSale','productSaleDetails','transactions','store','party','productCategories','productSubCategories','productBrands','products'));
     }
