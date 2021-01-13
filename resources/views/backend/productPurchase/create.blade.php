@@ -30,7 +30,7 @@
                     <form method="post" action="{{ route('productPurchases.store') }}">
                         @csrf
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Party  <small class="requiredCustom">*</small></label>
+                            <label class="control-label col-md-3 text-right">Party  <small>(Supplier)</small><small class="requiredCustom">*</small></label>
                             <div class="col-md-5">
                                 <select name="party_id" id="supplier" class="form-control select2">
                                     <option value="">Select One</option>
@@ -109,16 +109,6 @@
                                             </select>
                                         </div>
                                     </td>
-{{--                                    <td width="12%">--}}
-{{--                                        <div id="product_sub_category_id_1">--}}
-{{--                                            <select class="form-control product_sub_category_id select2" name="product_sub_category_id[]">--}}
-{{--                                                <option value="">Select  Sub Category</option>--}}
-{{--                                                @foreach($productSubCategories as $productSubCategory)--}}
-{{--                                                    <option value="{{$productSubCategory->id}}">{{$productSubCategory->name}}</option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
                                     <td width="12%">
                                         <div id="product_brand_id_1">
                                             <select class="form-control product_brand_id select2" name="product_brand_id[]" required>
@@ -191,7 +181,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-md-3 text-right">Phone <small class="requiredCustom">*</small></label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Phone" name="phone">
+                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Phone" name="phone" id="phone">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -205,17 +195,17 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Address <small class="requiredCustom">*</small></label>
-                                                <div class="col-md-8">
-                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Address" name="address"></textarea>
-                                                    @if ($errors->has('address'))
-                                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('address') }}</strong>
-                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label class="control-label col-md-3 text-right">Address <small class="requiredCustom">*</small></label>--}}
+{{--                                                <div class="col-md-8">--}}
+{{--                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Address" name="address"></textarea>--}}
+{{--                                                    @if ($errors->has('address'))--}}
+{{--                                                        <span class="invalid-feedback" role="alert">--}}
+{{--                                            <strong>{{ $errors->first('address') }}</strong>--}}
+{{--                                        </span>--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                             <div class="form-group row">
                                                 <label class="control-label col-md-3"></label>
                                                 <div class="col-md-8">
@@ -378,7 +368,29 @@
                 }
             });
         });
+        $('#phone').keyup(function (){
+            var phone = $(this).val();
+            $.ajax({
+                url :  "{{URL('check-phone-number')}}",
+                method : "get",
+                data : {
+                    phone : phone
+                },
+                success : function (res){
+                    console.log(res)
+                    if(res.data == 'Found'){
+                        $('#phone').val('')
+                        alert('Phone Number already exists, please add another!')
+                        return false
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
 
+            })
+
+        })
         function hidemodal() {
             var x = document.getElementById("supplier_modal");
             x.style.display = "none";

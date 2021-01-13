@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('service','ServiceController');
 
     Route::get('check-name','ServiceController@checkName');
+    Route::get('check-phone-number','PartyController@checkPhoneNumber');
 
     Route::get('productPurchases-invoice','ProductPurchaseController@invoice')->name('productPurchases-invoice');
     Route::get('productPurchases-invoice-print','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
@@ -118,6 +119,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-returnable-product/{sale_id}','ProductSaleReturnController@getReturnableProduct');
 
 
+    //add service
+    Route::get('productSales-addServices/{id}','ProductSaleController@Addservice')->name('productSales-addServices');
 
 
     //excel

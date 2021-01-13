@@ -109,16 +109,6 @@
                                                 </select>
                                             </div>
                                         </td>
-{{--                                        <td width="12%">--}}
-{{--                                            <div id="product_sub_category_id_{{$current_row}}">--}}
-{{--                                                <select class="form-control product_sub_category_id" name="product_sub_category_id[]" readonly>--}}
-{{--                                                    <option value="">Select  Sub Category</option>--}}
-{{--                                                    @foreach($productSubCategories as $productSubCategory)--}}
-{{--                                                        <option value="{{$productSubCategory->id}}" {{$productSubCategory->id == $productPurchaseDetail->product_sub_category_id ? 'selected' : ''}}>{{$productSubCategory->name}}</option>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </select>--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
                                         <td width="12%">
                                             <div id="product_brand_id_{{$current_row}}">
                                                 <select class="form-control product_brand_id" name="product_brand_id[]" readonly required>

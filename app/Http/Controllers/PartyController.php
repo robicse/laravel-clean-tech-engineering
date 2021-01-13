@@ -34,11 +34,9 @@ class PartyController extends Controller
     {
         $this->validate($request, [
             'type'=> 'required',
-            //'name' => 'required|unique:parties,name',
             'name' => 'required',
-            'phone'=> 'required',
+            'phone'=> 'required|unique:parties,phone',
             'email'=> '',
-            'address'=> '',
         ]);
         $parties = new Party();
         $parties->type = $request->type;
@@ -46,9 +44,9 @@ class PartyController extends Controller
         $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-        $parties->address = $request->address;
+//        $parties->address = $request->address;
         $parties->status = $request->status;
-       // dd($parties);
+        //dd($parties);
         $parties->save();
         Toastr::success('Party Created Successfully', 'Success');
         return redirect()->route('party.index');
@@ -60,8 +58,6 @@ class PartyController extends Controller
     {
         //
     }
-
-
     public function edit($id)
     {
 
@@ -76,10 +72,6 @@ class PartyController extends Controller
         $this->validate($request, [
             'type'=> 'required',
             'name'=> 'required',
-//            'name' => [
-//                'required',
-//                Rule::unique('parties')->ignore($id),
-//            ],
             'phone'=> 'required',
             'email'=> '',
             'address'=> '',
@@ -91,7 +83,7 @@ class PartyController extends Controller
         $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-        $parties->address = $request->address;
+//        $parties->address = $request->address;
         $parties->status = $request->status;
         // dd($parties);
         $parties->save();
@@ -106,5 +98,17 @@ class PartyController extends Controller
         $parties->delete();
         Toastr::success('Party Deleted Successfully Done!');
         return redirect()->route('party.index');
+    }
+    public function checkPhoneNumber(Request $request ){
+        $phone = $request->phone;
+        $exist_phone_number = Party::where('phone',$phone)->get();
+        if (count($exist_phone_number) >0)
+        {
+            $check_number = "Found";
+        }
+        else{
+            $check_number = "Not Found";
+        }
+        return response()->json(['success'=>true,'data'=>$check_number]);
     }
 }

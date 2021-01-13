@@ -28,9 +28,9 @@
                             <label class="control-label col-md-3 text-right">Type <small class="text-danger">*</small></label>
                             <div class="col-md-8">
                                 <select name="type" id="type" class="form-control">
-                                    <option value="">Select One</option>
                                     <option value="1" {{ $parties->type == 'supplier' ? 'selected' : ''}} >Supplier</option>
                                     <option value="2" {{ $parties->type == 'customer' ? 'selected' : ''}} >Customer</option>
+                                    <option value="3" {{ $parties->type == 'whole sale customer' ? 'selected' : ''}} >Whole Sale Customer</option>
                                 </select>
                             </div>
                         </div>
@@ -52,12 +52,12 @@
                                 <input type="email" id="email" name="email" value="{{$parties->email}}" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Address</label>
-                            <div class="col-md-8">
-                                <input type="text" id="address" name="address" value="{{$parties->address}}" class="form-control">
-                            </div>
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            <label class="control-label col-md-3 text-right">Address</label>--}}
+{{--                            <div class="col-md-8">--}}
+{{--                                <input type="text" id="address" name="address" value="{{$parties->address}}" class="form-control">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Status  <small class="text-danger">*</small></label>
                             <div class="col-md-8">

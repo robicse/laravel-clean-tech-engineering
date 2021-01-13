@@ -1,5 +1,11 @@
 @extends('backend._partial.dashboard')
+<style>
+    .btn .fa{font-size: 18px!important;
 
+        margin-right: 0px!important;
+        margin-top: 2px!important;
+    }
+</style>
 @section('content')
     <main class="app-content">
         <div class="app-title">
@@ -85,7 +91,6 @@
                         <thead>
                         <tr>
                             <th>Category</th>
-{{--                            <th>Sub Category</th>--}}
                             <th>Brand</th>
                             <th>Return Condition</th>
                             <th>Product Image</th>
@@ -93,15 +98,14 @@
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Sub Total</th>
+                            <th>Add Services</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($productSaleDetails as $productSaleDetail)
                             <tr>
                                 <td>{{$productSaleDetail->product->product_category->name}}</td>
-{{--                                <td>--}}
-{{--                                    {{$productSaleDetail->product->product_sub_category ? $productSaleDetail->product->product_sub_category->name : ''}}--}}
-{{--                                </td>--}}
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>
                                 <td>{{$productSaleDetail->return_type}}</td>
                                 <td>
@@ -111,6 +115,7 @@
                                 <td>{{$productSaleDetail->qty}}</td>
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
+                                <td><div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSale->id)}}"><i class="fa fa-plus"></i></a></div></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -123,7 +128,10 @@
                 </div>
             </div>
         </div>
+
     </main>
 @endsection
 
+@push('js')
 
+@endpush

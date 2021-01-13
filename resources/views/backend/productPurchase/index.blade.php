@@ -19,10 +19,7 @@
                         <tr>
                             <th width="5%">SL NO</th>
                             <th>Purchase User</th>
-{{--                            <th>Store</th>--}}
                             <th>Supplier</th>
-    {{--                        <th>Payment Type</th>--}}
-                            <th>Product Type</th>
                             <th>Total Amount</th>
                             <th>Date</th>
                             <th>Action</th>
@@ -33,10 +30,7 @@
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td>{{ $productPurches->user->name}}</td>
-{{--                            <td>{{ $productPurches->store->name}}</td>--}}
                             <td>{{ $productPurches->party->name}}</td>
-    {{--                        <td>{{ $productPurches->payment_type}}</td>--}}
-                            <td>{{ $productPurches->purchase_product_type}}</td>
                             <td>{{ $productPurches->total_amount}}</td>
                             <td>{{ $productPurches->created_at}}</td>
                             <td class="d-inline-flex">

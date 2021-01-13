@@ -83,7 +83,7 @@ class ProductPurchaseController extends Controller
         //$productPurchase ->payment_type = $request->payment_type;
         //$productPurchase->check_number = $request->check_number ? $request->check_number : '';
         $productPurchase ->total_amount = $total_amount;
-        $productPurchase ->purchase_product_type = 'Finish Goods';
+//        $productPurchase ->purchase_product_type = 'Finish Goods';
         $productPurchase->save();
         $insert_id = $productPurchase->id;
         if($insert_id)
@@ -91,7 +91,7 @@ class ProductPurchaseController extends Controller
             for($i=0; $i<$row_count;$i++)
             {
                 $product_id = $request->product_id[$i];
-                $barcode = Product::where('id',$product_id)->pluck('barcode')->first();
+                $warranty = Product::where('id',$product_id)->pluck('warranty')->first();
 
                 // product purchase detail
                 $purchase_purchase_detail = new ProductPurchaseDetail();
@@ -104,7 +104,7 @@ class ProductPurchaseController extends Controller
                 $purchase_purchase_detail->price = $request->price[$i];
                 $purchase_purchase_detail->mrp_price = $request->mrp_price[$i];
                 $purchase_purchase_detail->sub_total = $request->qty[$i]*$request->price[$i];
-                $purchase_purchase_detail->barcode = $barcode;
+                $purchase_purchase_detail->warranty = $warranty;
                 $purchase_purchase_detail->save();
 
                 $check_previous_stock = Stock::where('product_id',$product_id)->latest()->pluck('current_stock')->first();
@@ -120,7 +120,6 @@ class ProductPurchaseController extends Controller
                 $stock->store_id = $request->store_id;
                 $stock->date = $request->date;
                 $stock->product_id = $request->product_id[$i];
-                $stock->stock_product_type = 'Finish Goods';
                 $stock->stock_type = 'purchase';
                 $stock->previous_stock = $previous_stock;
                 $stock->stock_in = $request->qty[$i];
@@ -137,7 +136,6 @@ class ProductPurchaseController extends Controller
             $transaction->party_id = $request->party_id;
             $transaction->date = $request->date;
             $transaction->ref_id = $insert_id;
-            $transaction->transaction_product_type = 'Finish Goods';
             $transaction->transaction_type = 'purchase';
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
@@ -171,7 +169,7 @@ class ProductPurchaseController extends Controller
         }else{
             $stores = Store::where('user_id',$auth_user_id)->get();
         }
-        $products = Product::where('product_type','Finish Goods')->get();
+        $products = Product::all();
         $productPurchase = ProductPurchase::find($id);
         $productCategories = ProductCategory::all();
         $productSubCategories = ProductSubCategory::all();
@@ -179,12 +177,14 @@ class ProductPurchaseController extends Controller
         $transaction = Transaction::where('ref_id',$id)->first();
         $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
+        //dd($productPurchase);
         return view('backend.productPurchase.edit',compact('parties','stores','products','productPurchase','productPurchaseDetails','productCategories','productSubCategories','productBrands','transaction','stock_id'));
     }
 
 
     public function update(Request $request, $id)
     {
+
         //dd($request->all());
         $this->validate($request, [
             'party_id'=> 'required',
@@ -206,15 +206,15 @@ class ProductPurchaseController extends Controller
         $productPurchase ->store_id = $request->store_id;
         $productPurchase ->user_id = Auth::id();
         $productPurchase ->date = $request->date;
-        //$productPurchase ->payment_type = $request->payment_type;
-        //$productPurchase->check_number = $request->check_number ? $request->check_number : '';
+        $productPurchase ->payment_type = $request->payment_type;
+        $productPurchase->check_number = $request->check_number ? $request->check_number : '';
         $productPurchase ->total_amount = $total_amount;
         $productPurchase->update();
-
+//dd($productPurchase);
         for($i=0; $i<$row_count;$i++)
         {
             $product_id = $request->product_id[$i];
-            $barcode = Product::where('id',$product_id)->pluck('barcode')->first();
+            $warranty = Product::where('id',$product_id)->pluck('warranty')->first();
 
             // product purchase detail
             $product_purchase_detail_id = $request->product_purchase_detail_id[$i];
@@ -227,32 +227,14 @@ class ProductPurchaseController extends Controller
             $purchase_purchase_detail->price = $request->price[$i];
             $purchase_purchase_detail->mrp_price = $request->mrp_price[$i];
             $purchase_purchase_detail->sub_total = $request->qty[$i]*$request->price[$i];
-            $purchase_purchase_detail->barcode = $barcode;
+            $purchase_purchase_detail->warranty = $warranty;
             $purchase_purchase_detail->update();
 
-
-//            $check_previous_stock = Stock::where('product_id',$product_id)->where('id','!=',$stock_id)->pluck('current_stock')->first();
-//            if(!empty($check_previous_stock)){
-//                $previous_stock = $check_previous_stock;
-//            }else{
-//                $previous_stock = 0;
-//            }
-//            // product stock
-//            $stock = Stock::where('ref_id',$id)->where('stock_type','purchase')->first();
-//            $stock->user_id = Auth::id();
-//            $stock->store_id = $request->store_id;
-//            $stock->product_id = $request->product_id[$i];
-//            $stock->date = $request->date;
-//            $stock->previous_stock = $previous_stock;
-//            $stock->stock_in = $request->qty[$i];
-//            $stock->stock_out = 0;
-//            $stock->current_stock = $previous_stock + $request->qty[$i];
-//            $stock->update();
-
+            //dd($purchase_purchase_detail);
 
             // product stock
-            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->where('product_id',$product_id)->first();
-
+            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->first();
+            //dd($stock_row);
             if($stock_row->stock_in != $request->qty[$i]){
                 if($request->qty[$i] > $stock_row->stock_in){
                     $add_or_minus_stock_in = $request->qty[$i] - $stock_row->stock_in;
@@ -269,6 +251,7 @@ class ProductPurchaseController extends Controller
                 $stock_row->current_stock = $update_current_stock;
                 $stock_row->update();
             }
+
         }
 
         // transaction

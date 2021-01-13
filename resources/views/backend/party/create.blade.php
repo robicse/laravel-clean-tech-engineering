@@ -27,9 +27,9 @@
                             <label class="control-label col-md-3 text-right">Type  <small class="text-danger">*</small></label>
                             <div class="col-md-8">
                                 <select name="type" id="type" class="form-control" >
-                                    <option value="">Select One</option>
                                     <option value="1">Supplier</option>
                                     <option value="2">Customer</option>
+                                    <option value="3">Whole Sale Customer</option>
                                 </select>
                             </div>
                         </div>
@@ -51,12 +51,12 @@
                                 <input type="email" id="email" name="email" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Address</label>
-                            <div class="col-md-8">
-                                <input type="text" id="address" name="address" class="form-control">
-                            </div>
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            <label class="control-label col-md-3 text-right">Address</label>--}}
+{{--                            <div class="col-md-8">--}}
+{{--                                <input type="text" id="address" name="address" class="form-control">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Status <small class="text-danger">*</small></label>
                             <div class="col-md-8">
@@ -81,4 +81,30 @@
     </main>
 @endsection
 
+@push('js')
+    <script>
+        $('#phone').keyup(function (){
+            var phone = $(this).val();
+            $.ajax({
+                url :  "{{URL('check-phone-number')}}",
+                method : "get",
+                data : {
+                    phone : phone
+                },
+                success : function (res){
+                    console.log(res)
+                    if(res.data == 'Found'){
+                        $('#phone').val('')
+                        alert('Phone Number already exists, please add another!')
+                        return false
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
 
+            })
+
+        })
+    </script>
+@endpush

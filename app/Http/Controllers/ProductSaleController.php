@@ -12,6 +12,7 @@ use App\ProductSale;
 use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
+use App\Service;
 use App\Stock;
 use App\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -38,9 +39,9 @@ class ProductSaleController extends Controller
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
         if($auth_user == "Admin"){
-            $productSales = ProductSale::where('sale_type','whole')->latest()->get();
+            $productSales = ProductSale::latest()->get();
         }else{
-            $productSales = ProductSale::where('sale_type','whole')->where('user_id',$auth_user_id)->latest()->get();
+            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
         }
         return view('backend.productSale.index',compact('productSales'));
     }
@@ -60,7 +61,7 @@ class ProductSaleController extends Controller
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
-        $products = Product::where('product_type','Finish Goods')->get();
+        $products = Product::all();
         return view('backend.productSale.create',compact('parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
     }
 
@@ -112,7 +113,6 @@ class ProductSaleController extends Controller
         $productSale->total_amount = $total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
-        $productSale->sale_type = 'whole';
         $productSale->save();
         $insert_id = $productSale->id;
         if($insert_id)
@@ -348,6 +348,11 @@ class ProductSaleController extends Controller
         Toastr::success('Product Sale Deleted Successfully', 'Success');
         return redirect()->route('productSales.index');
     }
+    public function Addservice($id){
+        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        $services = Service::latest()->get();
+        return view('backend.productSale.addServices',compact('productSaleDetail','services'));
+    }
 
     public function productSaleRelationData(Request $request){
         $store_id = $request->store_id;
@@ -484,18 +489,6 @@ class ProductSaleController extends Controller
 
         $row_count = count($request->product_id);
         $total_amount = $request->current_total_amount;
-//        $total_amount = 0;
-//        for($i=0; $i<$row_count;$i++)
-//        {
-//            $total_amount += $request->sub_total[$i];
-//        }
-//        $discount_type = $request->discount_type;
-//        if($discount_type == 'flat'){
-//            $total_amount -= $request->discount_amount;
-//        }else{
-//            $total_amount = ($total_amount*$request->discount_amount)/100;
-//        }
-
         for($i=0; $i<$row_count;$i++)
         {
             // product sale detail insert
@@ -662,4 +655,5 @@ class ProductSaleController extends Controller
         }
         return view('backend.productSale.customer_due',compact('productSales'));
     }
+
 }

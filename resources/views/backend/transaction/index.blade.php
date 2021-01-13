@@ -18,7 +18,7 @@
                 @if(!empty($stores))
                     @foreach($stores as $store)
                         <div class="col-md-12">
-                            <h1 class="text-center">Clean Tech Engineering</h1>
+                            <h1 class="text-center">{{$store->name}}</h1>
                         </div>
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
@@ -26,9 +26,7 @@
                                 <tr>
                                     <th width="5%">SL NO</th>
                                     <th width="10%">User</th>
-{{--                                    <th width="10%">Store</th>--}}
                                     <th width="15%">Party</th>
-                                    <th width="15%">Product Type</th>
                                     <th width="15%">Transaction Type</th>
                                     <th width="15%">Payment Type</th>
                                     <th width="15%">Amount</th>
@@ -44,9 +42,7 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $transaction->user->name}}</td>
-{{--                                            <td>{{ $transaction->store->name}}</td>--}}
                                             <td>{{ $transaction->party ? $transaction->party->name : ''}}</td>
-                                            <td>{{ $transaction->transaction_product_type}}</td>
                                             <td>{{ $transaction->transaction_type}}</td>
                                             <td>
                                                 {{ $transaction->payment_type}}

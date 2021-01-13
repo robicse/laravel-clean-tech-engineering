@@ -16,15 +16,13 @@
                 @if(!empty($stores))
                     @foreach($stores as $store)
                         <div class="col-md-12">
-                            <h1 class="text-center">Clean Tech Engineering</h1>
+                            <h1 class="text-center">{{$store->name}}</h1>
                         </div>
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th width="5%">#Id</th>
-{{--                                    <th width="10%">Store</th>--}}
-                                    <th width="15%">Product Type</th>
                                     <th width="12%">Brand</th>
                                     <th width="12%">Product</th>
                                     <th width="12%">Current Stock</th>
@@ -44,8 +42,6 @@
                                 @foreach($stocks as $key => $stock)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
-{{--                                        <td>{{ $stock->store->name}}</td>--}}
-                                        <td>{{ $stock->product->product_type}}</td>
                                         <td>{{ $stock->product->product_brand->name}}</td>
                                         <td>{{ $stock->product->name}}</td>
                                         <td>{{ $stock->current_stock}}</td>

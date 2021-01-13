@@ -15,7 +15,7 @@ class CreatePartiesTable extends Migration
     {
         Schema::create('parties', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type',['supplier','customer']);
+            $table->enum('type',['supplier','customer','whole sale customer']);
             $table->string('name');
             $table->string('slug');
             $table->string('phone');
