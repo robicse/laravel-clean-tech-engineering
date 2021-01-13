@@ -348,10 +348,19 @@ class ProductSaleController extends Controller
         Toastr::success('Product Sale Deleted Successfully', 'Success');
         return redirect()->route('productSales.index');
     }
+
     public function Addservice($id){
+        $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         $services = Service::latest()->get();
-        return view('backend.productSale.addServices',compact('productSaleDetail','services'));
+        return view('backend.productSale.addServices',compact('productSaleDetail','services','productSale'));
+    }
+
+    public function Storeservice($id){
+        dd('ss');
+        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        $services = Service::latest()->get();
+        return redirect()->route('productSales.index');
     }
 
     public function productSaleRelationData(Request $request){

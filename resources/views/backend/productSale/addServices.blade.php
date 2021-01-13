@@ -14,7 +14,8 @@
             <div class="tile">
                 <h3 class="tile-title">Add Services</h3>
                 <div class="table-responsive">
-                    <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
+                    <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">
+                    <form method="post" action="{{ route('productSales-store-services',$productSale->id) }}">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -26,6 +27,7 @@
                             <th>Sub Total</th>
                             <th>Services</th>
                             <th>Date</th>
+                            <th>Action</th>
 
                         </tr>
                         </thead>
@@ -43,10 +45,19 @@
                                             <option value="{{$service->id}}">{{$service->name}}</option>
                                         @endforeach
                                     </select></td>
+                                <td><input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}"></td>
 
                             </tr>
                         </tbody>
                     </table>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">
+
+                        </label>
+                        <div class="col-md-8">
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Services For This Product</button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
