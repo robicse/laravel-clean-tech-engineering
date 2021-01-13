@@ -37,7 +37,7 @@
                                 <td>{{$productSaleDetail->qty}}</td>
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
-                                <td> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
+                                <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
                                         <option value="">Select  Product</option>
                                         @foreach($services as $service)
                                             <option value="{{$service->id}}">{{$service->name}}</option>
