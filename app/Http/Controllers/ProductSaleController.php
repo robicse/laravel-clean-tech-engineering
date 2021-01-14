@@ -123,7 +123,7 @@ class ProductSaleController extends Controller
                 // product purchase detail
                 $purchase_sale_detail = new ProductSaleDetail();
                 $purchase_sale_detail->product_sale_id = $insert_id;
-                $purchase_sale_detail->return_type = $request->return_type[$i];
+                //$purchase_sale_detail->return_type = $request->return_type[$i];
                 $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
                 $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
                 $purchase_sale_detail->product_brand_id = $request->product_brand_id[$i];
@@ -280,7 +280,7 @@ class ProductSaleController extends Controller
             //dd($product_sale_detail_id);
             $purchase_sale_detail = ProductsaleDetail::findOrFail($product_sale_detail_id);
             //dd($purchase_sale_detail);
-            $purchase_sale_detail->return_type = $request->return_type[$i];
+            //$purchase_sale_detail->return_type = $request->return_type[$i];
             $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
             $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
             $purchase_sale_detail->product_brand_id = $request->product_brand_id[$i];
@@ -371,20 +371,18 @@ class ProductSaleController extends Controller
         for($i=0; $i<$row_count;$i++) {
             $product_sale_detail_id = $request->product_sale_detail_id[$i];
             //dd($product_sale_detail_id);
-            $insert_id = $product_sale_detail_id->id;
-            if ($insert_id) {
-                for ($i = 0; $i < $row_count; $i++) {
-                    $saleServices = new SaleService();
-                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                    $saleServices->created_user_id = Auth::id();
-                    $saleServices->service_id = $request->service_id[$i];
-                    $saleServices->date = $request->date[$i];
-                    $saleServices->status = 'pending';
-                    dd($saleServices);
-                    $saleServices->save();
+            for ($i = 0; $i < $row_count; $i++) {
+                $saleServices = new SaleService();
+                $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                $saleServices->created_user_id = Auth::id();
+                $saleServices->service_id = $request->service_id[$i];
+                $saleServices->date = $request->date[$i];
+                $saleServices->status = 'pending';
+                //dd($saleServices);
+                $saleServices->save();
 
-                }
             }
+
         }
         return redirect()->route('productSales.index');
     }
@@ -529,7 +527,7 @@ class ProductSaleController extends Controller
             // product sale detail insert
             $purchase_sale_detail = new ProductSaleDetail();
             $purchase_sale_detail->product_sale_id = $id;
-            $purchase_sale_detail->return_type = $request->return_type[$i];
+            //$purchase_sale_detail->return_type = $request->return_type[$i];
             $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
             $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
             $purchase_sale_detail->product_brand_id = $request->product_brand_id[$i];

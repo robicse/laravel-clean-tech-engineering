@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productProductions','ProductProductionController');
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
     Route::resource('service','ServiceController');
+    Route::resource('offers','OfferController');
 
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');

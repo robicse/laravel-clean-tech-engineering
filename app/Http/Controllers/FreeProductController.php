@@ -88,6 +88,11 @@ class FreeProductController extends Controller
             //make unique name for image
             $currentDate = Carbon::now()->toDateString();
             $imagename = $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+            //delete old image.....
+            if(Storage::disk('public')->exists('uploads/free-product/'.$freeprodcuts->image))
+            {
+                Storage::disk('public')->delete('uploads/free-product/'.$freeprodcuts->image);
+            }
 //            resize image for hospital and upload
             $proImage =Image::make($image)->resize(300, 300)->save($image->getClientOriginalExtension());
             Storage::disk('public')->put('uploads/free-product/'.$imagename, $proImage);
@@ -108,6 +113,11 @@ class FreeProductController extends Controller
     public function destroy($id)
     {
         $freeprodcuts = FreeProduct::find($id);
+        //delete old image.....
+        if(Storage::disk('public')->exists('uploads/free-product/'.$freeprodcuts->image))
+        {
+            Storage::disk('public')->delete('uploads/free-product/'.$freeprodcuts->image);
+        }
         $freeprodcuts->delete();
         return redirect()->route('free-products.index');
     }

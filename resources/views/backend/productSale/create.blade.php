@@ -85,7 +85,7 @@
                                         <th style="display: none">Sub Category</th>
                                         <th>Brand</th>
                                         <th style="display: none">Unit</th>
-                                        <th>Return</th>
+{{--                                        <th>Return</th>--}}
                                         <th>Stock Qty</th>
                                         <th>Qty <small class="requiredCustom">*</small></th>
                                         <th>Price <small class="requiredCustom">*</small></th>
@@ -145,16 +145,16 @@
                                                 </select>
                                             </div>
                                         </td>
+{{--                                        <td width="12%">--}}
+{{--                                            <select name="return_type[]" id="return_type_id_1" class="form-control" >--}}
+{{--                                                <option value="returnable" selected>returnable</option>--}}
+{{--                                                <option value="not returnable">not returnable</option>--}}
+{{--                                            </select>--}}
+{{--                                        </td>--}}
                                         <td width="12%">
-                                            <select name="return_type[]" id="return_type_id_1" class="form-control" >
-                                                <option value="returnable" selected>returnable</option>
-                                                <option value="not returnable">not returnable</option>
-                                            </select>
-                                        </td>
-                                        <td width="8%">
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="" readonly >
                                         </td>
-                                        <td width="8%">
+                                        <td width="12%">
                                             <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="" required >
                                         </td>
                                         <td width="12%">
@@ -169,8 +169,14 @@
 
                                     <tfoot>
                                     <tr>
-                                        <th>&nbsp;</th>
-                                        <th>
+                                        <th></th>
+
+                                        <th width="15%"> <div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" href=""><i class="fa fa-plus"></i></a></div> <span></span> Free Product:
+                                            <select name="discount_type" id="discount_type" class="form-control" >
+                                                <option value="flat" selected>flat</option>
+                                                <option value="percentage">percentage</option>
+                                            </select></th>
+                                        <th width="10%">
                                             Type:
                                             <select name="discount_type" id="discount_type" class="form-control" >
                                                 <option value="flat" selected>flat</option>
@@ -186,11 +192,11 @@
                                             <input type="hidden" id="store_total_amount" class="form-control">
                                             <input type="text" id="total_amount" class="form-control" name="total_amount">
                                         </th>
-                                        <th colspan="2">
+                                        <th>
                                             Paid Amount:
                                             <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                         </th>
-                                        <th colspan="2">
+                                        <th>
                                             Due Amount:
                                             <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
                                         </th>
@@ -364,7 +370,7 @@
                         '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                         '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                         '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
-                        '<td><select name="return_type[]" id="return_type_id_'+n+'" class="form-control" ><option value="returnable" selected>returnable</option><option value="not returnable">not returnable</option></select></td>' +
+                        //'<td><select name="return_type[]" id="return_type_id_'+n+'" class="form-control" ><option value="returnable" selected>returnable</option><option value="not returnable">not returnable</option></select></td>' +
                         '<td><input type="number" id="stock_qty_'+n+'" class="stock_qty form-control" name="stock_qty[]" readonly></td>' +
                         '<td><input type="text" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                         '<td><input type="text" id="price_'+n+'" min="1" max="" class="price form-control" name="price[]" value="" required></td>' +

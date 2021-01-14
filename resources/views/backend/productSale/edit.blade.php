@@ -141,12 +141,12 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="12%">
-                                            <select name="return_type[]" id="return_type_id_{{$current_row}}" class="form-control" >
-                                                <option value="returnable"  {{'returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>returnable</option>
-                                                <option value="not returnable" {{'not returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>not returnable</option>
-                                            </select>
-                                        </td>
+{{--                                        <td width="12%">--}}
+{{--                                            <select name="return_type[]" id="return_type_id_{{$current_row}}" class="form-control" >--}}
+{{--                                                <option value="returnable"  {{'returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>returnable</option>--}}
+{{--                                                <option value="not returnable" {{'not returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>not returnable</option>--}}
+{{--                                            </select>--}}
+{{--                                        </td>--}}
                                         <td width="10%">
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >
                                         </td>
@@ -167,8 +167,8 @@
                                     <th width="10%">
                                         Type:
                                         <select name="discount_type" id="discount_type" class="form-control" >
-                                            <option value="flat" {{'flat' == $productSale->return_type ? 'selected' : ''}}>flat</option>
-                                            <option value="percentage" {{'percentage' == $productSale->return_type ? 'selected' : ''}}>percentage</option>
+                                            <option value="flat" {{'flat' == $productSale->discount_type ? 'selected' : ''}}>flat</option>
+                                            <option value="percentage" {{'percentage' == $productSale->discount_type ? 'selected' : ''}}>percentage</option>
                                         </select>
                                     </th>
                                     <th>
