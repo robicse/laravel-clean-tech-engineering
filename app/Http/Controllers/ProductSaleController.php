@@ -66,9 +66,6 @@ class ProductSaleController extends Controller
         $productUnits = ProductUnit::all();
         $products = Product::all();
         $freeProducts = FreeProduct::all();
-        //$productSaleDetails = ProductSaleDetail::where('product_id',$products)->pluck('id')->first();
-        //$productSaleDetails = ProductSaleDetail::all();
-       // dd($productSaleDetails);
         return view('backend.productSale.create',compact('freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
     }
 
@@ -113,8 +110,6 @@ class ProductSaleController extends Controller
         $productSale->date = $request->date;
         //$productSale->payment_type = $request->payment_type;
         //$productSale->check_number = $request->check_number ? $request->check_number : '';
-        $productSale->delivery_service = $request->delivery_service;
-        $productSale->delivery_service_charge = $request->delivery_service_charge;
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->total_amount = $total_amount;
@@ -283,10 +278,6 @@ class ProductSaleController extends Controller
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
-        //$productSale->payment_type = $request->payment_type;
-        //$productSale->check_number = $request->check_number ? $request->check_number : '';
-        $productSale->delivery_service = $request->delivery_service;
-        $productSale->delivery_service_charge = $request->delivery_service_charge;
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->total_amount = $total_amount;
@@ -689,6 +680,7 @@ class ProductSaleController extends Controller
         $transaction->transaction_type = 'due';
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
+        $transaction->check_date = $request->check_date ? $request->check_date : '';
         $transaction->amount = $request->new_paid;
         $transaction->date = date('Y-m-d');
         $transaction->save();

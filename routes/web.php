@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('party/new-party','ProductSaleController@newParty')->name('parties.store.new');
     Route::post('party/supplier/new-party','ProductPurchaseController@newParty')->name('parties.supplier.store.new');
     Route::post('pay-due','ProductSaleController@payDue')->name('pay.due');
+    Route::post('pay-purchase-due','ProductPurchaseController@payDue')->name('pay.purchase.due');
     Route::get('productSales-customer-due','ProductSaleController@customerDue')->name('productSales.customer.due');
     Route::post('party/new-office-costing-category','ExpenseController@newOfficeCostingCategory')->name('office.costing.category.new');
     Route::get('product-production-relation-data','ProductProductionController@productProductionRelationData');

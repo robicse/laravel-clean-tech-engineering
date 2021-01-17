@@ -76,7 +76,6 @@
                                     <th style="display: none">Sub Category</th>
                                     <th>Brand</th>
                                     <th style="display: none">Unit</th>
-                                    <th>Returnable</th>
                                     <th>Stock Qty</th>
                                     <th>Qty</th>
                                     <th>Price</th>
@@ -92,7 +91,7 @@
                                         @php
                                             $current_row = $key+1;
                                         @endphp
-                                        <td width="20%">
+                                        <td width="15%">
                                             <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
                                                 <option value="">Select  Product</option>
                                                 @foreach($products as $product)
@@ -290,7 +289,7 @@
             var product = $('.product_id').html();
             var n = ($('.neworderbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
-                '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
+                '<td width="18%"><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
                 '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +

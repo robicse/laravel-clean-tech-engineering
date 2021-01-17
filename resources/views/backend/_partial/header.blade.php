@@ -43,7 +43,7 @@
 <body class="app sidebar-mini rtl">
 {{--<body class="app sidebar-mini rtl pace-done sidenav-toggled">--}}
 <!-- Navbar-->
-<header class="app-header"><a class="app-header__logo" href="{!! URL::to('/home') !!}"><img src="{{asset('uploads/2021-01-06.png')}}" alt="logo" height="65px" width="130px"></a>
+<header class="app-header"><a class="app-header__logo" href="{!! URL::to('/home') !!}"><img src="{{asset('uploads/logo.jpg')}}" alt="logo" height="65px" width="225px"></a>
     <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
     <!-- Navbar Right Menu-->
     <ul class="app-nav">

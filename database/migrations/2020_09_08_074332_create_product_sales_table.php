@@ -19,10 +19,6 @@ class CreateProductSalesTable extends Migration
             $table->integer('user_id');
             $table->bigInteger('store_id')->unsigned();
             $table->bigInteger('party_id')->unsigned();
-            //$table->enum('payment_type', ['cash','check']);
-            //$table->string('check_number')->nullable();
-            $table->string('delivery_service')->nullable();
-            $table->string('delivery_service_charge')->nullable();
             $table->enum('vat_type',['flat','percentage'])->nullable();
             $table->float('vat_amount', 8,2)->nullable();
             $table->enum('discount_type',['flat','percentage'])->nullable();

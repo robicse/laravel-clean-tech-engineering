@@ -4,17 +4,17 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> Add Party</h1>
+                <h1><i class=""></i> Add Customer & Supplier</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('party.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Party</a>
+                    <a href="{{ route('party.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Customer & Supplier</a>
                 </li>
             </ul>
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Add Party</h3>
+                <h3 class="tile-title">Add Customer & Supplier</h3>
                 <div class="tile-body tile-footer">
                     @if(session('response'))
                         <div class="alert alert-success">
@@ -69,7 +69,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3"></label>
                             <div class="col-md-8">
-                                <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Party</button>
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Customer & Supplier</button>
                             </div>
                         </div>
                     </form>

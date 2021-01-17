@@ -21,7 +21,9 @@
                             <th>Purchase User</th>
                             <th>Supplier</th>
                             <th>Total Amount</th>
+                            <th>Paid Amount</th>
                             <th>Date</th>
+                            <th>Due Amount</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -32,7 +34,14 @@
                             <td>{{ $productPurches->user->name}}</td>
                             <td>{{ $productPurches->party->name}}</td>
                             <td>{{ $productPurches->total_amount}}</td>
+                            <td>{{ $productPurches->paid_amount}}</td>
                             <td>{{ $productPurches->created_at}}</td>
+                            <td>
+                                {{ $productPurches->due_amount}}
+                                @if($productPurches->total_amount != $productPurches->paid_amount)
+                                    <a href="" class="btn btn-warning btn-sm mx-1" data-toggle="modal" data-target="#exampleModal-<?= $productPurches->id;?>"> Pay Due</a>
+                                @endif
+                            </td>
                             <td class="d-inline-flex">
                                 <a href="{{ route('productPurchases.show',$productPurches->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
                                 <a href="{{ route('productPurchases.edit',$productPurches->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
@@ -43,6 +52,61 @@
                                 </form>
                             </td>
                         </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-{{$productPurches->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Pay Due</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{route('pay.purchase.due')}}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="due">Enter Due Amount</label>
+                                                <input type="hidden" class="form-control" name="product_purchase_id" value="{{$productPurches->id}}">
+                                                <input type="number" class="form-control" id="due" aria-describedby="emailHelp" name="new_paid" min="" max="{{$productPurches->due_amount}}" placeholder="Enter Amount">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="payment_type">Payment Type</label>
+                                                <select name="payment_type" id="payment_type" class="form-control" required>
+                                                    <option value="cash" selected>Cash</option>
+                                                    <option value="check">Check</option>
+                                                </select>
+                                                <span>&nbsp;</span>
+                                                <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
+                                                <span>&nbsp;</span>
+                                                <input type="text" name="check_date" id="check_date" class="datepicker form-control" placeholder="Issue Deposit Date ">
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                @push('js')
+                                    <script>
+                                        $(function() {
+                                            $('#check_number').hide();
+                                            $('#check_date').hide();
+                                            $('#payment_type').change(function(){
+                                                if($('#payment_type').val() == 'check') {
+                                                    $('#check_number').show();
+                                                    $('#check_date').show();
+                                                } else {
+                                                    $('#check_number').val('');
+                                                    $('#check_number').hide();
+                                                    $('#check_date').hide();
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endpush
+                            </div>
+                        </div>
                             @endforeach
                         </tbody>
                     </table>

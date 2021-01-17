@@ -16,14 +16,14 @@ class FreeProductController extends Controller
     public function index()
     {
         $freeprodcuts = FreeProduct::latest()->get();
-        return view('backend.FreeProduct.index',compact('freeprodcuts'));
+        return view('backend.freeProduct.index',compact('freeprodcuts'));
 
     }
 
 
     public function create()
     {
-        return view('backend.FreeProduct.create');
+        return view('backend.freeProduct.create');
     }
 
 
@@ -69,7 +69,7 @@ class FreeProductController extends Controller
     public function edit($id)
     {
         $freeprodcuts = FreeProduct::find($id);
-        return view('backend.FreeProduct.edit',compact('freeprodcuts'));
+        return view('backend.freeProduct.edit',compact('freeprodcuts'));
     }
 
     public function update(Request $request, $id)
