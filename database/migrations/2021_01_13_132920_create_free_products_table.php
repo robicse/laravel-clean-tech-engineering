@@ -18,7 +18,6 @@ class CreateFreeProductsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->longText('description')->nullable();
-            $table->string('image')->default('product.jpg');
             $table->integer('status')->nullable();
             $table->timestamps();
         });

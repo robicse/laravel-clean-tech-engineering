@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Due;
+use App\FreeProduct;
+use App\FreeProductSaleDetails;
 use App\Party;
 use App\Product;
 use App\ProductBrand;
@@ -63,7 +65,11 @@ class ProductSaleController extends Controller
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
         $products = Product::all();
-        return view('backend.productSale.create',compact('parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
+        $freeProducts = FreeProduct::all();
+        //$productSaleDetails = ProductSaleDetail::where('product_id',$products)->pluck('id')->first();
+        $productSaleDetails = ProductSaleDetail::all();
+       // dd($productSaleDetails);
+        return view('backend.productSale.create',compact('productSaleDetails','freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
     }
 
 
@@ -133,6 +139,7 @@ class ProductSaleController extends Controller
                 $purchase_sale_detail->price = $request->price[$i];
                 $purchase_sale_detail->sub_total = $request->qty[$i]*$request->price[$i];
                 $purchase_sale_detail->save();
+                $product_sale_detail_id = $purchase_sale_detail->id;
 
                 $product_id = $request->product_id[$i];
                 $check_previous_stock = Stock::where('product_id',$product_id)->latest()->pluck('current_stock')->first();
@@ -185,6 +192,20 @@ class ProductSaleController extends Controller
             //$transaction->amount = $total_amount;
             $transaction->amount = $request->paid_amount;
             $transaction->save();
+        }
+
+        if($product_sale_detail_id)
+        {
+            for($i=0; $i<$row_count;$i++)
+            {
+                // product purchase detail
+                $freeProduct_sale_detail = new FreeProductSaleDetails();
+                $freeProduct_sale_detail->product_sale_detail_id = $product_sale_detail_id[$i];
+                $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
+               // dd($freeProduct_sale_detail);
+                $freeProduct_sale_detail->save();
+
+            }
         }
 
         Toastr::success('Product Sale Created Successfully', 'Success');

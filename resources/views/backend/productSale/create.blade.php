@@ -145,12 +145,6 @@
                                                 </select>
                                             </div>
                                         </td>
-{{--                                        <td width="12%">--}}
-{{--                                            <select name="return_type[]" id="return_type_id_1" class="form-control" >--}}
-{{--                                                <option value="returnable" selected>returnable</option>--}}
-{{--                                                <option value="not returnable">not returnable</option>--}}
-{{--                                            </select>--}}
-{{--                                        </td>--}}
                                         <td width="12%">
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="" readonly >
                                         </td>
@@ -166,16 +160,10 @@
                                     </tr>
 
                                     </tbody>
-
                                     <tfoot>
                                     <tr>
                                         <th></th>
 
-                                        <th width="15%"> <div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" href=""><i class="fa fa-plus"></i></a></div> <span></span> Free Product:
-                                            <select name="discount_type" id="discount_type" class="form-control" >
-                                                <option value="flat" selected>flat</option>
-                                                <option value="percentage">percentage</option>
-                                            </select></th>
                                         <th width="10%">
                                             Type:
                                             <select name="discount_type" id="discount_type" class="form-control" >
@@ -203,6 +191,33 @@
                                     </tr>
                                     </tfoot>
                                 </table>
+                                <div class="table-responsive">
+                                    <input type="button" class="btn btn-primary add1 " style="margin-left: 804px;" value="Add Free Product">
+                                    <table id="example2" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th >ID</th>
+                                            <th>Free Product <small class="requiredCustom">*</small></th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody class="neworderbody1">
+                                        <tr>
+                                            <td width="5%" class="no1">1</td>
+                                            <td width="5%"><input type="text" value="{{$productSaleDetails->id}}" name="product_sale_detail_id[]" class="form-control"></td>
+                                            <td width="20%">
+                                                <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                    @foreach($freeProducts as $freeProduct)
+                                                        <option value="{{$freeProduct->id}}">{{$freeProduct->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="form-group row">
                                     <label class="control-label col-md-3">
 
@@ -384,10 +399,29 @@
 
                     $('.select2').select2();
 
+                });1
+                $('.add1').click(function () {
+                    var freeProduct = $('.free_product_id').html();
+                    var n = ($('.neworderbody1 tr').length - 0) + 1;
+                    var tr = '<tr><td class="no1">' + n + '</td>' +
+                        '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'" onchange="getval1('+n+',this);" required>' + freeProduct + '</select></td>' +
+                        '<td><input type="button" class="btn btn-danger delete1" value="x"></td></tr>';
+
+                    $('.neworderbody1').append(tr);
+
+                    //initSelect2();
+
+                    $('.select2').select2();
+
                 });
                 $('.neworderbody').delegate('.delete', 'click', function () {
                     $(this).parent().parent().remove();
                     totalAmount();
+                });
+
+                $('.neworderbody1').delegate('.delete1', 'click', function () {
+                    $(this).parent().parent().remove();
+                    // totalAmount();
                 });
 
                 $('.neworderbody').delegate('.qty, .price', 'keyup', function () {
