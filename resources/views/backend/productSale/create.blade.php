@@ -205,7 +205,7 @@
                                         <tbody class="neworderbody1">
                                         <tr>
                                             <td width="5%" class="no1">1</td>
-                                            <td width="5%"><input type="text" value="{{$productSaleDetails->id}}" name="product_sale_detail_id[]" class="form-control"></td>
+                                            <td width="5%"></td>
                                             <td width="20%">
                                                 <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
                                                     @foreach($freeProducts as $freeProduct)

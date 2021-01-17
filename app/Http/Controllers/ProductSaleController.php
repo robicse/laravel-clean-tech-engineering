@@ -67,9 +67,9 @@ class ProductSaleController extends Controller
         $products = Product::all();
         $freeProducts = FreeProduct::all();
         //$productSaleDetails = ProductSaleDetail::where('product_id',$products)->pluck('id')->first();
-        $productSaleDetails = ProductSaleDetail::all();
+        //$productSaleDetails = ProductSaleDetail::all();
        // dd($productSaleDetails);
-        return view('backend.productSale.create',compact('productSaleDetails','freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
+        return view('backend.productSale.create',compact('freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
     }
 
 
@@ -194,13 +194,13 @@ class ProductSaleController extends Controller
             $transaction->save();
         }
 
-        if($product_sale_detail_id)
+        if($insert_id)
         {
             for($i=0; $i<$row_count;$i++)
             {
                 // product purchase detail
                 $freeProduct_sale_detail = new FreeProductSaleDetails();
-                $freeProduct_sale_detail->product_sale_detail_id = $product_sale_detail_id[$i];
+                $freeProduct_sale_detail->product_sale_id = $insert_id;
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
                // dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
