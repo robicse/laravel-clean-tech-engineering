@@ -80,6 +80,7 @@ class ProductSaleController extends Controller
         ]);
 
         $row_count = count($request->product_id);
+        $row_count_free_product = count($request->free_product_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {
@@ -191,13 +192,12 @@ class ProductSaleController extends Controller
 
         if($insert_id)
         {
-            for($i=0; $i<$row_count;$i++)
+            for($i=0; $i<$row_count_free_product;$i++)
             {
                 // product purchase detail
                 $freeProduct_sale_detail = new FreeProductSaleDetails();
                 $freeProduct_sale_detail->product_sale_id = $insert_id;
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-                dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
 
             }
@@ -411,6 +411,7 @@ class ProductSaleController extends Controller
     }
 
     public function Editservice($id){
+        //dd($id);
         //$productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         //$saleService =  SaleService::find($id);
@@ -421,6 +422,7 @@ class ProductSaleController extends Controller
         return view('backend.productSale.editServices',compact('productSaleDetail','services','saleServices'));
     }
     public function Updateeservice(Request $request,$id ){
+        //dd($id);
         //dd($request->all());
 
         $this->validate($request, [
@@ -428,20 +430,11 @@ class ProductSaleController extends Controller
         ]);
         $row_count = count($request->service_id);
         for($i=0; $i<$row_count;$i++) {
-            $product_sale_detail_id = $request->product_sale_detail_id[$i];
-            //dd($product_sale_detail_id);
-            for ($i = 0; $i < $row_count; $i++) {
-                $saleServices =  SaleService::find($id);
-                $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                $saleServices->created_user_id = Auth::id();
-                $saleServices->service_id = $request->service_id[$i];
-                $saleServices->date = $request->date[$i];
-                $saleServices->status = 'pending';
-                //dd($saleServices);
-                $saleServices->save();
-
-            }
-
+            $sale_service_id = $request->sale_service_id[$i];
+            $saleServices =  SaleService::where('id',$sale_service_id)->where('product_sale_detail_id',$id)->first();
+            $saleServices->created_user_id = Auth::id();
+            $saleServices->service_id = $request->service_id[$i];
+            $saleServices->save();
         }
         return redirect()->route('productSales.index');
     }
