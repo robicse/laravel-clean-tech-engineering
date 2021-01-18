@@ -23,11 +23,7 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-{{--                            <th>Product</th>--}}
-{{--                            <th>Brand</th>--}}
-{{--                            <th>Qty</th>--}}
-{{--                            <th>Price</th>--}}
-{{--                            <th>Sub Total</th>--}}
+                            <th>Product</th>
                             <th>Services</th>
                             <th>Date</th>
 
@@ -36,18 +32,17 @@
                         <tbody>
                         @foreach($saleServices as $saleService)
                             <tr>
-{{--                                <td>{{$productSaleDetail->product->product_category->name}}</td>--}}
-{{--                                <td>{{$productSaleDetail->product->product_brand->name}}</td>--}}
-{{--                                <td>{{$productSaleDetail->return_type}}</td>--}}
-{{--                                <td>--}}
-{{--                                    <img src="{{asset('uploads/product/'.$productSaleDetail->product->image)}}" width="50" height="50" />--}}
-{{--                                </td>--}}
-{{--                                <td>{{$productSaleDetail->product->name}}</td>--}}
-{{--                                <td>{{$productSaleDetail->qty}}</td>--}}
-{{--                                <td>{{$productSaleDetail->price}}</td>--}}
+                                <td>
+                                    @php
+                                        echo $product_name = \Illuminate\Support\Facades\DB::table('products')
+                                                ->join('product_sale_details','products.id','product_sale_details.product_id')
+                                                ->where('product_sale_details.id',$saleService->product_sale_detail_id)
+                                                ->pluck('products.name')
+                                                ->first();
+                                    @endphp
+                                </td>
                                 <td>{{$saleService->service->name}}</td>
                                 <td>{{$saleService->date}}</td>
-
                             </tr>
                         @endforeach
                         </tbody>

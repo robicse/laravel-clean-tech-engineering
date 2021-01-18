@@ -15,7 +15,7 @@
                 <h3 class="tile-title">Edit Services</h3>
                 <div class="table-responsive">
 {{--                    <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">--}}
-                    <form method="post" action="{{ route('productSales-update-services',$productSaleDetail->id) }}">
+                    <form method="post" action="{{ url('productSales-updateServices',$productSaleDetail->id) }}">
                         @csrf
 
                     <table id="example1" class="table table-bordered table-striped">
@@ -45,7 +45,7 @@
 {{--                            @endphp--}}
                             <tr>
                                 <td width="5%" class="no">{{$key+1}}</td>
-                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id" value="{{$saleService->id}}"></td>
+                                <td><input class="form-control" type="hidden" name="sale_service_id[]" value="{{$saleService->id}}"></td>
 {{--                                <td style="display: none"><input class="form-control" type="hidden" name="sale_services_id" value="{{$saleService->id}}"></td>--}}
 
 {{--                                <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>--}}
