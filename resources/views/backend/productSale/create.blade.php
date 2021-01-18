@@ -194,7 +194,7 @@
                                     <table id="example2" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th >ID</th>
+                                            <th>ID</th>
                                             <th>Free Product <small class="requiredCustom">*</small></th>
                                             <th>Action</th>
 
@@ -203,6 +203,7 @@
                                         <tbody class="neworderbody1">
                                         <tr>
                                             <td width="5%" class="no1">1</td>
+                                            <td style="display: none"><input class="form-control" type="hidden" name="product_sale_id"></td>
                                             <td width="20%">
                                                 <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
                                                     <option value="">Select One</option>

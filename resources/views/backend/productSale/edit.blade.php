@@ -190,6 +190,33 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                            <div class="table-responsive">
+                                <input type="button" class="btn btn-primary add1 " style="margin-left: 57px;" value="Add Free Product">
+                                <table id="example2" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th >ID</th>
+                                        <th>Free Product <small class="requiredCustom">*</small></th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody class="neworderbody1">
+                                    <tr>
+                                        <td width="5%" class="no1">1</td>
+                                        <td width="20%">
+                                            <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                <option value="">Select One</option>
+                                                @foreach($freeProducts as $freeProduct)
+                                                    <option value="{{$freeProduct->id}}">{{$freeProduct->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="form-group row">
                                 <label class="control-label col-md-3"></label>
                                 <div class="col-md-8">
@@ -197,6 +224,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </form>
                 </div>
                 <div class="tile-footer">

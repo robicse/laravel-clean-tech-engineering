@@ -197,7 +197,7 @@ class ProductSaleController extends Controller
                 $freeProduct_sale_detail = new FreeProductSaleDetails();
                 $freeProduct_sale_detail->product_sale_id = $insert_id;
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-               // dd($freeProduct_sale_detail);
+                dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
 
             }
@@ -244,7 +244,8 @@ class ProductSaleController extends Controller
         //dd($productSaleDetails);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
-        return view('backend.productSale.edit',compact('parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
+        $freeProducts = FreeProduct::all();
+        return view('backend.productSale.edit',compact('freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
     }
 
 
@@ -398,14 +399,26 @@ class ProductSaleController extends Controller
         }
         return redirect()->route('productSales.index');
     }
+    public function Showservice(Request $request, $id){
+        //dd($id);
+        $productSaleDetail = ProductSaleDetail::where('id',$id)->get();
+        //dd($productSaleDetail);
+        //$saleService =  SaleService::find($id);
+        $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
+        //dd($saleServices);
+        $services = Service::latest()->get();
+        return view('backend.productSale.showServices',compact('productSaleDetail','services','saleServices'));
+    }
+
     public function Editservice($id){
         //$productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
-        $saleService =  SaleService::find($id);
+        //$saleService =  SaleService::find($id);
+        $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
 
         $services = Service::latest()->get();
-        //dd($productSaleDetail);
-        return view('backend.productSale.editServices',compact('productSaleDetail','services','saleService'));
+        //dd($saleServices);
+        return view('backend.productSale.editServices',compact('productSaleDetail','services','saleServices'));
     }
     public function Updateeservice(Request $request,$id ){
         //dd($request->all());
