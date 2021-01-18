@@ -198,6 +198,7 @@ class ProductSaleController extends Controller
                 $freeProduct_sale_detail = new FreeProductSaleDetails();
                 $freeProduct_sale_detail->product_sale_id = $insert_id;
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
+                //dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
 
             }
@@ -241,11 +242,13 @@ class ProductSaleController extends Controller
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        //dd($productSaleDetails);
+        $freeProductDetails =  FreeProductSaleDetails::where('product_sale_id',$id)->get();
+        //dd($freeProductDetails);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
+
         $freeProducts = FreeProduct::all();
-        return view('backend.productSale.edit',compact('freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
+        return view('backend.productSale.edit',compact('freeProductDetails','freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
     }
 
 
@@ -348,6 +351,19 @@ class ProductSaleController extends Controller
         $transaction->amount = $total_amount;
         $transaction->update();
 
+        $row_count_product_sale = count($request->free_product_id);
+        {
+            for($i=0; $i<$row_count_product_sale;$i++)
+            {
+                // free product sale details
+                $free_product_sale_detail_id = $request->free_product_detail_id[$i];
+                $freeProduct_sale_detail = FreeProductSaleDetails::where('id',$free_product_sale_detail_id)->first();
+                $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
+               // dd($freeProduct_sale_detail);
+                $freeProduct_sale_detail->save();
+
+            }
+        }
         Toastr::success('Product Sale Updated Successfully', 'Success');
         return redirect()->route('productSales.index');
     }
@@ -434,6 +450,7 @@ class ProductSaleController extends Controller
             $saleServices =  SaleService::where('id',$sale_service_id)->where('product_sale_detail_id',$id)->first();
             $saleServices->created_user_id = Auth::id();
             $saleServices->service_id = $request->service_id[$i];
+            $saleServices->date = $request->date[$i];
             $saleServices->save();
         }
         return redirect()->route('productSales.index');

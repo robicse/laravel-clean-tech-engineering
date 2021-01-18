@@ -23,43 +23,34 @@
                         <thead>
                         <tr>
                             <th >ID</th>
-{{--                            <th>Product</th>--}}
-{{--                            <th>Brand</th>--}}
-{{--                            <th>Qty</th>--}}
-{{--                            <th>Price</th>--}}
-{{--                            <th>Sub Total</th>--}}
+                            <th>Product</th>
                             <th>Services</th>
                             <th>Date</th>
-{{--                            <th>Action</th>--}}
-
-                        </tr>
+                    </tr>
                         </thead>
                         <tbody class="neworderbody">
                         @foreach($saleServices as $key=>$saleService)
-{{--                            @php--}}
-{{--                                   $productName =\App\ProductSaleDetail::join('products','product_sale_details.product_id', '=','products.id')--}}
-{{--                                                        ->where('id',$productSaleDetail)--}}
-{{--                                                        ->pluck('products.name')--}}
-{{--                            ->first();--}}
-{{--dd($productName)--}}
-{{--                            @endphp--}}
+
+
                             <tr>
                                 <td width="5%" class="no">{{$key+1}}</td>
-                                <td><input class="form-control" type="hidden" name="sale_service_id[]" value="{{$saleService->id}}"></td>
+                                <td style="display: none"><input class="form-control" type="hidden" name="sale_service_id[]" value="{{$saleService->id}}"></td>
 {{--                                <td style="display: none"><input class="form-control" type="hidden" name="sale_services_id" value="{{$saleService->id}}"></td>--}}
-
-{{--                                <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>--}}
-{{--                                <td>{{$productSaleDetail->product->product_brand->name}}</td>--}}
-{{--                                <td>{{$productSaleDetail->qty}}</td>--}}
-{{--                                <td>{{$productSaleDetail->price}}</td>--}}
-{{--                                <td>{{$productSaleDetail->sub_total}}</td>--}}
+                                <td>  @php
+                                        echo $product_name = \Illuminate\Support\Facades\DB::table('products')
+                                                ->join('product_sale_details','products.id','product_sale_details.product_id')
+                                                ->where('product_sale_details.id',$saleService->product_sale_detail_id)
+                                                ->pluck('products.name')
+                                                ->first();
+                                    @endphp
+                                </td>
                                 <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
                                         <option value="">Select  Service</option>
                                         @foreach($services as $service)
                                             <option value="{{$service->id}}" {{$service->id == $saleService->service_id ? 'selected' : ''}}>{{$service->name}}</option>
                                         @endforeach
                                     </select></td>
-                                <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>
+                                <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{$saleService->date}}"></td>
                             </tr>
                         @endforeach
                         </tbody>

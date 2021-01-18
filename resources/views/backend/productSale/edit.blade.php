@@ -191,28 +191,29 @@
                                 </tfoot>
                             </table>
                             <div class="table-responsive">
-                                <input type="button" class="btn btn-primary add1 " style="margin-left: 57px;" value="Add Free Product">
                                 <table id="example2" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
                                         <th >ID</th>
                                         <th>Free Product <small class="requiredCustom">*</small></th>
-                                        <th>Action</th>
 
                                     </tr>
                                     </thead>
                                     <tbody class="neworderbody1">
-                                    <tr>
-                                        <td width="5%" class="no1">1</td>
-                                        <td width="20%">
-                                            <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
-                                                <option value="">Select One</option>
-                                                @foreach($freeProducts as $freeProduct)
-                                                    <option value="{{$freeProduct->id}}">{{$freeProduct->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
+                                    @foreach($freeProductDetails as $key=>$freeProductDetail)
+                                        <tr>
+                                            <td width="5%" class="no1">{{$key+1}}</td>
+                                            <td style="display: none"><input class="form-control" type="hidden" name="free_product_detail_id[]" value="{{$freeProductDetail->id}}"></td>
+                                            <td >
+                                                <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                    <option value="">Select One</option>
+                                                    @foreach($freeProducts as $freeProduct)
+                                                        <option value="{{$freeProduct->id}}" {{$freeProduct->id ==$freeProductDetail->free_product_id ? 'selected' : '' }}>{{$freeProduct->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                     </tbody>
                                 </table>
@@ -329,6 +330,20 @@
                 '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
             $('.neworderbody').append(tr);
+
+            //initSelect2();
+
+            $('.select2').select2();
+
+        });
+        $('.add1').click(function () {
+            var freeProduct = $('.free_product_id').html();
+            var n = ($('.neworderbody1 tr').length - 0) + 1;
+            var tr = '<tr><td class="no1">' + n + '</td>' +
+                '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'" onchange="getval1('+n+',this);" required>' + freeProduct + '</select></td>' +
+                '<td><input type="button" class="btn btn-danger delete1" value="x"></td></tr>';
+
+            $('.neworderbody1').append(tr);
 
             //initSelect2();
 
