@@ -366,11 +366,11 @@ class ProductSaleController extends Controller
     }
 
     public function Addservice($id){
-        $productSale = ProductSale::find($id);
+       // $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         //dd($productSaleDetail);
         $services = Service::latest()->get();
-        return view('backend.productSale.addServices',compact('productSaleDetail','services','productSale'));
+        return view('backend.productSale.addServices',compact('productSaleDetail','services'));
     }
 
     public function Storeservice(Request $request ){
@@ -398,7 +398,40 @@ class ProductSaleController extends Controller
         }
         return redirect()->route('productSales.index');
     }
+    public function Editservice($id){
+        //$productSale = ProductSale::find($id);
+        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        $saleService =  SaleService::find($id);
 
+        $services = Service::latest()->get();
+        //dd($productSaleDetail);
+        return view('backend.productSale.editServices',compact('productSaleDetail','services','saleService'));
+    }
+    public function Updateeservice(Request $request,$id ){
+        //dd($request->all());
+
+        $this->validate($request, [
+            'service_id'=> 'required',
+        ]);
+        $row_count = count($request->service_id);
+        for($i=0; $i<$row_count;$i++) {
+            $product_sale_detail_id = $request->product_sale_detail_id[$i];
+            //dd($product_sale_detail_id);
+            for ($i = 0; $i < $row_count; $i++) {
+                $saleServices =  SaleService::find($id);
+                $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                $saleServices->created_user_id = Auth::id();
+                $saleServices->service_id = $request->service_id[$i];
+                $saleServices->date = $request->date[$i];
+                $saleServices->status = 'pending';
+                //dd($saleServices);
+                $saleServices->save();
+
+            }
+
+        }
+        return redirect()->route('productSales.index');
+    }
     public function productSaleRelationData(Request $request){
         $store_id = $request->store_id;
         $product_id = $request->current_product_id;

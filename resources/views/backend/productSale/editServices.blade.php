@@ -14,8 +14,8 @@
             <div class="tile">
                 <h3 class="tile-title">Add Services</h3>
                 <div class="table-responsive">
-                    <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">
-                    <form method="post" action="{{ route('productSales-store-services') }}">
+{{--                    <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Services">--}}
+                    <form method="post" action="{{ route('productSales-update-services',$productSaleDetail->id) }}">
                         @csrf
 
                     <table id="example1" class="table table-bordered table-striped">
@@ -38,6 +38,7 @@
                             <tr>
                                 <td width="5%" class="no">1</td>
                                 <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id" value="{{$productSaleDetail->id}}"></td>
+                                <td style="display: none"><input class="form-control" type="hidden" name="sale_services_id" value="{{$saleService->id}}"></td>
 
                                 <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>
@@ -47,7 +48,7 @@
                                 <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
                                         <option value="">Select  Service</option>
                                         @foreach($services as $service)
-                                            <option value="{{$service->id}}">{{$service->name}}</option>
+                                            <option value="{{$service->id}}" {{$service->id == $saleService->service_id ? 'selected' : '' }}>{{$service->name}}</option>
                                         @endforeach
                                     </select></td>
                                 <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>

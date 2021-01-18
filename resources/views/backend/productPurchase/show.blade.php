@@ -12,9 +12,6 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                {{--<ul class="app-breadcrumb breadcrumb">
-                    <li class="breadcrumb-item" style="margin-left: 90%"> <a href="{!! route('productPurchases-invoice') !!}" class="btn btn-sm btn-primary"  type="button">Download Page</a></li>
-                </ul>--}}
                 <h3 class="tile-title">Product Purchases</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
@@ -41,18 +38,36 @@
                         </tr>
                         <tr>
                             <th>Payment Type</th>
-                            <td>{{$transaction->payment_type}}</td>
+                            <td>{{$transaction->payment_type ? 'cash' : 'check' }}</td>
                         </tr>
-                        @if($transaction->payment_type == 'Check')
+{{--                        @foreach($transactions as $transaction)--}}
+{{--                            <tr>--}}
+{{--                                <th>Payment Type</th>--}}
+
+{{--                                <td>{{$transaction->payment_type }} -{{$transaction->amount }} <span style="font-size: 22px;font-weight: 33">৳</span></td>--}}
+{{--                                <td></td>--}}
+
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
+                        @if($transaction->payment_type == 'check')
                             <tr>
                                 <th>Check Number</th>
                                 <td>{{$transaction->check_number}}</td>
                             </tr>
                         @endif
                         <tr>
-                            <th>Amount</th>
+                            <th>Total Amount</th>
                             <td>{{$productPurchase->total_amount}}</td>
                         </tr>
+                        <tr>
+                            <th>Due Amount</th>
+                            <td>{{$productPurchase->due_amount}}</td>
+                        </tr>
+                        <tr>
+                            <th>Paid Amount</th>
+                            <td>{{$productPurchase->paid_amount}}</td>
+                        </tr>
+
                         </tbody>
                     </table>
                     <div class="tile-footer">

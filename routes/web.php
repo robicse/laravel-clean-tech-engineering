@@ -125,8 +125,8 @@ Route::group(['middleware' => ['auth']], function() {
     //add service
     Route::get('productSales-addServices/{id}','ProductSaleController@Addservice')->name('productSales-addServices');
     Route::post('productSales-storeServices','ProductSaleController@Storeservice')->name('productSales-store-services');
-
-
+    Route::get('productSales-editServices/{id}','ProductSaleController@Editservice')->name('productSales-editServices');
+    Route::post('productSales-updateServices','ProductSaleController@Updateeservice')->name('productSales-update-services');
     //excel
     Route::get('export', 'UserController@export')->name('export');
     Route::get('importExportView', 'ExportExcelController@importExportView');

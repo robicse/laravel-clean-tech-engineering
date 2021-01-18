@@ -46,12 +46,19 @@
                             <th>Date</th>
                             <td>{{$productSale->date}}</td>
                         </tr>
-                        @if($transaction->payment_type == 'Check')
-                            <tr>
-                                <th>Check Number</th>
-                                <td>{{$transaction->check_number}}</td>
-                            </tr>
-                        @endif
+                        <tr>
+                            <th>Payment Type</th>
+                            <td>{{$transaction->payment_type ? 'cash' : 'check' }}</td>
+                        </tr>
+{{--                        @foreach($transactions as $transaction)--}}
+{{--                            <tr>--}}
+{{--                                <th>Payment Type</th>--}}
+
+{{--                                <td>{{$transaction->payment_type }} -{{$transaction->amount }} <span style="font-size: 22px;font-weight: 33">৳</span></td>--}}
+{{--                                <td></td>--}}
+
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
     {{--                    <tr>--}}
     {{--                        <th>Delivery Service</th>--}}
     {{--                        <td>{{$productSale->delivery_service}}</td>--}}
@@ -98,7 +105,7 @@
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Sub Total</th>
-                            <th>Add Services</th>
+                            <th>Services Action</th>
 
                         </tr>
                         </thead>
@@ -115,7 +122,11 @@
                                 <td>{{$productSaleDetail->qty}}</td>
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
-                                <td><div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSale->id)}}"><i class="fa fa-plus"></i></a></div></td>
+                                <td class="d-inline-flex">
+                                    <a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSale->id)}}"><i class="fa fa-plus"></i></a>
+                                    <a href="{{route('productSales-editServices',$productSale->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+                                </td>
+
                             </tr>
                         @endforeach
                         </tbody>

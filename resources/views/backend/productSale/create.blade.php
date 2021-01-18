@@ -44,8 +44,8 @@
                             <div class="form-group row" @if(Auth::user()->roles[0]->name == 'User') style="display: none" @endif>
                                 <label class="control-label col-md-3 text-right">Store  <small class="requiredCustom">*</small></label>
                                 <div class="col-md-8">
-                                    <select name="store_id" id="store_id" class="form-control" >
-    {{--                                    <option value="">Select One</option>--}}
+                                    <select name="store_id" id="store_id" class="form-control" required>
+                                        <option value="">Select One</option>
                                         @foreach($stores as $store)
                                             <option value="{{$store->id}}" {{Auth::user()->roles[0]->name == 'User' ? 'selected':''}}>{{$store->name}} </option>
                                         @endforeach
@@ -56,7 +56,6 @@
                                 <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                                 <div class="col-md-8">
                                     <select name="payment_type" id="payment_type" class="form-control" required>
-                                        <option value="">Select One</option>
                                         <option value="cash" selected >Cash</option>
                                         <option value="check">Check</option>
                                     </select>
@@ -85,7 +84,6 @@
                                         <th style="display: none">Sub Category</th>
                                         <th>Brand</th>
                                         <th style="display: none">Unit</th>
-{{--                                        <th>Return</th>--}}
                                         <th>Stock Qty</th>
                                         <th>Qty <small class="requiredCustom">*</small></th>
                                         <th>Price <small class="requiredCustom">*</small></th>
@@ -192,7 +190,7 @@
                                     </tfoot>
                                 </table>
                                 <div class="table-responsive">
-                                    <input type="button" class="btn btn-primary add1 " style="margin-left: 804px;" value="Add Free Product">
+                                    <input type="button" class="btn btn-primary add1 " style="margin-left: 57px;" value="Add Free Product">
                                     <table id="example2" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
@@ -207,6 +205,7 @@
                                             <td width="5%" class="no1">1</td>
                                             <td width="20%">
                                                 <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                    <option value="">Select One</option>
                                                     @foreach($freeProducts as $freeProduct)
                                                         <option value="{{$freeProduct->id}}">{{$freeProduct->name}}</option>
                                                     @endforeach
