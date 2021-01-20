@@ -40,6 +40,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/user/dashboard','UserDashboardController@dashboard' )->name('user.dashboard');
+
 Route::group(['middleware' => ['auth']], function() {
         Route::get('change-password/{id}','UserController@changedPassword')->name('password.change_password');
         Route::post ('change-password-update','UserController@changedPasswordUpdated')->name('password.change_password_update');

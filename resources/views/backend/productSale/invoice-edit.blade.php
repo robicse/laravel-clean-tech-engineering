@@ -217,7 +217,6 @@
                                     <th style="display: none">Category</th>
                                     <th style="display: none">Sub Category</th>
                                     <th>Brand</th>
-                                    <th>Return</th>
                                     <th>Stock Qty</th>
                                     <th>Qty <small class="requiredCustom">*</small></th>
                                     <th >Price <small class="requiredCustom">*</small></th>
@@ -272,12 +271,6 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </td>
-                                            <td width="12%">
-                                                <select name="return_type[]" id="return_type_id_1" class="form-control" >
-                                                    <option value="returnable"  {{$productSaleDetail->return_type == 'returnable' ? 'selected' : ''}}>returnable</option>
-                                                    <option value="not returnable" {{$productSaleDetail->return_type == 'not returnable' ? 'selected' : ''}}>not returnable</option>
-                                                </select>
                                             </td>
                                             <td width="10%">
                                                 <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >

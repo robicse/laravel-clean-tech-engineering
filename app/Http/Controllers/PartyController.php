@@ -44,7 +44,7 @@ class PartyController extends Controller
         $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-//        $parties->address = $request->address;
+        $parties->address = $request->address;
         $parties->status = $request->status;
         //dd($parties);
         $parties->save();
@@ -83,7 +83,7 @@ class PartyController extends Controller
         $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-//        $parties->address = $request->address;
+        $parties->address = $request->address;
         $parties->status = $request->status;
         // dd($parties);
         $parties->save();

@@ -61,6 +61,18 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right"> Online Platform <small class="requiredCustom">*</small></label>
+                            <div class="col-md-8">
+                                <select name="online_platform" id="online_platform" class="form-control" >
+                                    <option value="" >Select One</option>
+                                    <option value="online_invoice" {{'online_invoice' == $productSale->online_platform ? 'selected' : ''}}>E-commerce Platform</option>
+                                </select>
+                                <span>&nbsp;</span>
+                                <span>&nbsp;</span>
+                                <input type="text" name="online_platform_invoice_no" value="{{$productSale->online_platform_invoice_no}}"  id="online_platform_invoice_no" class="form-control" placeholder="Invoice No">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" value="{{$productSale->transport_cost}}" placeholder="Transport Cost">
@@ -451,6 +463,17 @@
                     $('#check_number').val('');
                     $('#check_number').hide();
                     $('#check_date').hide();
+                }
+            });
+        });
+        $(function() {
+
+            $('#online_platform').change(function(){
+                if($('#online_platform').val() == 'online_invoice') {
+                    $('#online_platform_invoice_no').show();
+                } else {
+                    $('#online_platform_invoice_no').val('');
+                    $('#online_platform_invoice_no').hide();
                 }
             });
         });

@@ -67,6 +67,18 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="control-label col-md-3 text-right"> Online Platform <small class="requiredCustom">*</small></label>
+                                <div class="col-md-8">
+                                    <select name="online_platform" id="online_platform" class="form-control" required>
+                                        <option value="" >Select One</option>
+                                        <option value="online_invoice" >E-commerce Platform</option>
+                                    </select>
+                                    <span>&nbsp;</span>
+                                    <span>&nbsp;</span>
+                                    <input type="text" name="online_platform_invoice_no" id="online_platform_invoice_no" class="form-control" placeholder="Invoice No">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
                                 <div class="col-md-8">
                                     <input type="text" name="transport_cost" class="form-control" placeholder="Transport Cost">
@@ -378,11 +390,11 @@
                 //total = parseInt(total);
                 //console.log('total= ' + typeof total);
 
-                var store_total_amount = $('#store_total_amount').val();
-                console.log('store_total_amount= ' + store_total_amount);
-                console.log('store_total_amount= ' + typeof store_total_amount);
-                store_total_amount = parseInt(store_total_amount);
-                console.log('total= ' + typeof store_total_amount);
+                var store_total_amount_vat = $('#store_total_amount').val();
+                console.log('store_total_amount_vat= ' + store_total_amount_vat);
+                console.log('store_total_amount_vat= ' + typeof store_total_amount_vat);
+                store_total_amount_vat = parseInt(store_total_amount_vat);
+                console.log('total= ' + typeof store_total_amount_vat);
 
                 var vat_amount = $('#vat_amount').val();
                 console.log('vat_amount= ' + vat_amount);
@@ -391,11 +403,11 @@
                 console.log('vat_amount= ' + typeof vat_amount);
 
                 if(vat_type == 'flat'){
-                    var final_amount = store_total_amount + vat_amount;
+                    var final_amount = store_total_amount_vat + vat_amount;
                 }
                 else{
-                    var per = (store_total_amount*vat_amount)/100;
-                    var final_amount = store_total_amount + per;
+                    var per = (store_total_amount_vat*vat_amount)/100;
+                    var final_amount = store_total_amount_vat + per;
                 }
                 console.log('final_amount= ' + final_amount);
                 console.log('final_amount= ' + typeof final_amount);
@@ -620,6 +632,17 @@
                         $('#check_number').val('');
                         $('#check_number').hide();
                         $('#check_date').hide();
+                    }
+                });
+            });
+            $(function() {
+                $('#online_platform_invoice_no').hide();
+                $('#online_platform').change(function(){
+                    if($('#online_platform').val() == 'online_invoice') {
+                        $('#online_platform_invoice_no').show();
+                    } else {
+                        $('#online_platform_invoice_no').val('');
+                        $('#online_platform_invoice_no').hide();
                     }
                 });
             });

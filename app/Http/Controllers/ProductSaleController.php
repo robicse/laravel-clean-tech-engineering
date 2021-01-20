@@ -109,8 +109,8 @@ class ProductSaleController extends Controller
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
-        //$productSale->payment_type = $request->payment_type;
-        //$productSale->check_number = $request->check_number ? $request->check_number : '';
+        $productSale->online_platform = $request->online_platform;
+        $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->vat_type = $request->vat_type;
@@ -246,7 +246,7 @@ class ProductSaleController extends Controller
         $productUnits = ProductUnit::all();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $freeProductDetails =  FreeProductSaleDetails::where('product_sale_id',$id)->get();
-        //dd($freeProductDetails);
+       // dd($productSale);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
 
@@ -285,6 +285,8 @@ class ProductSaleController extends Controller
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
+        $productSale->online_platform = $request->online_platform;
+        $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
