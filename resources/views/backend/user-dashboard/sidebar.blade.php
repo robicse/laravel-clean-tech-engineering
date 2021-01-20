@@ -11,14 +11,14 @@
         <a href="javascript:;" class="c-toggler"><strong>Menus</strong><span class="c-arrow"></span></a>
         <ul class="c-dropdown-menu">
             @if (Auth::user()->role_id == 2)
-                <li class="{{Request::is('caregivers/dashboard*') ? 'c-active' : ''}}">
-                    <a href="">My Dashbord</a>
+                <li class="{{Request::is('user/dashboard*') ? 'c-active' : ''}}">
+                    <a href="{{route('user.dashboard')}}">My Dashbord</a>
                 </li>
-                <li class="{{Request::is('caregivers/edit-profile*') ? 'c-active' : ''}}">
-                    <a href="">View Profile</a>
+                <li class="{{Request::is('user/edit-profile*') ? 'c-active' : ''}}">
+                    <a href="{{route('user.edit.profile')}}">View Profile</a>
                 </li>
-                <li class="{{Request::is('caregivers/change-password*') ? 'c-active' : ''}}">
-                    <a href="">Edit Password</a>
+                <li class="{{Request::is('user/change-password*') ? 'c-active' : ''}}">
+                    <a href="{{route('password.change')}}">Edit Password</a>
                 </li>
                 <li class="{{Request::is('caregivers/order-history*') ? 'c-active' : ''}}">
                     <a href="">Order History</a>

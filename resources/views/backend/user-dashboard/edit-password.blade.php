@@ -46,13 +46,9 @@
             <div class="container">
                 <div class="c-page-title c-pull-left">
                     <h3 class="c-font-uppercase c-font-sbold">User Dashboard</h3>
-                    <h4 class="">Page Sub Title Goes Here</h4>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
-                    <li><a href="shop-customer-dashboard.html">User Dashboard</a></li>
-                    <li>/</li>
-                    <li class="c-state_active">Jango Components</li>
-
+                    <li>User Dashboard</li>
                 </ul>
             </div>
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
@@ -74,31 +70,10 @@
                     <h3 class="c-font-uppercase c-font-bold">Edit Profile</h3>
                     <div class="c-line-left"></div>
                 </div>
-                <form action="{{route('update.profile')}}" method="post" enctype="multipart/form-data" class="c-shop-form-1">
+                <form action="{{route('password.change_password_update')}}" method="post">
                 @csrf
-
                 <!-- BEGIN: ADDRESS FORM -->
                     <div class="">
-                        <!-- BEGIN: BILLING ADDRESS -->
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label"> Name</label>
-                                        <input type="text" name="name" value="{{Auth::user()->name}}" class="form-control c-square c-theme" placeholder="First Name">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label">Email Address</label>
-                                        <input type="email"  name="email" value="{{Auth::user()->email}}" class="form-control c-square c-theme" placeholder="Email Address">
-                                    </div>
-{{--                                    <div class="form-group col-md-6">--}}
-{{--                                        <label class="control-label">Mobile Number</label>--}}
-{{--                                        <input type="text"  name="mobile_number" value="{{Auth::user()->mobile_number}}" class="form-control c-square c-theme" placeholder="mobile Number">--}}
-{{--                                    </div>--}}
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
@@ -106,6 +81,30 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- END: BILLING ADDRESS -->
+                        <!-- BEGIN: PASSWORD -->
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Old Password</label>
+                                <input type="password" name="old_password"  class="form-control c-square c-theme" placeholder="Password">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Change Password</label>
+                                <input type="password" name="password"  class="form-control c-square c-theme" placeholder="Password">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Repeat Password</label>
+                                <input type="password" name="password_confirmation" class="form-control c-square c-theme" placeholder="Password">
+
+                            </div>
+                        </div>
+                    {{--                        <div class="row">--}}
+                    {{--                            <div class="form-group col-md-6">--}}
+                    {{--                                <div class="form-line">--}}
+                    {{--                                    <input type="file" id="pro_img" name="pro_img" value="{{Auth::user()->pro_img}}" class="form-control" placeholder="Enter your Image">--}}
+                    {{--                                </div>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
                     <!-- END: PASSWORD -->
                         <div class="row c-margin-t-30">
                             <div class="form-group col-md-12" role="group">

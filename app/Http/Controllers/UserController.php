@@ -49,7 +49,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'store_id' => 'required',
+//            'store_id' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
@@ -101,7 +101,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'store_id' => 'required',
+//            'store_id' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
@@ -176,6 +176,7 @@ class UserController extends Controller
     }
     public function changedPasswordUpdated(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
             'old_password' => 'required',
             'password' => 'required|confirmed',
@@ -188,6 +189,7 @@ class UserController extends Controller
                 //$user = \App\User::find(Auth::id());
                 $user = User::find($request->user_id);
                 $user->password = Hash::make($request->password);
+                dd($user);
                 $user->save();
                 Toastr::success('Password Updated Successfully','Success');
                 Auth::logout();
