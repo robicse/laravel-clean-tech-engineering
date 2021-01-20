@@ -22,7 +22,7 @@
         width: 100%;
         height: 160px!important;
         margin-top: 8px;
-    //border-bottom: 5px solid black; /* for demo */
+        //border-bottom: 5px solid black; /* for demo */
         /*background: yellow;*/ /* for demo */
     }
 
@@ -73,7 +73,7 @@
                             <!-- Main content -->
                             <div class="invoice p-3 mb-3">
                                 <div class=" callout-info">
-                                    <h5 style="text-align: center;padding: 20px;width: 100%;background-color: grey"> INVOICE / BILL</h5>
+                                    <h5 style="text-align: center;padding: 20px;width: 100%;background-color: grey"> Challan</h5>
                                 </div>
                                 <!-- info row -->
                                 <div class="row invoice-info">
@@ -132,6 +132,7 @@
                                                 <th>SL NO.</th>
                                                 <th>Product Information</th>
                                                 <th>Qty</th>
+                                                <th>Unit</th>
                                                 <th>Unit Price BDT</th>
                                                 <th>Amount BDT</th>
                                             </tr>
@@ -145,6 +146,7 @@
                                                     <td>{{$key+1}}</td>
                                                     <td>{{$productSaleDetail->product->name}}</td>
                                                     <td>{{$productSaleDetail->qty}}</td>
+                                                    <td>{{$productSaleDetail->product_unit->name}}</td>
                                                     <td>{{$productSaleDetail->price}}</td>
                                                     <td>
                                                         @php
@@ -161,38 +163,29 @@
                                                 <td>&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4">&nbsp;</th>
                                                 <th>Subtotal:</th>
                                                 <th>{{$sum_sub_total}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="3">&nbsp;</th>
-                                                <th>Transport/Labour :</th>
-                                                <td>{{$productSale->transport_cost}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4">&nbsp;</th>
                                                 <th>Discount:</th>
                                                 <th>-{{$productSale->discount_amount}}</th>
                                             </tr>
-                                            @php
-                                                $totalAmount =( $productSale->total_amount +$productSale->transport_cost);
-                                                $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
-                                            @endphp
                                             <tr>
-                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4">&nbsp;</th>
                                                 <th>Total Amount</th>
-                                                <th>{{$totalAmount}}</th>
+                                                <th>{{$productSale->total_amount}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4">&nbsp;</th>
                                                 <th>Paid Amount:</th>
                                                 <th>{{$productSale->paid_amount}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="3">&nbsp;</th>
+                                                <th colspan="4">&nbsp;</th>
                                                 <th>Due Amount:</th>
-                                                <th>{{$DueAmount}}</th>
+                                                <th>{{$productSale->due_amount}}</th>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -201,36 +194,53 @@
                                 </div>
                                 <!-- /.row -->
                                 <div class="write">
-                                    <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
+                                    <p class="lead"><b>In Word : {{ucwords($digit->format($productSale->total_amount))}} Only</b></p>
                                 </div>
-{{--                                <div class="row">--}}
-{{--                                    <!-- accepted payments column -->--}}
-{{--                                    <div class="col-6">--}}
-{{--                                        <p class="lead">Payment Type:</p>--}}
-{{--                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">--}}
-{{--                                        @if(!empty($transactions))--}}
-{{--                                            <ul>--}}
-{{--                                                @foreach($transactions as $transaction)--}}
-{{--                                                    <li>--}}
-{{--                                                        {{$transaction->payment_type}}--}}
-{{--                                                        @if($transaction->payment_type == 'Check')--}}
-{{--                                                            ( Check Number: {{$transaction->check_number}} )--}}
-{{--                                                        @endif--}}
-{{--                                                        :--}}
-{{--                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})--}}
-{{--                                                    </li>--}}
-{{--                                                @endforeach--}}
-{{--                                            </ul>--}}
-{{--                                            @endif--}}
-{{--                                            </p>--}}
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <div class="col-6">
+                                        <p class="lead">Payment Type:</p>
+                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                        @if(!empty($transactions))
+                                            <ul>
+                                                @foreach($transactions as $transaction)
+                                                    <li>
+                                                        {{$transaction->payment_type}}
+                                                        @if($transaction->payment_type == 'Check')
+                                                            ( Check Number: {{$transaction->check_number}} )
+                                                        @endif
+                                                        :
+                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                            </p>
+                                    </div>
+                                    <!-- /.col -->
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-md-6" style="width: 40%; float: left;display: inline-block;">--}}
+{{--                                            <strong style="border-top: solid 1px #000;"> Received By</strong><br>--}}
+{{--                                            <strong>Customer signature</strong>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-md-6" style="text-align: right; width: 40%; display: inline-block;border-top: solid 1px #000;">--}}
+{{--                                            <strong>Authorize Signature</strong><br>--}}
+{{--                                            <strong>For SIMCO Electronics</strong>--}}
+{{--                                        </div>--}}
 {{--                                    </div>--}}
-{{--                                <!-- /.col -->--}}
-{{--                                </div>--}}
+                                    <!-- /.col -->
+                                </div>
                                 <!-- /.row -->
                                 <!-- this row will not appear when printing -->
                                 <div class="row no-print">
                                     <div class="col-12">
-                                        <a href="{{route('productSales-invoice-print',$productSale->id)}}" target="_blank" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
+                                        <a href="{{route('productSales-challan-invoice-print',$productSale->id)}}" target="_blank" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
+                                        {{--                                        <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit--}}
+                                        {{--                                            Payment--}}
+                                        {{--                                        </button>--}}
+                                        {{--                                        <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">--}}
+                                        {{--                                            <i class="fas fa-download"></i> Generate PDF--}}
+                                        {{--                                        </button>--}}
                                     </div>
                                 </div>
                             </div>
@@ -244,6 +254,7 @@
         <!-- /.content-wrapper -->
     </div>
     <!-- ./wrapper -->
+
     <!-- jQuery -->
     <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->

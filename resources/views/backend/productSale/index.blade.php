@@ -47,14 +47,15 @@
                                 <a href="" class="btn btn-warning btn-sm mx-1" data-toggle="modal" data-target="#exampleModal-<?= $productSale->id;?>"> Pay Due</a>
                             @endif
                         </td>
-                        <td class="d-inline-flex">
+                        <td>
                             <a href="{{ route('productSales.show',$productSale->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
-                            <a href="{!! route('productSales-invoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Print</a>
-                            <a href="{{ route('productSales.edit',$productSale->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+                            <a href="{!! route('productSales-invoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
+                            <a href="{!! route('productSales-Challaninvoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px;margin-top: 5px" type="button">Challan Print</a>
+                            <a href="{{ route('productSales.edit',$productSale->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px;margin-top: 5px"><i class="fa fa-edit"></i></a>
                             <form method="post" action="{{ route('productSales.destroy',$productSale->id) }}" >
                                @method('DELETE')
                                 @csrf
-                                <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-sm btn-danger" style="margin-left: 5px;margin-top: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>

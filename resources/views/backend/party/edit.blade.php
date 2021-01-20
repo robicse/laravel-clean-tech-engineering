@@ -52,12 +52,12 @@
                                 <input type="email" id="email" name="email" value="{{$parties->email}}" class="form-control">
                             </div>
                         </div>
-{{--                        <div class="form-group row">--}}
-{{--                            <label class="control-label col-md-3 text-right">Address</label>--}}
-{{--                            <div class="col-md-8">--}}
-{{--                                <input type="text" id="address" name="address" value="{{$parties->address}}" class="form-control">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Address</label>
+                            <div class="col-md-8">
+                                <input type="text" id="address" name="address" value="{{$parties->address}}" class="form-control">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Status  <small class="text-danger">*</small></label>
                             <div class="col-md-8">

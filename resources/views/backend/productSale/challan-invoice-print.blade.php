@@ -13,12 +13,12 @@
                 <style>
                     .panel-body {
                         min-height: 1000px !important;
-                        font-size: 13px !important;
-                        font-family:"Times New Roman";
+                        font-size: 14px !important;
+                        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
                         font-weight: inherit;
                     }
                     .panel-body p {
-                        font-size: 13px !important;
+                        font-size: 14px !important;
 
                     }
                     .invoice {
@@ -30,12 +30,11 @@
                         /*border-top: 1px solid #000;*/
                         /*border-bottom: 1px solid #000;*/
                         border: 1px solid #000;
-                        font-size: 13px;
                     }
 
                     .invoice td {
                         text-align: center;
-                        font-size: 13px;
+                        font-size: 16px;
                         border: 1px solid #000;
                     }
 
@@ -67,7 +66,7 @@
                         width: 100%;
                         height: 160px!important;
                         margin-top: 8px;
-                        border-bottom: 3px solid black; /* for demo */
+                        border-bottom: 5px solid black; /* for demo */
                         /*background: yellow;*/ /* for demo */
                     }
                     /* default settings */
@@ -100,8 +99,8 @@
                         <div class="page-header col-md-4" style="text-align: left">
                             <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">
                         </div>
-                        <div class="col-md-8" style="text-align: left; margin-left: 180px;margin-top: -120px">
-                            <h2 style="margin: 0px">CleanTech Engineering</h2>
+                        <div class="col-md-8" style="text-align: left; margin-left: 180px;margin-top: -150px">
+                            <h2>CleanTech Engineering</h2>
                             <p style="margin: 0px">Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
                             <p style="margin: 0px"><b>Phone</b>: 02-58052342, 01701-666 606, 01701-666 601, 01711-991 851. </p>
                             <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
@@ -111,7 +110,7 @@
                     </div>
                     <div>&nbsp;
                         <div class=" callout-info" style="">
-                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:3px; border-style:dotted"> INVOICE / BILL</h3>
+                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> Challan</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -170,13 +169,9 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->qty}}</td>
-                                <td>{{$productSaleDetail->price}}</td>
+                                <td></td>
                                 <td>
-                                    @php
-                                        $sub_total=$productSaleDetail->qty*$productSaleDetail->price;
-                                        $sum_sub_total += $sub_total;
-                                    @endphp
-                                    {{$sub_total}}
+
                                 </td>
                             </tr>
                         @endforeach
@@ -188,48 +183,41 @@
                         <tr >
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Subtotal:</th>
-                            <td  style="border: none">{{$sum_sub_total}}</td>
+                            <th  style="border: none"></th>
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Transport/Labour :</th>
-                            <td  style="border: none">{{$productSale->transport_cost}}</td>
+                            <th  style="border: none"></th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Discount:</th>
-                            <td style="border: none">-{{$productSale->discount_amount}}</td>
+                            <th style="border: none">-</th>
                         </tr>
                         @php
-                            $totalAmount =( $productSale->total_amount +$productSale->transport_cost);
-                            $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
+                        $totalAmount =( $productSale->total_amount +$productSale->transport_cost)
                         @endphp
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$totalAmount}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;"></th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border: none;text-align: right">Paid Amount:</th>
-                            <td style="border: none">{{$productSale->paid_amount}}</td>
+                            <th style="border: none"></th>
                         </tr>
 
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;text-align: right">Due Amount:</th>
-                            <td style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$DueAmount}}</td>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;"></th>
                         </tr>
                         </tbody>
                     </table>
                     <div class="write">
-                        <p class="lead"><b>Previous Due </b> :0.00 </p>
-                        <p class="lead"><b>Invoice Due </b> :0.00 </p>
-                        <p class="lead"  style="border-top: solid 2px #000;width: 264px"> </p>
-                        <p class="lead"  ><b>Total Due </b> :0.00 </p>
-                    </div>
-                    <div class="write">
-                        <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
+                        <p class="lead"><b>In Word : </b></p>
                     </div>
                     <div class="row" style="">
                         <!-- accepted payments column -->
@@ -260,36 +248,33 @@
                         </div>
                         <!-- /.col -->
                     </div>
+                    <div class="row" style="margin-top: 210px">
+                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                            <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>
+                        </div>
+                        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
+                            <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>
+                        </div>
+                    </div>
+                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">
+                    <div class="row" >
+                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>
+                            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-<footer style="margin-top:200px">
-    <div class="row" >
-        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-            <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>
-        </div>
-        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
-            <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>
-        </div>
-    </div>
-    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
-    <div class="row" >
-        <div class="col-md-6" style="width: 500%; float: left;">
-            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>
-            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
-        </div>
-        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;margin-top: -12px">
-            <span style="text-align: left;width:400px">Express Retail By Link-Up Technology, Contact No.: 01911978897</span>
-        </div>
-    </div>
-</footer>
+
 <!-- jQuery -->
 <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>
 

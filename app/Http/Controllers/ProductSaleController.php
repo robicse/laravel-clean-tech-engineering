@@ -113,9 +113,12 @@ class ProductSaleController extends Controller
         //$productSale->check_number = $request->check_number ? $request->check_number : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
+        $productSale->vat_type = $request->vat_type;
+        $productSale->vat_amount = $request->vat_amount;
         $productSale->total_amount = $total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
+        $productSale->transport_cost = $request->transport_cost;
         $productSale->save();
         $insert_id = $productSale->id;
         if($insert_id)
@@ -284,9 +287,12 @@ class ProductSaleController extends Controller
         $productSale->date = $request->date;
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
+        $productSale->discount_amount = $request->discount_amount;
+        $productSale->vat_type = $request->vat_type;
         $productSale->total_amount = $total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
+        $productSale->transport_cost = $request->transport_cost;
         $productSale->update();
 
         for($i=0; $i<$row_count;$i++)
@@ -551,6 +557,18 @@ class ProductSaleController extends Controller
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         return view('backend.productSale.invoice', compact('productSale','productSaleDetails','transactions','store','party','digit'));
     }
+    public function Challaninvoice($id)
+    {
+        $productSale = ProductSale::find($id);
+        $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->get();
+        $store_id = $productSale->store_id;
+        $party_id = $productSale->party_id;
+        $store = Store::find($store_id);
+        $party = Party::find($party_id);
+        $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        return view('backend.productSale.challan-invoice', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+    }
     public function invoicePrint($id)
     {
         $productSale = ProductSale::find($id);
@@ -562,6 +580,19 @@ class ProductSaleController extends Controller
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         return view('backend.productSale.invoice-print', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+
+    }
+    public function ChallanPrint($id)
+    {
+        $productSale = ProductSale::find($id);
+        $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->get();
+        $store_id = $productSale->store_id;
+        $party_id = $productSale->party_id;
+        $store = Store::find($store_id);
+        $party = Party::find($party_id);
+        $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        return view('backend.productSale.challan-invoice-print', compact('productSale','productSaleDetails','transactions','store','party','digit'));
 
     }
 

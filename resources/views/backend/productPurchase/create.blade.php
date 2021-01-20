@@ -221,17 +221,17 @@
                                                     @endif
                                                 </div>
                                             </div>
-{{--                                            <div class="form-group row">--}}
-{{--                                                <label class="control-label col-md-3 text-right">Address <small class="requiredCustom">*</small></label>--}}
-{{--                                                <div class="col-md-8">--}}
-{{--                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Address" name="address"></textarea>--}}
-{{--                                                    @if ($errors->has('address'))--}}
-{{--                                                        <span class="invalid-feedback" role="alert">--}}
-{{--                                            <strong>{{ $errors->first('address') }}</strong>--}}
-{{--                                        </span>--}}
-{{--                                                    @endif--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                                            <div class="form-group row">
+                                                <label class="control-label col-md-3 text-right">Address <small class="requiredCustom">*</small></label>
+                                                <div class="col-md-8">
+                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Supplier Address" name="address"></textarea>
+                                                    @if ($errors->has('address'))
+                                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('address') }}</strong>
+                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             <div class="form-group row">
                                                 <label class="control-label col-md-3"></label>
                                                 <div class="col-md-8">

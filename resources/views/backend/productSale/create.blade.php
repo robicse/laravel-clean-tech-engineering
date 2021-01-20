@@ -67,6 +67,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
+                                <div class="col-md-8">
+                                    <input type="text" name="transport_cost" class="form-control" placeholder="Transport Cost">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="control-label col-md-3 text-right">Date <small class="requiredCustom">*</small></label>
                                 <div class="col-md-8">
                                     <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
@@ -173,9 +179,20 @@
                                             Discount(Flat):
                                                 <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                         </th>
+                                        <th width="10%">
+                                            Vat:
+                                            <select name="vat_type" id="vat_type" class="form-control" >
+                                                <option value="flat" selected>flat</option>
+                                                <option value="percentage">percentage</option>
+                                            </select>
+                                        </th>
+                                        <th>
+                                            Vat(Flat):
+                                            <input type="text" id="vat_amount" class="form-control" name="vat_amount" onkeyup="vatAmount('')" value="0">
+                                        </th>
                                         <th>
                                             Total:
-                                            <input type="hidden" id="store_total_amount" class="form-control">
+                                            <input type="text" id="store_total_amount" class="form-control">
                                             <input type="text" id="total_amount" class="form-control" name="total_amount">
                                         </th>
                                         <th>
@@ -344,6 +361,41 @@
                 else{
                     var per = (store_total_amount*discount_amount)/100;
                     var final_amount = store_total_amount - per;
+                }
+                console.log('final_amount= ' + final_amount);
+                console.log('final_amount= ' + typeof final_amount);
+
+                $('#total_amount').val(final_amount);
+                $('#due_amount').val(final_amount);
+            }
+            // onkeyup
+            function vatAmount(){
+                var vat_type = $('#vat_type').val();
+
+                //var total = $('#total_amount').val();
+                //console.log('total= ' + total);
+                //console.log('total= ' + typeof total);
+                //total = parseInt(total);
+                //console.log('total= ' + typeof total);
+
+                var store_total_amount = $('#store_total_amount').val();
+                console.log('store_total_amount= ' + store_total_amount);
+                console.log('store_total_amount= ' + typeof store_total_amount);
+                store_total_amount = parseInt(store_total_amount);
+                console.log('total= ' + typeof store_total_amount);
+
+                var vat_amount = $('#vat_amount').val();
+                console.log('vat_amount= ' + vat_amount);
+                console.log('vat_amount= ' + typeof vat_amount);
+                vat_amount = parseInt(vat_amount);
+                console.log('vat_amount= ' + typeof vat_amount);
+
+                if(vat_type == 'flat'){
+                    var final_amount = store_total_amount + vat_amount;
+                }
+                else{
+                    var per = (store_total_amount*vat_amount)/100;
+                    var final_amount = store_total_amount + per;
                 }
                 console.log('final_amount= ' + final_amount);
                 console.log('final_amount= ' + typeof final_amount);
