@@ -121,7 +121,6 @@
 <script src="{{asset('Frontend/assets/plugins/ilightbox/js/ilightbox.packed.js')}}'" type="text/javascript"></script>
 <script src="{{asset('Frontend/assets/demos/default/js/scripts/pages/isotope-gallery.js')}}" type="text/javascript"></script>
 <script src="{{asset('Frontend/assets/plugins/revo-slider/js/extensions/revolution.extension.parallax.min.js')}}" type="text/javascript"></script>
-<script src="../../assets/plugins/revo-slider/js/extensions/revolution.extension.kenburn.min.html" type="text/javascript"></script>
 @stack('js')
 
 

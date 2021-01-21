@@ -27,6 +27,7 @@
                             <label class="control-label col-md-3 text-right">Type  <small class="text-danger">*</small></label>
                             <div class="col-md-8">
                                 <select name="type" id="type" class="form-control" >
+                                    <option value="">Select One</option>
                                     <option value="1">Supplier</option>
                                     <option value="2">Customer</option>
                                     <option value="3">Whole Sale Customer</option>

@@ -12,6 +12,13 @@ use Intervention\Image\Facades\Image;
 
 class FreeProductController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:freeProduct-list|freeProduct-create|freeProduct-edit|freeProduct-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:freeProduct-create', ['only' => ['create','store']]);
+        $this->middleware('permission:freeProduct-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:freeProduct-delete', ['only' => ['destroy']]);
+    }
 
     public function index()
     {

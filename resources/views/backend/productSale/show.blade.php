@@ -99,7 +99,6 @@
                         <tr>
                             <th>Category</th>
                             <th>Brand</th>
-                            <th>Return Condition</th>
                             <th>Product Image</th>
                             <th>Product</th>
                             <th>Qty</th>
@@ -114,7 +113,6 @@
                             <tr>
                                 <td>{{$productSaleDetail->product->product_category->name}}</td>
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>
-                                <td>{{$productSaleDetail->return_type}}</td>
                                 <td>
                                     <img src="{{asset('uploads/product/'.$productSaleDetail->product->image)}}" width="50" height="50" />
                                 </td>
@@ -132,7 +130,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="tile-footer">
+                    <div class="tile-footer" style="display: none">
                         <ul class="app-breadcrumb breadcrumb">
                             <li class="breadcrumb-item" style="margin-left: 83%"> <a href="{!! route('productSales-invoice-edit',$productSale->id) !!}" class="btn btn-sm btn-success"  type="button">Print Invoice Edit Page</a></li>
                         </ul>

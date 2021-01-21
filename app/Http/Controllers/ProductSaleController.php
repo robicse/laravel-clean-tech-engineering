@@ -18,11 +18,13 @@ use App\SaleService;
 use App\Service;
 use App\Stock;
 use App\Transaction;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use NumberFormatter;
 
@@ -39,13 +41,14 @@ class ProductSaleController extends Controller
 
     public function index()
     {
+        //dd('d');
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
-        if($auth_user == "Admin"){
+//        if($auth_user == "Admin"){
             $productSales = ProductSale::latest()->get();
-        }else{
-            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
-        }
+//        }else{
+//            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
+//        }
         return view('backend.productSale.index',compact('productSales'));
     }
 
@@ -113,7 +116,7 @@ class ProductSaleController extends Controller
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
-        $productSale->vat_type = $request->vat_type;
+        //$productSale->vat_type = $request->vat_type;
         $productSale->vat_amount = $request->vat_amount;
         $productSale->total_amount = $total_amount;
         $productSale->paid_amount = $request->paid_amount;
@@ -290,7 +293,7 @@ class ProductSaleController extends Controller
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
-        $productSale->vat_type = $request->vat_type;
+        //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount = $total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
@@ -550,6 +553,7 @@ class ProductSaleController extends Controller
     public function invoice($id)
     {
         $productSale = ProductSale::find($id);
+        $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
         $store_id = $productSale->store_id;
@@ -557,11 +561,14 @@ class ProductSaleController extends Controller
         $store = Store::find($store_id);
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        return view('backend.productSale.invoice', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+        return view('backend.productSale.invoice', compact('free_products','productSale','productSaleDetails','transactions','store','party','digit'));
     }
     public function Challaninvoice($id)
     {
+        //dd($id);
         $productSale = ProductSale::find($id);
+        $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
+        //dd($free_products);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
         $store_id = $productSale->store_id;
@@ -569,11 +576,13 @@ class ProductSaleController extends Controller
         $store = Store::find($store_id);
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        return view('backend.productSale.challan-invoice', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+        return view('backend.productSale.challan-invoice', compact('free_products','productSale','productSaleDetails','transactions','store','party','digit'));
     }
     public function invoicePrint($id)
     {
+       // dd($id);
         $productSale = ProductSale::find($id);
+        $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
         $store_id = $productSale->store_id;
@@ -581,12 +590,13 @@ class ProductSaleController extends Controller
         $store = Store::find($store_id);
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        return view('backend.productSale.invoice-print', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+        return view('backend.productSale.invoice-print', compact('free_products','productSale','productSaleDetails','transactions','store','party','digit'));
 
     }
     public function ChallanPrint($id)
     {
         $productSale = ProductSale::find($id);
+        $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
         $store_id = $productSale->store_id;
@@ -594,13 +604,14 @@ class ProductSaleController extends Controller
         $store = Store::find($store_id);
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        return view('backend.productSale.challan-invoice-print', compact('productSale','productSaleDetails','transactions','store','party','digit'));
+        return view('backend.productSale.challan-invoice-print', compact('free_products','productSale','productSaleDetails','transactions','store','party','digit'));
 
     }
 
     public function invoiceEdit($id)
     {
         $productSale = ProductSale::find($id);
+        $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$productSale->id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
         $store_id = $productSale->store_id;
@@ -614,7 +625,7 @@ class ProductSaleController extends Controller
         $productBrands = ProductBrand::all();
         $products = Product::all();
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        return view('backend.productSale.invoice-edit', compact('productSale','productSaleDetails','transactions','store','party','productCategories','productSubCategories','productBrands','products'));
+        return view('backend.productSale.invoice-edit', compact('free_products','productSale','productSaleDetails','transactions','store','party','productCategories','productSubCategories','productBrands','products'));
     }
 
     public function updateInvoice(Request $request, $id){
@@ -725,8 +736,14 @@ class ProductSaleController extends Controller
         if ($insert_id){
             $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;
+            $sdata['email'] = $parties->email;
+            $sdata['password'] = Hash::make(123456);
+            $sdata['party_id'] = $insert_id;
+            $sdata['role_id'] = 3;
             echo json_encode($sdata);
+            $user = User::create($sdata);
 
+            $user->assignRole('Customer');
         }
         else {
             $data['exception'] = 'Some thing mistake !';

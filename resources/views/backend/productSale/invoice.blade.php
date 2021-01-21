@@ -196,6 +196,23 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <table class="table table-striped" style="width: 40%">
+                                            <thead>
+                                            <tr style="background-color: #dddddd " >
+                                                <th>SL NO.</th>
+                                                <th>Product</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($free_products as $key => $p)
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td width="50%"> {{$p->freeProduct->name}}</td>
+                                                </tr>
+
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <!-- /.col -->
                                 </div>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Party;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -32,6 +34,7 @@ class PartyController extends Controller
     }
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
             'type'=> 'required',
             'name' => 'required',
@@ -48,6 +51,21 @@ class PartyController extends Controller
         $parties->status = $request->status;
         //dd($parties);
         $parties->save();
+
+        $insert_id = $parties->id;
+        //dd($insert_id);
+        if($insert_id  && $request->type == 2){
+            $user_data['name'] = $request->name;
+            $user_data['email'] = $request->email;
+            $user_data['password'] = Hash::make(123456);
+            $user_data['party_id'] = $insert_id;
+            $user_data['role_id'] = 3;
+            //dd($user_data);
+            $user = User::create($user_data);
+
+            $user->assignRole('Customer');
+           // dd($user);
+        }
         Toastr::success('Party Created Successfully', 'Success');
         return redirect()->route('party.index');
 

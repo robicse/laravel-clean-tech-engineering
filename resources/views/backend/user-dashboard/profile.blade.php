@@ -46,13 +46,9 @@
             <div class="container">
                 <div class="c-page-title c-pull-left">
                     <h3 class="c-font-uppercase c-font-sbold">User Dashboard</h3>
-                    <h4 class="">Page Sub Title Goes Here</h4>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
                     <li><a href="shop-customer-dashboard.html">User Dashboard</a></li>
-                    <li>/</li>
-                    <li class="c-state_active">Jango Components</li>
-
                 </ul>
             </div>
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->

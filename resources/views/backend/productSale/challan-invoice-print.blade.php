@@ -216,6 +216,22 @@
                         </tr>
                         </tbody>
                     </table>
+                    <table class="invoice" style="width: 40%;">
+                        <thead>
+                        <tr style="background-color: #dddddd">
+                            <th>SL NO.</th>
+                            <th>Free Product</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($free_products as $key => $p)
+                            <tr>
+                                <td width="10%">{{$key+1}}</td>
+                                <td width="50%"> {{$p->freeProduct->name}}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                     <div class="write">
                         <p class="lead"><b>In Word : </b></p>
                     </div>

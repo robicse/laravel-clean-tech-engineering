@@ -131,6 +131,7 @@
                                             <tr style="background-color: #dddddd">
                                                 <th>SL NO.</th>
                                                 <th>Product Information</th>
+
                                                 <th>Qty</th>
                                                 <th>Unit</th>
                                                 <th>Unit Price BDT</th>
@@ -145,6 +146,7 @@
                                                 <tr>
                                                     <td>{{$key+1}}</td>
                                                     <td>{{$productSaleDetail->product->name}}</td>
+
                                                     <td>{{$productSaleDetail->qty}}</td>
                                                     <td>{{$productSaleDetail->product_unit->name}}</td>
                                                     <td>{{$productSaleDetail->price}}</td>
@@ -156,12 +158,8 @@
                                                         {{$sub_total}}
                                                     </td>
                                                 </tr>
+
                                             @endforeach
-                                            <tr>
-                                                <td colspan="4">&nbsp;</td>
-                                                <td>&nbsp;</td>
-                                                <td>&nbsp;</td>
-                                            </tr>
                                             <tr>
                                                 <th colspan="4">&nbsp;</th>
                                                 <th>Subtotal:</th>
@@ -187,6 +185,23 @@
                                                 <th>Due Amount:</th>
                                                 <th>{{$productSale->due_amount}}</th>
                                             </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-striped" style="width: 40%">
+                                            <thead>
+                                            <tr style="background-color: #dddddd " >
+                                                <th>SL NO.</th>
+                                                <th>Product</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($free_products as $key => $p)
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td width="50%"> {{$p->freeProduct->name}}</td>
+                                                </tr>
+
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>

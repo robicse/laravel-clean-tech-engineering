@@ -20,12 +20,10 @@
                 <li class="{{Request::is('user/change-password*') ? 'c-active' : ''}}">
                     <a href="{{route('password.change')}}">Edit Password</a>
                 </li>
-                <li class="{{Request::is('caregivers/order-history*') ? 'c-active' : ''}}">
+                <li class="{{Request::is('user/order-history*') ? 'c-active' : ''}}">
                     <a href="">Order History</a>
                 </li>
-                <li class="{{Request::is('caregivers/order-from-admin*') ? 'c-active' : ''}}">
-                    <a href="">Order From Admin</a>
-                </li>
+
                 <li class="">
                     <a href="#" class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();

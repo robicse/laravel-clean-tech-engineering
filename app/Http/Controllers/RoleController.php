@@ -33,6 +33,7 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
@@ -40,8 +41,9 @@ class RoleController extends Controller
 
 
         $role = Role::create(['name' => $request->input('name')]);
+        //$role = Role::create(['id' => $request->input('id')]);
         $role->syncPermissions($request->input('permission'));
-
+//dd($role);
 
         Toastr::success('Role Created Successfully');
         return redirect()->route('roles.index');
@@ -114,6 +116,6 @@ class RoleController extends Controller
         Permission::create(['controller_name' => $request->input('controller_name'),'name' => $request->input('name')]);
 
         Toastr::success('Role List Created Successfully');
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.create');
     }
 }

@@ -32,7 +32,7 @@ class LoginController extends Controller
         if (Auth::check() && (Auth::user()->role_id == 1)) {
             return $this->redirectTo = '/home';
         }
-        elseif (Auth::check() && Auth::user()->role_id == 2) {
+        elseif (Auth::check() && Auth::user()->role_id == 3) {
             return $this->redirectTo = 'user/dashboard';
         }
         else {

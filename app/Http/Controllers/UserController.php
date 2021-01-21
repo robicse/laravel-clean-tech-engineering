@@ -43,6 +43,7 @@ class UserController extends Controller
         //$roles = Role::pluck('name','name')->all();
         $stores = Store::all();
         $roles = Role::where('name','!=','Admin')->pluck('name','name')->all();
+        //dd($roles);
         return view('backend.user.create',compact('roles','stores'));
     }
 
@@ -58,12 +59,16 @@ class UserController extends Controller
 
 
         $input = $request->all();
+        //dd($input);
         $input['password'] = Hash::make($input['password']);
 
 
         $user = User::create($input);
         $user->store_id = $request->store_id;
-        $user->update();
+        $user->party_id = $request->party_id;
+        $user->role_id = $request->role_id;
+       // dd($user);
+        $user->save();
         $user->assignRole($request->input('roles'));
 
 

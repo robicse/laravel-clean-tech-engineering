@@ -63,13 +63,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }} <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
+                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" required>
                                 </div>
                             </div>
 
@@ -95,11 +89,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row" style="display: none">
+{{--                            <div class="form-group row" >--}}
+{{--                                <div class="col-md-6">--}}
+{{--                                    <input id="party_id" type="text" class="form-control" name="party_id">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+                            <div class="form-group row" style="display: block">
                                 <label for="" class="col-md-4 col-form-label text-md-right">Role</label>
 
                                 <div class="col-md-6">
-                                    {!! Form::select('roles[]', $roles,['User'], array('class' => 'form-control','multiple')) !!}
+                                    {!! Form::select('roles[]', $roles,['User','Customer'], array('class' => 'form-control','multiple')) !!}
                                 </div>
                             </div>
 
