@@ -51,6 +51,11 @@
                     <li><a href="#">User Dashboard</a></li>
                 </ul>
             </div>
+            @php
+                echo '<pre>';
+    print_r(Auth::User()->getRoleNames()[0]);
+                echo '</pre>';
+            @endphp
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
         <div class="container">
             <div class="c-layout-sidebar-menu c-theme ">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SaleService;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,12 @@ class UserDashboardController extends Controller
     }
     public function editProfile(){
        return view('backend.user-dashboard.profile');
+    }
+    public function productHistory()
+    {
+        $productHistory = \App\ProductSale::latest()->get();
+        $saleService = SaleService::latest()->get();
+        return view('backend.user-dashboard.product-history', compact('productHistory','saleService'));
     }
     public function updateProfile(Request $request)
     {

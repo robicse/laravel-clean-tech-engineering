@@ -45,6 +45,7 @@ Route::get('/user/edit-profile','UserDashboardController@editProfile' )->name('u
 Route::post('/user/update-profile', 'UserDashboardController@updateProfile')->name('update.profile');
 Route::get('change-password','UserDashboardController@changedPassword')->name('password.change');
 Route::post('change-password-update','UserDashboardController@changedPasswordUpdated')->name('password.change_password_update');
+Route::get('/product-history', 'UserDashboardController@productHistory' )->name('product.history');
 
 Route::group(['middleware' => ['auth']], function() {
         Route::get('change-password/{id}','UserController@changedPassword')->name('password.change_password');
