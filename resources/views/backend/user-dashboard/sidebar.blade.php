@@ -10,7 +10,7 @@
     <li class="c-dropdown c-open">
         <a href="javascript:;" class="c-toggler"><strong>Menus</strong><span class="c-arrow"></span></a>
         <ul class="c-dropdown-menu">
-            @if (Auth::user()->role_id == 3)
+            @if (Auth::User()->getRoleNames()[0] == 'Customer')
                 <li class="{{Request::is('user/dashboard*') ? 'c-active' : ''}}">
                     <a href="{{route('user.dashboard')}}">My Dashbord</a>
                 </li>
@@ -34,7 +34,10 @@
                         @csrf
                     </form>
                 </li>
-
+            @elseif (Auth::User()->getRoleNames()[0] == 'Service Provider')
+                <li class="{{Request::is('user/product-history*') ? 'c-active' : ''}}">
+                    <a href="{{route('product.history')}}">Order History</a>
+                </li>
             @endif
         </ul>
     </li>

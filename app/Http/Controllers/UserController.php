@@ -65,8 +65,8 @@ class UserController extends Controller
 
         $user = User::create($input);
         $user->store_id = $request->store_id;
-        $user->party_id = $request->party_id;
-        $user->role_id = $request->role_id;
+        $user->party_id = $request->party_id ? $request->party_id : NULL;
+        //$user->role_id = $request->role_id;
        // dd($user);
         $user->save();
         $user->assignRole($request->input('roles'));

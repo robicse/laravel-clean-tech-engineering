@@ -59,7 +59,7 @@ class PartyController extends Controller
             $user_data['email'] = $request->email;
             $user_data['password'] = Hash::make(123456);
             $user_data['party_id'] = $insert_id;
-            $user_data['role_id'] = 3;
+            //$user_data['role_id'] = 3;
             //dd($user_data);
             $user = User::create($user_data);
 

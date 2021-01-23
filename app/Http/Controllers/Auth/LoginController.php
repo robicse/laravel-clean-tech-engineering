@@ -29,10 +29,13 @@ class LoginController extends Controller
      */
     protected $redirectTo ;
     protected function redirectTo( ) {
-        if (Auth::check() && (Auth::user()->role_id == 1)) {
+        if (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Admin')) {
             return $this->redirectTo = '/home';
         }
-        elseif (Auth::check() && Auth::user()->role_id == 3) {
+        elseif (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Customer')) {
+            return $this->redirectTo = 'user/dashboard';
+        }
+        elseif (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Service Provider')) {
             return $this->redirectTo = 'user/dashboard';
         }
         else {

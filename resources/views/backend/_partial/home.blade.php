@@ -14,9 +14,9 @@
         </div>
         <div class="row">
             @php
-            echo '<pre>';
-print_r(Auth::User()->getRoleNames()[0]);
-            echo '</pre>';
+            //echo '<pre>';
+            //print_r(Auth::User()->getRoleNames()[0]);
+            //echo '</pre>';
             @endphp
             @if(Auth::User()->getRoleNames()[0] == "Admin")
                 @if(!empty($stores))
