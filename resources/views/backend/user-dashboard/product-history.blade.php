@@ -1,7 +1,41 @@
 @extends('backend.user-dashboard.master')
 @section('title','Product History')
 @push('css')
+
     <style>
+        .cards{
+            /*border-radius: 21%;*/
+            padding: 3%;
+            width: 22%;
+        }
+        .row{
+            border-radius: 14px;
+        }
+        .text-white{
+            color: #FFFFFF!important;
+        }
+        .bg-dark{
+            background-color: #1c2d3f;
+        }
+        .bg-primary{
+            background-color: #0f3e68;
+        }
+        .bg-warning{
+            background-color: #8d2d5e;
+        }
+        @media only screen and (min-width: 992px) {
+            .c-layout-header-fixed .c-layout-page{
+                margin-top: 0px!important;
+            }
+        }
+        @media only screen and (max-width: 700px) {
+            .cards{
+                margin-left:20px!important;
+            }
+            .c-layout-header-fixed .c-layout-page{
+                margin-top: 0px!important;
+            }
+        }
 
     </style>
 @endpush
@@ -13,13 +47,9 @@
             <div class="container">
                 <div class="c-page-title c-pull-left">
                     <h3 class="c-font-uppercase c-font-sbold">Order History</h3>
-                    <h4 class="">Page Sub Title Goes Here</h4>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
-                    <li><a href="shop-order-history.html">Order History</a></li>
-                    <li>/</li>
-                    <li class="c-state_active">Jango Components</li>
-
+                    <li>Order History</li>
                 </ul>
             </div>
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
@@ -57,14 +87,14 @@
                                     <tr>
                                         <td>{{$key + 1}}</td>
                                         <td>{{$productHist->created_at}}</td>
-                                        <td>  @php
-                                                echo $product_name = \Illuminate\Support\Facades\DB::table('products')
-                                                        ->join('product_sale_details','products.id','product_sale_details.product_id')
-                                                        ->where('product_sale_details.id',$saleService->product_sale_detail_id)
-                                                        ->pluck('products.name')
-                                                        ->first();
-                                            @endphp
-                                        {{$product_name}}
+{{--                                        <td>  @php--}}
+{{--                                                echo $product_name = \Illuminate\Support\Facades\DB::table('products')--}}
+{{--                                                        ->join('product_sale_details','products.id','product_sale_details.product_id')--}}
+{{--                                                        ->where('product_sale_details.id',$saleService->product_sale_detail_id)--}}
+{{--                                                        ->pluck('products.name')--}}
+{{--                                                        ->first();--}}
+{{--                                            @endphp--}}
+{{--                                        {{$product_name}}--}}
                                         </td>
                                         <td>{{$productHist->total_amount}}</td>
                                         <td>{{ucfirst($productHist->total_amount)}}</td>
