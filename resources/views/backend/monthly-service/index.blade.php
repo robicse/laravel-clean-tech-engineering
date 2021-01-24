@@ -58,6 +58,7 @@
                                         @endforeach
                                     </select>
                                 </td>
+                                <td width="20%"> <a href="" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">send</a></td>
                             </tr>
                         @endforeach
                         </tbody>
