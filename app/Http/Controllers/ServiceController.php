@@ -90,21 +90,9 @@ class ServiceController extends Controller
     public function monthlyService()
 
     {
-        $saleServices = SaleService::all();
+        $saleServices = SaleService::orderBy('date','ASC')->get();;
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
-//        $customer = DB::table('sale_services')
-//                    ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
-//                    ->join('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
-//                    //->where('product_sale_details.product_sale_id', '=', 'product_sales.id')
-//                    ->select('sale_services.id')
-//                    ->get();
 
-//        $customer = DB::table('product_sales')
-//            ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
-//            ->join('sale_services', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
-//            ->select('sale_services.id')
-//            ->get();
-//            dd($customer);
         return view('backend.monthly-service.index',compact('saleServices','serviceProviders'));
     }
 
@@ -112,8 +100,48 @@ class ServiceController extends Controller
 
         //dd($request->all());
         //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
-        $text = "Dear, bbbbbbb ";
-        //UserInfo::smsAPI("88".$verCode->phone,$text);
-        UserInfo::smsAPI("8801725930131",$text);
+        $service= DB::table('sale_services')
+                    ->join('services', 'services.id', '=', 'sale_services.service_id')
+                     ->where('services.id', '=', $request->service_id)
+                    ->select('services.name')
+                    ->first();
+        $service_name = $service->name;
+
+        $service_provider= DB::table('users')
+                                //->where('name','!=','Admin')
+                                //->where('store_id',NULL)
+                                //->where('party_id',NULL)
+                                ->where('id',$request->service_provider_id)
+                                ->select('users.name','users.phone')
+                                ->first();
+
+        $service_provider_name = $service_provider->name;
+        $service_provider_phone = $service_provider->phone;
+        //dd($service_provider_phone);
+        $customer = DB::table('parties')
+            ->where('id',$request->customer_id)
+            ->select('parties.name','parties.phone','parties.address','parties.id')
+            ->first();
+        if(!empty($customer)){
+            $customer_name = $customer->name;
+            $customer_phone = $customer->phone;
+            $customer_address = $customer->address;
+        }else{
+            $customer_name = '';
+            $customer_phone = '';
+            $customer_address = '';
+        }
+
+        //dd($service_name);
+        $text_for_customer = "Dear, $customer_name ,Your service given by $service_provider_name.$service_provider_name Number:, Address:,And Your Service Name is $service_name";
+        //dd($text_for_customer);
+        //$text_for_provider = "Dear,  robi,Your next work with $customer_name.$customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Service Name is:$service_name";
+        $text_for_provider = "Dear, $service_provider_name,Your next work with $customer_name. $customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Your Service Name is:$service_name";
+        //dd($text_for_provider);
+        UserInfo::smsAPI("88".$customer_phone,$text_for_customer);
+        UserInfo::smsAPI("88".$service_provider_phone,$text_for_provider);
+        //UserInfo::smsAPI("8801703500587",$text_for_customer);
+        //UserInfo::smsAPI("8801703500587",$text_for_provider);
+        return redirect()->back();
     }
 }

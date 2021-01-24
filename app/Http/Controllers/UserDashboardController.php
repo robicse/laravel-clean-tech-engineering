@@ -6,6 +6,7 @@ use App\SaleService;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,9 +20,18 @@ class UserDashboardController extends Controller
     }
     public function productHistory()
     {
-        $productHistory = \App\ProductSale::latest()->get();
+        $productHistory = \App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
+        //dd($productHistory);
+//        $product = DB::table('product_sale_details')
+//            //->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+//            ->join('products','product_sale_details.product_id','=','products.id')
+//            ->select('products.id','products.name')
+//            ->first();
+        //dd($product);
+        //$product_name = $product ;
+        //dd($product_name);
         $saleService = SaleService::latest()->get();
-        return view('backend.user-dashboard.product-history', compact('productHistory','saleService'));
+        return view('backend.user-dashboard.product-history', compact('product','productHistory','saleService'));
     }
     public function updateProfile(Request $request)
     {

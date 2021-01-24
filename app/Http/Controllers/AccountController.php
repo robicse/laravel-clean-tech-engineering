@@ -324,7 +324,7 @@ class AccountController extends Controller
 
         if ($request->isMethod('post')) {
 
-            $cash_prevalance_data = DB::table('transactions')
+            $cash_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$request->date_from)
                 ->where('account_no','10201')
@@ -350,7 +350,7 @@ class AccountController extends Controller
 
             if( (!empty($request->date_from)) && (!empty($request->date_to)) )
             {
-                $cash_data_results = DB::table('transactions')
+                $cash_data_results = DB::table('postings')
                     ->where('is_approved','approved')
                     ->whereBetween('date', [$request->date_from, $request->date_to])
                     ->where(function ($query) {
@@ -360,7 +360,7 @@ class AccountController extends Controller
                     })
                     ->get();
             }else{
-                $cash_data_results = DB::table('transactions')
+                $cash_data_results = DB::table('postings')
                     ->where('is_approved','approved')
                     ->where(function ($query) {
                         $query->where('account_no','=','10201')  // cash
@@ -395,7 +395,7 @@ class AccountController extends Controller
 
 
 
-        $cash_prevalance_data = DB::table('transactions')
+        $cash_prevalance_data = DB::table('postings')
             ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
             ->where('date', '<',$date_from)
             ->where('account_no','10201')
@@ -421,13 +421,13 @@ class AccountController extends Controller
 
         if( (!empty($date_from)) && (!empty($date_to)) )
         {
-            $cash_data_results = DB::table('transactions')
+            $cash_data_results = DB::table('postings')
                 ->where('account_no','10201')
                 ->where('is_approved','approved')
                 ->whereBetween('date', [$date_from, $date_to])
                 ->get();
         }else{
-            $cash_data_results = DB::table('transactions')
+            $cash_data_results = DB::table('postings')
                 ->where('account_no','10201')
                 ->where('is_approved','approved')
                 ->get();
@@ -464,22 +464,22 @@ class AccountController extends Controller
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$general_ledger)
-                ->where('transactions.debit','>',0)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$general_ledger)
+                ->where('postings.debit','>',0)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.debit','>',0)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.debit','>',0)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 
@@ -501,14 +501,14 @@ class AccountController extends Controller
         //dd($acc_name);
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->where('account_no',$transaction_head)
                 ->groupBy('account_no')
                 ->first();
         }else{
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postingspostings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->groupBy('account_no')
@@ -536,20 +536,20 @@ class AccountController extends Controller
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$transaction_head)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$transaction_head)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no',  'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no',  'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 
@@ -581,22 +581,22 @@ class AccountController extends Controller
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$general_ledger)
-                ->where('transactions.credit','>',0)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$general_ledger)
+                ->where('postings.credit','>',0)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.credit','>',0)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.credit','>',0)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 
@@ -613,14 +613,14 @@ class AccountController extends Controller
         $acc_name = Account::where('HeadCode',$transaction_head)->pluck('HeadName')->first();
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->where('account_no',$transaction_head)
                 ->groupBy('account_no')
                 ->first();
         }else{
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->groupBy('account_no')
@@ -648,20 +648,20 @@ class AccountController extends Controller
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$transaction_head)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$transaction_head)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no',  'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+            $general_ledger_infos = DB::table('postings')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no',  'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 

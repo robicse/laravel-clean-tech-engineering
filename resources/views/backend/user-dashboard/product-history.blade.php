@@ -80,30 +80,82 @@
                                     <th>Id</th>
                                     <th>Date & Time</th>
                                     <th>Product Name</th>
+                                    <th>QTY</th>
+                                    <th> Unit Price BDT</th>
                                     <th> Total Amount</th>
-                                    <th>Details</th>
+                                    <th> Vat</th>
+                                    <th> Discount</th>
+                                    <th> Final Amount</th>
+                                    <th> Paid Amount</th>
                                 </tr>
                                 @forelse($productHistory as $key => $productHist)
                                     <tr>
                                         <td>{{$key + 1}}</td>
                                         <td>{{$productHist->created_at}}</td>
-{{--                                        <td>  @php--}}
-{{--                                                echo $product_name = \Illuminate\Support\Facades\DB::table('products')--}}
-{{--                                                        ->join('product_sale_details','products.id','product_sale_details.product_id')--}}
-{{--                                                        ->where('product_sale_details.id',$saleService->product_sale_detail_id)--}}
-{{--                                                        ->pluck('products.name')--}}
-{{--                                                        ->first();--}}
-{{--                                            @endphp--}}
-{{--                                        {{$product_name}}--}}
-                                        </td>
+                                        <td>    @php
+                                                $products = DB::table('product_sales')
+                                                     ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                                     ->join('products', 'products.id', '=', 'product_sale_details.product_id')
+                                                     ->where('product_sale_details.product_sale_id', $productHist->id)
+                                                     ->select('products.id','products.name')
+                                                     ->get();
+     //dd($products);
+                                            @endphp
+                                            @foreach($products as $key => $product)<ul style="list-style: none">
+                                                <li>{{$product->name}}</li>
+                                            </ul>
+                                        @endforeach
+
+                                        <td>@php
+                                                $product_qty = DB::table('product_sales')
+                                                     ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                                     ->join('products', 'products.id', '=', 'product_sale_details.product_id')
+                                                     ->where('product_sale_details.product_sale_id', $productHist->id)
+                                                   ->select('product_sale_details.qty')
+                                                   ->get();
+
+                                       //dd($details);
+                                            @endphp
+                                            @foreach($product_qty as $key => $qty)<ul style="list-style: none">
+                                                <li>{{$qty->qty}}</li>
+                                            </ul>
+                                            @endforeach</td>
+                                        <td>@php
+                                                $product_price = DB::table('product_sales')
+                                                     ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                                     ->join('products', 'products.id', '=', 'product_sale_details.product_id')
+                                                     ->where('product_sale_details.product_sale_id', $productHist->id)
+                                                   ->select('product_sale_details.price')
+                                                   ->get();
+
+                                       //dd($details);
+                                            @endphp
+                                            @foreach($product_price as $key => $price)<ul style="list-style: none">
+                                                <li>{{$price->price}}</li>
+                                            </ul>
+                                            @endforeach
+                                           </td>
+                                        <td> @php
+                                                $product_sub_total = DB::table('product_sale_details')
+                                                   ->join('product_sales', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                                   //->join('products', 'products.id', '=', 'product_sale_details.product_id')
+                                                   ->where('product_sale_details.product_sale_id', $productHist->id)
+                                                   ->select('product_sale_details.sub_total')
+                                                   ->get();
+//$sub_total = $product_sub_total->sub_total;
+                                       //dd($details);
+                                            @endphp
+                                            @foreach($product_sub_total as $key => $sub_total)<ul style="list-style: none">
+                                                <li>{{$sub_total->sub_total}}</li>
+                                            </ul>
+                                            @endforeach</td>
+                                        <td>{{$productHist->vat_amount}}%</td>
+                                        <td>{{$productHist->discount_amount}}</td>
                                         <td>{{$productHist->total_amount}}</td>
-                                        <td>{{ucfirst($productHist->total_amount)}}</td>
-{{--                                        <td>--}}
-{{--                                            <a target="_blank" href="{{route('order.details',$orderHist->id)}}">--}}
-{{--                                                <i class="fa fa-shopping-cart"></i>--}}
-{{--                                            </a>--}}
-{{--                                        </td>--}}
+                                        <td>{{$productHist->paid_amount}}</td>
+
                                     </tr>
+
                                 @empty
                                     <tr>
                                         <td colspan="7" class="text-center">

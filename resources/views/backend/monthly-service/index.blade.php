@@ -37,7 +37,7 @@
                                     @php
 
                                         $product_sale_detail_id = $saleService->product_sale_detail_id;
-
+//dd($product_sale_detail_id);
                                         $customer = DB::table('product_sales')
                                             ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
                                             ->join('parties', 'parties.id', '=', 'product_sales.party_id')
@@ -62,11 +62,12 @@
                                 <td width="20%">
                                     <form action="{{route('send.mail')}}" method="post">
                                         @csrf
-                                        <input type="text" name="customer_id" value="{{$customer_id}}">
-                                        <select class="form-control select2" name="service_provider_id" required>
+                                        <input type="hidden" name="customer_id" value="{{$customer_id}}">
+                                        <input type="hidden" name="service_id" value="{{$saleService->service->id}}">
+                                        <select class="form-control select2" name="service_provider_id"  required>
                                             <option value="">Select  Service</option>
                                             @foreach($serviceProviders as $serviceProvider)
-                                                <option value="{{$serviceProvider->id}}" >{{$serviceProvider->name}}</option>
+                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $serviceProvider->id ? $serviceProvider->id : '' }}>{{$serviceProvider->name}}</option>
                                             @endforeach
                                         </select>
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Send</button>

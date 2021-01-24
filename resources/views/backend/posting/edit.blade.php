@@ -55,7 +55,7 @@
                                 </th>
                             </tr>
                         </table>
-                        <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
+{{--                        <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">--}}
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td width="5%" class="no">1</td>
                                 <td>
-                                    <input type="hidden" class="form-control" name="transaction_id[]" value="{{$transaction->id}}" >
+                                    <input type="hidden" class="form-control" name="posting_id[]" value="{{$transaction->id}}" >
                                     <select class="form-control account_id select2" name="account_id[]" id="account_id_1" required>
                                         <option value="">Select Account Name</option>
                                         @foreach($accounts as $account)

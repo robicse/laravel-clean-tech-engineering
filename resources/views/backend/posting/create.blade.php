@@ -66,7 +66,6 @@
                                 <th>Amount <small class="requiredCustom">*</small></th>
                                 <th>Description <small class="requiredCustom">*</small></th>
                                 <th>Action</th>
-
                             </tr>
                             </thead>
                             <tbody class="neworderbody">
@@ -89,7 +88,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" min="1" max="" class="price form-control" name="amount[]" value="" required >
+                                    <input type="text" min="1" max="" class="price form-control" name="amount[]" value="" required >
                                 </td>
                                 <td>
                                     <textarea type="text" min="1" max="" rows="3" class="form-control" name="transaction_description"> </textarea>

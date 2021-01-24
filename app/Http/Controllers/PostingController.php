@@ -14,10 +14,10 @@ class PostingController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:transaction-list|transaction-create|transaction-edit|transaction-delete', ['only' => ['index','show','voucher_invoice']]);
-        $this->middleware('permission:transaction-create', ['only' => ['create','store']]);
-        $this->middleware('permission:transaction-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:transaction-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:posting-list|posting-create|posting-edit|posting-delete', ['only' => ['index','show','voucher_invoice']]);
+        $this->middleware('permission:posting-create', ['only' => ['create','store']]);
+        $this->middleware('permission:posting-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:posting-delete', ['only' => ['destroy']]);
         $this->middleware('permission:general-ledger-list', ['only' => ['general_ledger_form','view_general_ledger']]);
         $this->middleware('permission:trial-balance-list', ['only' => ['trial_balance_form','view_trial_balance']]);
         $this->middleware('permission:balance-sheet-list', ['only' => ['balance_sheet']]);
@@ -51,7 +51,7 @@ class PostingController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $this->validate($request, [
             'account_id'=> 'required',
         ]);
@@ -157,7 +157,7 @@ class PostingController extends Controller
             //dd($transaction_id);
 
 
-            $transactions = Transaction::find($transaction_id);
+            $transactions = Posting::find($transaction_id);
             $transactions->voucher_type_id = $request->voucher_type_id;
             $transactions->voucher_no = $request->voucher_no ;
             $transactions->date = $request->date;
@@ -180,7 +180,7 @@ class PostingController extends Controller
 
 //    public function destroy($id)
 //    {
-//        $transactions = Transaction::find($id);
+//        $transactions = Posting::find($id);
 //        $transactions->delete();
 //        Toastr::success('Posting Deleted Successfully', 'Success');
 //        return redirect()->route('transaction.index');
@@ -199,7 +199,7 @@ class PostingController extends Controller
 
        // $account_id = $request->account_id[$i];
        // $accounts = Account::where('id',$account_id)->first();
-        //$general_ledger_account_nos = DB::table('transactions')->where('account_id', '$accounts')->Orderby('account_no', 'asc')->get();
+        //$general_ledger_account_nos = DB::table('postings')->where('account_id', '$accounts')->Orderby('account_no', 'asc')->get();
         //$general_ledger_account_nos =Transaction::Orderby('account_no', 'asc')->get();
         $general_ledger_account_nos = DB::table('accounts')->where('IsGL', '1')->Orderby('HeadName', 'asc')->get();
         //dd($accounts);
@@ -251,19 +251,19 @@ class PostingController extends Controller
         {
             //echo 'okk';exit;
             $general_ledger_infos = DB::table('postings')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$general_ledger)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_type_id','transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$general_ledger)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_type_id','postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
             $general_ledger_infos = DB::table('postings')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_type_id','transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_type_id','postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 
@@ -315,19 +315,19 @@ class PostingController extends Controller
         {
             //echo 'okk';exit;
             $general_ledger_infos = DB::table('postings')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->where('transactions.account_no',$transaction_head)
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no', 'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->where('postings.account_no',$transaction_head)
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }else{
             //echo 'noo';exit;
             $general_ledger_infos = DB::table('postings')
-                //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
-                ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->select('transactions.voucher_no',  'transactions.date', 'transactions.account_no', 'transactions.transaction_description', 'transactions.debit', 'transactions.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
+                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
+                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->select('postings.voucher_no',  'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->get();
         }
 
@@ -366,13 +366,13 @@ class PostingController extends Controller
             $pre_sum_assets_credit = 0;
 
             $PreResultAssets = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','A')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','A')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -391,13 +391,13 @@ class PostingController extends Controller
             $pre_sum_income_credit = 0;
 
             $PreResultIncomes = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','I')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','I')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -414,13 +414,13 @@ class PostingController extends Controller
             $pre_sum_expense_credit = 0;
 
             $PreResultExpenses = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','E')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','E')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -437,13 +437,13 @@ class PostingController extends Controller
             $pre_sum_liability_credit = 0;
 
             $PreResultLiabilities = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','L')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','L')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -471,46 +471,46 @@ class PostingController extends Controller
 
 
             $oResultAssets = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','A')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','A')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultIncomes = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','I')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','I')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultExpenses = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','E')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','E')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultLiabilities = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','L')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','L')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
         }
@@ -543,12 +543,12 @@ class PostingController extends Controller
             $pre_sum_assets_credit = 0;
 
             $PreResultAssets = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','A')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','A')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -565,12 +565,12 @@ class PostingController extends Controller
             $pre_sum_income_credit = 0;
 
             $PreResultIncomes = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','I')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','I')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -587,12 +587,12 @@ class PostingController extends Controller
             $pre_sum_expense_credit = 0;
 
             $PreResultExpenses = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','E')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','E')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -609,12 +609,12 @@ class PostingController extends Controller
             $pre_sum_liability_credit = 0;
 
             $PreResultLiabilities = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','L')
-                ->where('transactions.date','<', $date_from)
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','L')
+                ->where('postings.date','<', $date_from)
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
@@ -642,42 +642,42 @@ class PostingController extends Controller
 
 
             $oResultAssets = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','A')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','A')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultIncomes = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','I')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','I')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultExpenses = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','E')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','E')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
 
             $oResultLiabilities = DB::table('postings')
-                ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
-                ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
-                ->where('transactions.is_approved','approved')
-                ->where('transactions.account_type','L')
-                ->whereBetween('transactions.date', [$date_from, $date_to])
-                ->groupBy('transactions.account_no')
+                ->join('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
+                ->select('postings.account_no','accounts.HeadName', DB::raw('SUM(postings.debit) as debit, SUM(postings.credit) as credit'))
+                ->where('postings.is_approved','approved')
+                ->where('postings.account_type','L')
+                ->whereBetween('postings.date', [$date_from, $date_to])
+                ->groupBy('postings.account_no')
                 ->groupBy('accounts.HeadName')
                 ->get();
         }
