@@ -87,9 +87,10 @@ class ServiceController extends Controller
         return response()->json(['success'=>true,'data'=>$check_name]);
     }
     public function monthlyService()
+
     {
         $saleServices = SaleService::all();
-        $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->get();
+        $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
         //$customer = DB::table('sale_services')
                     //->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
                     //->leftJoin('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')

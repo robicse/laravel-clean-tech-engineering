@@ -561,10 +561,10 @@ class AccountController extends Controller
 
     public function credit_voucher_form(){
         $general_ledger_account_nos = DB::table('accounts')
-                ->where('IsGL','1')
-            ->where('HeadCode','LIKE','10103%')
-            ->Orderby('HeadName', 'asc')
-            ->get();
+                                    ->where('IsGL','1')
+                                    ->where('HeadCode','LIKE','10103%')
+                                    ->Orderby('HeadName', 'asc')
+                                    ->get();
         //dd($accounts);
 
         return view('backend.account.credit_voucher_form', compact('general_ledger_account_nos'));

@@ -225,9 +225,9 @@ class ProductSaleController extends Controller
     {
         $productSale = ProductSale::find($id);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        $transaction = Transaction::where('ref_id',$id)->first();
+        $transactions = Transaction::where('ref_id',$id)->get();
 
-        return view('backend.productSale.show', compact('productSale','productSaleDetails','transaction'));
+        return view('backend.productSale.show', compact('productSale','productSaleDetails','transactions'));
     }
 
 

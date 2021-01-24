@@ -1,4 +1,4 @@
-    @extends('backend._partial.dashboard')
+@extends('backend._partial.dashboard')
 <style>
     .requiredCustom{
         font-size: 20px;

@@ -192,6 +192,11 @@
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
+                            <th  style="border: none;text-align: right">Vat :</th>
+                            <td  style="border: none">{{$productSale->vat_amount}}%</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Transport/Labour :</th>
                             <td  style="border: none">{{$productSale->transport_cost}}</td>
                         </tr>

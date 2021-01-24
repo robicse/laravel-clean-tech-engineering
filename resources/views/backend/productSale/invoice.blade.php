@@ -100,10 +100,6 @@
                                         <div class="invoice-to">
                                             <table>
                                                 <tr>
-                                                    <td style="text-align: right;font-size: 16px;">Challan No :</td>
-                                                    <td style="text-align: right;font-size: 16px;">#</td>
-                                                </tr>
-                                                <tr>
                                                     <td style="text-align: right;font-size: 16px;">Invoice No :</td>
                                                     <td style="text-align: right;font-size: 16px;">{{$productSale->invoice_no}}</td>
                                                 </tr>
@@ -167,6 +163,11 @@
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
+                                                <th>Vat :</th>
+                                                <td>{{$productSale->vat_amount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="3">&nbsp;</th>
                                                 <th>Transport/Labour :</th>
                                                 <td>{{$productSale->transport_cost}}</td>
                                             </tr>
@@ -220,29 +221,29 @@
                                 <div class="write">
                                     <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
                                 </div>
-{{--                                <div class="row">--}}
-{{--                                    <!-- accepted payments column -->--}}
-{{--                                    <div class="col-6">--}}
-{{--                                        <p class="lead">Payment Type:</p>--}}
-{{--                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">--}}
-{{--                                        @if(!empty($transactions))--}}
-{{--                                            <ul>--}}
-{{--                                                @foreach($transactions as $transaction)--}}
-{{--                                                    <li>--}}
-{{--                                                        {{$transaction->payment_type}}--}}
-{{--                                                        @if($transaction->payment_type == 'Check')--}}
-{{--                                                            ( Check Number: {{$transaction->check_number}} )--}}
-{{--                                                        @endif--}}
-{{--                                                        :--}}
-{{--                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})--}}
-{{--                                                    </li>--}}
-{{--                                                @endforeach--}}
-{{--                                            </ul>--}}
-{{--                                            @endif--}}
-{{--                                            </p>--}}
-{{--                                    </div>--}}
-{{--                                <!-- /.col -->--}}
-{{--                                </div>--}}
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <div class="col-6">
+                                        <p class="lead">Payment Type:</p>
+                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                        @if(!empty($transactions))
+                                            <ul>
+                                                @foreach($transactions as $transaction)
+                                                    <li>
+                                                        {{$transaction->payment_type}}
+                                                        @if($transaction->payment_type == 'check')
+                                                            ( Check Number: {{$transaction->check_number}} )
+                                                        @endif
+                                                        :
+                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                            </p>
+                                    </div>
+                                <!-- /.col -->
+                                </div>
                                 <!-- /.row -->
                                 <!-- this row will not appear when printing -->
                                 <div class="row no-print">

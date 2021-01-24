@@ -43,7 +43,7 @@ class PostingController extends Controller
     {
         $voucherTypes=VoucherType::all();
         $accounts = Account::all();
-        $transactions = Transaction::latest()->get();
+        $transactions = Posting::latest()->get();
 
         return view('backend.posting.create',compact('voucherTypes','accounts','transactions'));
     }
@@ -51,7 +51,7 @@ class PostingController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $this->validate($request, [
             'account_id'=> 'required',
         ]);
@@ -118,7 +118,7 @@ class PostingController extends Controller
         $voucherTypes=VoucherType::all();
         $accounts = Account::all();
         //$transactions = Transaction::find($id);;
-        $transactions= Transaction::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
+        $transactions= Posting::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
         //dd($transactions);
         return view('backend.posting.edit',compact('voucherTypes','accounts','transactions'));
     }
@@ -132,7 +132,7 @@ class PostingController extends Controller
             'account_id'=> 'required',
         ]);
 
-        $row_count = count($request->transaction_id);
+        $row_count = count($request->posting_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {
@@ -153,7 +153,7 @@ class PostingController extends Controller
             $account_id = $request->account_id[$i];
             $accounts = Account::where('id',$account_id)->first();
 
-            $transaction_id = $request->transaction_id[$i];
+            $transaction_id = $request->posting_id[$i];
             //dd($transaction_id);
 
 
@@ -188,7 +188,7 @@ class PostingController extends Controller
 
     public function voucher_invoice($voucher_type_id,$voucher_no)
     {
-        $transaction_infos = Transaction::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
+        $transaction_infos = Posting::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
 
         $transaction_count = count($transaction_infos);
 //dd($transaction_infos);
@@ -214,14 +214,14 @@ class PostingController extends Controller
 
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
-            $gl_pre_valance_data = DB::table('transactions')
+            $gl_pre_valance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->where('account_no',$general_ledger)
                 ->groupBy('account_no')
                 ->first();
         }else{
-            $gl_pre_valance_data = DB::table('transactions')
+            $gl_pre_valance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->groupBy('account_no')
@@ -250,7 +250,7 @@ class PostingController extends Controller
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
+            $general_ledger_infos = DB::table('postings')
                 //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
                 ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->where('transactions.account_no',$general_ledger)
@@ -259,7 +259,7 @@ class PostingController extends Controller
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
+            $general_ledger_infos = DB::table('postings')
                 //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
                 ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->whereBetween('transactions.date', [$date_from, $date_to])
@@ -279,14 +279,14 @@ class PostingController extends Controller
         //exit;
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->where('account_no',$transaction_head)
                 ->groupBy('account_no')
                 ->first();
         }else{
-            $gl_prevalance_data = DB::table('transactions')
+            $gl_prevalance_data = DB::table('postings')
                 ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('date', '<',$date_from)
                 ->groupBy('account_no')
@@ -314,7 +314,7 @@ class PostingController extends Controller
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-            $general_ledger_infos = DB::table('transactions')
+            $general_ledger_infos = DB::table('postings')
                 //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
                 ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->where('transactions.account_no',$transaction_head)
@@ -323,7 +323,7 @@ class PostingController extends Controller
                 ->get();
         }else{
             //echo 'noo';exit;
-            $general_ledger_infos = DB::table('transactions')
+            $general_ledger_infos = DB::table('postings')
                 //->join('accounts', 'transactions.id', '=', 'accounts.user_id')
                 ->leftJoin('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->whereBetween('transactions.date', [$date_from, $date_to])
@@ -365,7 +365,7 @@ class PostingController extends Controller
             $pre_sum_assets_debit = 0;
             $pre_sum_assets_credit = 0;
 
-            $PreResultAssets = DB::table('transactions')
+            $PreResultAssets = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -390,7 +390,7 @@ class PostingController extends Controller
             $pre_sum_income_debit = 0;
             $pre_sum_income_credit = 0;
 
-            $PreResultIncomes = DB::table('transactions')
+            $PreResultIncomes = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -413,7 +413,7 @@ class PostingController extends Controller
             $pre_sum_expense_debit = 0;
             $pre_sum_expense_credit = 0;
 
-            $PreResultExpenses = DB::table('transactions')
+            $PreResultExpenses = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -436,7 +436,7 @@ class PostingController extends Controller
             $pre_sum_liability_debit = 0;
             $pre_sum_liability_credit = 0;
 
-            $PreResultLiabilities = DB::table('transactions')
+            $PreResultLiabilities = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -470,7 +470,7 @@ class PostingController extends Controller
 
 
 
-            $oResultAssets = DB::table('transactions')
+            $oResultAssets = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -481,7 +481,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultIncomes = DB::table('transactions')
+            $oResultIncomes = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -492,7 +492,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultExpenses = DB::table('transactions')
+            $oResultExpenses = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -503,7 +503,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultLiabilities = DB::table('transactions')
+            $oResultLiabilities = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 //->select('transactions.debit', 'transactions.credit', 'transactions.transaction_description', 'accounts.HeadName')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
@@ -542,7 +542,7 @@ class PostingController extends Controller
             $pre_sum_assets_debit = 0;
             $pre_sum_assets_credit = 0;
 
-            $PreResultAssets = DB::table('transactions')
+            $PreResultAssets = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -564,7 +564,7 @@ class PostingController extends Controller
             $pre_sum_income_debit = 0;
             $pre_sum_income_credit = 0;
 
-            $PreResultIncomes = DB::table('transactions')
+            $PreResultIncomes = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -586,7 +586,7 @@ class PostingController extends Controller
             $pre_sum_expense_debit = 0;
             $pre_sum_expense_credit = 0;
 
-            $PreResultExpenses = DB::table('transactions')
+            $PreResultExpenses = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -608,7 +608,7 @@ class PostingController extends Controller
             $pre_sum_liability_debit = 0;
             $pre_sum_liability_credit = 0;
 
-            $PreResultLiabilities = DB::table('transactions')
+            $PreResultLiabilities = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -641,7 +641,7 @@ class PostingController extends Controller
 
 
 
-            $oResultAssets = DB::table('transactions')
+            $oResultAssets = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -651,7 +651,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultIncomes = DB::table('transactions')
+            $oResultIncomes = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -661,7 +661,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultExpenses = DB::table('transactions')
+            $oResultExpenses = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -671,7 +671,7 @@ class PostingController extends Controller
                 ->groupBy('accounts.HeadName')
                 ->get();
 
-            $oResultLiabilities = DB::table('transactions')
+            $oResultLiabilities = DB::table('postings')
                 ->join('accounts', 'transactions.account_no', '=', 'accounts.HeadCode')
                 ->select('transactions.account_no','accounts.HeadName', DB::raw('SUM(transactions.debit) as debit, SUM(transactions.credit) as credit'))
                 ->where('transactions.is_approved','approved')
@@ -692,8 +692,9 @@ class PostingController extends Controller
     }
 
     public function getVoucherNo(Request $request){
+
         $current_voucher_type_id = $request->current_voucher_type_id;
-        $current_voucher_no = DB::table('transactions')
+        $current_voucher_no = DB::table('postings')
             ->where('voucher_type_id',$current_voucher_type_id)
             ->latest()
             ->pluck('voucher_no')
@@ -710,7 +711,7 @@ class PostingController extends Controller
 
     public function transactionDelete($voucher_type_id, $voucher_no){
         //dd('bg');
-        DB::table('transactions')->where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->delete();
+        DB::table('postings')->where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->delete();
 
         Toastr::success('Transactions Deleted Successfully', 'Success');
         return redirect()->route('transaction.index');

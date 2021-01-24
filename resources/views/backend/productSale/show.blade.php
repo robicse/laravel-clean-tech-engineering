@@ -48,7 +48,24 @@
                         </tr>
                         <tr>
                             <th>Payment Type</th>
-                            <td>{{$transaction->payment_type ? 'cash' : 'check' }}</td>
+                            <td>
+                                @if(!empty($transactions))
+                                    <ul>
+                                        @foreach($transactions as $transaction)
+                                            <li>
+                                                {{$transaction->payment_type}}
+                                                @if($transaction->payment_type == 'check')
+                                                    ( Check Number: {{$transaction->check_number}} )
+                                                @endif
+                                                :
+                                                Tk.{{$transaction->amount}} ({{$transaction->created_at}})
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                @endif
+                            </td>
+
                         </tr>
 {{--                        @foreach($transactions as $transaction)--}}
 {{--                            <tr>--}}
