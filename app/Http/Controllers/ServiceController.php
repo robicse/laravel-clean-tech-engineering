@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UserInfo;
 use App\SaleService;
 use App\Service;
 use App\User;
@@ -91,13 +92,28 @@ class ServiceController extends Controller
     {
         $saleServices = SaleService::all();
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
-        //$customer = DB::table('sale_services')
-                    //->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
-                    //->leftJoin('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
-                    //->where('product_sale_details.product_sale_id', '=', 'product_sales.id')
-                    //->select('product_sales.id.*')
-                    //->get();
-            //dd($customer);
-        return view('backend.monthly-service.index',compact('saleServices','serviceProviders','customer'));
+//        $customer = DB::table('sale_services')
+//                    ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
+//                    ->join('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
+//                    //->where('product_sale_details.product_sale_id', '=', 'product_sales.id')
+//                    ->select('sale_services.id')
+//                    ->get();
+
+//        $customer = DB::table('product_sales')
+//            ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+//            ->join('sale_services', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
+//            ->select('sale_services.id')
+//            ->get();
+//            dd($customer);
+        return view('backend.monthly-service.index',compact('saleServices','serviceProviders'));
+    }
+
+    public function sendSMS(Request $request){
+
+        //dd($request->all());
+        //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
+        $text = "Dear, bbbbbbb ";
+        //UserInfo::smsAPI("88".$verCode->phone,$text);
+        UserInfo::smsAPI("8801725930131",$text);
     }
 }

@@ -36,29 +36,43 @@
                                 <td width="20%">
                                     @php
 
-                                        //$customer = DB::table('product_sale_details')
-                                           // ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
-                                           // ->join('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
-                                            //->leftJoin('parties', ' parties.id', '=', 'product_sales.party_id')
-                                            //->where('product_sales.product_sale_id', '=', 'product_sales.id')
-                                            //->select('parties.id as parties_id','parties.name','parties.phone')
-                                            //->select('sale_services.*')
-                                            //->get();
+                                        $product_sale_detail_id = $saleService->product_sale_detail_id;
 
+                                        $customer = DB::table('product_sales')
+                                            ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                            ->join('parties', 'parties.id', '=', 'product_sales.party_id')
+                                            ->where('product_sale_details.id', $product_sale_detail_id)
+                                            ->select('parties.name','parties.phone','parties.id')
+                                            ->first();
 
-//dd($customer)
+                                    if(!empty($customer)){
+                                        $customer_id = $customer->id;
+                                        $customer_name = $customer->name;
+                                        $customer_phone = $customer->phone;
+                                    }else{
+                                        $customer_id = '';
+                                        $customer_name = '';
+                                        $customer_phone = '';
+                                    }
+
                                     @endphp
+                                    {{$customer_name}}
                                 </td>
-                                <td width="20%"> </td>
+                                <td width="20%">{{$customer_phone}}</td>
                                 <td width="20%">
-                                    <select class="form-control select2" required>
-                                        <option value="">Select  Service</option>
-                                        @foreach($serviceProviders as $serviceProvider)
-                                            <option value="{{$serviceProvider->id}}" >{{$serviceProvider->name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <form action="{{route('send.mail')}}" method="post">
+                                        @csrf
+                                        <input type="text" name="customer_id" value="{{$customer_id}}">
+                                        <select class="form-control select2" name="service_provider_id" required>
+                                            <option value="">Select  Service</option>
+                                            @foreach($serviceProviders as $serviceProvider)
+                                                <option value="{{$serviceProvider->id}}" >{{$serviceProvider->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Send</button>
+                                    </form>
                                 </td>
-                                <td width="20%"> <a href="" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">send</a></td>
+{{--                                <td width="20%"> <a href="" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">send</a></td>--}}
                             </tr>
                         @endforeach
                         </tbody>
