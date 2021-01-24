@@ -8,6 +8,7 @@ use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -87,8 +88,15 @@ class ServiceController extends Controller
     }
     public function monthlyService()
     {
-       $saleServices = SaleService::all();
+        $saleServices = SaleService::all();
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->get();
-        return view('backend.monthly-service.index',compact('saleServices','serviceProviders'));
+        //$customer = DB::table('sale_services')
+                    ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
+                    //->leftJoin('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
+                    //->where('product_sale_details.product_sale_id', '=', 'product_sales.id')
+                    //->select('product_sales.id.*')
+                    //->get();
+            //dd($customer);
+        return view('backend.monthly-service.index',compact('saleServices','serviceProviders','customer'));
     }
 }

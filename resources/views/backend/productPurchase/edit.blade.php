@@ -288,8 +288,20 @@
             });
 
             $('.neworderbody').delegate('.qty, .price', 'keyup', function () {
+                var gr_tot = 0;
                 var tr = $(this).parent().parent();
+                if(tr.find('.qty').val() && isNaN(tr.find('.qty').val())){
+                    alert("Must input numbers");
+                    tr.find('.qty').val('')
+                    return false;
+                }
                 var qty = tr.find('.qty').val() - 0;
+                var stock_qty = tr.find('.stock_qty').val() - 0;
+                if(qty > stock_qty){
+                    alert('You have limit cross of stock qty!');
+                    tr.find('.qty').val(0)
+                }
+
                 //var dis = tr.find('.dis').val() - 0;
                 var price = tr.find('.price').val() - 0;
 
@@ -300,8 +312,24 @@
                 var total = (qty * price);
 
                 tr.find('.amount').val(total);
+                //Total Price
+                $(".amount").each(function() {
+                    isNaN(this.value) || 0 == this.value.length || (gr_tot += parseFloat(this.value))
+                });
+                var final_total = gr_tot;
+                console.log(final_total);
+                var discount = $("#discount_amount").val();
+                var final_total     = gr_tot - discount;
+                //$("#total_amount").val(final_total.toFixed(2,2));
+                $("#total_amount").val(final_total);
+                var t = $("#total_amount").val(),
+                    a = $("#paid_amount").val(),
+                    e = t - a;
+                //$("#remaining_amnt").val(e.toFixed(2,2));
+                $("#due_amount").val(e);
                 totalAmount();
             });
+
 
             $('#hideshow').on('click', function(event) {
                 $('#content').removeClass('hidden');

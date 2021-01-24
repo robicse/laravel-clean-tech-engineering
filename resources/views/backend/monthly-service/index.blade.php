@@ -36,15 +36,17 @@
                                 <td width="20%">
                                     @php
 
-                                        $customer = DB::table('sale_services')
-                                            ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
-                                            //->join('product_sale_details', ' product_sales.id', '=', 'product_sale_details.product_sale_id')
-                                            //->join('product_sales', ' parties.id', '=', 'product_sales.party_id')
-                                            //->where('product_sales.party_id', '=', 'parties.id')
+                                        //$customer = DB::table('product_sale_details')
+                                           // ->join('product_sale_details', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
+                                           // ->join('product_sales', 'product_sale_details.product_sale_id' , '=',' product_sales.id')
+                                            //->leftJoin('parties', ' parties.id', '=', 'product_sales.party_id')
+                                            //->where('product_sales.product_sale_id', '=', 'product_sales.id')
                                             //->select('parties.id as parties_id','parties.name','parties.phone')
-                                            ->select('sale_services.*')
-                                            ->get();
-dd($customer)
+                                            //->select('sale_services.*')
+                                            //->get();
+
+
+//dd($customer)
                                     @endphp
                                 </td>
                                 <td width="20%"> </td>
