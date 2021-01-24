@@ -13,4 +13,7 @@ class ProductSaleDetail extends Model
     public function product_unit(){
         return $this->belongsTo('App\ProductUnit');
     }
+    public function productsale(){
+        return $this->belongsTo('App\ProductSale');
+    }
 }

@@ -19,4 +19,5 @@ class ProductSale extends Model
     {
         return $this->belongsTo('App\Party');
     }
+
 }

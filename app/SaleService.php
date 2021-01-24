@@ -10,4 +10,8 @@ class SaleService extends Model
     {
         return $this->belongsTo('App\Service');
     }
+    public function product_sale_details()
+    {
+        return $this->belongsTo('App\ProductSaleDetail');
+    }
 }

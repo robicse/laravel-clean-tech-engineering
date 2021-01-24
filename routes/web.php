@@ -152,6 +152,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/roles/permission','RoleController@create_permission');
     Route::post('/user/active','UserController@activeDeactive')->name('user.active');
 
+    //monthly service list
+    Route::get('monthly-service','ServiceController@monthlyService')->name('monthly-services');
 
 
 

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\SaleService;
 use App\Service;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -20,8 +23,6 @@ class ServiceController extends Controller
         $services = Service::latest()->get();
         return view('backend.service.index',compact('services'));
     }
-
-
     public function create()
     {
         return view('backend.service.create');
@@ -52,8 +53,6 @@ class ServiceController extends Controller
         $services = Service::find($id);
         return view('backend.service.edit',compact('services'));
     }
-
-
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -68,7 +67,6 @@ class ServiceController extends Controller
         Toastr::success('Service Created Successfully', 'Success');
         return redirect()->route('service.index');
     }
-
     public function destroy($id)
     {
         $services = Service::find($id);
@@ -86,5 +84,11 @@ class ServiceController extends Controller
            $check_name = 'Not Found';
        }
         return response()->json(['success'=>true,'data'=>$check_name]);
+    }
+    public function monthlyService()
+    {
+       $saleServices = SaleService::all();
+        $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->get();
+        return view('backend.monthly-service.index',compact('saleServices','serviceProviders'));
     }
 }
