@@ -6,9 +6,9 @@
             <div>
                 <h1><i class=""></i> All Monthly Service</h1>
             </div>
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('service.create') !!}" class="btn btn-sm btn-primary" type="button">Add Service</a></li>
-            </ul>
+{{--            <ul class="app-breadcrumb breadcrumb">--}}
+{{--                <li class="breadcrumb-item"> <a href="{!! route('service.create') !!}" class="btn btn-sm btn-primary" type="button">Add Service</a></li>--}}
+{{--            </ul>--}}
         </div>
         <div class="col-md-12">
             <div class="tile">
@@ -23,7 +23,7 @@
                             <th width="15%">Customer Name</th>
                             <th width="15%">Customer Phone</th>
                             <th width="15%">Service Provider </th>
-                            <th width="15%">Action</th>
+{{--                            <th width="15%">Action</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -64,10 +64,12 @@
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$customer_id}}">
                                         <input type="hidden" name="service_id" value="{{$saleService->service->id}}">
+{{--                                        <input type="hidden" name="provider_id" value="{{$saleService->provider_id}}">--}}
                                         <select class="form-control select2" name="service_provider_id"  required>
-                                            <option value="">Select  Service</option>
+                                            <option value="">Select  Service Provider</option>
                                             @foreach($serviceProviders as $serviceProvider)
-                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $serviceProvider->id ? $serviceProvider->id : '' }}>{{$serviceProvider->name}}</option>
+                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $saleService
+->provider_id ? 'selected' : '' }}>{{$serviceProvider->name}}</option>
                                             @endforeach
                                         </select>
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Send</button>

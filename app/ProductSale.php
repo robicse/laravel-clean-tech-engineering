@@ -19,9 +19,9 @@ class ProductSale extends Model
     {
         return $this->belongsTo('App\Party');
     }
-    public function productsaledetail()
+    public function productsaledetails()
     {
-        return $this->belongsTo('App\ProductSaleDetail');
+        return $this->hasMany('App\ProductSaleDetail');
     }
 
 }

@@ -85,56 +85,27 @@
                             <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 98%">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Invoice No</th>
-                                    <th>Date & Time</th>
-{{--                                    <th>Product Name</th>--}}
-{{--                                    <th>QTY</th>--}}
-{{--                                    <th> Unit Price BDT</th>--}}
-{{--                                    <th> Total Amount</th>--}}
-                                    <th> Vat</th>
-{{--                                    <th> Discount</th>--}}
-                                    <th> Final Amount</th>
-                                    <th> Paid Amount</th>
-                                    <th> Due Amount</th>
-                                    <th> Details</th>
+                                    <th>Product Name</th>
+                                    <th>Product Brand</th>
+                                    <th>QTY</th>
+                                    <th> Price</th>
+                                    <th> Total Amount</th>
+                                    <th> Services</th>
                                 </tr>
-                                @forelse($productHistory as $key => $productHist)
-                                    <tr>
-                                        <td>{{$key + 1}}</td>
-                                        <td>{{$productHist->invoice_no}}</td>
-                                        <td>{{$productHist->created_at}}</td>
 
-{{--                                        <td> @php--}}
-{{--                                                $product_sub_total = DB::table('product_sale_details')--}}
-{{--                                                   ->join('product_sales', 'product_sales.id', '=', 'product_sale_details.product_sale_id')--}}
-{{--                                                   //->join('products', 'products.id', '=', 'product_sale_details.product_id')--}}
-{{--                                                   ->where('product_sale_details.product_sale_id', $productHist->id)--}}
-{{--                                                   ->select('product_sale_details.sub_total')--}}
-{{--                                                   ->get();--}}
-{{--//$sub_total = $product_sub_total->sub_total;--}}
-{{--                                       //dd($details);--}}
-{{--                                            @endphp--}}
-{{--                                            @foreach($product_sub_total as $key => $sub_total)<ul style="list-style: none">--}}
-{{--                                                <li>{{$sub_total->sub_total}}</li>--}}
-{{--                                            </ul>--}}
-{{--                                            @endforeach</td>--}}
-                                        <td>{{$productHist->vat_amount}}%</td>
-                                        <td>{{$productHist->total_amount}}</td>
-                                        <td>{{$productHist->paid_amount}}</td>
-                                        <td>{{$productHist->due_amount}}</td>
-                                        <td> <a href="{{route('product.details',$productHist->id)}}">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </a></td>
 
-                                    </tr>
+                                @foreach($productHistory->productsaledetails()->get() as $key => $productdetail)
+                                   <tr>
+                                       <td>{{$key+1}}</td>
+                                       <td>{{$productdetail->product->name}}</td>
+                                       <td>{{$productdetail->product_brand->name}}</td>
+                                       <td>{{$productdetail->qty}}</td>
+                                       <td>{{$productdetail->price}}</td>
+                                       <td>{{$productdetail->sub_total}}</td>
+                                       <td width="20%"> <a href="{{route('service.list',$productdetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">service list</a></td>
+                                   </tr>
+                                @endforeach
 
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center">
-                                            <h1 class="text-danger">Empty Order History!</h1>
-                                        </td>
-                                    </tr>
-                                @endforelse
                             </table>
 {{--                            <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 60%">--}}
 {{--                                <tr>--}}

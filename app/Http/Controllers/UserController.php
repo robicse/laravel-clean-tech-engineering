@@ -28,13 +28,15 @@ class UserController extends Controller
 
     public function index()
     {
+
         $auth_user = Auth::user()->roles[0]->name;
         if($auth_user == "Admin") {
-            $users=User::latest()->get();
-        }else{
-            $users=User::where('id',Auth::user()->id)->get();
+            $users=User::where('party_id', NULL)->latest()->get();
         }
-
+        else{
+            $users=User::where('id',Auth::user()->id)->where('party_id', NULL)->get();
+        }
+//dd($users);
         return view('backend.user.index',compact('users'));
     }
 
@@ -66,6 +68,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->store_id = $request->store_id;
         $user->party_id = $request->party_id ? $request->party_id : NULL;
+        $user->type = $request->type;
         //$user->role_id = $request->role_id;
        // dd($user);
         $user->save();
@@ -99,12 +102,13 @@ class UserController extends Controller
         }
         $userRole = $user->roles->pluck('name','name')->first();
 
-
+//dd($user);
         return view('backend.user.edit',compact('user','roles','userRole','stores'));
     }
 
     public function update(Request $request, $id)
     {
+        //dd($request->all());
         $this->validate($request, [
 //            'store_id' => 'required',
             'name' => 'required',
@@ -124,6 +128,8 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->store_id = $request->store_id;
+        $user->phone = $request->phone;
+        $user->type = $request->type;
         $user->update();
 
         // second

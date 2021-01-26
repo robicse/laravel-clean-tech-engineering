@@ -91,15 +91,28 @@ class ServiceController extends Controller
 
     {
         $saleServices = SaleService::orderBy('date','ASC')->get();;
+        //dd($saleServices);
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
+        $users=User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
+//        $id = $users->id;
+//        dd($id);
 
-        return view('backend.monthly-service.index',compact('saleServices','serviceProviders'));
+        return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders'));
     }
 
     public function sendSMS(Request $request){
 
         //dd($request->all());
         //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
+        $provider_id= $request->service_provider_id;
+        //dd($provider_id);
+        $sale_service_id = $request->service_id;
+        //dd($sale_service_id);
+        $sale_service = SaleService::where($sale_service_id,'service_id')->get();
+        $sale_service->provider_id =  $provider_id;
+        //dd($sale_service);
+        $sale_service->save();
+       // dd($sale_service);
         $service= DB::table('sale_services')
                     ->join('services', 'services.id', '=', 'sale_services.service_id')
                      ->where('services.id', '=', $request->service_id)
@@ -133,10 +146,10 @@ class ServiceController extends Controller
         }
 
         //dd($service_name);
-        $text_for_customer = "Dear, $customer_name ,Your service given by $service_provider_name.$service_provider_name Number:, Address:,And Your Service Name is $service_name";
+        $text_for_customer = "Dear,Customer $customer_name ,Your service given by $service_provider_name.$service_provider_name Number: $service_provider_phone,nnnAnd Your Service Name is $service_name";
         //dd($text_for_customer);
         //$text_for_provider = "Dear,  robi,Your next work with $customer_name.$customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Service Name is:$service_name";
-        $text_for_provider = "Dear, $service_provider_name,Your next work with $customer_name. $customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Your Service Name is:$service_name";
+        $text_for_provider = "Dear,Service Provider $service_provider_name,Your next work with $customer_name. $customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Your Service Name is:$service_name";
         //dd($text_for_provider);
         UserInfo::smsAPI("88".$customer_phone,$text_for_customer);
         UserInfo::smsAPI("88".$service_provider_phone,$text_for_provider);

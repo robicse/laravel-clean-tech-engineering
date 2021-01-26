@@ -45,10 +45,10 @@
         <div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
             <div class="container">
                 <div class="c-page-title c-pull-left">
-                    <h3 class="c-font-uppercase c-font-sbold">User Dashboard</h3>
+                    <h3 class="c-font-uppercase c-font-sbold"> Dashboard</h3>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
-                    <li>User Dashboard</li>
+                    <li> Dashboard</li>
                 </ul>
             </div>
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->

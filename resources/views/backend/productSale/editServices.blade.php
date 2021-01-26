@@ -37,9 +37,9 @@
                                 <td style="display: none"><input class="form-control" type="hidden" name="sale_service_id[]" value="{{$saleService->id}}"></td>
 {{--                                <td style="display: none"><input class="form-control" type="hidden" name="sale_services_id" value="{{$saleService->id}}"></td>--}}
                                 <td>  @php
-                                        echo $product_name = \Illuminate\Support\Facades\DB::table('products')
+                                        echo $product_name = DB::table('products')
                                                 ->join('product_sale_details','products.id','product_sale_details.product_id')
-                                                ->where('product_sale_details.id',$saleServices->product_sale_detail_id)
+                                                ->where('product_sale_details.id',$saleService->product_sale_detail_id)
                                                 ->pluck('products.name')
                                                 ->first();
                                     @endphp

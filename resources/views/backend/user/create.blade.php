@@ -46,6 +46,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-4 text-right"> User Type <span style="color: red">*</span></label>
+                            <div class="col-md-6">
+                                <select name="type" id="type" class="form-control">
+                                    <option value="">Select One</option>
+                                    <option value="executive">Service Executive</option>
+                                    <option value="provider">Service Provider</option>
+
+                                </select>
+                                @if ($errors->has('type'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }} <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">

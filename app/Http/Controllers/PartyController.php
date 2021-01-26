@@ -57,6 +57,7 @@ class PartyController extends Controller
         if($insert_id  && $request->type == 2){
             $user_data['name'] = $request->name;
             $user_data['email'] = $request->email;
+            $user_data['phone'] = $request->phone;
             $user_data['password'] = Hash::make(123456);
             $user_data['party_id'] = $insert_id;
             //$user_data['role_id'] = 3;

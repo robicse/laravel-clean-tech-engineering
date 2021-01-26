@@ -37,7 +37,7 @@
                         <tbody class="neworderbody">
                             <tr>
                                 <td width="5%" class="no">1</td>
-                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id" value="{{$productSaleDetail->id}}"></td>
+                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id[]" value="{{$productSaleDetail->id}}"></td>
 
                                 <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>

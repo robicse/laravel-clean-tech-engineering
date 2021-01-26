@@ -45,10 +45,10 @@
         <div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
             <div class="container">
                 <div class="c-page-title c-pull-left">
-                    <h3 class="c-font-uppercase c-font-sbold">User Dashboard</h3>
+                    <h3 class="c-font-uppercase c-font-sbold"> Dashboard</h3>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
-                    <li><a href="shop-customer-dashboard.html">User Dashboard</a></li>
+                    <li><a href="shop-customer-dashboard.html">Dashboard</a></li>
                 </ul>
             </div>
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
@@ -87,10 +87,10 @@
                                         <label class="control-label">Email Address</label>
                                         <input type="email"  name="email" value="{{Auth::user()->email}}" class="form-control c-square c-theme" placeholder="Email Address">
                                     </div>
-{{--                                    <div class="form-group col-md-6">--}}
-{{--                                        <label class="control-label">Mobile Number</label>--}}
-{{--                                        <input type="text"  name="mobile_number" value="{{Auth::user()->mobile_number}}" class="form-control c-square c-theme" placeholder="mobile Number">--}}
-{{--                                    </div>--}}
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label">Mobile Number</label>
+                                        <input type="text"  name="phone" value="{{Auth::user()->phone}}" class="form-control c-square c-theme" placeholder="mobile Number">
+                                    </div>
                                 </div>
                             </div>
                         </div>

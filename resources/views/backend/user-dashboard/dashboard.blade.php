@@ -5,8 +5,8 @@
     <style>
         .cards{
             /*border-radius: 21%;*/
-            padding: 3%;
-            width: 22%;
+            padding: 4%;
+            width: 35%;
             }
         .row{
             border-radius: 14px;
@@ -31,6 +31,7 @@
         @media only screen and (max-width: 700px) {
             .cards{
                 margin-left:20px!important;
+                width: 25%!important;
             }
             .c-layout-header-fixed .c-layout-page{
                 margin-top: 0px!important;
@@ -45,10 +46,10 @@
         <div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold c-bordered c-bordered-both">
             <div class="container">
                 <div class="c-page-title c-pull-left">
-                    <h3 class="c-font-uppercase c-font-sbold">User Dashboard</h3>
+                    <h3 class="c-font-uppercase c-font-sbold"> Dashboard</h3>
                 </div>
                 <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
-                    <li><a href="#">User Dashboard</a></li>
+                    <li><a href="#"> Dashboard</a></li>
                 </ul>
             </div>
 {{--            @php--}}
@@ -76,28 +77,89 @@
                     <h3 class="c-font-uppercase c-font-bold">My Dashboard</h3>
                     <div class="c-line-left"></div>
                 </div>
+                @if (Auth::User()->getRoleNames()[0] == 'Customer')
+{{--                    @php--}}
+{{--                        $products = DB::table('product_sales')--}}
+{{--                             ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')--}}
+{{--                             ->join('products', 'products.id', '=', 'product_sale_details.product_id')--}}
+{{--                             ->where('product_sale_details.product_sale_id', $productHistory->id)--}}
+{{--                             ->select('products.id','products.name')--}}
+{{--                             ->get();--}}
+{{--dd($products);--}}
+{{--                    @endphp--}}
+                @php
+                    $total_order = $productHistory->count();
+                   $product_sales =\App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
+                    if(!empty($product_sales)){
+                            foreach($product_sales as $key => $product_sale)
+                            {
+                    $products = \Illuminate\Support\Facades\DB::table('product_sale_details')
+                                                                ->join('product_sales','product_sales.id','=','product_sale_details.product_sale_id')
+                                                                 ->where('product_sale_details.product_sale_id',$product_sale->id)
+                                                                //->join()
+                                                                   ->select('product_sale_details.product_id')
+                                                               ->get();
+                                                                //->count();
+
+
+//dd($products);
+
+                            }
+
+                            }
+
+                @endphp
                 <div class="row">
                     <a class="text-white" href="">
                         <div class="cards col-md-3 col-sm-3 col-xs-3">
                             <div class="row bg-primary">
-                                <h3 class="text-center text-white">Total Order Amount of products</h3>
+                                <h3 class="text-center text-white">Total Order Amount of Order</h3>
                                 <div class="col-md-12 text-center text-white">
-                                    <h1 class="text-white">tk</h1>
+                                    <h1 class="text-white">{{$total_order}}</h1>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a class="text-white" href="{">
-                        <div class="cards col-md-3 col-sm-3 col-xs-3">
-                            <div class="row bg-dark">
-                                <h3 class="text-center text-white">Total Order Amount of service</h3>
-                                <div class="col-md-12 text-center text-white">
-                                    <h1 class="text-white">tk</h1>
+{{--                    <a class="text-white" href="">--}}
+{{--                        <div class="cards col-md-3 col-sm-3 col-xs-3">--}}
+{{--                            <div class="row bg-dark">--}}
+{{--                                <h3 class="text-center text-white">Total Amount of Product</h3>--}}
+{{--                                <div class="col-md-12 text-center text-white">--}}
+{{--                                    <h1 class="text-white"> {{$product_count}}</h1>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </a>--}}
+                </div>
+
+
+            @elseif (Auth::User()->getRoleNames()[0] == 'Service Provider')
+                    <div class="row">
+                        {{--                    <a class="text-white" href="">--}}
+                        {{--                        <div class="cards col-md-3 col-sm-3 col-xs-3">--}}
+                        {{--                            <div class="row bg-primary">--}}
+                        {{--                                <h3 class="text-center text-white">Total Order Amount of products</h3>--}}
+                        {{--                                <div class="col-md-12 text-center text-white">--}}
+                        {{--                                    <h1 class="text-white">tk</h1>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
+                        {{--                    </a>--}}
+                        <a class="text-white" href="">
+                            <div class="cards col-md-3 col-sm-3 col-xs-3">
+                                <div class="row bg-dark">
+                                    <h3 class="text-center text-white">Total Amount of service</h3>
+                                    <div class="col-md-12 text-center text-white">
+                                        <h1 class="text-white"> service </h1>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div><!-- END: CONTENT/SHOPS/SHOP-CUSTOMER-DASHBOARD-1 -->
+                        </a>
+                    </div>
+
+            @endif
+
+                    <!-- END: CONTENT/SHOPS/SHOP-CUSTOMER-DASHBOARD-1 -->
                 <!-- END: PAGE CONTENT -->
             </div>
         </div>

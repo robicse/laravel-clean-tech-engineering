@@ -40,12 +40,18 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/user/dashboard','UserDashboardController@dashboard' )->name('user.dashboard');
-Route::get('/user/edit-profile','UserDashboardController@editProfile' )->name('user.edit.profile');
-Route::post('/user/update-profile', 'UserDashboardController@updateProfile')->name('update.profile');
-Route::get('change-password','UserDashboardController@changedPassword')->name('password.change');
-Route::post('change-password-update','UserDashboardController@changedPasswordUpdated')->name('password.change_password_update');
-Route::get('/product-history', 'UserDashboardController@productHistory' )->name('product.history');
+
+//Route::group(['middleware'=>['auth','users']], function (){
+
+    Route::get('/user/dashboard','UserDashboardController@dashboard' )->name('user.dashboard');
+    Route::get('/user/edit-profile','UserDashboardController@editProfile' )->name('user.edit.profile');
+    Route::post('/user/update-profile', 'UserDashboardController@updateProfile')->name('update.profile');
+    Route::get('change-password','UserDashboardController@changedPassword')->name('password.change');
+    Route::post('change-password-update','UserDashboardController@changedPasswordUpdated')->name('password.change_password_update');
+    Route::get('/product-history', 'UserDashboardController@productHistory' )->name('product.history');
+    Route::get('/product-details/{id}', 'UserDashboardController@productDetails' )->name('product.details');
+    Route::get('/service-list/{id}', 'UserDashboardController@serviceList' )->name('service.list');
+//});
 
 Route::group(['middleware' => ['auth']], function() {
         Route::get('change-password/{id}','UserController@changedPassword')->name('password.change_password');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Party;
 use App\Store;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use DB;
@@ -29,7 +31,9 @@ class HomeController extends Controller
 //        Toastr::success('welcome Dashboard Successfully', 'warning');
 
         $stores = Store::all();
-
-        return view('backend._partial.home', compact('stores'));
+        $customer = Party::where('type','customer')->get()->count();
+        $servise_executive = User::where('type','executive')->get()->count();
+        $service_provider = User::where('type','provider')->get()->count();
+        return view('backend._partial.home', compact('stores','customer','service_provider','servise_executive'));
     }
 }

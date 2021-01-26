@@ -12,26 +12,37 @@ use Illuminate\Support\Facades\Storage;
 
 class UserDashboardController extends Controller
 {
-    public function dashboard(){
-       return view('backend.user-dashboard.dashboard');
+    public function dashboard()
+    {
+        $productHistory = \App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
+       return view('backend.user-dashboard.dashboard',compact('productHistory'));
     }
     public function editProfile(){
        return view('backend.user-dashboard.profile');
     }
     public function productHistory()
     {
+        //dd('dd');
         $productHistory = \App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
         //dd($productHistory);
-//        $product = DB::table('product_sale_details')
-//            //->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
-//            ->join('products','product_sale_details.product_id','=','products.id')
-//            ->select('products.id','products.name')
-//            ->first();
-        //dd($product);
-        //$product_name = $product ;
-        //dd($product_name);
-        $saleService = SaleService::latest()->get();
+
         return view('backend.user-dashboard.product-history', compact('product','productHistory','saleService'));
+    }
+    public function productDetails($id)
+    {
+        //dd('h');
+        $productHistory = \App\ProductSale::find($id);
+        //dd($productHistory);
+        return view('backend.user-dashboard.product-history-details', compact('productHistory'));
+
+    }
+    public function serviceList($id)
+    {
+       // dd($id);
+        $serviceDetails = \App\ProductSaleDetail::find($id);
+        //dd($productHistory);
+        return view('backend.user-dashboard.service-list', compact('serviceDetails'));
+
     }
     public function updateProfile(Request $request)
     {
@@ -43,7 +54,7 @@ class UserDashboardController extends Controller
         $user = \App\User::findOrFail(Auth::id());
         $user->name = $request->name;
         $user->email = $request->email;
-//        $user->mobile_number = $request->mobile_number;
+        $user->phone = $request->phone;
         $user->save();
 
         Toastr::success('Profile Updated Successfully','Success');
@@ -69,7 +80,7 @@ class UserDashboardController extends Controller
                 $user = \App\User::find(Auth::id());
                 //dd($user);
                 $user->password = Hash::make($request->password);
-                dd($user);
+                //dd($user);
                 $user->save();
                 Toastr::success('Password Updated Successfully','Success');
                 Auth::logout();

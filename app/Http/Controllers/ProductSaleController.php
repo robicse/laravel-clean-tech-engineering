@@ -440,7 +440,7 @@ class ProductSaleController extends Controller
     public function Editservice($id){
         //dd($id);
         //$productSale = ProductSale::find($id);
-        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        $productSaleDetail = ProductSaleDetail::where('id',$id)->first();
         //$saleService =  SaleService::find($id);
         $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
 
@@ -737,14 +737,17 @@ class ProductSaleController extends Controller
             $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;
             $sdata['email'] = $parties->email;
+           // $sdata['phone'] = $parties->phone;
             $sdata['password'] = Hash::make(123456);
             $sdata['party_id'] = $insert_id;
-            $sdata['role_id'] = 3;
+//            $sdata['role_id'] = 3;
             echo json_encode($sdata);
             $user = User::create($sdata);
 
             $user->assignRole('Customer');
+            //dd($user);
         }
+
         else {
             $data['exception'] = 'Some thing mistake !';
             echo json_encode($data);

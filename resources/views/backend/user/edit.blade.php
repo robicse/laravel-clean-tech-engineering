@@ -41,6 +41,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right"> User Type<span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <select name="type" id="type" class="form-control">
+                                    <option value="executive" {{$user->type == 'executive' ? 'executive' : ''}}>Service Executive</option>
+                                    <option value="provider" {{$user->type == 'provider' ? 'provider' : ''}}>Service Provider</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">User Name <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" placeholder="User Name" name="name" value="{!! $user->name !!}">
@@ -62,6 +72,18 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">User Phone <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="User Phone No" name="phone" value="{!! $user->phone !!}">
+                                @if ($errors->has('phone'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 {{--                        <div class="form-group row">--}}
 {{--                            <label for="password" class="col-md-3 col-form-label text-md-right">{{ __('Password') }} <span style="color: red">*</span></label>--}}
 
