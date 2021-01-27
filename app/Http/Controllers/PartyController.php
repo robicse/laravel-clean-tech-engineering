@@ -7,6 +7,7 @@ use App\Party;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -27,6 +28,23 @@ class PartyController extends Controller
 
     public function index()
     {
+//        $get_party_id = User::where('party_id','!=','NULL')->latest('id')->pluck('party_id')->first();
+//        //dd($get_party_id);
+//        $get_party = Party::where('id','>',$get_party_id)->get();
+//        if(count($get_party) > 0){
+//            foreach($get_party as $data){
+//
+//                $user = new User();
+//                $user->party_id = $data->id;
+//                $user->name = $data->name;
+//                $user->phone = $data->phone;
+//                $user->email = $data->email;
+//                $user->password = Hash::make(123456);
+//                $user->save();
+//            }
+//        }
+//        //dd($get_party);
+
         $parties = Party::latest()->get();
         return view('backend.party.index',compact('parties'));
     }
@@ -148,6 +166,25 @@ class PartyController extends Controller
     {
        // dd('ss');
         Excel::import(new CustomersImport,request()->file('file'));
+
+
+        $get_party_id = User::where('party_id','!=','NULL')->latest('id')->pluck('party_id')->first();
+        //dd($get_party_id);
+        $get_party = Party::where('id','>',$get_party_id)->get();
+        if(count($get_party) > 0){
+            foreach($get_party as $data){
+
+                $user = new User();
+                $user->party_id = $data->id;
+                $user->name = $data->name;
+                $user->phone = $data->phone;
+                $user->email = $data->email;
+                $user->password = Hash::make(123456);
+                $user->save();
+            }
+        }
+        //dd($get_party);
+
 
         return back();
     }
