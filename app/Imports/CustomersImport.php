@@ -2,24 +2,24 @@
 
 namespace App\Imports;
 
-use App\User;
+use App\Party;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class UsersImport implements ToModel
+class CustomersImport implements ToModel
 {
     /**
      * @param array $row
      *
-     * @return User|null
+     * @return Party|null
      */
     public function model(array $row)
     {
-        return new User([
-            'name'     => $row[0],
-            'email'    => $row[1],
+        return new Party([
+            'type'     => $row[0],
+            'name'     => $row[1],
             'phone'    => $row[2],
-            'password' => Hash::make($row[3]),
+            'email'    => $row[3],
         ]);
     }
 }

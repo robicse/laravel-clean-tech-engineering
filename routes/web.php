@@ -145,8 +145,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('productSales-updateServices/{id}','ProductSaleController@Updateeservice')->name('productSales-update-services');
     //excel
     Route::get('export', 'UserController@export')->name('export');
-    Route::get('importExportView', 'ExportExcelController@importExportView');
-    Route::post('import', 'ExportExcelController@import')->name('import');
+    Route::get('importExportView', 'UserController@importExportView');
+    Route::post('import', 'UserController@import')->name('import');
+
+    Route::get('customer-export', 'PartyController@export')->name('customer.export');
+    Route::get('customer-importExportView', 'PartyController@importExportView');
+    Route::post('customer-import', 'PartyController@import')->name('customer.import');
+
 
     Route::get('transaction/export/', 'TransactionController@export')->name('transaction.export');
     Route::get('delivery/export/', 'TransactionController@deliveryExport')->name('delivery.export');

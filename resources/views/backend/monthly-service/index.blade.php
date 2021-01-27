@@ -23,16 +23,15 @@
                             <th width="15%">Customer Name</th>
                             <th width="15%">Customer Phone</th>
                             <th width="15%">Service Provider </th>
-{{--                            <th width="15%">Action</th>--}}
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($saleServices as $key=>$saleService)
+
                             <tr>
                                 <td width="5%" >{{$key+1}}</td>
                                 <td width="20%"> {{$saleService->service->name}}</td>
                                 <td width="20%"> {{$saleService->date}}</td>
-{{--                                <td width="20%">{{$saleService->product_sale_details->productsale->party->name}} </td>--}}
                                 <td width="20%">
                                     @php
 
@@ -63,8 +62,8 @@
                                     <form action="{{route('send.mail')}}" method="post">
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$customer_id}}">
+                                        <input type="hidden" name="row_id" value="{{$saleService->id}}">
                                         <input type="hidden" name="service_id" value="{{$saleService->service->id}}">
-{{--                                        <input type="hidden" name="provider_id" value="{{$saleService->provider_id}}">--}}
                                         <select class="form-control select2" name="service_provider_id"  required>
                                             <option value="">Select  Service Provider</option>
                                             @foreach($serviceProviders as $serviceProvider)
@@ -75,7 +74,6 @@
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Send</button>
                                     </form>
                                 </td>
-{{--                                <td width="20%"> <a href="" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">send</a></td>--}}
                             </tr>
                         @endforeach
                         </tbody>

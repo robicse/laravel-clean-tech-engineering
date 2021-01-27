@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CustomersImport;
 use App\Party;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -9,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CustomersExport;
+
 
 class PartyController extends Controller
 {
@@ -44,7 +48,6 @@ class PartyController extends Controller
         $parties = new Party();
         $parties->type = $request->type;
         $parties->name = $request->name;
-        $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
         $parties->address = $request->address;
@@ -99,7 +102,6 @@ class PartyController extends Controller
         $parties = Party::find($id);
         $parties->type = $request->type;
         $parties->name = $request->name;
-        $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
         $parties->address = $request->address;
@@ -129,5 +131,24 @@ class PartyController extends Controller
             $check_number = "Not Found";
         }
         return response()->json(['success'=>true,'data'=>$check_number]);
+    }
+
+    public function importExportView()
+    {
+        return view('backend.party.index');
+    }
+
+    public function export()
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx');
+
+    }
+
+    public function import()
+    {
+       // dd('ss');
+        Excel::import(new CustomersImport,request()->file('file'));
+
+        return back();
     }
 }

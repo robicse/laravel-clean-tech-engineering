@@ -102,23 +102,25 @@ class ServiceController extends Controller
 
     public function sendSMS(Request $request){
 
-        //dd($request->all());
+       // dd($request->all());
         //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
-        $provider_id= $request->service_provider_id;
-        //dd($provider_id);
-        $sale_service_id = $request->service_id;
+       // $provider_id= $request->row_id;
+       // dd($request->service_id);
+        //$sale_service_id = $request->service_id;
         //dd($sale_service_id);
-        $sale_service = SaleService::where($sale_service_id,'service_id')->get();
-        $sale_service->provider_id =  $provider_id;
+        $sale_service = SaleService::find($request->row_id);
+        $sale_service->provider_id =  $request->service_provider_id;
         //dd($sale_service);
-        $sale_service->save();
+        $sale_service->update();
        // dd($sale_service);
         $service= DB::table('sale_services')
-                    ->join('services', 'services.id', '=', 'sale_services.service_id')
-                     ->where('services.id', '=', $request->service_id)
+                    ->join('services','services.id','=','sale_services.service_id')
+                     ->where('services.id','=',$request->service_id)
                     ->select('services.name')
                     ->first();
-        $service_name = $service->name;
+        //dd($service);
+       $service_name = $service->name;
+
 
         $service_provider= DB::table('users')
                                 //->where('name','!=','Admin')
@@ -127,7 +129,7 @@ class ServiceController extends Controller
                                 ->where('id',$request->service_provider_id)
                                 ->select('users.name','users.phone')
                                 ->first();
-
+//dd($service_provider);
         $service_provider_name = $service_provider->name;
         $service_provider_phone = $service_provider->phone;
         //dd($service_provider_phone);

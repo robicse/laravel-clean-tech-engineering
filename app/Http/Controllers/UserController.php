@@ -166,12 +166,13 @@ class UserController extends Controller
 
     public function importExportView()
     {
-        return view('import');
+        return view('backend.user.index');
     }
 
     public function export()
     {
         return Excel::download(new UsersExport, 'users.xlsx');
+
     }
 
     public function import()

@@ -737,7 +737,7 @@ class ProductSaleController extends Controller
             $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;
             $sdata['email'] = $parties->email;
-           // $sdata['phone'] = $parties->phone;
+            $sdata['phone'] = $parties->phone;
             $sdata['password'] = Hash::make(123456);
             $sdata['party_id'] = $insert_id;
 //            $sdata['role_id'] = 3;

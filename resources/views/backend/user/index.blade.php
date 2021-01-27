@@ -10,18 +10,20 @@
                 <li class="breadcrumb-item"> <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary" type="button">Add User</a></li>
             </ul>
         </div>
-{{--        <div class="card-body">--}}
-{{--            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">--}}
-{{--                @csrf--}}
-{{--                <input type="file" name="file" class="form-control">--}}
-{{--                <br>--}}
-{{--                <button class="btn btn-success">Import data</button>--}}
-{{--                <a class="btn btn-warning" href="{{ route('export') }}">Export Data</a>--}}
-{{--            </form>--}}
-{{--        </div>--}}
+        <div class="card-body">
+            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="file" class="form-control">
+                <br>
+                <button class="btn btn-success">Import data</button>
+                <a class="btn btn-warning" href="{{ route('export') }}">Export Data</a>
+            </form>
+        </div>
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">User Table</h3>
+
+
                 @if(session('response'))
                     <div class="alert alert-success">
                         {{ session('response') }}
