@@ -12,17 +12,7 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                @php
-
-                   $date = DB::table("product_sale_details")
-                           ->join('sale_services','sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
-                           //->whereMonth('date', '=', $date_id)
-                            ->select('sale_services.date')
-                            ->whereMonth('sale_services.date', '=' ,'01')
-                           ->get();
-                   dd($date);
-                @endphp
-                <h2 class="tile-title" style="text-align: center">January month Services</h2>
+                <h2 class="tile-title" style="text-align: center">{{date('F')}} month Services</h2>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>

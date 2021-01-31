@@ -90,14 +90,22 @@ class ServiceController extends Controller
     public function monthlyService()
 
     {
-        $saleServices = SaleService::orderBy('date','ASC')->get();;
+        $current_year = date('Y');
+        $current_month = date('m');
+        $custom_date_start = $current_year . "-" . $current_month . "-01";
+        $custom_date_end = $current_year . "-" . $current_month . "-31";
+        //dd($current_year);
+        $saleServices = SaleService::orderBy('date','ASC')
+            ->where('date','>=',$custom_date_start)
+            ->where('date','<=',$custom_date_end)
+            ->get();;
         //dd($saleServices);
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
         $users=User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
 //        $id = $users->id;
 //        dd($id);
 
-        return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders'));
+        return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders','current_month'));
     }
 
     public function sendSMS(Request $request){
