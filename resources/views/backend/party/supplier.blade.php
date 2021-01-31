@@ -10,16 +10,16 @@
                 <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer & Supplier</a></li>
             </ul>
         </div>
-        <div class="card-body">
-            <form action="{{ route('customer.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="file" name="file" class="form-control">
-                <br>
-                <button class="btn btn-success" id="submit" onclick="sendMessage(); clearInput();">Import data</button>
-                <a class="btn btn-warning" href="{{ route('customer.export') }}">Export Data</a>
-                <a  class=" btn btn-info btn-sm" onclick="modal_customer()" data-toggle="modal">Sample Import</a>
-            </form>
-        </div>
+{{--        <div class="card-body">--}}
+{{--            <form action="{{ route('customer.import') }}" method="POST" enctype="multipart/form-data">--}}
+{{--                @csrf--}}
+{{--                <input type="file" name="file" class="form-control">--}}
+{{--                <br>--}}
+{{--                <button class="btn btn-success" id="submit" onclick="sendMessage(); clearInput();">Import data</button>--}}
+{{--                <a class="btn btn-warning" href="{{ route('customer.export') }}">Export Data</a>--}}
+{{--                <a  class=" btn btn-info btn-sm" onclick="modal_customer()" data-toggle="modal">Sample Import</a>--}}
+{{--            </form>--}}
+{{--        </div>--}}
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Customer & Supplier Table</h3>

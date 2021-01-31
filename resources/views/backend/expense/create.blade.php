@@ -42,13 +42,13 @@
                             <div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" onclick="modal_customer()" data-toggle="modal"><i class="fa fa-plus"></i></a></div>
                         </div>
 {{--                        <div class="form-group row" @if(Auth::user()->roles[0]->name == 'User') style="display: none" @endif>--}}
-                        <div class="form-group row" style="display: none">
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Store  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="store_id" id="store_id" class="form-control" >
-{{--                                    <option value="">Select One</option>--}}
+                                    <option value="">Select One</option>
                                     @foreach($stores as $store)
-                                        <option value="{{$store->id}}" {{Auth::user()->roles[0]->name == 'User' ? 'selected':''}}>{{$store->name}} </option>
+                                        <option value="{{$store->id}}" >{{$store->name}} </option>
                                     @endforeach
                                 </select>
                             </div>

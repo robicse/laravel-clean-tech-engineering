@@ -20,12 +20,12 @@ class ProductUnitController extends Controller
     public function index()
     {
         $productUnits = ProductUnit::latest()->get();
-        return view('backend.productCapacity.index', compact('productUnits'));
+        return view('backend.productUnit.index', compact('productUnits'));
     }
 
     public function create()
     {
-        return view('backend.productCapacity.create');
+        return view('backend.productUnit.create');
     }
 
     public function store(Request $request)
@@ -40,7 +40,7 @@ class ProductUnitController extends Controller
         $productUnit->save();
 
         Toastr::success('Product Capacity Created Successfully');
-        return redirect()->route('productCapacity.index');
+        return redirect()->route('productUnit.index');
     }
 
     public function show($id)
@@ -51,7 +51,7 @@ class ProductUnitController extends Controller
     public function edit($id)
     {
         $productBrand = ProductUnit::find($id);
-        return view('backend.productCapacity.edit', compact('productBrand'));
+        return view('backend.productUnit.edit', compact('productBrand'));
     }
 
     public function update(Request $request, $id)
@@ -66,13 +66,13 @@ class ProductUnitController extends Controller
         $productUnit->save();
 
         Toastr::success('Product Capacity Updated Successfully');
-        return redirect()->route('productCapacity.index');
+        return redirect()->route('productUnit.index');
     }
 
     public function destroy($id)
     {
         ProductUnit::destroy($id);
         Toastr::success('Product Capacity Deleted Successfully');
-        return redirect()->route('productCapacity.index');
+        return redirect()->route('productUnit.index');
     }
 }

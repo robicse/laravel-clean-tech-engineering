@@ -51,8 +51,8 @@
                             <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" >
-                                    <option value="cash" {{'cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
-                                    <option value="check" {{'check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
+                                    <option value="Cash" {{'Cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
+                                    <option value="Check" {{'Check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
@@ -337,7 +337,7 @@
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                 '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                 '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
-                '<td><input type="text" min="1" max="" class="price form-control" name="price[]" value="" required></td>' +
+                '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                 '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                 '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
@@ -450,13 +450,13 @@
 
         $(function() {
             <?php
-            if($transaction->payment_type == 'cash'){
+            if($transaction->payment_type == 'Cash'){
             ?>
             $('#check_number').hide();
             $('#check_date').hide();
             <?php } ?>
             $('#payment_type').change(function(){
-                if($('#payment_type').val() == 'check') {
+                if($('#payment_type').val() == 'Check') {
                     $('#check_number').show();
                     $('#check_date').show();
                 } else {

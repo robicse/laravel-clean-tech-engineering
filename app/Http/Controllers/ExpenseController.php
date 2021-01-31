@@ -118,7 +118,7 @@ class ExpenseController extends Controller
 
         $expense = Expense::find($id);
         $expense->user_id = Auth::id();
-        //$expense->store_id = $request->store_id;
+        $expense->store_id = $request->store_id;
         $expense->office_costing_category_id = $request->office_costing_category_id;
         $expense->payment_type = $request->payment_type;
         $expense->check_number = $request->check_number ? $request->check_number : NULL;

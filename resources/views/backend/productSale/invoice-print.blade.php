@@ -288,28 +288,28 @@
 </div>
 <footer style="margin-top:200px">
     <div class="row" >
-        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;margin-top: -42px">
             <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>
         </div>
-        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
+        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;margin-top: -42px">
             <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>
-        </div>
-    </div>
-    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
-    <div class="row" >
-        <div class="col-md-6" style="width: 500%; float: left;">
-            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>
-            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
-        </div>
-        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;margin-top: -12px">
-            <span style="text-align: left;width:400px">Express Retail By Link-Up Technology, Contact No.: 01911978897</span>
-        </div>
-    </div>
+{{--    <div class="row">--}}
+{{--        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
+{{--            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <hr style="border-top:2px dotted black;width: 100%;height:1px;">--}}
+{{--    <div class="row" >--}}
+{{--        <div class="col-md-6" style="width: 500%; float: left;">--}}
+{{--            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>--}}
+{{--            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
+{{--        </div>--}}
+{{--        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;margin-top: -12px">--}}
+{{--            <span style="text-align: left;width:400px">Express Retail By Link-Up Technology, Contact No.: 01911978897</span>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </footer>
 <!-- jQuery -->
 <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>

@@ -1,7 +1,7 @@
 @extends('backend.user-dashboard.master')
 @section('title','Dashboard')
 @push('css')
-
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <style>
         .cards{
             /*border-radius: 21%;*/
@@ -134,29 +134,41 @@
 
 
             @elseif (Auth::User()->getRoleNames()[0] == 'Service Provider')
-                    <div class="row">
-                        {{--                    <a class="text-white" href="">--}}
-                        {{--                        <div class="cards col-md-3 col-sm-3 col-xs-3">--}}
-                        {{--                            <div class="row bg-primary">--}}
-                        {{--                                <h3 class="text-center text-white">Total Order Amount of products</h3>--}}
-                        {{--                                <div class="col-md-12 text-center text-white">--}}
-                        {{--                                    <h1 class="text-white">tk</h1>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
-                        {{--                    </a>--}}
-                        <a class="text-white" href="">
-                            <div class="cards col-md-3 col-sm-3 col-xs-3">
-                                <div class="row bg-dark">
-                                    <h3 class="text-center text-white">Total Amount of service</h3>
-                                    <div class="col-md-12 text-center text-white">
-                                        <h1 class="text-white"> service </h1>
-                                    </div>
+                    <div class="c-layout-sidebar-content ">
+                        <!-- BEGIN: PAGE CONTENT -->
+                        <!-- BEGIN: CONTENT/SHOPS/SHOP-ORDER-HISTORY -->
+                        <div class="row c-margin-b-40">
+                            <div class="c-content-product-2 c-bg-white">
+                                <div class="c-content-product c-bg-gray table-responsive">
+                                    <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 68%">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Date & Time</th>
+                                            <th> Service Name</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        @forelse($saleServices as $key => $saleService)
+                                            <tr>
+                                                <td>{{$key + 1}}</td>
+                                                <td>{{$saleService->date}}</td>
+                                                <td>{{$saleService->service->name}}</td>
+                                                <td style="text-align: center">
+                                                    <input onchange="status(this)" value="{{ $saleService->id }}" {{$saleService->status == 1 ? 'checked':''}} type="checkbox"  data-toggle="toggle">
+                                                </td>
+
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center">
+                                                    <h1 class="text-danger">Empty Order History!</h1>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-
             @endif
 
                     <!-- END: CONTENT/SHOPS/SHOP-CUSTOMER-DASHBOARD-1 -->
@@ -166,4 +178,25 @@
     </div>
 @stop
 @push('js')
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+        //today's deals Ajax
+        function status(el){
+            if(el.checked){
+                var status = 1;
+            }
+            else{
+                var status = 0;
+            }
+            $.post('{{ route('status') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
+                if(data == 1){
+                    toastr.success('success', 'You Have Done Your Work successfully');
+                }
+                else{
+                    toastr.danger('danger', 'Something went wrong');
+                }
+            });
+        }
+
+    </script>
 @endpush

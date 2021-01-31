@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -45,7 +46,22 @@ class LoginController extends Controller
             return('/login');
         }
     }
+    protected function credentials(Request $request)
+    {
+        //dd($request->all());
+        if(is_numeric($request->get('phone'))){
+            return ['phone'=>$request->get('phone'),'password'=>$request->get('password')];
+        }
+        elseif (filter_var($request->get('phone'), FILTER_VALIDATE_EMAIL)) {
+            return ['email' => $request->get('phone'), 'password'=>$request->get('password')];
+        }
+        return ['username' => $request->get('phone'), 'password'=>$request->get('password')];
+    }
 
+    public function username()
+    {
+        return 'phone';
+    }
     /**
      * Create a new controller instance.
      *

@@ -10,6 +10,7 @@ use App\ProductCategory;
 use App\ProductPurchase;
 use App\ProductPurchaseDetail;
 use App\ProductSubCategory;
+use App\ProductUnit;
 use App\Stock;
 use App\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -51,11 +52,11 @@ class ProductPurchaseController extends Controller
             $stores = Store::where('user_id',$auth_user_id)->get();
         }
         $productCategories = ProductCategory::all();
-        $productSubCategories = ProductSubCategory::all();
+        $productUnits = ProductUnit::all();
         $productBrands = ProductBrand::all();
        // $products = Product::where('product_type','Finish Goods')->get();
         $products = Product::latest()->get();
-        return view('backend.productPurchase.create',compact('parties','stores','products','productCategories','productSubCategories','productBrands'));
+        return view('backend.productPurchase.create',compact('parties','stores','products','productCategories','productUnits','productBrands'));
     }
 
 
@@ -106,6 +107,7 @@ class ProductPurchaseController extends Controller
                 $purchase_purchase_detail->product_category_id = $request->product_category_id[$i];
                 $purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
                 $purchase_purchase_detail->product_brand_id = $request->product_brand_id[$i];
+                $purchase_purchase_detail->product_unit_id = $request->product_unit_id[$i];
                 $purchase_purchase_detail->product_id = $request->product_id[$i];
                 $purchase_purchase_detail->qty = $request->qty[$i];
                 $purchase_purchase_detail->price = $request->price[$i];
@@ -180,13 +182,13 @@ class ProductPurchaseController extends Controller
         $products = Product::all();
         $productPurchase = ProductPurchase::find($id);
         $productCategories = ProductCategory::all();
-        $productSubCategories = ProductSubCategory::all();
+        $productUnits = ProductUnit::all();
         $productBrands = ProductBrand::all();
         $transaction = Transaction::where('ref_id',$id)->first();
         $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
         //dd($transaction);
-        return view('backend.productPurchase.edit',compact('parties','stores','products','productPurchase','productPurchaseDetails','productCategories','productSubCategories','productBrands','transaction','stock_id'));
+        return view('backend.productPurchase.edit',compact('parties','stores','products','productPurchase','productPurchaseDetails','productCategories','productUnits','productBrands','transaction','stock_id'));
     }
 
 
@@ -244,6 +246,7 @@ class ProductPurchaseController extends Controller
             $purchase_purchase_detail->product_category_id = $request->product_category_id[$i];
             $purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
             $purchase_purchase_detail->product_brand_id = $request->product_brand_id[$i];
+            $purchase_purchase_detail->product_unit_id = $request->product_unit_id[$i];
             $purchase_purchase_detail->product_id = $request->product_id[$i];
             $purchase_purchase_detail->qty = $request->qty[$i];
             $purchase_purchase_detail->price = $request->price[$i];
@@ -255,8 +258,8 @@ class ProductPurchaseController extends Controller
             //dd($purchase_purchase_detail);
 
             // product stock
-            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->first();
-            //dd($stock_row);
+            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->where('product_id',$product_id)->first();
+//dd($stock_row);
             if($stock_row->stock_in != $request->qty[$i]){
                 if($request->qty[$i] > $stock_row->stock_in){
                     $add_or_minus_stock_in = $request->qty[$i] - $stock_row->stock_in;
@@ -273,9 +276,7 @@ class ProductPurchaseController extends Controller
                 $stock_row->current_stock = $update_current_stock;
                 $stock_row->update();
             }
-
         }
-
         // transaction
         $transaction = Transaction::where('ref_id',$id)->where('transaction_type','purchase')->first();
         $transaction->invoice_no = Null;
@@ -312,10 +313,17 @@ class ProductPurchaseController extends Controller
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
         $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
+        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
+        $price = Product::where('id',$product_id)->pluck('price')->first();
+
+
         $options = [
+            'price' => $price,
             'categoryOptions' => '',
             'subCategoryOptions' => '',
             'brandOptions' => '',
+            'unitOptions' => '',
+            'priceOptions' => '',
         ];
 
         if($product_category_id){
@@ -359,6 +367,20 @@ class ProductPurchaseController extends Controller
             $options['brandOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
             $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
             $options['brandOptions'] .= "</select>";
+        }
+        if($product_unit_id){
+            $units = ProductUnit::where('id',$product_unit_id)->get();
+            if(count($units) > 0){
+                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]'readonly>";
+                foreach($units as $unit){
+                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
+                }
+                $options['unitOptions'] .= "</select>";
+            }
+        }else{
+            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+            $options['unitOptions'] = "<option value=''>No Data Found!</option>";
+            $options['unitOptions']  = "</select>";
         }
 
         return response()->json(['success'=>true,'data'=>$options]);

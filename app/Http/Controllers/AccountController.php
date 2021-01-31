@@ -38,7 +38,6 @@ class AccountController extends Controller
         $p=0;
         for($i=0;$i< count($oResult);$i++)
         {
-
             if (!$visit[$i])
             {
                 if ($HeadName==$oResult[$i]->PHeadName)

@@ -266,24 +266,24 @@
                     </div>
                     <div class="row" style="margin-top: 210px">
                         <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-                            <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>
+                            <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px">Customer signature</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
                             <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-                            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>
-                        </div>
-                    </div>
-                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">
-                    <div class="row" >
-                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-                            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>
-                            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>
-                        </div>
-                    </div>
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
+{{--                            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">--}}
+{{--                    <div class="row" >--}}
+{{--                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
+{{--                            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>--}}
+{{--                            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                 </div>
             </div>

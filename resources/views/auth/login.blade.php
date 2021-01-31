@@ -31,11 +31,11 @@
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
 
             <div class="form-group">
-                <label class="control-label">USERNAME</label>
-                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" placeholder="Email-Address" value="{{ old('email') }}" required autofocus>
-                @if ($errors->has('email'))
+                <label class="control-label">Phone / Email</label>
+                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="Phone No" value="{{ old('phone') }}" required autofocus>
+                @if ($errors->has('phone'))
                     <span class="invalid-feedback" role="alert">
-                   <strong>{{ $errors->first('email') }}</strong>
+                   <strong>{{ $errors->first('phone') }}</strong>
                 </span>
                 @endif
 
@@ -72,11 +72,11 @@
                 {{--{{ session('status') }}--}}
                 {{--</div>--}}
                 {{--@endif--}}
-                <label class="control-label">EMAIL</label>
-                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Email-Address" required>
-                @if ($errors->has('email'))
+                <label class="control-label">Phone No</label>
+                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Phone No" required>
+                @if ($errors->has('phone'))
                     <span class="invalid-feedback" role="alert">
-                         <strong>{{ $errors->first('email') }}</strong>
+                         <strong>{{ $errors->first('phone') }}</strong>
                     </span>
                 @endif
             </div>

@@ -15,7 +15,19 @@ class UserDashboardController extends Controller
     public function dashboard()
     {
         $productHistory = \App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
-       return view('backend.user-dashboard.dashboard',compact('productHistory'));
+        $saleServices = SaleService::where('provider_id', Auth::id())->latest()->get();
+            //dd($saleServices);
+       return view('backend.user-dashboard.dashboard',compact('productHistory','saleServices'));
+    }
+    public function status(Request $request)
+    {
+        //dd($request->all());
+        $category = SaleService::findOrFail($request->id);
+        $category->status = $request->status;
+        if($category->save()){
+            return 1;
+        }
+        return 0;
     }
     public function editProfile(){
        return view('backend.user-dashboard.profile');
@@ -90,9 +102,18 @@ class UserDashboardController extends Controller
                 return redirect()->back();
             }
         } else {
-            Toastr::error('Current password not match.', 'Error');
+            Toastr::error('Current password  match.', 'Success');
             return redirect()->back();
         }
 
+    }
+    public function invoice()
+
+    {
+        return view('backend.user-dashboard.invoice');
+    }
+    public function invoiceDetails(){
+        dd('dd');
+        return view('backend.user-dashboard.invoice');
     }
 }

@@ -51,6 +51,11 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/product-history', 'UserDashboardController@productHistory' )->name('product.history');
     Route::get('/product-details/{id}', 'UserDashboardController@productDetails' )->name('product.details');
     Route::get('/service-list/{id}', 'UserDashboardController@serviceList' )->name('service.list');
+    Route::post('/status', 'UserDashboardController@status')->name('status');
+
+    Route::get('/invoice', 'UserDashboardController@invoice')->name('invoice');
+    Route::post('/invoice-details', 'UserDashboardController@invoiceDetails')->name('invoice.details');
+
 //});
 
 Route::group(['middleware' => ['auth']], function() {
@@ -64,7 +69,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productCategories','ProductCategoryController');
     Route::resource('productSubCategories','ProductSubCategoryController');
     Route::resource('productBrands','ProductBrandController');
-    Route::resource('productCapacity','ProductUnitController');
+    Route::resource('productUnit','ProductUnitController');
     Route::resource('products','ProductController');
     Route::resource('free-products','FreeProductController');
     Route::resource('party','PartyController');
@@ -78,10 +83,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
     Route::resource('service','ServiceController');
     Route::resource('offers','OfferController');
-
+    Route::get('/supplier','PartyController@supplier');
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');
-
     Route::get('productPurchases-invoice','ProductPurchaseController@invoice')->name('productPurchases-invoice');
     Route::get('productPurchases-invoice-print','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
     Route::get('productSales-invoice/{id}','ProductSaleController@invoice')->name('productSales-invoice');
@@ -216,9 +220,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 //relation-data
 
-    Route::get('service-relation-data','ServiceSaleController@serviceRelationData');
+    //Route::get('service-relation-data','ServiceSaleController@serviceRelationData');
 
-    Route::get('employeeSalary-relation-data','EmployeeSalaryController@employeeSalaryRelationData');
+   // Route::get('employeeSalary-relation-data','EmployeeSalaryController@employeeSalaryRelationData');
 
     Route::get('get-voucher-no','PostingController@getVoucherNo');
 

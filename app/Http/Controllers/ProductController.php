@@ -62,6 +62,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->model = $request->model;
         $product->status = $request->status;
+        $product->price = $request->price;
         $image = $request->file('image');
         if (isset($image)) {
             //make unique name for image
@@ -119,6 +120,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->model = $request->model;
         $product->status = $request->status;
+        $product->price = $request->price;
         $image = $request->file('image');
         if (isset($image)) {
             //make unique name for image

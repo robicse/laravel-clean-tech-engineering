@@ -28,25 +28,17 @@ class PartyController extends Controller
 
     public function index()
     {
-//        $get_party_id = User::where('party_id','!=','NULL')->latest('id')->pluck('party_id')->first();
-//        //dd($get_party_id);
-//        $get_party = Party::where('id','>',$get_party_id)->get();
-//        if(count($get_party) > 0){
-//            foreach($get_party as $data){
-//
-//                $user = new User();
-//                $user->party_id = $data->id;
-//                $user->name = $data->name;
-//                $user->phone = $data->phone;
-//                $user->email = $data->email;
-//                $user->password = Hash::make(123456);
-//                $user->save();
-//            }
-//        }
-//        //dd($get_party);
 
-        $parties = Party::latest()->get();
+
+        $parties = Party::where('type','=','customer')->get();
         return view('backend.party.index',compact('parties'));
+    }
+
+    public function supplier()
+    {
+
+        $parties = Party::where('type','=','supplier')->get();
+        return view('backend.party.supplier',compact('parties'));
     }
 
 
@@ -173,7 +165,6 @@ class PartyController extends Controller
         $get_party = Party::where('id','>',$get_party_id)->get();
         if(count($get_party) > 0){
             foreach($get_party as $data){
-
                 $user = new User();
                 $user->party_id = $data->id;
                 $user->name = $data->name;

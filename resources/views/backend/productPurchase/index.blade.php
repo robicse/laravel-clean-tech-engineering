@@ -73,8 +73,8 @@
                                             <div class="form-group">
                                                 <label for="payment_type">Payment Type</label>
                                                 <select name="payment_type" id="payment_type" class="form-control" required>
-                                                    <option value="cash" selected>Cash</option>
-                                                    <option value="check">Check</option>
+                                                    <option value="Cash" selected>Cash</option>
+                                                    <option value="Check">Check</option>
                                                 </select>
                                                 <span>&nbsp;</span>
                                                 <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
@@ -93,7 +93,7 @@
                                             $('#check_number').hide();
                                             $('#check_date').hide();
                                             $('#payment_type').change(function(){
-                                                if($('#payment_type').val() == 'check') {
+                                                if($('#payment_type').val() == 'Check') {
                                                     $('#check_number').show();
                                                     $('#check_date').show();
                                                 } else {

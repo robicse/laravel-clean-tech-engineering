@@ -473,7 +473,7 @@ class ProductSaleController extends Controller
         $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
             ->where('store_id',$store_id)->where('product_id',$product_id)
             ->latest('product_purchase_details.id')
-            ->pluck('product_purchase_details.mrp_price')
+            ->pluck('product_purchase_details.price')
             ->first();
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
@@ -481,7 +481,7 @@ class ProductSaleController extends Controller
         $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
         $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
         $options = [
-            'mrp_price' => $mrp_price,
+            'price' => $mrp_price,
             'current_stock' => $current_stock,
             'categoryOptions' => '',
             'subCategoryOptions' => '',

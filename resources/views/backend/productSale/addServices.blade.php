@@ -24,11 +24,12 @@
                         <tr>
                             <th >ID</th>
                             <th>Product</th>
-                            <th>Brand</th>
+{{--                            <th>Brand</th>--}}
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Sub Total</th>
                             <th>Services</th>
+                            <th>Duration</th>
                             <th>Date</th>
                             <th>Action</th>
 
@@ -40,16 +41,19 @@
                                 <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id[]" value="{{$productSaleDetail->id}}"></td>
 
                                 <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>
-                                <td>{{$productSaleDetail->product->product_brand->name}}</td>
+{{--                                <td>{{$productSaleDetail->product->product_brand->name}}</td>--}}
                                 <td>{{$productSaleDetail->qty}}</td>
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
-                                <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
+                                <td width="20%">
+                                    <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
                                         <option value="">Select  Service</option>
                                         @foreach($services as $service)
                                             <option value="{{$service->id}}">{{$service->name}}</option>
                                         @endforeach
-                                    </select></td>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="duration[]" class=" form-control"  id="duration_" ></td>
                                 <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>
 
                             </tr>
@@ -86,8 +90,8 @@
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
-                    '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
+                    '<td><input type="text" class=" form-control" name="duration[]" id="duration_"  required></td>' +
                     '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 

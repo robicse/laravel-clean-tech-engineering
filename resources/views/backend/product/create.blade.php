@@ -131,6 +131,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Price <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" placeholder="price" name="price" id="price">
+                                @if ($errors->has('price'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('price') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Status <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="status" id="status" class="form-control">

@@ -19,20 +19,20 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Loss Profit Table</h3>
-                <form class="form-inline" action="{{ route('transaction.lossProfit') }}">
-                    <div class="form-group col-md-4">
-                        <label for="start_date">Start Date:</label>
-                        <input type="text" name="start_date" class="datepicker form-control" value="">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="end_date">End Date:</label>
-                        <input type="text" name="end_date" class="datepicker form-control" value="">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <a href="{!! route('transaction.lossProfit') !!}" class="btn btn-primary" type="button">Reset</a>
-                    </div>
-                </form>
+{{--                <form class="form-inline" action="{{ route('transaction.lossProfit') }}">--}}
+{{--                    <div class="form-group col-md-4">--}}
+{{--                        <label for="start_date">Start Date:</label>--}}
+{{--                        <input type="text" name="start_date" class="datepicker form-control" value="">--}}
+{{--                    </div>--}}
+{{--                    <div class="form-group col-md-4">--}}
+{{--                        <label for="end_date">End Date:</label>--}}
+{{--                        <input type="text" name="end_date" class="datepicker form-control" value="">--}}
+{{--                    </div>--}}
+{{--                    <div class="form-group col-md-4">--}}
+{{--                        <button type="submit" class="btn btn-success">Submit</button>--}}
+{{--                        <a href="{!! route('transaction.lossProfit') !!}" class="btn btn-primary" type="button">Reset</a>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
                 <div>&nbsp;</div>
                 @if(!empty($stores))
                     @foreach($stores as $store)
@@ -99,7 +99,7 @@
                                         $sale_total_qty = $productSaleDetails->qty;
                                         $sale_total_amount = $productSaleDetails->sub_total;
                                         $sale_average_price = $productSaleDetails->sub_total/$productSaleDetails->qty;
-
+//dd($sale_average_price);
                                         if($sale_total_qty > 0){
                                             $loss_or_profit = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
                                             $current_loss_or_profit += $loss_or_profit;

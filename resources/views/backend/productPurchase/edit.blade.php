@@ -56,8 +56,8 @@
                             <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" >
-                                    <option value="cash" {{'cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
-                                    <option value="check" {{'check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
+                                    <option value="Cash" {{'Cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
+                                    <option value="Check" {{'Check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
@@ -78,11 +78,11 @@
                                 <tr>
                                     <th>Product</th>
                                     <th style="display: none">Category</th>
-{{--                                    <th>Sub Category</th>--}}
                                     <th>Brand</th>
+                                    <th>Unit</th>
                                     <th>Qty</th>
                                     <th>Price</th>
-                                    <th>MRP Price</th>
+{{--                                    <th>MRP Price</th>--}}
                                     <th>Sub Total</th>
                                 </tr>
                                 </thead>
@@ -111,7 +111,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="12%">
+                                        <td width="15%">
                                             <div id="product_brand_id_{{$current_row}}">
                                                 <select class="form-control product_brand_id" name="product_brand_id[]" readonly required>
                                                     <option value="">Select  Brand</option>
@@ -121,16 +121,26 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="8%">
+                                        <td width="12%">
+                                            <div id="product_unit_id_{{$current_row}}">
+                                                <select class="form-control product_unit_id select2" name="product_unit_id[]" readonly required>
+                                                    <option value="">Select  Unit</option>
+                                                    @foreach($productUnits as $productUnit)
+                                                        <option value="{{$productUnit->id}}"  {{$productUnit->id == $productPurchaseDetail->product_unit_id ? 'selected' : ''}}>{{$productUnit->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td width="13%">
                                             <input type="number" min="1" max="" class="qty form-control" name="qty[]" value="{{$productPurchaseDetail->qty}}" required >
                                         </td>
-                                        <td width="10%">
-                                            <input type="number" min="1" max="" class="price form-control" name="price[]" value="{{$productPurchaseDetail->price}}" required >
+                                        <td width="13%">
+                                            <input type="number" min="1" max="" class="price form-control" name="price[]"  id="price_1" value="{{$productPurchaseDetail->price}}" required >
                                         </td>
-                                        <td width="10%">
-                                            <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >
-                                        </td>
-                                        <td width="10%">
+{{--                                        <td width="10%">--}}
+{{--                                            <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >--}}
+{{--                                        </td>--}}
+                                        <td width="15%">
                                             <input type="text" class="amount form-control" name="sub_total[]" value="{{$productPurchaseDetail->sub_total}}">
                                         </td>
                                     </tr>
@@ -138,7 +148,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th width="10%">
+                                    <th >
                                         Type:
                                         <select name="discount_type" id="discount_type" class="form-control" >
                                             <option value="flat" {{'flat' == $productPurchase->discount_type ? 'selected' : ''}}>flat</option>
@@ -260,7 +270,7 @@
 
             $('.add').click(function () {
                 var productCategory = $('.product_category_id').html();
-                var productSubCategory = $('.product_sub_category_id').html();
+                var productunit = $('.product_unit_id').html();
                 var productBrand = $('.product_brand_id').html();
                 var product = $('.product_id').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
@@ -269,8 +279,9 @@
                     '<td><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                     // '<td><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
+                    '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
                     '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
-                    '<td><input type="text" min="1" max="" class="price form-control" name="price[]" value="" required></td>' +
+                    '<td><input type="number" min="1" max="" class="price form-control" id="price_"  name="price[]" value="" required></td>' +
                     //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                     '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
@@ -363,6 +374,8 @@
                     $("#product_category_id_"+current_row).html(res.data.categoryOptions);
                     $("#product_sub_category_id_"+current_row).html(res.data.subCategoryOptions);
                     $("#product_brand_id_"+current_row).html(res.data.brandOptions);
+                    $("#product_unit_id_"+current_row).html(res.data.unitOptions);
+                    $("#pice_"+current_row).val(res.data.price);
                 },
                 error : function (err){
                     console.log(err)
@@ -372,13 +385,13 @@
 
         $(function() {
             <?php
-            if($transaction->payment_type == 'cash'){
+            if($transaction->payment_type == 'Cash'){
             ?>
             $('#check_number').hide();
             $('#check_date').hide();
             <?php } ?>
             $('#payment_type').change(function(){
-                if($('#payment_type').val() == 'check') {
+                if($('#payment_type').val() == 'Check') {
                     $('#check_number').show();
                     $('#check_date').show();
                 } else {

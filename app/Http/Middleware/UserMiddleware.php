@@ -24,13 +24,13 @@ class UserMiddleware
 //        }else{
 //            return redirect()->route('login');
 //        }
-//        if (Auth::check() && (Auth::User()->type == 'Customer')) {
-//            return $this->redirectTo = '/user/dashboard';
-//        }
-//        else{
-//            return redirect()->route('login');
-//        }
-//
+        if (Auth::check() && Auth::User()->getRoleNames()[0] == 'Customer') {
+            return $next($request);
+        }
+        else{
+            return redirect()->route('login');
+        }
+
 
 
     }

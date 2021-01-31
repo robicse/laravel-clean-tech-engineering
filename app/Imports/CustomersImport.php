@@ -20,6 +20,7 @@ class CustomersImport implements ToModel
             'name'     => $row[1],
             'phone'    => $row[2],
             'email'    => $row[3],
+            'address'  => $row[4],
         ]);
     }
 }
