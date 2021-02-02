@@ -73,6 +73,14 @@
                     </div>
                 </div>
             </div>
+                <div class="col-md-4">
+                <div class="widget-small danger coloured-icon"><i class="icon fa fa-shopping-basket "></i>
+                    <div class="info">
+                        <a href="{{route('monthly.services')}}"><h4>Total Monthly Service</h4></a>
+                        <p><b>{{$saleServices}}</b></p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             @if(!empty($stores))

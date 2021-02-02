@@ -107,13 +107,18 @@ class UserDashboardController extends Controller
         }
 
     }
-    public function invoice()
-
+    public function invoice(Request $request)
     {
-        return view('backend.user-dashboard.invoice');
+
+
+        return view('backend.user-dashboard.invoice',compact('productSale'));
     }
-    public function invoiceDetails(){
-        dd('dd');
-        return view('backend.user-dashboard.invoice');
+    public function invoiceDetails(Request $request){
+        //dd($request->all());
+        //dd('dd');
+        $query = $request->input('query');
+        $productSales=\App\ProductSale::where('invoice_no','LIKE',"%$query%")->get();
+       // dd($productSales);
+        return view('backend.user-dashboard.invoice-details',compact('productSales'));
     }
 }

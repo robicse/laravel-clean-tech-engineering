@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Imports\CustomersImport;
 use App\Party;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,20 +26,21 @@ class PartyController extends Controller
         $this->middleware('permission:party-create', ['only' => ['create','store']]);
         $this->middleware('permission:party-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:party-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:supplier-list', ['only' => ['supplier']]);
     }
 
     public function index()
     {
 
 
-        $parties = Party::where('type','=','customer')->get();
+        $parties = Party::where('type','=','customer')->latest()->get();
         return view('backend.party.index',compact('parties'));
     }
 
     public function supplier()
     {
 
-        $parties = Party::where('type','=','supplier')->get();
+        $parties = Party::where('type','=','supplier')->latest()->get();
         return view('backend.party.supplier',compact('parties'));
     }
 
@@ -80,6 +83,36 @@ class PartyController extends Controller
             $user->assignRole('Customer');
            // dd($user);
         }
+        $account = DB::table('accounts')->where('HeadLevel',3)->where('HeadCode', 'like', '1010301%')->Orderby('created_at', 'desc')->limit(1)->first();
+        //dd($account);
+        if(!empty($account)){
+            $headcode=$account->HeadCode+1;
+            //$p_acc = $headcode ."-".$request->name;
+        }else{
+            $headcode="1010301";
+            //$p_acc = $headcode ."-".$request->name;
+        }
+        $p_acc = $request->name;
+
+        $PHeadName = 'Account Receivable';
+        $HeadLevel = 3;
+        $HeadType = 'A';
+
+
+        $account = new Account();
+        $account->HeadCode      = $headcode;
+        $account->HeadName      = $p_acc;
+        $account->PHeadName     = $PHeadName;
+        $account->HeadLevel     = $HeadLevel;
+        $account->IsActive      = '1';
+        $account->IsTransaction = '1';
+        $account->IsGL          = '1';
+        $account->HeadType      = $HeadType;
+        $account->CreateBy      = Auth::User()->id;
+        $account->UpdateBy      = Auth::User()->id;
+        $account->save();
+
+
         Toastr::success('Party Created Successfully', 'Success');
         return redirect()->route('party.index');
 

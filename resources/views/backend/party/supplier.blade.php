@@ -4,10 +4,10 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Customer & Supplier</h1>
+                <h1><i class=""></i> All Supplier</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer & Supplier</a></li>
+                <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Supplier</a></li>
             </ul>
         </div>
 {{--        <div class="card-body">--}}
@@ -22,7 +22,7 @@
 {{--        </div>--}}
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Customer & Supplier Table</h3>
+                <h3 class="tile-title">Supplier Table</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>

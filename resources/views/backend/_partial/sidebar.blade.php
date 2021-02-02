@@ -79,7 +79,7 @@
             </ul>
         </li>
         <hr/>
-        <li><a class="app-menu__item" href="{{ route('monthly-services') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Monthly Service</span></a></li>
+        <li><a class="app-menu__item" href="{{ route('monthly.services') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Monthly Service</span></a></li>
         <li><a class="app-menu__item" href="{{ route('offers.index') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Offers</span></a></li>
         <li><a class="app-menu__item" href="{{ route('stores.index') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Stores</span></a></li>
         <li><a class="app-menu__item" {{Request ::is('/users')  ? ' active ' : ''}} href="{{ route('users.index') }}"><i class="app-menu__icon fas fa-users"></i><span class="app-menu__label">Users</span></a></li>

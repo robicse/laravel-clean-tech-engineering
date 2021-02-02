@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Capacity <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Product Unit <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_unit_id" id="product_unit_id" class="form-control">
                                     @foreach($productUnits as $productUnit)
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Image <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Image</label>
                             <div class="col-md-8">
                                 <img src="{{Storage::url('uploads/product/'.$product->image)}}" alt="" width="100px;">
                                 <input class="{{ $errors->has('image') ? ' is-invalid' : '' }}" type="file" placeholder="Image" name="image" value="{{$product->image}}">
@@ -142,7 +142,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Price <span style="color: red">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" placeholder="price" name="price" value="{{$product->price}}">
+                                <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" placeholder="price" name="price" value="{{$product->price}}" required>
                                 @if ($errors->has('price'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('price') }}</strong>

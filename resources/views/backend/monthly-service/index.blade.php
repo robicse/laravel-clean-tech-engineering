@@ -6,6 +6,7 @@
             <div>
                 <h1><i class=""></i> All Monthly Service</h1>
             </div>
+
 {{--            <ul class="app-breadcrumb breadcrumb">--}}
 {{--                <li class="breadcrumb-item"> <a href="{!! route('service.create') !!}" class="btn btn-sm btn-primary" type="button">Add Service</a></li>--}}
 {{--            </ul>--}}
@@ -13,6 +14,25 @@
         <div class="col-md-12">
             <div class="tile">
                 <h2 class="tile-title" style="text-align: center">{{date('F')}} month Services</h2>
+                <form class="form-inline" action="{{ route('monthly.services') }}">
+                    <div class="form-group col-md-4">
+                        <label for="start_date">Start Date:</label>
+                        <input type="text" name="start_date" class="datepicker form-control" value="{{$start_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">End Date:</label>
+                        <input type="text" name="end_date" class="datepicker form-control" value="{{$end_date}}">
+                    </div>
+                   <div class="form-group" style="margin-left: 30px">
+                    <button class="btn btn-sm btn-primary float-left p-2">Advanced Search</button><span>&nbsp;</span>
+                    <a href="{{ route('monthly.services') }}" class="btn btn-sm btn-info float-right p-2" role="button">Reset</a>
+            </div>
+                </form>
+                <div>&nbsp;</div>
+
+                <br>
+                <br>
+                <br>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>

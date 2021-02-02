@@ -9,6 +9,14 @@ use Illuminate\Support\Str;
 
 class OfficeCostingCategoryController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:officeCostingCategories-list|officeCostingCategories-create|officeCostingCategories-edit|officeCostingCategories-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:officeCostingCategories-create', ['only' => ['create','store']]);
+        $this->middleware('permission:officeCostingCategories-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:officeCostingCategories-delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $officeCostingCategories = OfficeCostingCategory::latest()->get();

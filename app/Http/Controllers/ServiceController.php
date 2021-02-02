@@ -19,6 +19,8 @@ class ServiceController extends Controller
         $this->middleware('permission:service-create', ['only' => ['create','store']]);
         $this->middleware('permission:service-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:service-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:monthly-service', ['only' => ['monthlyService']]);
+        $this->middleware('permission:monthly-service-sms', ['only' => ['sendSMS']]);
     }
     public function index()
     {
@@ -87,7 +89,7 @@ class ServiceController extends Controller
        }
         return response()->json(['success'=>true,'data'=>$check_name]);
     }
-    public function monthlyService()
+    public function monthlyService(Request $request)
 
     {
         $current_year = date('Y');
@@ -95,17 +97,30 @@ class ServiceController extends Controller
         $custom_date_start = $current_year . "-" . $current_month . "-01";
         $custom_date_end = $current_year . "-" . $current_month . "-31";
         //dd($current_year);
-        $saleServices = SaleService::orderBy('date','ASC')
-            ->where('date','>=',$custom_date_start)
-            ->where('date','<=',$custom_date_end)
-            ->get();;
+//        $saleServices = SaleService::orderBy('date','ASC')
+//            ->where('date','>=',$custom_date_start)
+//            ->where('date','<=',$custom_date_end)
+//            ->get();;
         //dd($saleServices);
+
+        $start_date = $request->start_date ? $request->start_date : '';
+        //dd($start_date);
+        $end_date = $request->end_date ? $request->end_date : '';
+        if($start_date && $end_date) {
+            $saleServices = SaleService::orderBy('date','ASC')->where('date','>=',$start_date)->where('date', '<=', $end_date)->get();
+        }else{
+            $saleServices = SaleService::orderBy('date','ASC')
+                ->where('date','>=',$custom_date_start)
+                ->where('date','<=',$custom_date_end)
+                ->get();;
+        }
+
         $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
         $users=User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
 //        $id = $users->id;
 //        dd($id);
 
-        return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders','current_month'));
+        return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders','current_month','start_date','end_date'));
     }
 
     public function sendSMS(Request $request){

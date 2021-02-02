@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Offer;
 use App\Party;
 use App\Product;
+use App\SaleService;
 use App\Service;
 use App\Store;
 use App\User;
@@ -34,7 +35,10 @@ class HomeController extends Controller
         //return view('backend._partial.home',['customers'=>$customer,'totalDue'=>$totalDue,'todaySell'=>$todaySell,'todayDue'=>$todayDue,'todaPaid'=>$todayPaid,'todayInvoice'=>$todayInvoice]);
 
 //        Toastr::success('welcome Dashboard Successfully', 'warning');
-
+        $current_year = date('Y');
+        $current_month = date('m');
+        $custom_date_start = $current_year . "-" . $current_month . "-01";
+        $custom_date_end = $current_year . "-" . $current_month . "-31";
         $stores = Store::all();
         $customer = Party::where('type','customer')->get()->count();
         $servise_executive = User::where('type','executive')->get()->count();
@@ -42,6 +46,12 @@ class HomeController extends Controller
         $product = Product::all()->count();
         $service = Service::all()->count();
         $offers = Offer::all()->count();
-        return view('backend._partial.home', compact('product','stores','customer','service_provider','servise_executive','service','offers'));
+        $saleServices = SaleService::orderBy('date','ASC')
+            ->where('date','>=',$custom_date_start)
+            ->where('date','<=',$custom_date_end)
+            ->get()
+            ->count();
+        //dd($saleServices);
+        return view('backend._partial.home', compact('product','stores','customer','service_provider','servise_executive','service','offers','saleServices'));
     }
 }

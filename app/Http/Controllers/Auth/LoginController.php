@@ -33,8 +33,8 @@ class LoginController extends Controller
         if (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Admin')) {
             return $this->redirectTo = '/home';
         }
-        elseif (Auth::check() && (Auth::User()->getRoleNames()[0] == NULL)) {
-            return $this->redirectTo = '/login';
+        elseif (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Service Executive')) {
+            return $this->redirectTo = '/home';
         }
         elseif (Auth::check() && (Auth::User()->getRoleNames()[0] == 'Customer')) {
             return $this->redirectTo = '/user/dashboard';

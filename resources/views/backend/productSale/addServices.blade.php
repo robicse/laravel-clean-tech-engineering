@@ -29,8 +29,8 @@
                             <th>Price</th>
                             <th>Sub Total</th>
                             <th>Services</th>
-                            <th>Duration</th>
                             <th>Date</th>
+                            <th>Duration</th>
                             <th>Action</th>
 
                         </tr>
@@ -53,9 +53,10 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td><input type="text" name="duration[]" class=" form-control"  id="duration_" ></td>
                                 <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>
-
+                                <td>
+                                    <input type="number" name="duration_1[]" class=" form-control"  id="duration_1" >
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -91,8 +92,8 @@
                     '<td></td>' +
                     '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
-                    '<td><input type="text" class=" form-control" name="duration[]" id="duration_"  required></td>' +
                     '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
+                    '<td><input type="number" class=" form-control" name="duration_'+n+'[]" id="duration_'+n+'"  required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
                 $('.neworderbody').append(tr);

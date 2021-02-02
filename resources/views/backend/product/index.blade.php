@@ -23,7 +23,7 @@
                             <th width="10%">Product Model</th>
                             <th width="10%">Category Name</th>
                             <th width="10%">Brand Name</th>
-                            <th width="10%">Capacity</th>
+                            <th width="10%">Unit</th>
                             <th width="10%">Image</th>
                             <th width="15%">Action</th>
                         </tr>

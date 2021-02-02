@@ -13,7 +13,9 @@ class StockController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:product-list', ['only' => ['stockList']]);
+        $this->middleware('permission:stock-list', ['only' => ['stockList']]);
+        $this->middleware('permission:stock-summary-list', ['only' => ['stockSummaryList']]);
+        $this->middleware('permission:stock-low-list', ['only' => ['stockLowList']]);
     }
     public function stockList(){
         $stores = Store::latest()->get();

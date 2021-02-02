@@ -168,7 +168,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/user/active','UserController@activeDeactive')->name('user.active');
 
     //monthly service list
-    Route::get('monthly-service','ServiceController@monthlyService')->name('monthly-services');
+    Route::get('monthly-service','ServiceController@monthlyService')->name('monthly.services');
     Route::post('send-sms','ServiceController@sendSMS')->name('send.mail');
 
 

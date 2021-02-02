@@ -410,20 +410,42 @@ class ProductSaleController extends Controller
         $row_count = count($request->service_id);
         for($i=0; $i<$row_count;$i++) {
             $product_sale_detail_id = $request->product_sale_detail_id[$i];
-            //dd($product_sale_detail_id);
-            for ($i = 0; $i < $row_count; $i++) {
-                $saleServices = new SaleService();
-                $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                $saleServices->created_user_id = Auth::id();
-                $saleServices->service_id = $request->service_id[$i];
-                $saleServices->date = $request->date[$i];
-                $saleServices->status = 'pending';
-                //dd($saleServices);
-                $saleServices->save();
+            $saleServices = new SaleService();
+            $saleServices->product_sale_detail_id = $product_sale_detail_id;
+            $saleServices->created_user_id = Auth::id();
+            $saleServices->service_id = $request->service_id[$i];
+            $saleServices->date = $request->date[$i];
+            $saleServices->status = 'pending';
+            $saleServices->save();
+            $insert_id = $saleServices->id;
 
+            if($insert_id){
+                $duration_row_count = $request->duration_1[$i];
+                $date = $request->date[$i];
+                $nextMonth = date("m",strtotime($date."+1 month"));
+
+                for($j=0; $j<$duration_row_count;$i++) {
+//                $sale_service_durations = new SaleServiceDuration();
+//                $sale_service_durations->sale_service_id = $insert_id;
+//                $sale_service_durations->provider_id = NULL;
+//                $sale_service_durations->status = 0;
+//                $sale_service_durations->next_service_date =
+
+                    $product_sale_detail_id = $request->product_sale_detail_id[$i];
+                    $saleServices = new SaleService();
+                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                    $saleServices->created_user_id = Auth::id();
+                    $saleServices->service_id = $request->service_id[$i];
+                    $saleServices->date = $nextMonth;
+                    $saleServices->status = 'pending';
+                    $saleServices->save();
+
+                    $nextMonth = date("m",strtotime($nextMonth."+1 month"));
+                }
             }
 
         }
+
         return redirect()->route('productSales.index');
     }
     public function Showservice(Request $request, $id){

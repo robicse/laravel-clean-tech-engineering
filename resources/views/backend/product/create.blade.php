@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Product Capacity <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Product Unit <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="product_unit_id" id="product_unit_id" class="form-control">
                                     <option value="">Select One</option>
@@ -114,13 +114,13 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Image <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Image</label>
                             <div class="col-md-8">
                                 <input type="file" id="image" name="image" class="form-control-file">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Warranty <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">Warranty</label>
                             <div class="col-md-8">
                                 <input class="form-control{{ $errors->has('warranty') ? ' is-invalid' : '' }}" type="text" placeholder="Warranty" name="warranty" id="warranty">
                                 @if ($errors->has('warranty'))
@@ -133,7 +133,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Price <span style="color: red">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" placeholder="price" name="price" id="price">
+                                <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" placeholder="price" name="price" id="price" required>
                                 @if ($errors->has('price'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('price') }}</strong>
@@ -145,7 +145,7 @@
                             <label class="control-label col-md-3 text-right">Status <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <select name="status" id="status" class="form-control">
-                                    <option value="1">Stock In</option>
+                                    <option value="1" selected>Stock In</option>
                                     <option value="0">Stock Out</option>
                                 </select>
                             </div>

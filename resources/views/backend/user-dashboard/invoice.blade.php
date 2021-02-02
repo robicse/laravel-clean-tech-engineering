@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <label class="control-label">Invoice No</label>
-                <input id="invoice" type="text" class="form-control" name="invoice" placeholder="Invoice No" value="{{ old('phone') }}" required autofocus>
+                <input id="invoice" type="text" class="form-control" name="query" placeholder="Invoice No" value="{{isset($query) ? $query : ''}}" required autofocus>
                 @if ($errors->has('invoice'))
                     <span class="invalid-feedback" role="alert">
                    <strong>{{ $errors->first('invoice') }}</strong>

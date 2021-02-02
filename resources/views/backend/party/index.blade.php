@@ -4,16 +4,16 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Customer & Supplier</h1>
+                <h1><i class=""></i> All Customer</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer & Supplier</a></li>
+                <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer</a></li>
             </ul>
         </div>
         <div class="card-body">
             <form action="{{ route('customer.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="file" name="file" class="form-control">
+                <input type="file" name="file" id="myMessage" class="form-control">
                 <br>
                 <button class="btn btn-success" id="submit" onclick="sendMessage(); clearInput();">Import data</button>
                 <a class="btn btn-warning" href="{{ route('customer.export') }}">Export Data</a>
@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Customer & Supplier Table</h3>
+                <h3 class="tile-title">Customer Table</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -71,7 +71,7 @@
                                         <div class="col-sm-12 col-md-12">
                                             <div class="panel panel-bd lobidrag">
                                                 <div class="panel-body">
-                                                    <img src="{{asset('uploads/product/honey.jpg')}}" alt="" style="width:100%;height: 100%">
+                                                    <img src="{{asset('uploads/sample.jpg')}}" alt="" style="width:100%;height: 100%">
                                                 </div>
                                             </div>
                                         </div>
@@ -91,11 +91,13 @@
 @push('js')
     <script>
         $('#submit').click(function(){
-            if($('#submit').val() == ''){
-                alert('Import can not be left blank');
+            if($('#myMessage').val() == ''){
+                alert('Input can not be left blank');
             }
-            return false;
+            return true;
         });
+
+
         function modal_customer(){
             $('#customar_modal').modal('show');
         }
