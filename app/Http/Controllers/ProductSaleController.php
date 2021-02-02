@@ -422,16 +422,15 @@ class ProductSaleController extends Controller
             if($insert_id){
                 $duration_row_count = $request->duration_1[$i];
                 $date = $request->date[$i];
-                $nextMonth = date("m",strtotime($date."+1 month"));
+                $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
 
-                for($j=0; $j<$duration_row_count;$i++) {
+                for($j=0; $j<$duration_row_count;$j++) {
 //                $sale_service_durations = new SaleServiceDuration();
 //                $sale_service_durations->sale_service_id = $insert_id;
 //                $sale_service_durations->provider_id = NULL;
 //                $sale_service_durations->status = 0;
 //                $sale_service_durations->next_service_date =
 
-                    $product_sale_detail_id = $request->product_sale_detail_id[$i];
                     $saleServices = new SaleService();
                     $saleServices->product_sale_detail_id = $product_sale_detail_id;
                     $saleServices->created_user_id = Auth::id();
@@ -440,7 +439,7 @@ class ProductSaleController extends Controller
                     $saleServices->status = 'pending';
                     $saleServices->save();
 
-                    $nextMonth = date("m",strtotime($nextMonth."+1 month"));
+                    $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
                 }
             }
 
