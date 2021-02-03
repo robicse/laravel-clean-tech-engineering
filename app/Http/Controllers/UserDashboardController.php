@@ -109,8 +109,6 @@ class UserDashboardController extends Controller
     }
     public function invoice(Request $request)
     {
-
-
         return view('backend.user-dashboard.invoice',compact('productSale'));
     }
     public function invoiceDetails(Request $request){

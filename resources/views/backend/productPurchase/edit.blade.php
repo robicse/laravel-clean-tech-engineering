@@ -384,6 +384,7 @@
         }
 
         $(function() {
+
             <?php
             if($transaction->payment_type == 'Cash'){
             ?>
