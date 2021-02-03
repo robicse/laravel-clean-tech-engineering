@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Due;
 use App\FreeProduct;
 use App\FreeProductSaleDetails;
 use App\Party;
+use App\Posting;
 use App\Product;
 use App\ProductBrand;
 use App\ProductCategory;
@@ -206,9 +208,43 @@ class ProductSaleController extends Controller
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
                 //dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
-
             }
+
+            $party_id = $request->party_id;
+            //dd($account_id);
+            $accounts = Account::where('party_id',$party_id)->first();
+//dd($accounts);
+            $customer = new Posting();
+            $customer ->voucher_type_id =1;
+            $customer ->voucher_no =1;
+            $customer->date = $request->date;
+            $customer->account_id = $accounts->id;
+            $customer->account_name = $accounts->HeadName;
+            $customer->parent_account_name = $accounts->PHeadName;
+            $customer->account_no = $accounts->HeadCode;
+            $customer->account_type = $accounts->HeadType;
+            $customer->debit = NULL;
+            $customer->credit = $total_amount;
+            $customer->transaction_description = $request->transaction_description;
+            $customer->save();
+//dd($customer);
+            $inventory = new Posting();
+            $inventory ->voucher_type_id =1;
+            $inventory ->voucher_no =1;
+            $inventory->date = $request->date;
+            $inventory->account_id = $accounts->id;
+            $inventory->account_name = $accounts->HeadName;
+            $inventory->parent_account_name = $accounts->PHeadName;
+            $inventory->account_no = $accounts->HeadCode;
+            $inventory->account_type = $accounts->HeadType;
+            $inventory->debit =  $total_amount;
+            $inventory->credit = NULL;
+            $inventory->transaction_description = $request->transaction_description;
+            $inventory->save();
+
+//dd($inventory);
         }
+
 
         Toastr::success('Product Sale Created Successfully', 'Success');
         if($request->print_now == 1){
@@ -396,13 +432,14 @@ class ProductSaleController extends Controller
     public function Addservice($id){
        // $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
-        //dd($productSaleDetail);
+        $product = Product::where('id',$id)->first();
+        //dd($product);
         $services = Service::latest()->get();
-        return view('backend.productSale.addServices',compact('productSaleDetail','services'));
+        return view('backend.productSale.addServices',compact('productSaleDetail','services','product'));
     }
 
     public function Storeservice(Request $request ){
-        //dd($request->all());
+       // dd($request->all());
 
         $this->validate($request, [
             'service_id'=> 'required',
@@ -410,12 +447,13 @@ class ProductSaleController extends Controller
         $row_count = count($request->service_id);
         for($i=0; $i<$row_count;$i++) {
             $product_sale_detail_id = $request->product_sale_detail_id[$i];
+           // dd($product_sale_detail_id);
             $saleServices = new SaleService();
             $saleServices->product_sale_detail_id = $product_sale_detail_id;
             $saleServices->created_user_id = Auth::id();
             $saleServices->service_id = $request->service_id[$i];
             $saleServices->date = $request->date[$i];
-            $saleServices->status = 'pending';
+            $saleServices->status = 0;
             $saleServices->save();
             $insert_id = $saleServices->id;
 
@@ -433,10 +471,11 @@ class ProductSaleController extends Controller
 
                     $saleServices = new SaleService();
                     $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                    //dd($saleServices->product_sale_detail_id);
                     $saleServices->created_user_id = Auth::id();
                     $saleServices->service_id = $request->service_id[$i];
                     $saleServices->date = $nextMonth;
-                    $saleServices->status = 'pending';
+                    $saleServices->status = 0;
                     $saleServices->save();
 
                     $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
@@ -739,7 +778,7 @@ class ProductSaleController extends Controller
         $this->validate($request, [
             'type'=> 'required',
             'name' => 'required',
-            'phone'=> 'required',
+            'phone'=> 'required|unique:parties,phone',
             'email'=> '',
             'address'=> '',
         ]);

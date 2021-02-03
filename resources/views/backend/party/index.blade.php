@@ -94,6 +94,7 @@
             if($('#myMessage').val() == ''){
                 alert('Input can not be left blank');
             }
+            else
             return true;
         });
 

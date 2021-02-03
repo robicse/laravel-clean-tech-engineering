@@ -105,25 +105,39 @@
                                           @endphp
                                           {{$brands->name}}</td>
                                         @php
-                                            $productdetail = DB::table('product_sales')
+                                            $productdetails = DB::table('product_sales')
                                                 ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
                                                 ->where('product_sale_details.product_sale_id', $productdetail->id)
                                                 ->select('product_sale_details.qty','product_sale_details.price','product_sale_details.sub_total')
                                                 ->first();
 //dd($productdetail)
                                         @endphp
-                                        <td>{{$productdetail->qty}}</td>
-                                        <td>{{$productdetail->price}}</td>
-                                        <td>{{$productdetail->sub_total}}</td>
+                                        <td>{{$productdetails->qty}}</td>
+                                        <td>{{$productdetails->price}}</td>
+                                        <td>{{$productdetails->sub_total}}</td>
                                         <td>@php
-                                                $saleService =  DB::table('product_sales')
-                                                  ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
-                                                  ->join('sale_services', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
+                                                //$saleService =  DB::table('product_sales')
+                                                  //->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
+                                                  //->join('sale_services', 'sale_services.product_sale_detail_id', '=', 'product_sale_details.id')
                                                  //->where('product_sale_details.product_sale_id', $productdetail->id)
                                                  // ->select('product_brands.name')
-                                                  ->get();
-   // dd($saleService)
-                                            @endphp</td>
+                                                  //->get();
+                                        $Services = DB::table('services')
+                                                     ->join('sale_services','sale_services.service_id','=','services.id')
+                                                     ->join('product_sale_details','product_sale_details.id','=','sale_services.product_sale_detail_id')
+                                                     //->join('product_sales','product_sale_details.product_sale_id','=','product_sales.id')
+                                                    ->where('product_sale_details.product_sale_id', $productdetail->id)
+                                                   //->select('services.id','services.name')
+                                                    ->get();
+   // dd(Services)
+                                            @endphp
+                                       @foreach($Services as $service)
+                                           <ul>
+                                               <li>  {{$service->name}}</li>
+                                           </ul>
+
+                                            @endforeach
+                                        </td>
                                     </tr>
                                 @endforeach
                             </table>

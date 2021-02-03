@@ -70,7 +70,7 @@ class PartyController extends Controller
 
         $insert_id = $parties->id;
         //dd($insert_id);
-        if($insert_id  && $request->type == 2){
+        if($insert_id  && $request->type == 'customer'){
             $user_data['name'] = $request->name;
             $user_data['email'] = $request->email;
             $user_data['phone'] = $request->phone;
@@ -100,6 +100,7 @@ class PartyController extends Controller
 
 
         $account = new Account();
+        $account->party_id      = $insert_id;
         $account->HeadCode      = $headcode;
         $account->HeadName      = $p_acc;
         $account->PHeadName     = $PHeadName;
