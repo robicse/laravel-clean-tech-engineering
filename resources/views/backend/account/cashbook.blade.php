@@ -215,9 +215,9 @@
                 <div class="tile-footer">
                 </div>
             </div>
-            <div class="text-center">
-                <a href="{{ url('account/cashbook-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
-            </div>
+{{--            <div class="text-center">--}}
+{{--                <a href="{{ url('account/cashbook-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
+{{--            </div>--}}
         </div>
     </main>
 

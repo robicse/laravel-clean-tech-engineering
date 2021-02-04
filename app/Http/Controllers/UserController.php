@@ -201,7 +201,6 @@ class UserController extends Controller
                 //$user = \App\User::find(Auth::id());
                 $user = User::find($request->user_id);
                 $user->password = Hash::make($request->password);
-                dd($user);
                 $user->save();
                 Toastr::success('Password Updated Successfully','Success');
                 Auth::logout();

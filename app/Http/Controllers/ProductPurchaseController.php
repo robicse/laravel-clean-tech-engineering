@@ -136,6 +136,18 @@ class ProductPurchaseController extends Controller
                 $stock->current_stock = $previous_stock + $request->qty[$i];
                 $stock->save();
             }
+// due
+            $due = new Due();
+            $due->ref_id = $insert_id;
+            $due->user_id = Auth::id();
+            $due->store_id = $request->store_id;
+            $due->party_id = $request->party_id;
+            //$due->payment_type = $request->payment_type;
+            //$due->check_number = $request->check_number ? $request->check_number : '';
+            $due->total_amount = $total_amount;
+            $due->paid_amount = $request->paid_amount;
+            $due->due_amount = $request->due_amount;
+            $due->save();
 
             // transaction
             $transaction = new Transaction();
@@ -277,6 +289,18 @@ class ProductPurchaseController extends Controller
                 $stock_row->update();
             }
         }
+        // due
+        $due = Due::where('ref_id',$id)->first();;
+        $due->user_id = Auth::id();
+        $due->store_id = $request->store_id;
+        $due->party_id = $request->party_id;
+        //$due->payment_type = $request->payment_type;
+        //$due->check_number = $request->check_number ? $request->check_number : '';
+        $due->total_amount = $total_amount;
+        $due->paid_amount = $request->paid_amount;
+        $due->due_amount = $request->due_amount;
+        $due->update();
+
         // transaction
         $transaction = Transaction::where('ref_id',$id)->where('transaction_type','purchase')->first();
         $transaction->invoice_no = Null;
@@ -303,6 +327,7 @@ class ProductPurchaseController extends Controller
         DB::table('product_purchase_details')->where('product_purchase_id',$id)->delete();
         DB::table('stocks')->where('ref_id',$id)->delete();
         DB::table('transactions')->where('ref_id',$id)->delete();
+        DB::table('dues')->where('ref_id',$id)->delete();
 
         Toastr::success('Product purchase Deleted Successfully', 'Success');
         return redirect()->route('productPurchases.index');

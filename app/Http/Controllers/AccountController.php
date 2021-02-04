@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Posting;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -317,6 +318,7 @@ class AccountController extends Controller
     }
     public function cash_book_form(Request $request)
     {
+       // dd($request->all());
         $PreBalance=0;
         $preDebCre = 'De/Cr';
         $cash_data_results = '';
@@ -458,7 +460,7 @@ class AccountController extends Controller
         $date_to = $request->date_to;
         $acc_name = Account::where('HeadCode',$request->general_ledger)->pluck('HeadName')->first();
         $transaction_no = Account::where('HeadCode',$request->general_ledger)->pluck('id')->first();
-        $transaction = Transaction::where('account_id',$transaction_no)->pluck('id')->first();
+        $transaction = Posting::where('account_id',$transaction_no)->pluck('id')->first();
 //dd($acc_name);
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
@@ -494,7 +496,7 @@ class AccountController extends Controller
 //exit;
 
         $transaction_no = Account::where('HeadCode',$transaction_head)->pluck('id')->first();
-        $transaction = Transaction::where('account_id',$transaction_no)->pluck('id')->first();
+        $transaction = Posting::where('account_id',$transaction_no)->pluck('id')->first();
         //dd($transaction);
         $acc_name = Account::where('HeadCode',$transaction_head)->pluck('HeadName')->first();
         //dd($acc_name);
@@ -575,7 +577,7 @@ class AccountController extends Controller
         $date_to = $request->date_to;
         $acc_name = Account::where('HeadCode',$request->general_ledger)->pluck('HeadName')->first();
         $transaction_no = Account::where('HeadCode',$request->general_ledger)->pluck('id')->first();
-        $transaction = Transaction::where('account_id',$transaction_no)->pluck('id')->first();
+        $transaction = Posting::where('account_id',$transaction_no)->pluck('id')->first();
         //dd($transaction);
         if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
         {
@@ -608,7 +610,7 @@ class AccountController extends Controller
 //echo ($transaction_head->account_no);
 //exit;
         $transaction_no = Account::where('HeadCode',$transaction_head)->pluck('id')->first();
-        $transaction = Transaction::where('account_id',$transaction_no)->pluck('id')->first();
+        $transaction = Posting::where('account_id',$transaction_no)->pluck('id')->first();
         $acc_name = Account::where('HeadCode',$transaction_head)->pluck('HeadName')->first();
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {

@@ -273,6 +273,7 @@
             });
             $('#store_total_amount').val(t);
             $('#total_amount').val(t);
+            $('#due_amount').val(t);
         }
 
         // onkeyup

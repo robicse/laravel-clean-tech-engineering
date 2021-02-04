@@ -171,7 +171,7 @@
                                         <input type="text" id="price_1" min="1" max="" class="price form-control" name="price[]" value="" required >
                                     </td>
                                     <td width="12%">
-                                        <input type="text" class="amount form-control" name="sub_total[]">
+                                        <input type="text" class="amount form-control" id="sub_total" name="sub_total[]">
                                     </td>
                                 </tr>
 
@@ -181,7 +181,7 @@
                                     <th></th>
                                     <th>
                                         Vat(Percentage):
-                                        <input type="text" class="form-control" name="vat_amount" id="vat_amount" onkeyup="vatAmount('')" value="0">
+                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')">
                                     </th>
                                     <th width="10%">
                                         Type:
@@ -192,21 +192,21 @@
                                     </th>
                                     <th>
                                         Discount(Flat):
-                                        <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
+                                        <input type="number" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                     </th>
 
-                                    <th>
+                                    <th >
                                         Total:
                                         <input type="hidden" id="store_total_amount" class="form-control">
-                                        <input type="text" id="total_amount" class="form-control" name="total_amount">
+                                        <input type="number" id="total_amount" class="form-control" name="total_amount">
                                     </th>
                                     <th>
                                         Paid Amount:
-                                        <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
+                                        <input type="number" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                     </th>
                                     <th>
                                         Due Amount:
-                                        <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
+                                        <input type="number" id="due_amount" class="backmoney form-control" name="due_amount">
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -227,7 +227,7 @@
                                         <td width="5%" class="no1">1</td>
                                         <td style="display: none"><input class="form-control" type="hidden" name="product_sale_id"></td>
                                         <td width="20%">
-                                            <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);">
+                                            <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1" >
                                                 <option value="">Select One</option>
                                                 @foreach($freeProducts as $freeProduct)
                                                     <option value="{{$freeProduct->id}}">{{$freeProduct->name}}</option>
@@ -337,34 +337,82 @@
             });
             $('#store_total_amount').val(t);
             $('#total_amount').val(t);
+            $('#due_amount').val(t);
         }
         // onkeyup
+        // function vatAmount(){
+        //     var sub_total = $('#total_amount').val();
+        //     console.log('sub_total= ' + sub_total);
+        //     console.log('sub_total= ' + typeof sub_total);
+        //     sub_total = parseInt(sub_total);
+        //
+        //     var vat_amount = $('#vat_amount').val();
+        //     console.log('vat_amount= ' + vat_amount);
+        //     console.log('vat_amount= ' + typeof vat_amount);
+        //     vat_amount = (vat_amount);
+        //
+        //     var vat_subtraction = (sub_total*vat_amount)/100;
+        //     console.log('vat_subtraction= ' + vat_subtraction);
+        //     console.log('vat_subtraction= ' + typeof vat_subtraction);
+        //
+        //     var grand_total =( sub_total + vat_subtraction);
+        //     console.log('grand_total= ' + grand_total);
+        //     console.log('grand_total= ' + typeof grand_total);
+        //     grand_total = (grand_total);
+        //
+        //     $('#show_vat_amount').val(vat_subtraction);
+        //     $('#store_total_amount').val(grand_total);
+        //     $('#total_amount').val(grand_total);
+        //     $('#due_amount').val(grand_total);
+        // }
+
+        // onblur
         function vatAmount(){
-            var sub_total = $('#total_amount').val();
-            console.log('sub_total= ' + sub_total);
-            console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseInt(sub_total);
+           //  var sub_total = $('#sub_total').val();
+           //  console.log('sub_total= ' + sub_total);
+           //  console.log('sub_total= ' + typeof sub_total);
+           //  var vat_amount = parseInt($('#vat_amount').val()).toFixed(2);
+           //  console.log('vat_amount= ' + vat_amount);
+           //  console.log('vat_amount= ' + typeof vat_amount);
+           //  var vat_subtraction = parseInt((sub_total*vat_amount)/100);
+           //  console.log('vat_subtraction= ' + vat_subtraction);
+           //  console.log('vat_subtraction= ' + typeof vat_subtraction);
+           //  var grand_total = (sub_total + vat_subtraction);
+           //  // console.log(grand_total);
+           // // var vat_subtraction = parseFloat(vat_subtraction).toFixed(2);
+           //  var grand_total = parseInt(grand_total).toFixed(2);
+           //  //$('#vat_amount').val(vat_subtraction);
+           //  //$('#discount_amount').val(discount_amount);
+           //  $('#grand_total').val(grand_total);
+           //  $('#total_amount').val(grand_total);
+           //  $('#due_amount').val(grand_total);
 
-            var vat_amount = $('#vat_amount').val();
-            console.log('vat_amount= ' + vat_amount);
-            console.log('vat_amount= ' + typeof vat_amount);
-            vat_amount = parseInt(vat_amount);
 
-            var vat_subtraction = (sub_total*vat_amount)/100;
-            console.log('vat_subtraction= ' + vat_subtraction);
-            console.log('vat_subtraction= ' + typeof vat_subtraction);
 
-            var grand_total =parseInt( sub_total + vat_subtraction);
-            console.log('grand_total= ' + grand_total);
-            console.log('grand_total= ' + typeof grand_total);
-            grand_total = parseInt(grand_total);
+                var sub_total = $('#total_amount').val();
+                console.log('sub_total= ' + sub_total);
+                console.log('sub_total= ' + typeof sub_total);
+                sub_total = parseInt(sub_total);
 
-            $('#show_vat_amount').val(vat_subtraction);
-            $('#store_total_amount').val(grand_total);
-            $('#total_amount').val(grand_total);
-            $('#due_amount').val(grand_total);
+                var vat_amount = $('#vat_amount').val();
+                console.log('vat_amount= ' + vat_amount);
+                console.log('vat_amount= ' + typeof vat_amount);
+                vat_amount = (vat_amount);
+
+                var vat_subtraction = (sub_total*vat_amount)/100;
+                console.log('vat_subtraction= ' + vat_subtraction);
+                console.log('vat_subtraction= ' + typeof vat_subtraction);
+
+                var grand_total =( sub_total + vat_subtraction);
+                console.log('grand_total= ' + grand_total);
+                console.log('grand_total= ' + typeof grand_total);
+                grand_total = (grand_total);
+
+                $('#show_vat_amount').val(vat_subtraction);
+                $('#store_total_amount').val(grand_total);
+                $('#total_amount').val(grand_total);
+                $('#due_amount').val(grand_total);
         }
-
         // onkeyup
         function discountAmount(){
             var discount_type = $('#discount_type').val();
@@ -452,7 +500,7 @@
                 var freeProduct = $('.free_product_id').html();
                 var n = ($('.neworderbody1 tr').length - 0) + 1;
                 var tr = '<tr><td class="no1">' + n + '</td>' +
-                    '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'" onchange="getval1('+n+',this);" required>' + freeProduct + '</select></td>' +
+                    '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'">' + freeProduct + '</select></td>' +
                     '<td><input type="button" class="btn btn-danger delete1" value="x"></td></tr>';
 
                 $('.neworderbody1').append(tr);

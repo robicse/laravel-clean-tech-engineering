@@ -47,7 +47,7 @@ class ProductSaleController extends Controller
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
 //        if($auth_user == "Admin"){
-            $productSales = ProductSale::latest()->get();
+        $productSales = ProductSale::latest()->get();
 //        }else{
 //            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
 //        }
@@ -210,37 +210,37 @@ class ProductSaleController extends Controller
                 $freeProduct_sale_detail->save();
             }
 
-            $party_id = $request->party_id;
-            //dd($account_id);
-            $accounts = Account::where('party_id',$party_id)->first();
-//dd($accounts);
-            $customer = new Posting();
-            $customer ->voucher_type_id =1;
-            $customer ->voucher_no =1;
-            $customer->date = $request->date;
-            $customer->account_id = $accounts->id;
-            $customer->account_name = $accounts->HeadName;
-            $customer->parent_account_name = $accounts->PHeadName;
-            $customer->account_no = $accounts->HeadCode;
-            $customer->account_type = $accounts->HeadType;
-            $customer->debit = NULL;
-            $customer->credit = $total_amount;
-            $customer->transaction_description = $request->transaction_description;
-            $customer->save();
-//dd($customer);
-            $inventory = new Posting();
-            $inventory ->voucher_type_id =1;
-            $inventory ->voucher_no =1;
-            $inventory->date = $request->date;
-            $inventory->account_id = $accounts->id;
-            $inventory->account_name = $accounts->HeadName;
-            $inventory->parent_account_name = $accounts->PHeadName;
-            $inventory->account_no = $accounts->HeadCode;
-            $inventory->account_type = $accounts->HeadType;
-            $inventory->debit =  $total_amount;
-            $inventory->credit = NULL;
-            $inventory->transaction_description = $request->transaction_description;
-            $inventory->save();
+//            $party_id = $request->party_id;
+//            //dd($account_id);
+//            $accounts = Account::where('party_id',$party_id)->first();
+////dd($accounts);
+//            $customer = new Posting();
+//            $customer ->voucher_type_id =1;
+//            $customer ->voucher_no =1;
+//            $customer->date = $request->date;
+//            $customer->account_id = $accounts->id;
+//            $customer->account_name = $accounts->HeadName;
+//            $customer->parent_account_name = $accounts->PHeadName;
+//            $customer->account_no = $accounts->HeadCode;
+//            $customer->account_type = $accounts->HeadType;
+//            $customer->debit = NULL;
+//            $customer->credit = $total_amount;
+//            $customer->transaction_description = $request->transaction_description;
+//            $customer->save();
+////dd($customer);
+//            $inventory = new Posting();
+//            $inventory ->voucher_type_id =1;
+//            $inventory ->voucher_no =1;
+//            $inventory->date = $request->date;
+//            $inventory->account_id = $accounts->id;
+//            $inventory->account_name = $accounts->HeadName;
+//            $inventory->parent_account_name = $accounts->PHeadName;
+//            $inventory->account_no = $accounts->HeadCode;
+//            $inventory->account_type = $accounts->HeadType;
+//            $inventory->debit =  $total_amount;
+//            $inventory->credit = NULL;
+//            $inventory->transaction_description = $request->transaction_description;
+//            $inventory->save();
 
 //dd($inventory);
         }
@@ -285,7 +285,7 @@ class ProductSaleController extends Controller
         $productUnits = ProductUnit::all();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $freeProductDetails =  FreeProductSaleDetails::where('product_sale_id',$id)->get();
-       // dd($productSale);
+        // dd($productSale);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
 
@@ -406,7 +406,7 @@ class ProductSaleController extends Controller
                 $free_product_sale_detail_id = $request->free_product_detail_id[$i];
                 $freeProduct_sale_detail = FreeProductSaleDetails::where('id',$free_product_sale_detail_id)->first();
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-               // dd($freeProduct_sale_detail);
+                // dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
 
             }
@@ -418,19 +418,22 @@ class ProductSaleController extends Controller
 
     public function destroy($id)
     {
+
         $productSale = ProductSale::find($id);
         $productSale->delete();
 
         DB::table('product_sale_details')->where('product_sale_id',$id)->delete();
+        DB::table('sale_services')->where('product_sale_id',$id)->delete();
         DB::table('stocks')->where('ref_id',$id)->delete();
         DB::table('transactions')->where('ref_id',$id)->delete();
+        DB::table('dues')->where('ref_id',$id)->delete();
 
         Toastr::success('Product Sale Deleted Successfully', 'Success');
         return redirect()->route('productSales.index');
     }
 
     public function Addservice($id){
-       // $productSale = ProductSale::find($id);
+        // $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         $product = Product::where('id',$id)->first();
         //dd($product);
@@ -439,7 +442,7 @@ class ProductSaleController extends Controller
     }
 
     public function Storeservice(Request $request ){
-       // dd($request->all());
+        // dd($request->all());
 
         $this->validate($request, [
             'service_id'=> 'required',
@@ -447,7 +450,7 @@ class ProductSaleController extends Controller
         $row_count = count($request->service_id);
         for($i=0; $i<$row_count;$i++) {
             $product_sale_detail_id = $request->product_sale_detail_id[$i];
-           // dd($product_sale_detail_id);
+            // dd($product_sale_detail_id);
             $saleServices = new SaleService();
             $saleServices->product_sale_detail_id = $product_sale_detail_id;
             $saleServices->created_user_id = Auth::id();
@@ -640,7 +643,7 @@ class ProductSaleController extends Controller
     }
     public function invoicePrint($id)
     {
-       // dd($id);
+        // dd($id);
         $productSale = ProductSale::find($id);
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();

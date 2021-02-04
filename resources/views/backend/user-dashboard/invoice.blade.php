@@ -11,7 +11,18 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Invoice - Clean Tech Engineering</title>
 </head>
+<style>
+    .login-content .login-box {
+        position: relative;
+        min-width: 600px;
+        min-height: 423px;
+        background-color: #a50909;
+        -webkit-perspective: 800px;
+        transition: all 0.5s ease-in-out;
+    }
+</style>
 <body>
+
 <section class="material-half-bg">
     <div class="cover"></div>
 </section>
@@ -28,10 +39,10 @@
     <div class="login-box">
         <form class="login-form" method="POST" action="{{ route('invoice.details') }}">
             @csrf
-            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-product-hunt"></i>Product Tracking</h3>
+            <h3 class="login-head" style="color: white"><i class="fa fa-lg fa-fw fa-product-hunt"></i>Product Tracking</h3>
 
             <div class="form-group">
-                <label class="control-label">Invoice No</label>
+                <label class="control-label" style="color: white">Invoice No</label>
                 <input id="invoice" type="text" class="form-control" name="query" placeholder="Invoice No" value="{{isset($query) ? $query : ''}}" required autofocus>
                 @if ($errors->has('invoice'))
                     <span class="invalid-feedback" role="alert">

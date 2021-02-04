@@ -176,7 +176,11 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th width="10%">
+                                    <th>
+                                        Vat(Percentage):
+                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')" value="{{$productSale->vat_amount}}">
+                                    </th>
+                                    <th>
                                         Type:
                                         <select name="discount_type" id="discount_type" class="form-control" >
                                             <option value="flat" {{'flat' == $productSale->discount_type ? 'selected' : ''}}>flat</option>
@@ -192,7 +196,7 @@
                                         <input type="hidden" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}">
                                     </th>
-                                    <th colspan="2">
+                                    <th>
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" name="paid_amount" onkeyup="paidAmount('')" value="{{$productSale->paid_amount}}">
                                     </th>
@@ -213,20 +217,35 @@
                                     </tr>
                                     </thead>
                                     <tbody class="neworderbody1">
-                                    @foreach($freeProductDetails as $key=>$freeProductDetail)
-                                        <tr>
-                                            <td width="5%" class="no1">{{$key+1}}</td>
-                                            <td style="display: none"><input class="form-control" type="hidden" name="free_product_detail_id[]" value="{{$freeProductDetail->id}}"></td>
-                                            <td >
-                                                <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
-                                                    <option value="">Select One</option>
-                                                    @foreach($freeProducts as $freeProduct)
-                                                        <option value="{{$freeProduct->id}}" {{$freeProduct->id ==$freeProductDetail->free_product_id ? 'selected' : '' }}>{{$freeProduct->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    <div class="table-responsive">
+                                        <table id="example2" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th >ID</th>
+                                                <th>Free Product <small class="requiredCustom">*</small></th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody class="neworderbody1">
+                                            @foreach($freeProductDetails as $key=>$freeProductDetail)
+                                                <tr>
+                                                    <td width="5%" class="no1">{{$key+1}}</td>
+                                                    <td style="display: none"><input class="form-control" type="hidden" name="free_product_detail_id[]" value="{{$freeProductDetail->id}}"></td>
+                                                    <td >
+                                                        <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                            <option value="">Select One</option>
+                                                            @foreach($freeProducts as $freeProduct)
+                                                                <option value="{{$freeProduct->id}}" {{$freeProduct->id ==$freeProductDetail->free_product_id ? 'selected' : '' }}>{{$freeProduct->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
 
                                     </tbody>
                                 </table>
@@ -259,6 +278,7 @@
             });
             $('#store_total_amount').val(t);
             $('#total_amount').val(t);
+            $('#due_amount').val(t);
         }
 
         // onkeyup
@@ -304,7 +324,53 @@
             $('#total_amount').val(final_amount);
             $('#due_amount').val(due_amount);
         }
+        // onblur
+        function vatAmount(){
+            //  var sub_total = $('#sub_total').val();
+            //  console.log('sub_total= ' + sub_total);
+            //  console.log('sub_total= ' + typeof sub_total);
+            //  var vat_amount = parseInt($('#vat_amount').val()).toFixed(2);
+            //  console.log('vat_amount= ' + vat_amount);
+            //  console.log('vat_amount= ' + typeof vat_amount);
+            //  var vat_subtraction = parseInt((sub_total*vat_amount)/100);
+            //  console.log('vat_subtraction= ' + vat_subtraction);
+            //  console.log('vat_subtraction= ' + typeof vat_subtraction);
+            //  var grand_total = (sub_total + vat_subtraction);
+            //  // console.log(grand_total);
+            // // var vat_subtraction = parseFloat(vat_subtraction).toFixed(2);
+            //  var grand_total = parseInt(grand_total).toFixed(2);
+            //  //$('#vat_amount').val(vat_subtraction);
+            //  //$('#discount_amount').val(discount_amount);
+            //  $('#grand_total').val(grand_total);
+            //  $('#total_amount').val(grand_total);
+            //  $('#due_amount').val(grand_total);
 
+
+
+            var sub_total = $('#total_amount').val();
+            console.log('sub_total= ' + sub_total);
+            console.log('sub_total= ' + typeof sub_total);
+            sub_total = parseInt(sub_total);
+
+            var vat_amount = $('#vat_amount').val();
+            console.log('vat_amount= ' + vat_amount);
+            console.log('vat_amount= ' + typeof vat_amount);
+            vat_amount = (vat_amount);
+
+            var vat_subtraction = (sub_total*vat_amount)/100;
+            console.log('vat_subtraction= ' + vat_subtraction);
+            console.log('vat_subtraction= ' + typeof vat_subtraction);
+
+            var grand_total =( sub_total + vat_subtraction);
+            console.log('grand_total= ' + grand_total);
+            console.log('grand_total= ' + typeof grand_total);
+            grand_total = (grand_total);
+
+            $('#show_vat_amount').val(vat_subtraction);
+            $('#store_total_amount').val(grand_total);
+            $('#total_amount').val(grand_total);
+            $('#due_amount').val(grand_total);
+        }
         // onkeyup
         function paidAmount(){
             console.log('okk');
@@ -353,7 +419,7 @@
             var freeProduct = $('.free_product_id').html();
             var n = ($('.neworderbody1 tr').length - 0) + 1;
             var tr = '<tr><td class="no1">' + n + '</td>' +
-                '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'" onchange="getval1('+n+',this);" required>' + freeProduct + '</select></td>' +
+                '<td><select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_'+n+'">' + freeProduct + '</select></td>' +
                 '<td><input type="button" class="btn btn-danger delete1" value="x"></td></tr>';
 
             $('.neworderbody1').append(tr);

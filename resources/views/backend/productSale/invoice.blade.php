@@ -205,13 +205,15 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($free_products as $key => $p)
-                                                <tr>
-                                                    <td>{{$key+1}}</td>
-                                                    <td width="50%"> {{$p->freeProduct->name}}</td>
-                                                </tr>
+                                            @if(count($free_products > 0))
+                                                @foreach($free_products as $key => $p)
+                                                    <tr>
+                                                        <td>{{$key+1}}</td>
+                                                        <td width="50%"> {{$p->freeProduct->name}}</td>
+                                                    </tr>
 
-                                            @endforeach
+                                                @endforeach
+                                            @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -239,6 +241,7 @@
                                                     </li>
                                                 @endforeach
                                             </ul>
+
                                             @endif
                                             </p>
                                     </div>

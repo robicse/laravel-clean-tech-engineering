@@ -102,7 +102,7 @@ class PostingController extends Controller
 
         }
         Toastr::success('Posting Created Successfully', 'Success');
-        return redirect()->route('transaction.index');
+        return redirect()->route('posting.index');
     }
 
 
@@ -175,7 +175,7 @@ class PostingController extends Controller
 
         }
         Toastr::success('Posting Created Successfully', 'Success');
-        return redirect()->route('transaction.index');
+        return redirect()->route('posting.index');
     }
 
 //    public function destroy($id)

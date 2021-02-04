@@ -46,40 +46,40 @@
                             <th>Date</th>
                             <td>{{$productSale->date}}</td>
                         </tr>
-                        <tr>
-                            <th>Payment Type</th>
-                            <td>
-                                @if(!empty($transactions))
-                                    <ul>
-                                        @foreach($transactions as $transaction)
-                                            <li>
-                                                {{$transaction->payment_type}}
-                                                @if($transaction->payment_type == 'check')
-                                                    ( Check Number: {{$transaction->check_number}} )
-                                                @endif
-                                                :
-                                                Tk.{{$transaction->amount}} ({{$transaction->created_at}})
-                                            </li>
-                                        @endforeach
-                                    </ul>
+{{--                        <tr>--}}
+{{--                            <th>Payment Type</th>--}}
+{{--                            <td>--}}
+{{--                                @if(!empty($transactions))--}}
+{{--                                    <ul>--}}
+{{--                                        @foreach($transactions as $transaction)--}}
+{{--                                            <li>--}}
+{{--                                                {{$transaction->payment_type}}--}}
+{{--                                                @if($transaction->payment_type == 'Check')--}}
+{{--                                                    ( Check Number: {{$transaction->check_number}} )--}}
+{{--                                                @endif--}}
+{{--                                                :--}}
+{{--                                                Tk.{{$transaction->amount}} ({{$transaction->created_at}})--}}
+{{--                                            </li>--}}
+{{--                                        @endforeach--}}
+{{--                                    </ul>--}}
 
-                                @endif
-                            </td>
+{{--                                @endif--}}
+{{--                            </td>--}}
 
-                        </tr>
-{{--                        @foreach($transactions as $transaction)--}}
+{{--                        </tr>--}}
+
 {{--                            <tr>--}}
 {{--                                <th>Payment Type</th>--}}
+{{--                                @foreach($transactions as $transaction)--}}
+{{--                                    <td>{{$transaction->payment_type }} -{{$transaction->amount }} <span style="font-size: 22px;font-weight: 33">৳</span></td>--}}
 
-{{--                                <td>{{$transaction->payment_type }} -{{$transaction->amount }} <span style="font-size: 22px;font-weight: 33">৳</span></td>--}}
-{{--                                <td></td>--}}
-
+{{--                                @endforeach--}}
 {{--                            </tr>--}}
-{{--                        @endforeach--}}
-    {{--                    <tr>--}}
-    {{--                        <th>Delivery Service</th>--}}
-    {{--                        <td>{{$productSale->delivery_service}}</td>--}}
-    {{--                    </tr>--}}
+
+                        <tr>
+                            <th>Delivery Service Cost</th>
+                            <td>{{$productSale->transport_cost}}</td>
+                        </tr>
                         <tr>
                             <th>Discount Type</th>
                             <td>{{$productSale->discount_type}}</td>
