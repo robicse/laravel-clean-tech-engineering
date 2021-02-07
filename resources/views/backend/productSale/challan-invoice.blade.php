@@ -195,7 +195,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @if(!empty($free_products))
+                                            @if(!empty($free_products->free_product_id))
                                                 @foreach($free_products as $key => $p)
                                                     <tr>
                                                         <td>{{$key+1}}</td>
@@ -213,27 +213,27 @@
                                 <div class="write">
                                     <p class="lead"><b>In Word : {{ucwords($digit->format($productSale->total_amount))}} Only</b></p>
                                 </div>
-                                <div class="row">
-                                    <!-- accepted payments column -->
-                                    <div class="col-6">
-                                        <p class="lead">Payment Type:</p>
-                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                        @if(!empty($transactions))
-                                            <ul>
-                                                @foreach($transactions as $transaction)
-                                                    <li>
-                                                        {{$transaction->payment_type}}
-                                                        @if($transaction->payment_type == 'Check')
-                                                            ( Check Number: {{$transaction->check_number}} )
-                                                        @endif
-                                                        :
-                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            @endif
-                                            </p>
-                                    </div>
+{{--                                <div class="row">--}}
+{{--                                    <!-- accepted payments column -->--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <p class="lead">Payment Type:</p>--}}
+{{--                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">--}}
+{{--                                        @if(!empty($transactions))--}}
+{{--                                            <ul>--}}
+{{--                                                @foreach($transactions as $transaction)--}}
+{{--                                                    <li>--}}
+{{--                                                        {{$transaction->payment_type}}--}}
+{{--                                                        @if($transaction->payment_type == 'Check')--}}
+{{--                                                            ( Check Number: {{$transaction->check_number}} )--}}
+{{--                                                        @endif--}}
+{{--                                                        :--}}
+{{--                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})--}}
+{{--                                                    </li>--}}
+{{--                                                @endforeach--}}
+{{--                                            </ul>--}}
+{{--                                            @endif--}}
+{{--                                            </p>--}}
+{{--                                    </div>--}}
                                     <!-- /.col -->
 {{--                                    <div class="row">--}}
 {{--                                        <div class="col-md-6" style="width: 40%; float: left;display: inline-block;">--}}

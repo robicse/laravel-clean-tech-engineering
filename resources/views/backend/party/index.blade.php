@@ -16,7 +16,7 @@
                 <input type="file" name="file" id="myMessage" class="form-control">
                 <br>
                 <button class="btn btn-success" id="submit" onclick="sendMessage(); clearInput();">Import data</button>
-                <a class="btn btn-warning" href="{{ route('customer.export') }}">Export Data</a>
+                <a class="btn btn-warning" href="{{route('customer.export') }}">Export Data</a>
                 <a  class=" btn btn-info btn-sm" onclick="modal_customer()" data-toggle="modal">Sample Import</a>
             </form>
         </div>

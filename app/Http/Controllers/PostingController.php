@@ -711,9 +711,12 @@ class PostingController extends Controller
 
     public function transactionDelete($voucher_type_id, $voucher_no){
         //dd('bg');
+        if (empty($voucher_type_id || $voucher_no)){
+            return response()->json(['success'=> 0]);
+        }
         DB::table('postings')->where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->delete();
 
         Toastr::success('Transactions Deleted Successfully', 'Success');
-        return redirect()->route('transaction.index');
+        return redirect()->route('posting.index');
     }
 }

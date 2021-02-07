@@ -32,7 +32,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Party  <small>(Supplier)</small><small class="requiredCustom">*</small></label>
                             <div class="col-md-6">
-                                <select name="party_id" id="supplier" class="form-control select2">
+                                <select name="party_id" id="supplier" class="form-control select2" required>
                                     <option value="">Select One</option>
                                     @foreach($parties as $party)
                                         <option value="{{$party->id}}">{{$party->name}} </option>

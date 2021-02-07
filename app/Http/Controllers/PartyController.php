@@ -193,7 +193,6 @@ class PartyController extends Controller
        // dd('ss');
         Excel::import(new CustomersImport,request()->file('file'));
 
-
         $get_party_id = User::where('party_id','!=','NULL')->latest('id')->pluck('party_id')->first();
         //dd($get_party_id);
         $get_party = Party::where('id','>',$get_party_id)->get();

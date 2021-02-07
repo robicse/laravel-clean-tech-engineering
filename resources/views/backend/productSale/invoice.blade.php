@@ -177,7 +177,7 @@
                                                 <th>-{{$productSale->discount_amount}}</th>
                                             </tr>
                                             @php
-                                                $totalAmount =( $productSale->total_amount +$productSale->transport_cost);
+                                                $totalAmount =( $productSale->total_amount +$productSale->transport_cost );
                                                 $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
                                             @endphp
                                             <tr>
@@ -205,11 +205,21 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @if(count($free_products > 0))
-                                                @foreach($free_products as $key => $p)
+{{--                                            @if(count($free_products > 0))--}}
+                                                @if(!empty($free_products->free_product_id))
+                                                @foreach($free_products as $key => $free_product)
                                                     <tr>
                                                         <td>{{$key+1}}</td>
-                                                        <td width="50%"> {{$p->freeProduct->name}}</td>
+{{--                                                        @php--}}
+{{--                                                        $fee_product_name = \Illuminate\Support\Facades\DB::table('free_product_sale_details')--}}
+{{--                                                        ->join('free_products','free_products.id','=','free_product_sale_details.free_product_id')--}}
+{{--                                                        ->where('free_product_sale_details.product_sale_id',$productSale->id)--}}
+{{--                                                        ->select('free_products.name')--}}
+{{--                                                        ->get();--}}
+{{--                                                       // dd($fee_product_name);--}}
+
+{{--                                                        @endphp--}}
+                                                        <td width="50%"> {{$free_product->freeProduct->name}}</td>
                                                     </tr>
 
                                                 @endforeach
@@ -223,30 +233,31 @@
                                 <div class="write">
                                     <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
                                 </div>
-                                <div class="row">
-                                    <!-- accepted payments column -->
-                                    <div class="col-6">
-                                        <p class="lead">Payment Type:</p>
-                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                        @if(!empty($transactions))
-                                            <ul>
-                                                @foreach($transactions as $transaction)
-                                                    <li>
-                                                        {{$transaction->payment_type}}
-                                                        @if($transaction->payment_type == 'check')
-                                                            ( Check Number: {{$transaction->check_number}} )
-                                                        @endif
-                                                        :
-                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+{{--                                <div class="row">--}}
+{{--                                    <!-- accepted payments column -->--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <p class="lead">Payment Type:</p>--}}
+{{--                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">--}}
+{{--                                        @if(!empty($transactions))--}}
+{{--                                            <ul>--}}
+{{--                                                <td>{{$transactions->payment_type ? 'cash' : 'check' }}</td>--}}
+{{--                                                @foreach($transactions as $transaction)--}}
+{{--                                                    <li>--}}
+{{--                                                        {{$transaction->payment_type}}--}}
+{{--                                                        @if($transaction->payment_type == 'Check')--}}
+{{--                                                            ( Check Number: {{$transaction->check_number}} )--}}
+{{--                                                        @endif--}}
+{{--                                                        :--}}
+{{--                                                        Tk.{{$transaction->amount}} ({{$transaction->created_at}})--}}
+{{--                                                    </li>--}}
+{{--                                                @endforeach--}}
+{{--                                            </ul>--}}
 
-                                            @endif
-                                            </p>
-                                    </div>
-                                <!-- /.col -->
-                                </div>
+{{--                                            @endif--}}
+{{--                                            </p>--}}
+{{--                                    </div>--}}
+{{--                                <!-- /.col -->--}}
+{{--                                </div>--}}
                                 <!-- /.row -->
                                 <!-- this row will not appear when printing -->
                                 <div class="row no-print">

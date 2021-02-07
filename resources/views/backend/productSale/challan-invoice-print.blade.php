@@ -224,12 +224,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($free_products as $key => $p)
-                            <tr>
-                                <td width="10%">{{$key+1}}</td>
-                                <td width="50%"> {{$p->freeProduct->name}}</td>
-                            </tr>
-                        @endforeach
+                        @if(!empty($free_products->free_product_id))
+                            @foreach($free_products as $key => $p)
+                                <tr>
+                                    <td width="10%">{{$key+1}}</td>
+                                    <td width="50%"> {{$p->freeProduct->name}}</td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                     <div class="write">

@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right"> Online Platform <small class="requiredCustom">*</small></label>
+                            <label class="control-label col-md-3 text-right"> Online Platform </label>
                             <div class="col-md-8">
                                 <select name="online_platform" id="online_platform" class="form-control">
                                     <option value="" >Select One</option>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
+                            <label class="control-label col-md-3 text-right">Transport Cost</label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" placeholder="Transport Cost">
                             </div>
@@ -280,13 +280,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Phone <small class="requiredCustom">*</small></label>
+                                                <label class="control-label col-md-3 text-right">Phone</label>
                                                 <div class="col-md-8">
                                                     <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Phone" name="phone">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Email <small class="requiredCustom">*</small></label>
+                                                <label class="control-label col-md-3 text-right">Email</label>
                                                 <div class="col-md-8">
                                                     <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" type="email" placeholder="Customer Email" name="email">
                                                     @if ($errors->has('email'))
@@ -297,7 +297,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Address <small class="requiredCustom">*</small></label>
+                                                <label class="control-label col-md-3 text-right">Address</label>
                                                 <div class="col-md-8">
                                                     <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Address" name="address"></textarea>
                                                     @if ($errors->has('address'))
@@ -641,6 +641,7 @@
                         console.log(data.id);
                         $("#customar_modal").modal('hide');
                     }
+                    console.log(data)
                 },
                 error: function(xhr)
                 {
@@ -648,6 +649,7 @@
                 }
             });
         });
+
 
         function hidemodal() {
             var x = document.getElementById("customar_modal");

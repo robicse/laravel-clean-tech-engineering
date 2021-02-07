@@ -259,9 +259,10 @@ class ProductSaleController extends Controller
 
     public function show($id)
     {
+
         $productSale = ProductSale::find($id);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        $transactions = Transaction::where('ref_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->first();
 
         return view('backend.productSale.show', compact('productSale','productSaleDetails','transactions'));
     }
@@ -432,7 +433,9 @@ class ProductSaleController extends Controller
         return redirect()->route('productSales.index');
     }
 
-    public function Addservice($id){
+    public function Addservice($id)
+    {
+        //dd($id);
         // $productSale = ProductSale::find($id);
         $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
         $product = Product::where('id',$id)->first();
@@ -442,7 +445,7 @@ class ProductSaleController extends Controller
     }
 
     public function Storeservice(Request $request ){
-        // dd($request->all());
+         //dd($request->all());
 
         $this->validate($request, [
             'service_id'=> 'required',
@@ -462,26 +465,25 @@ class ProductSaleController extends Controller
 
             if($insert_id){
                 $duration_row_count = $request->duration_1[$i];
-                $date = $request->date[$i];
-                $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
+                //dd($duration_row_count);
+                if (!empty($duration_row_count)){
+                    $date = $request->date[$i];
+                    $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
 
-                for($j=0; $j<$duration_row_count;$j++) {
-//                $sale_service_durations = new SaleServiceDuration();
-//                $sale_service_durations->sale_service_id = $insert_id;
-//                $sale_service_durations->provider_id = NULL;
-//                $sale_service_durations->status = 0;
-//                $sale_service_durations->next_service_date =
+                    for($j=0; $j<$duration_row_count;$j++) {
+                        $saleServices = new SaleService();
+                        $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                        //dd($saleServices->product_sale_detail_id);
+                        $saleServices->created_user_id = Auth::id();
+                        $saleServices->service_id = $request->service_id[$i];
+                        $saleServices->date = $nextMonth;
+                        $saleServices->status = 0;
+                        //dd($saleServices);
+                        $saleServices->save();
 
-                    $saleServices = new SaleService();
-                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                    //dd($saleServices->product_sale_detail_id);
-                    $saleServices->created_user_id = Auth::id();
-                    $saleServices->service_id = $request->service_id[$i];
-                    $saleServices->date = $nextMonth;
-                    $saleServices->status = 0;
-                    $saleServices->save();
+                        $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
+                }
 
-                    $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
                 }
             }
 
@@ -618,7 +620,8 @@ class ProductSaleController extends Controller
         $productSale = ProductSale::find($id);
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        $transactions = Transaction::where('ref_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->first();
+//        /dd($transactions);
         $store_id = $productSale->store_id;
         $party_id = $productSale->party_id;
         $store = Store::find($store_id);
@@ -633,7 +636,7 @@ class ProductSaleController extends Controller
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         //dd($free_products);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        $transactions = Transaction::where('ref_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->first();
         $store_id = $productSale->store_id;
         $party_id = $productSale->party_id;
         $store = Store::find($store_id);
@@ -661,7 +664,7 @@ class ProductSaleController extends Controller
         $productSale = ProductSale::find($id);
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
-        $transactions = Transaction::where('ref_id',$id)->get();
+        $transactions = Transaction::where('ref_id',$id)->first();
         $store_id = $productSale->store_id;
         $party_id = $productSale->party_id;
         $store = Store::find($store_id);
@@ -779,16 +782,12 @@ class ProductSaleController extends Controller
     public function newParty(Request $request){
         //dd($request->all());
         $this->validate($request, [
-            'type'=> 'required',
             'name' => 'required',
-            'phone'=> 'required|unique:parties,phone',
-            'email'=> '',
-            'address'=> '',
+            //'phone'=> 'required|unique:parties,phone',
         ]);
         $parties = new Party();
         $parties->type = $request->type;
         $parties->name = $request->name;
-        $parties->slug = Str::slug($request->name);
         $parties->phone = $request->phone;
         $parties->email = $request->email;
         $parties->address = $request->address;
@@ -816,6 +815,37 @@ class ProductSaleController extends Controller
             echo json_encode($data);
 
         }
+        $account = DB::table('accounts')->where('HeadLevel',3)->where('HeadCode', 'like', '1010301%')->Orderby('created_at', 'desc')->limit(1)->first();
+        //dd($account);
+        if(!empty($account)){
+            $headcode=$account->HeadCode+1;
+            //$p_acc = $headcode ."-".$request->name;
+        }else{
+            $headcode="1010301";
+            //$p_acc = $headcode ."-".$request->name;
+        }
+        $p_acc = $request->name;
+
+        $PHeadName = 'Account Receivable';
+        $HeadLevel = 3;
+        $HeadType = 'A';
+
+
+        $account = new Account();
+        $account->party_id      = $insert_id;
+        $account->HeadCode      = $headcode;
+        $account->HeadName      = $p_acc;
+        $account->PHeadName     = $PHeadName;
+        $account->HeadLevel     = $HeadLevel;
+        $account->IsActive      = '1';
+        $account->IsTransaction = '1';
+        $account->IsGL          = '1';
+        $account->HeadType      = $HeadType;
+        $account->CreateBy      = Auth::User()->id;
+        $account->UpdateBy      = Auth::User()->id;
+        $account->save();
+
+
     }
 
     public function payDue(Request $request){

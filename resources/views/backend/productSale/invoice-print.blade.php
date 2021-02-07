@@ -235,7 +235,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!empty($free_products))
+                        @if(!empty($free_products->free_product_id))
                             @foreach($free_products as $key => $p)
                                 <tr>
                                     <td width="10%">{{$key+1}}</td>

@@ -232,7 +232,7 @@
                                                     <td width="5%" class="no1">{{$key+1}}</td>
                                                     <td style="display: none"><input class="form-control" type="hidden" name="free_product_detail_id[]" value="{{$freeProductDetail->id}}"></td>
                                                     <td >
-                                                        <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);" required>
+                                                        <select class="form-control free_product_id select2" name="free_product_id[]" id="free_product_id_1"  onchange="getval1(1,this);">
                                                             <option value="">Select One</option>
                                                             @foreach($freeProducts as $freeProduct)
                                                                 <option value="{{$freeProduct->id}}" {{$freeProduct->id ==$freeProductDetail->free_product_id ? 'selected' : '' }}>{{$freeProduct->name}}</option>

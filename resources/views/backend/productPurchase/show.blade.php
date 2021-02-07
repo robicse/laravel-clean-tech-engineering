@@ -89,7 +89,7 @@
                             <th>Product</th>
                             <th>Qty</th>
                             <th>Price</th>
-                            <th>MRP Price</th>
+{{--                            <th>MRP Price</th>--}}
                             <th>Sub Total</th>
                         </tr>
                         </thead>
@@ -107,7 +107,7 @@
                                     <td>{{$productPurchaseDetail->product->name}}</td>
                                     <td>{{$productPurchaseDetail->qty}}</td>
                                     <td>{{$productPurchaseDetail->price}}</td>
-                                    <td>{{$productPurchaseDetail->mrp_price}}</td>
+{{--                                    <td>{{$productPurchaseDetail->mrp_price}}</td>--}}
                                     <td>{{$productPurchaseDetail->sub_total}}</td>
                                 </tr>
                             @endforeach
