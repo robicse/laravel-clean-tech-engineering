@@ -100,12 +100,8 @@
                                                                    ->select('product_sale_details.product_id')
                                                                ->get();
                                                                 //->count();
-
-
 //dd($products);
-
                             }
-
                             }
 
                 @endphp

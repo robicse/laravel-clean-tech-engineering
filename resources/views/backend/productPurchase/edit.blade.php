@@ -82,7 +82,7 @@
                                     <th>Unit</th>
                                     <th>Qty</th>
                                     <th>Price</th>
-{{--                                    <th>MRP Price</th>--}}
+                                    <th>MRP Price</th>
                                     <th>Sub Total</th>
                                 </tr>
                                 </thead>
@@ -137,9 +137,9 @@
                                         <td width="13%">
                                             <input type="number" min="1" max="" class="price form-control" name="price[]"  id="price_1" value="{{$productPurchaseDetail->price}}" required >
                                         </td>
-{{--                                        <td width="10%">--}}
-{{--                                            <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >--}}
-{{--                                        </td>--}}
+                                        <td width="10%">
+                                            <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >
+                                        </td>
                                         <td width="15%">
                                             <input type="text" class="amount form-control" name="sub_total[]" value="{{$productPurchaseDetail->sub_total}}">
                                         </td>

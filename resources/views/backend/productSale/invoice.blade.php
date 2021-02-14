@@ -80,7 +80,7 @@
                                     <div class="col-md-8 invoice-col">
                                         <address>
                                             <strong>Customer ID:</strong>
-                                            <strong>C0{{$party->id}}</strong>
+                                            <strong>C000{{$party->id}}</strong>
                                         </address>
                                         <address>
                                             <strong>Customer Name:</strong>
@@ -101,7 +101,7 @@
                                             <table>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Invoice No :</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->invoice_no}}</td>
+                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->date}}{{$productSale->invoice_no}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Sale Date:</td>
@@ -109,7 +109,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Served By:</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                                        <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
                                                 </tr>
                                             </table>
                                         </div>

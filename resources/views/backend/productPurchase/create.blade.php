@@ -12,11 +12,16 @@
             <div>
                 <h1><i class=""></i> Add Purchases Product</h1>
             </div>
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item">
+            <ul class="app-breadcrumb breadcrumb" style="display:inline!important;white-space:nowrap;" >
+                <li class="">
+                    <a href="{{ route('products.index') }}" class="btn btn-sm btn-primary col-sm" type="button" >Add Product</a>
                     <a href="{{ route('productPurchases.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Purchases Product</a>
                 </li>
             </ul>
+
+
+            <br>
+
         </div>
         <div class="col-md-12">
             <div class="tile">
@@ -85,7 +90,7 @@
                                     <th>Unit</th>
                                     <th>Qty <small class="requiredCustom">*</small></th>
                                     <th>Price <small class="requiredCustom">*</small></th>
-{{--                                    <th>MRP Price <small class="requiredCustom">*</small></th>--}}
+                                    <th>MRP Price <small class="requiredCustom">*</small></th>
                                     <th>Sub Total</th>
                                     <th>Action</th>
 
@@ -138,10 +143,10 @@
                                     <td width="12%">
                                         <input type="text" min="1" max="" class="price form-control" name="price[]" id="price_1" value="" required >
                                     </td>
-{{--                                    <td width="15%">--}}
-{{--                                        <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="" required >--}}
-{{--                                    </td>--}}
-                                    <td width="15%">
+                                    <td width="12%">
+                                        <input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required >
+                                    </td>
+                                    <td width="12%">
                                         <input type="text" class="amount form-control" name="sub_total[]">
                                     </td>
                                 </tr>
@@ -168,7 +173,7 @@
                                         <input type="hidden" id="store_total_amount" class="form-control">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount">
                                     </th>
-                                    <th>
+                                    <th colspan="2">
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                     </th>
@@ -343,7 +348,7 @@
                     '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
                     '<td><input type="text" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                     '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_'+n+'" value="" required></td>' +
-                    // '<td><input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required></td>' +
+                    '<td><input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required></td>' +
                     //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                     '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';

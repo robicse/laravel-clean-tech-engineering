@@ -38,7 +38,7 @@
                         <tbody class="neworderbody">
                             <tr>
                                 <td width="5%" class="no">1</td>
-                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id[]" value="{{$productSaleDetail->id}}"></td>
+                                <td style="display: none"><input class="form-control" type="hidden" name="product_sale_detail_id" value="{{$productSaleDetail->id}}"></td>
 
                                 <td> <input class="form-control" type="hidden" name="product_id[]" value="">{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->qty}}</td>
@@ -54,7 +54,7 @@
                                 </td>
                                 <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{date('Y-m-d')}}"></td>
                                 <td>
-                                    <input type="number" name="duration_1[]" class="form-control"  id="duration_1" >
+                                    <input type="number" name="duration[]" class="form-control"  id="duration_1" >
                                 </td>
                             </tr>
                         </tbody>
@@ -92,7 +92,7 @@
                     '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
                     '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
-                    '<td><input type="number" class=" form-control" name="duration_'+n+'[]" id="duration_'+n+'" ></td>' +
+                    '<td><input type="number" class=" form-control" name="duration[]" id="duration_'+n+'" ></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
                 $('.neworderbody').append(tr);

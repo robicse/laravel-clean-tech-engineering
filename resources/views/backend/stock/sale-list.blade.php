@@ -37,45 +37,7 @@
                                 </thead>
                                 <tbody>
                                 @php
-                                    $stocks = \App\Stock::where('store_id',$store->id)->where('stock_type','=','sale return')->latest()->get();
-                                @endphp
-                                @foreach($stocks as $key => $stock)
-                                    <tr>
-                                        <td>{{ $key+1 }}</td>
-                                        <td>{{ $stock->product->product_brand->name}}</td>
-                                        <td>{{ $stock->product->name}}</td>
-                                        <td>{{ $stock->stock_type}}</td>
-                                        <td>{{ $stock->previous_stock}}</td>
-                                        <td>{{ $stock->stock_in}}</td>
-                                        <td>{{ $stock->stock_out}}</td>
-                                        <td>{{ $stock->current_stock}}</td>
-                                        <td>{{ $stock->created_at}}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <div class="tile-footer">
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <h3 style="margin-top: 30px;text-align: center">Sale Type - Purchase</h3>
-                                <thead>
-                                <tr>
-                                    <th width="5%">SL NO</th>
-                                    <th width="12%">Brand</th>
-                                    <th width="12%">Product</th>
-                                    <th width="12%">Stock Type</th>
-                                    <th width="12%">Previous Stock</th>
-                                    <th width="12%">Stock In</th>
-                                    <th width="12%">Stock Out</th>
-                                    <th width="12%">Current Stock</th>
-                                    <th width="12%">Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $stocks = \App\Stock::where('store_id',$store->id)->where('stock_type','=','purchase')->latest()->get();
+                                    $stocks = \App\Stock::where('store_id',$store->id)->where('stock_type','=','sale')->latest()->get();
                                 @endphp
                                 @foreach($stocks as $key => $stock)
                                     <tr>

@@ -116,7 +116,7 @@
                     <div class="row">
                         <div class="col-md-6" style="width: 60%; float: left;display: inline-block">
                             <strong>Customer ID:</strong>
-                            <strong>C0{{$party->id}}</strong><br>
+                            <strong>C000{{$party->id}}</strong><br>
                             <strong>Customer Name:</strong>
                             <strong>{{$party->name}}</strong><br>
                             <strong>Address:</strong>
@@ -128,8 +128,12 @@
                             <div class="invoice-to">
                                 <table>
                                     <tr>
+                                        <td style="text-align: right;font-size: 14px;"><b>Challan No :</b></td>
+                                        <td style="text-align: right;font-size: 14px;">CH{{$productSale->invoice_no}}</td>
+                                    </tr>
+                                    <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Invoice:</b></td>
-                                        <td style="text-align: right;font-size: 14px;">#{{$productSale->invoice_no}}</td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->date}}{{$productSale->invoice_no}}</td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>DateTime:</b></td>

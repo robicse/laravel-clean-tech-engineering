@@ -42,6 +42,7 @@
                             <th width="15%">Date </th>
                             <th width="15%">Customer Name</th>
                             <th width="15%">Customer Phone</th>
+                            <th width="15%">Customer Address</th>
                             <th width="15%">Service Provider </th>
                         </tr>
                         </thead>
@@ -50,9 +51,9 @@
 
                             <tr>
                                 <td width="5%" >{{$key+1}}</td>
-                                <td width="20%"> {{$saleService->service->name}}</td>
-                                <td width="20%"> {{$saleService->date}}</td>
-                                <td width="20%">
+                                <td width="15%"> {{$saleService->service->name}}</td>
+                                <td width="8%"> {{$saleService->date}}</td>
+                                <td width="12%">
                                     @php
 
                                         $product_sale_detail_id = $saleService->product_sale_detail_id;
@@ -61,24 +62,27 @@
                                             ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
                                             ->join('parties', 'parties.id', '=', 'product_sales.party_id')
                                             ->where('product_sale_details.id', $product_sale_detail_id)
-                                            ->select('parties.name','parties.phone','parties.id')
+                                            ->select('parties.name','parties.phone','parties.address','parties.id')
                                             ->first();
 
                                     if(!empty($customer)){
                                         $customer_id = $customer->id;
                                         $customer_name = $customer->name;
                                         $customer_phone = $customer->phone;
+                                        $customer_address = $customer->address;
                                     }else{
                                         $customer_id = '';
                                         $customer_name = '';
                                         $customer_phone = '';
+                                        $customer_address = '';
                                     }
 
                                     @endphp
                                     {{$customer_name}}
                                 </td>
-                                <td width="20%">{{$customer_phone}}</td>
-                                <td width="20%">
+                                <td width="12%">{{$customer_phone}}</td>
+                                <td width="12%">{{$customer_address}}</td>
+                                <td width="25%">
                                     <form action="{{route('send.mail')}}" method="post">
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$customer_id}}">

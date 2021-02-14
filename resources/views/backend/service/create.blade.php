@@ -23,22 +23,20 @@
                     @endif
                     <form method="post" action="{{ route('service.store') }}">
                         @csrf
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Name <small class="text-danger">(unique)*</small></label>
-                            <div class="col-md-8">
+                        <div class=" row">
+                            <label class="control-label ">Name <small class="text-danger">(unique)*</small></label>
+                            <div class="col-md-5">
                                 <input type="text" id="name" name="name" class="form-control">
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Status <small class="text-danger">*</small></label>
-                            <div class="col-md-8">
+                            <label class="control-label">Status <small class="text-danger">*</small></label>
+                            <div class="col-md-5">
                                 <select name="status" id="status" class="form-control">
                                     <option value="1">active</option>
                                     <option value="2">inactive</option>
                                 </select>
-                            </div>
+
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-top: 20px">
                             <label class="control-label col-md-3"></label>
                             <div class="col-md-8">
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Service</button>

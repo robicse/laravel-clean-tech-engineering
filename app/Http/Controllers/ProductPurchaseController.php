@@ -332,23 +332,18 @@ class ProductPurchaseController extends Controller
         Toastr::success('Product purchase Deleted Successfully', 'Success');
         return redirect()->route('productPurchases.index');
     }
-
     public function productRelationData(Request $request){
         $product_id = $request->current_product_id;
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
         $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
         $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
-        $price = Product::where('id',$product_id)->pluck('price')->first();
-
-
         $options = [
-            'price' => $price,
             'categoryOptions' => '',
             'subCategoryOptions' => '',
             'brandOptions' => '',
             'unitOptions' => '',
-            'priceOptions' => '',
+
         ];
 
         if($product_category_id){
@@ -410,6 +405,84 @@ class ProductPurchaseController extends Controller
 
         return response()->json(['success'=>true,'data'=>$options]);
     }
+
+//    public function productRelationData(Request $request){
+//        $product_id = $request->current_product_id;
+//        $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
+//        $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
+//        $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
+//        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
+//        $price = Product::where('id',$product_id)->pluck('price')->first();
+//
+//
+//        $options = [
+//            'price' => $price,
+//            'categoryOptions' => '',
+//            'subCategoryOptions' => '',
+//            'brandOptions' => '',
+//            'unitOptions' => '',
+//            'priceOptions' => '',
+//        ];
+//
+//        if($product_category_id){
+//            $categories = ProductCategory::where('id',$product_category_id)->get();
+//            if(count($categories) > 0){
+//                $options['categoryOptions'] = "<select class='form-control' name='product_category_id[]' readonly>";
+//                foreach($categories as $category){
+//                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
+//                }
+//                $options['categoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['categoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['categoryOptions'] .= "</select>";
+//        }
+//        if(!empty($product_sub_category_id)){
+//            $subCategories = ProductSubCategory::where('id',$product_sub_category_id)->get();
+//            if(count($subCategories) > 0){
+//                $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//                foreach($subCategories as $subCategory){
+//                    $options['subCategoryOptions'] .= "<option value='$subCategory->id'>$subCategory->name</option>";
+//                }
+//                $options['subCategoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['subCategoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['subCategoryOptions'] .= "</select>";
+//        }
+//        if($product_brand_id){
+//            $brands = ProductBrand::where('id',$product_brand_id)->get();
+//            if(count($brands) > 0){
+//                $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]'readonly>";
+//                foreach($brands as $brand){
+//                    $options['brandOptions'] .= "<option value='$brand->id'>$brand->name</option>";
+//                }
+//                $options['brandOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['brandOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['brandOptions'] .= "</select>";
+//        }
+//        if($product_unit_id){
+//            $units = ProductUnit::where('id',$product_unit_id)->get();
+//            if(count($units) > 0){
+//                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]'readonly>";
+//                foreach($units as $unit){
+//                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
+//                }
+//                $options['unitOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+//            $options['unitOptions'] = "<option value=''>No Data Found!</option>";
+//            $options['unitOptions']  = "</select>";
+//        }
+//
+//        return response()->json(['success'=>true,'data'=>$options]);
+//    }
     public function invoice()
     {
         return view('backend.productPurchase.invoice');

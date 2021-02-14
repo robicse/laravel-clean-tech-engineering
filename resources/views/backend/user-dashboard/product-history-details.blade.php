@@ -82,14 +82,15 @@
                 <div class="row c-margin-b-40">
                     <div class="c-content-product-2 c-bg-white">
                         <div class="c-content-product c-bg-gray table-responsive">
-                            <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 98%">
+                            <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 100%">
                                 <tr>
                                     <th>Id</th>
                                     <th>Product Name</th>
                                     <th>Product Brand</th>
+                                    <th>Warranty</th>
                                     <th>QTY</th>
-                                    <th> Price</th>
-                                    <th> Total Amount</th>
+{{--                                    <th> Price</th>--}}
+{{--                                    <th> Total Amount</th>--}}
                                     <th> Services</th>
                                 </tr>
 
@@ -99,9 +100,10 @@
                                        <td>{{$key+1}}</td>
                                        <td>{{$productdetail->product->name}}</td>
                                        <td>{{$productdetail->product_brand->name}}</td>
+                                       <td>{{$productdetail->product->warranty}}</td>
                                        <td>{{$productdetail->qty}}</td>
-                                       <td>{{$productdetail->price}}</td>
-                                       <td>{{$productdetail->sub_total}}</td>
+{{--                                       <td>{{$productdetail->price}}</td>--}}
+{{--                                       <td>{{$productdetail->sub_total}}</td>--}}
                                        <td width="20%"> <a href="{{route('service.list',$productdetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">service list</a></td>
                                    </tr>
                                 @endforeach

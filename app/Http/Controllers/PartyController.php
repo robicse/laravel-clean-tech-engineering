@@ -190,9 +190,12 @@ class PartyController extends Controller
 
     public function import()
     {
-       // dd('ss');
-        Excel::import(new CustomersImport,request()->file('file'));
+        if(!request()->file('file')){
+            Toastr::success('File input can not left blank');
+            return redirect()->back();
+        }
 
+        Excel::import(new CustomersImport,request()->file('file'));
         $get_party_id = User::where('party_id','!=','NULL')->latest('id')->pluck('party_id')->first();
         //dd($get_party_id);
         $get_party = Party::where('id','>',$get_party_id)->get();
@@ -205,10 +208,6 @@ class PartyController extends Controller
                 $user->email = $data->email;
                 $user->password = Hash::make(123456);
                 $user->save();
-
-
-
-
 
                 $account = DB::table('accounts')->where('HeadLevel',3)->where('HeadCode', 'like', '1010301%')->Orderby('created_at', 'desc')->limit(1)->first();
                 //dd($account);
@@ -241,7 +240,8 @@ class PartyController extends Controller
         }
         //dd($get_party);
 
-
-        return back();
+        Toastr::success('Uploaded Successfully');
+        return redirect()->back();
+        //return back();
     }
 }

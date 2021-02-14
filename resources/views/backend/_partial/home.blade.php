@@ -13,6 +13,63 @@
 
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Quick Create</h1>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-danger" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('party.create')}}" style="color: black">Customer</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-success" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('products.create')}}" style="color: black">Product</a> </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-warning" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('expenses.create')}}" style="color: black">Expense</a> </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-info" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productSales.create')}}" style="color: black">Product Sale</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6" style="margin-top:10px">
+                            <!-- small box -->
+                            <div class="small-box bg-secondary" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('customer_complain.create')}}" style="color: black">Customer Support</a></h3>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6" style="margin-top:10px">
+                            <!-- small box -->
+                            <div class="small-box bg-danger" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('posting.create')}}" style="color: black">Posting</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             @php
             //echo '<pre>';
             //print_r(Auth::User()->getRoleNames()[0]);
@@ -77,7 +134,7 @@
                 <div class="widget-small danger coloured-icon"><i class="icon fa fa-shopping-basket "></i>
                     <div class="info">
                         <a href="{{route('monthly.services')}}"><h4>Total Monthly Service</h4></a>
-                        <p><b>{{$saleServices}}</b></p>
+                        <p style="color: red;font-size: 26px">{{$saleServices}}</p>
                     </div>
                 </div>
             </div>
@@ -86,83 +143,74 @@
             @if(!empty($stores))
                 @foreach($stores as $store)
                     <div class="col-md-12">
-                        <h1 class="text-center" style="margin: 50px 0 50px 0">{{$store->name}}</h1>
+                        <h1 class="text-center">{{$store->name}}</h1>
                     </div>
 
                     @php
                         $sum_purchase_price = 0;
                         $sum_sale_price = 0;
                         $sum_sale_return_price = 0;
-                        $sum_production_price = 0;
-                        $sum_profit_amount = 0;
-                        $sum_loss_amount = 0;
-                        $sum_discount_amount = 0;
+                        //$sum_production_price = 0;
+                        //$sum_profit_amount = 0;
+                        //$sum_loss_amount = 0;
+                       // $sum_discount_amount = 0;
+                        $sum_loss_or_profit = 0;
+                        $current_loss_or_profit = 0;
 
-                        $productPurchaseDetails = DB::table('product_purchase_details')
-                            ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
-                            ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
-                            ->where('product_purchases.store_id',$store->id)
-                            //->where('product_purchases.ref_id',NULL)
-                            //->where('product_purchases.purchase_product_type','Finish Goods')
-                            ->groupBy('product_id')
-                            ->groupBy('product_category_id')
-                            ->groupBy('product_sub_category_id')
-                            ->groupBy('product_brand_id')
-                            ->get();
-                                       // dd($productPurchaseDetails);
-                        if(!empty($productPurchaseDetails)){
-
-                            foreach($productPurchaseDetails as $key => $productPurchaseDetail){
-                                $purchase_average_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
-                                $sum_purchase_price += $productPurchaseDetail->sub_total;
-//dd($productPurchaseDetail->sub_total);
-                                // sale
-                                $productSaleDetails = DB::table('product_sale_details')
-                                   ->join('product_sales','product_sales.id','=','product_sale_details.product_sale_id')
+                    $productPurchaseDetails = DB::table('product_purchase_details')
+                                    ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
                                     ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
-                                    ->where('product_sales.store_id',$store->id)
-                                    ->where('product_id',$productPurchaseDetail->product_id)
-                                    ->where('product_category_id',$productPurchaseDetail->product_category_id)
-                                    ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
-                                    ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                    ->where('product_purchases.store_id',$store->id)
                                     ->groupBy('product_id')
                                     ->groupBy('product_category_id')
                                     ->groupBy('product_sub_category_id')
                                     ->groupBy('product_brand_id')
-                                    ->first();
-//dd($productSaleDetails);
-                                if(!empty($productSaleDetails))
-                                {
-                                    $sale_total_qty = $productSaleDetails->qty;
-                                    $sum_sale_price += $productSaleDetails->sub_total;
-                                    $sale_average_price = $sum_sale_price / (int) $sale_total_qty;
- //dd($sale_average_price);
-                                    if($sale_total_qty > 0){
-                                        $amount = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
-                                        if($amount > 0){
-                                            $sum_profit_amount += $amount;
-                                        }else{
-                                            $sum_loss_amount -= $amount;
+                                    ->get();
+
+                                if(!empty($productPurchaseDetails)){
+                                    foreach($productPurchaseDetails as $key => $productPurchaseDetail){
+                                        $purchase_average_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
+                                        $sum_purchase_price += $productPurchaseDetail->sub_total;
+
+                                        // sale
+                                        $productSaleDetails = DB::table('product_sale_details')
+                                            ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
+                                            ->where('product_id',$productPurchaseDetail->product_id)
+                                            ->where('product_category_id',$productPurchaseDetail->product_category_id)
+                                            ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                            ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                            ->groupBy('product_id')
+                                            ->groupBy('product_category_id')
+                                            ->groupBy('product_sub_category_id')
+                                            ->groupBy('product_brand_id')
+                                            ->first();
+
+                                        if(!empty($productSaleDetails))
+                                        {
+                                            $sale_total_qty = $productSaleDetails->qty;
+                                            $sum_sale_price += $productSaleDetails->sub_total;
+                                            $sale_average_price = $productSaleDetails->sub_total/$productSaleDetails->qty;
+
+                                            if($sale_total_qty > 0){
+                                                $loss_or_profit = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
+                                                $current_loss_or_profit += $loss_or_profit;
+                                                $sum_loss_or_profit += $loss_or_profit;
+                                            }
                                         }
-//dd($amount);
+
+
+                                    }
+
+                                    $discount= DB::table('product_sales')
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->first();
+                                    if($discount){
+                                        $sum_loss_or_profit -=$discount->total_discount_amount;
+                                        $discount_amount = $discount->total_discount_amount;
+                                        $sum_sale_price_discount = $sum_sale_price-$discount_amount;
                                     }
                                 }
 
-                            }
-                        }
-
-                    $total_expense = \App\Transaction::where('store_id',$store->id)->where('transaction_type','expense')->sum('amount');
-                    //$final_loss_or_profit = $sum_loss_or_profit - $total_expense;
-                    if($total_expense > 0){
-                        $sum_profit_amount -= $total_expense;
-                    }else{
-                        $sum_loss_amount += $total_expense;
-                    }
-
-                    // discount
-                    $productSaleDiscount = DB::table('product_sales')
-                        ->select( DB::raw('SUM(discount_amount) as total_discount'))
-                        ->first();
                     @endphp
 
                     <div class="col-md-4">
@@ -177,7 +225,8 @@
                         <div class="widget-small danger coloured-icon"><i class="icon fas fa-money-check-alt "></i>
                             <div class="info">
                                 <h4>Total Sell</h4>
-                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>
+{{--                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>--}}
+                                <p><b>{{number_format($sum_sale_price_discount, 2, '.', '')}}</b></p>
                             </div>
                         </div>
                     </div>

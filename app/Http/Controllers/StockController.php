@@ -17,9 +17,17 @@ class StockController extends Controller
         $this->middleware('permission:stock-summary-list', ['only' => ['stockSummaryList']]);
         $this->middleware('permission:stock-low-list', ['only' => ['stockLowList']]);
     }
+    public function allStockList(){
+        $stores = Store::latest()->get();
+        return view('backend.stock.all-stock', compact('stores'));
+    }
     public function stockList(){
         $stores = Store::latest()->get();
-        return view('backend.stock.index', compact('stores'));
+        return view('backend.stock.sale-list', compact('stores'));
+    }
+    public function stockPurchaseList(){
+        $stores = Store::latest()->get();
+        return view('backend.stock.purchase-list', compact('stores'));
     }
     public function export()
     {

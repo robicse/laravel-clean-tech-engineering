@@ -19,20 +19,20 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Loss Profit Table</h3>
-{{--                <form class="form-inline" action="{{ route('transaction.lossProfit') }}">--}}
-{{--                    <div class="form-group col-md-4">--}}
-{{--                        <label for="start_date">Start Date:</label>--}}
-{{--                        <input type="text" name="start_date" class="datepicker form-control" value="">--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-md-4">--}}
-{{--                        <label for="end_date">End Date:</label>--}}
-{{--                        <input type="text" name="end_date" class="datepicker form-control" value="">--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-md-4">--}}
-{{--                        <button type="submit" class="btn btn-success">Submit</button>--}}
-{{--                        <a href="{!! route('transaction.lossProfit') !!}" class="btn btn-primary" type="button">Reset</a>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
+                    <form class="form-inline" action="{{ route('transaction.lossProfit') }}">
+                        <div class="form-group col-md-4">
+                            <label for="start_date">Start Date:</label>
+                            <input type="text" name="start_date" class="datepicker form-control" value="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="end_date">End Date:</label>
+                            <input type="text" name="end_date" class="datepicker form-control" value="">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{!! route('transaction.lossProfit') !!}" class="btn btn-primary" type="button">Reset</a>
+                        </div>
+                    </form>
                 <div>&nbsp;</div>
                 @if(!empty($stores))
                     @foreach($stores as $store)
@@ -43,7 +43,7 @@
                                 $custom_start_date = $start_date.' 00:00:00';
                                 $custom_end_date = $end_date.' 00:00:00';
 
-                                if($start_date != '' && $end_date != ''){
+                                /*if($start_date != '' && $end_date != ''){
                                     $productPurchaseDetails = DB::table('product_purchase_details')
                                     ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
                                     ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
@@ -69,9 +69,9 @@
 
 
                                 $sum_loss_or_profit = 0;
-                            @endphp
+
                             @foreach($productPurchaseDetails as $key => $productPurchaseDetail)
-                                @php
+
                                     $loss_or_profit = 0;
                                     $current_loss_or_profit = 0;
                                     $sale_total_qty = 0;
@@ -104,6 +104,7 @@
                                             $loss_or_profit = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
                                             $current_loss_or_profit += $loss_or_profit;
                                             $sum_loss_or_profit += $loss_or_profit;
+                                            //dd($loss_or_profit);
                                         }
                                     }
 
@@ -135,9 +136,94 @@
                                             $current_loss_or_profit -= $loss_or_profit;
                                             $sum_loss_or_profit -= $loss_or_profit;
                                         }
+                                    }*/
+                             $sum_purchase_price = 0;
+                                $sum_sale_price = 0;
+                                $sum_sale_return_price = 0;
+                                $sum_loss_or_profit = 0;
+                                $current_loss_or_profit = 0;
+
+                                $productPurchaseDetails = DB::table('product_purchase_details')
+                                    ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
+                                    ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
+                                    ->where('product_purchases.store_id',$store->id)
+                                    ->groupBy('product_id')
+                                    ->groupBy('product_category_id')
+                                    ->groupBy('product_sub_category_id')
+                                    ->groupBy('product_brand_id')
+                                    ->get();
+
+                                if(!empty($productPurchaseDetails)){
+                                    foreach($productPurchaseDetails as $key => $productPurchaseDetail){
+                                        $purchase_average_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
+                                        $sum_purchase_price += $productPurchaseDetail->sub_total;
+
+                                        // sale
+                                        if($start_date != '' && $end_date != ''){
+                                            $productSaleDetails = DB::table('product_sale_details')
+                                                ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
+                                                ->where('product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->where('product_sale_details.created_at','>=',$custom_start_date)
+                                                ->where('product_sale_details.created_at','<=',$custom_end_date)
+                                                ->groupBy('product_id')
+                                                ->groupBy('product_category_id')
+                                                ->groupBy('product_sub_category_id')
+                                                ->groupBy('product_brand_id')
+                                                ->first();
+                                        }else{
+                                            $productSaleDetails = DB::table('product_sale_details')
+                                                ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
+                                                ->where('product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->groupBy('product_id')
+                                                ->groupBy('product_category_id')
+                                                ->groupBy('product_sub_category_id')
+                                                ->groupBy('product_brand_id')
+                                                ->first();
+                                        }
+
+                                        if(!empty($productSaleDetails))
+                                        {
+                                            $sale_total_qty = $productSaleDetails->qty;
+                                            $sum_sale_price = $productSaleDetails->sub_total;
+                                            $sale_average_price = $productSaleDetails->sub_total/$productSaleDetails->qty;
+
+                                            if($sale_total_qty > 0){
+                                                $loss_or_profit = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
+                                                $current_loss_or_profit += $loss_or_profit;
+                                                $sum_loss_or_profit += $loss_or_profit;
+                                                //dd($sum_loss_or_profit);
+
+                                            }
+                                        }
+
+
                                     }
+
+                                    if($start_date != '' && $end_date != ''){
+                                        $discount= DB::table('product_sales')
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->where('product_sales.created_at','>=',$custom_start_date)
+                                            ->where('product_sales.created_at','<=',$custom_end_date)
+                                            ->first();
+                                    }else{
+                                        $discount= DB::table('product_sales')
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->first();
+                                    }
+                                    if($discount){
+                                        $sum_loss_or_profit -=$discount->total_discount_amount ;
+                                        //$discount_amount = $discount->total_discount_amount;
+                                        //$sum_sale_price_discount = $sum_sale_price-$discount_amount;
+                                    }
+                                }
+
                                 @endphp
-                            @endforeach
                             <table>
                                 <thead>
                                 <tr>

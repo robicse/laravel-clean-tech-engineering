@@ -12,11 +12,13 @@
             <div>
                 <h1><i class=""></i> Add Sales Product</h1>
             </div>
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item">
+            <ul class="app-breadcrumb breadcrumb" style="display:inline!important;white-space:nowrap;" >
+                <li>
+                    <a href="{{ route('products.index') }}" class="btn btn-sm btn-primary col-sm" type="button" >Add Product</a>
                     <a href="{{ route('productSales.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Sales Product</a>
                 </li>
             </ul>
+            <br>
         </div>
         <div class="col-md-12">
             <div class="tile">
@@ -31,7 +33,7 @@
                         @csrf
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Party  <small class="requiredCustom">*</small></label>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <select name="party_id" id="customer" class="form-control select2" required>
                                     <option value="">Select One</option>
                                     @foreach($parties as $party)
@@ -41,8 +43,9 @@
                             </div>
                             <div class="col-md-3"><a type="button" class="test btn btn-primary btn-sm" onclick="modal_customer()" data-toggle="modal"><i class="fa fa-plus"></i></a></div>
                         </div>
-                        <div class="form-group row" @if(Auth::user()->roles[0]->name == 'User') style="display: none" @endif>
-                            <label class="control-label col-md-3 text-right">Store  <small class="requiredCustom">*</small></label>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right"  @if(Auth::user()->roles[0]->name == 'User') style="display: none" @endif> Store  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="store_id" id="store_id" class="form-control" required>
                                     <option value="">Select One</option>
@@ -53,7 +56,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
+                            <label class="control-label  col-md-3 text-right">Payment Type  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <select name="payment_type" id="payment_type" class="form-control" required>
                                     <option value="Cash" selected >Cash</option>
@@ -67,14 +70,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right"> Online Platform </label>
-                            <div class="col-md-8">
-                                <select name="online_platform" id="online_platform" class="form-control">
+                            <label class="control-label col-md-3 text-right"> Online Platform</label>
+                            <div class="col-md-4">
+                                <select name="online_platform_id" id="online_platform_id" class="form-control">
                                     <option value="" >Select One</option>
-                                    <option value="online_invoice" >E-commerce Platform</option>
+                                    @foreach($online_platforms as $online_platform)
+                                        <option value="{{$online_platform->id}}" >{{$online_platform->name}}</option>
+                                    @endforeach
                                 </select>
-                                <span>&nbsp;</span>
-                                <span>&nbsp;</span>
+                            </div>
+                            <div class="col-md-4">
                                 <input type="text" name="online_platform_invoice_no" id="online_platform_invoice_no" class="form-control" placeholder="Invoice No">
                             </div>
                         </div>
@@ -102,6 +107,7 @@
                                     <th style="display: none">Sub Category</th>
                                     <th>Brand</th>
                                     <th style="display: none">Unit</th>
+                                    <th>Return</th>
                                     <th>Stock Qty</th>
                                     <th>Qty <small class="requiredCustom">*</small></th>
                                     <th>Price <small class="requiredCustom">*</small></th>
@@ -162,6 +168,12 @@
                                         </div>
                                     </td>
                                     <td width="12%">
+                                        <select name="return_type[]" id="return_type_id_1" class="form-control" >
+                                            <option value="returnable" selected>returnable</option>
+                                            <option value="not returnable">not returnable</option>
+                                        </select>
+                                    </td>
+                                    <td width="12%">
                                         <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="" readonly >
                                     </td>
                                     <td width="12%">
@@ -181,7 +193,7 @@
                                     <th></th>
                                     <th>
                                         Vat(Percentage):
-                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')">
+                                        <input type="text" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')">
                                     </th>
                                     <th width="10%">
                                         Type:
@@ -192,21 +204,21 @@
                                     </th>
                                     <th>
                                         Discount(Flat):
-                                        <input type="number" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
+                                        <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                     </th>
 
                                     <th >
                                         Total:
                                         <input type="hidden" id="store_total_amount" class="form-control">
-                                        <input type="number" id="total_amount" class="form-control" name="total_amount">
+                                        <input type="text" id="total_amount" class="form-control" name="total_amount">
                                     </th>
                                     <th>
                                         Paid Amount:
-                                        <input type="number" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
+                                        <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                     </th>
                                     <th>
                                         Due Amount:
-                                        <input type="number" id="due_amount" class="backmoney form-control" name="due_amount">
+                                        <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -481,7 +493,7 @@
                     '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                     '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
-                    //'<td><select name="return_type[]" id="return_type_id_'+n+'" class="form-control" ><option value="returnable" selected>returnable</option><option value="not returnable">not returnable</option></select></td>' +
+                    '<td><select name="return_type[]" id="return_type_id_'+n+'" class="form-control" ><option value="returnable" selected>returnable</option><option value="not returnable">not returnable</option></select></td>' +
                     '<td><input type="number" id="stock_qty_'+n+'" class="stock_qty form-control" name="stock_qty[]" readonly></td>' +
                     '<td><input type="text" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                     '<td><input type="text" id="price_'+n+'" min="1" max="" class="price form-control" name="price[]" value="" required></td>' +
@@ -601,7 +613,8 @@
                         $("#product_brand_id_"+current_row).html(res.data.brandOptions);
                         $("#product_unit_id_"+current_row).html(res.data.unitOptions);
                         $("#stock_qty_"+current_row).val(res.data.current_stock);
-                        $("#price_"+current_row).val(res.data.price);
+                        //$("#price_"+current_row).val(res.data.price);
+                        $("#price_"+current_row).val(res.data.mrp_price);
                     },
                     error : function (err){
                         console.log(err)
@@ -670,17 +683,17 @@
                 }
             });
         });
-        $(function() {
-            $('#online_platform_invoice_no').hide();
-            $('#online_platform').change(function(){
-                if($('#online_platform').val() == 'online_invoice') {
-                    $('#online_platform_invoice_no').show();
-                } else {
-                    $('#online_platform_invoice_no').val('');
-                    $('#online_platform_invoice_no').hide();
-                }
-            });
-        });
+        {{--$(function() {--}}
+        {{--    $('#online_platform_invoice_no').hide();--}}
+        {{--    $('#online_platform_id').change(function(){--}}
+        {{--        if($('#online_platform_id').val() == {{$online_platform->name}}) {--}}
+        {{--            $('#online_platform_invoice_no').show();--}}
+        {{--        } else {--}}
+        {{--            $('#online_platform_invoice_no').val('');--}}
+        {{--            $('#online_platform_invoice_no').hide();--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
     </script>
 @endpush
 

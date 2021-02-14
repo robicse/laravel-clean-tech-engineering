@@ -6,6 +6,7 @@ use App\Account;
 use App\Due;
 use App\FreeProduct;
 use App\FreeProductSaleDetails;
+use App\OnlinePlatForm;
 use App\Party;
 use App\Posting;
 use App\Product;
@@ -70,8 +71,9 @@ class ProductSaleController extends Controller
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
         $products = Product::all();
+        $online_platforms = OnlinePlatForm::all();
         $freeProducts = FreeProduct::all();
-        return view('backend.productSale.create',compact('freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
+        return view('backend.productSale.create',compact('online_platforms','freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
     }
 
 
@@ -112,9 +114,9 @@ class ProductSaleController extends Controller
         $productSale->invoice_no = $invoice_no;
         $productSale->user_id = Auth::id();
         $productSale->party_id = $request->party_id;
+        $productSale->online_platform_id = $request->online_platform_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
-        $productSale->online_platform = $request->online_platform;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
@@ -133,7 +135,7 @@ class ProductSaleController extends Controller
                 // product purchase detail
                 $purchase_sale_detail = new ProductSaleDetail();
                 $purchase_sale_detail->product_sale_id = $insert_id;
-                //$purchase_sale_detail->return_type = $request->return_type[$i];
+                $purchase_sale_detail->return_type = $request->return_type[$i];
                 $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
                 $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
                 $purchase_sale_detail->product_brand_id = $request->product_brand_id[$i];
@@ -289,9 +291,9 @@ class ProductSaleController extends Controller
         // dd($productSale);
         $transaction = Transaction::where('ref_id',$id)->first();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
-
+        $online_platforms = OnlinePlatForm::all();
         $freeProducts = FreeProduct::all();
-        return view('backend.productSale.edit',compact('freeProductDetails','freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
+        return view('backend.productSale.edit',compact('online_platforms','freeProductDetails','freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
     }
 
 
@@ -325,7 +327,7 @@ class ProductSaleController extends Controller
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
-        $productSale->online_platform = $request->online_platform;
+        $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
@@ -344,7 +346,7 @@ class ProductSaleController extends Controller
             //dd($product_sale_detail_id);
             $purchase_sale_detail = ProductsaleDetail::findOrFail($product_sale_detail_id);
             //dd($purchase_sale_detail);
-            //$purchase_sale_detail->return_type = $request->return_type[$i];
+            $purchase_sale_detail->return_type = $request->return_type[$i];
             $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
             $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
             $purchase_sale_detail->product_brand_id = $request->product_brand_id[$i];
@@ -423,8 +425,8 @@ class ProductSaleController extends Controller
         $productSale = ProductSale::find($id);
         $productSale->delete();
 
-        DB::table('product_sale_details')->where('product_sale_id',$id)->delete();
-        DB::table('sale_services')->where('product_sale_id',$id)->delete();
+        $productSaleDetails= DB::table('product_sale_details')->where('product_sale_id',$id)->delete();
+        DB::table('sale_services')->where('product_sale_detail_id',$productSaleDetails)->delete();
         DB::table('stocks')->where('ref_id',$id)->delete();
         DB::table('transactions')->where('ref_id',$id)->delete();
         DB::table('dues')->where('ref_id',$id)->delete();
@@ -450,10 +452,11 @@ class ProductSaleController extends Controller
         $this->validate($request, [
             'service_id'=> 'required',
         ]);
+        $product_sale_detail_id = $request->product_sale_detail_id;
+        //dd($product_sale_detail_id);
         $row_count = count($request->service_id);
         for($i=0; $i<$row_count;$i++) {
-            $product_sale_detail_id = $request->product_sale_detail_id[$i];
-            // dd($product_sale_detail_id);
+
             $saleServices = new SaleService();
             $saleServices->product_sale_detail_id = $product_sale_detail_id;
             $saleServices->created_user_id = Auth::id();
@@ -464,9 +467,9 @@ class ProductSaleController extends Controller
             $insert_id = $saleServices->id;
 
             if($insert_id){
-                $duration_row_count = $request->duration_1[$i];
+                $duration_row_count = $request->duration[$i];
                 //dd($duration_row_count);
-                if (!empty($duration_row_count)){
+                if ($duration_row_count != NULL){
                     $date = $request->date[$i];
                     $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
 
@@ -482,7 +485,7 @@ class ProductSaleController extends Controller
                         $saleServices->save();
 
                         $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
-                }
+                    }
 
                 }
             }
@@ -537,22 +540,24 @@ class ProductSaleController extends Controller
         $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
         $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
             ->where('store_id',$store_id)->where('product_id',$product_id)
-            ->latest('product_purchase_details.id')
-            ->pluck('product_purchase_details.price')
-            ->first();
+            ->max('product_purchase_details.mrp_price');
+        //->pluck('product_purchase_details.mrp_price')
+        //->first();
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
         $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
         $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
         $options = [
-            'price' => $mrp_price,
+            'mrp_price' => $mrp_price,
             'current_stock' => $current_stock,
             'categoryOptions' => '',
             'subCategoryOptions' => '',
             'brandOptions' => '',
             'unitOptions' => '',
         ];
+
+
 
         if($product_category_id){
             $categories = ProductCategory::where('id',$product_category_id)->get();
@@ -614,6 +619,89 @@ class ProductSaleController extends Controller
 
         return response()->json(['success'=>true,'data'=>$options]);
     }
+//    public function productSaleRelationData(Request $request){
+//        $store_id = $request->store_id;
+//        $product_id = $request->current_product_id;
+//        $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
+//        $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+//            ->where('store_id',$store_id)->where('product_id',$product_id)
+//            ->latest('product_purchase_details.id')
+//            ->pluck('product_purchase_details.price')
+//            ->first();
+//
+//        $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
+//        $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
+//        $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
+//        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
+//        $options = [
+//            'price' => $mrp_price,
+//            'current_stock' => $current_stock,
+//            'categoryOptions' => '',
+//            'subCategoryOptions' => '',
+//            'brandOptions' => '',
+//            'unitOptions' => '',
+//        ];
+//
+//        if($product_category_id){
+//            $categories = ProductCategory::where('id',$product_category_id)->get();
+//            if(count($categories) > 0){
+//                $options['categoryOptions'] = "<select class='form-control' name='product_category_id[]' readonly>";
+//                foreach($categories as $category){
+//                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
+//                }
+//                $options['categoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['categoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['categoryOptions'] .= "</select>";
+//        }
+//        if(!empty($product_sub_category_id)){
+//            $subCategories = ProductSubCategory::where('id',$product_sub_category_id)->get();
+//            if(count($subCategories) > 0){
+//                $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//                foreach($subCategories as $subCategory){
+//                    $options['subCategoryOptions'] .= "<option value='$subCategory->id'>$subCategory->name</option>";
+//                }
+//                $options['subCategoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['subCategoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['subCategoryOptions'] .= "</select>";
+//        }
+//        if($product_brand_id){
+//            $brands = ProductBrand::where('id',$product_brand_id)->get();
+//            if(count($brands) > 0){
+//                $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]'readonly>";
+//                foreach($brands as $brand){
+//                    $options['brandOptions'] .= "<option value='$brand->id'>$brand->name</option>";
+//                }
+//                $options['brandOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]' readonly>";
+//            $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['brandOptions'] .= "</select>";
+//        }
+//
+//        if($product_unit_id){
+//            $units = ProductUnit::where('id',$product_unit_id)->get();
+//            if(count($units) > 0){
+//                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+//                foreach($units as $unit){
+//                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
+//                }
+//                $options['unitOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+//            $options['unitOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['unitOptions'] .= "</select>";
+//        }
+//
+//        return response()->json(['success'=>true,'data'=>$options]);
+//    }
 
     public function invoice($id)
     {

@@ -61,15 +61,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right"> Online Platform <small class="requiredCustom">*</small></label>
-                            <div class="col-md-8">
-                                <select name="online_platform" id="online_platform" class="form-control" >
+                            <label class="control-label col-md-3 text-right"> Online Platform</label>
+                            <div class="col-md-4">
+                                <select name="online_platform_id" id="online_platform_id" class="form-control">
                                     <option value="" >Select One</option>
-                                    <option value="online_invoice" {{'online_invoice' == $productSale->online_platform ? 'selected' : ''}}>E-commerce Platform</option>
+                                    @foreach($online_platforms as $online_platform)
+                                        <option value="{{$online_platform->id}}" {{$online_platform->id == $productSale->online_platform_id ? 'selected' : ''}}>{{$online_platform->name}}</option>
+                                    @endforeach
                                 </select>
-                                <span>&nbsp;</span>
-                                <span>&nbsp;</span>
-                                <input type="text" name="online_platform_invoice_no" value="{{$productSale->online_platform_invoice_no}}"  id="online_platform_invoice_no" class="form-control" placeholder="Invoice No">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="online_platform_invoice_no" id="online_platform_invoice_no" class="form-control" value="{{ $productSale->online_platform_invoice_no}}" placeholder="Invoice No">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -94,6 +96,7 @@
                                     <th style="display: none">Sub Category</th>
                                     <th>Brand</th>
                                     <th style="display: none">Unit</th>
+                                    <th>Return</th>
                                     <th>Stock Qty</th>
                                     <th>Qty</th>
                                     <th>Price</th>
@@ -158,7 +161,12 @@
                                                 </select>
                                             </div>
                                         </td>
-
+                                        <td width="12%">
+                                            <select name="return_type[]" id="return_type_id_{{$current_row}}" class="form-control" >
+                                                <option value="returnable"  {{'returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>returnable</option>
+                                                <option value="not returnable" {{'not returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>not returnable</option>
+                                            </select>
+                                        </td>
                                         <td width="10%">
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >
                                         </td>
@@ -196,7 +204,7 @@
                                         <input type="hidden" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}">
                                     </th>
-                                    <th>
+                                    <th colspan="2">
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" name="paid_amount" onkeyup="paidAmount('')" value="{{$productSale->paid_amount}}">
                                     </th>
@@ -404,7 +412,7 @@
                 '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                 '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                 '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
-                //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
+                '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                 '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                 '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
@@ -532,17 +540,17 @@
                 }
             });
         });
-        $(function() {
-
-            $('#online_platform').change(function(){
-                if($('#online_platform').val() == 'online_invoice') {
-                    $('#online_platform_invoice_no').show();
-                } else {
-                    $('#online_platform_invoice_no').val('');
-                    $('#online_platform_invoice_no').hide();
-                }
-            });
-        });
+        // $(function() {
+        //
+        //     $('#online_platform').change(function(){
+        //         if($('#online_platform').val() == 'online_invoice') {
+        //             $('#online_platform_invoice_no').show();
+        //         } else {
+        //             $('#online_platform_invoice_no').val('');
+        //             $('#online_platform_invoice_no').hide();
+        //         }
+        //     });
+        // });
     </script>
 @endpush
 

@@ -83,6 +83,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
     Route::resource('service','ServiceController');
     Route::resource('offers','OfferController');
+    Route::resource('customer_complain','CustomerComplainController');
+    Route::resource('online_platform','OnlinePlatFormController');
     Route::get('/supplier','PartyController@supplier');
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');
@@ -98,7 +100,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('check-barcode','ProductController@checkBarcode');
     Route::get('product-relation-data','ProductPurchaseController@productRelationData');
     Route::get('product-sale-relation-data','ProductSaleController@productSaleRelationData');
-    Route::get('stock-list','StockController@stockList')->name('stock.index');
+    Route::get('all-stock-sale-list','StockController@allStockList')->name('stock-purchase.allStock');
+    Route::get('stock-sale-list','StockController@stockList')->name('stock.index');
+    Route::get('stock-purchase-list','StockController@stockPurchaseList')->name('stock-purchase.index');
     Route::get('stock-summary-list','StockController@stockSummaryList')->name('stock.summary.list');
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
 
