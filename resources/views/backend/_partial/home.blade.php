@@ -199,9 +199,42 @@
                                         }
 
 
+                                        // sale return
+
+                                        $productSaleReturnDetails = DB::table('product_sale_return_details')
+                                            ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'))
+                                            ->where('product_id',$productPurchaseDetail->product_id)
+                                            ->where('product_category_id',$productPurchaseDetail->product_category_id)
+                                            ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                            ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                            ->groupBy('product_id')
+                                            ->groupBy('product_category_id')
+                                            ->groupBy('product_sub_category_id')
+                                            ->groupBy('product_brand_id')
+                                            ->first();
+
+                                        if(!empty($productSaleReturnDetails))
+                                        {
+                                            $sale_return_total_qty = $productSaleReturnDetails->qty;
+                                            $sale_return_total_amount = $productSaleReturnDetails->price;
+                                            $sum_sale_return_price += $productSaleReturnDetails->price;
+                                            $sale_return_average_price = $sale_return_total_amount/$productSaleReturnDetails->qty;
+
+                                            if($sale_return_total_qty > 0){
+                                                $amount = $sale_return_average_price - ($purchase_average_price*$sale_return_total_qty);
+                                                if($amount > 0){
+                                                    $sum_loss_or_profit -= $amount;
+                                                }else{
+                                                    $sum_loss_or_profit += $amount;
+                                                }
+                                            }
+                                        }
+
+
                                     }
 
                                     $discount= DB::table('product_sales')
+                                            ->where('product_sales.store_id',$store->id)
                                             ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
                                             ->first();
                                     if($discount){
