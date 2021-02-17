@@ -81,6 +81,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Transport Area</label>
+                            <div class="col-md-8">
+                                <input type="text" name="transport_area"  value="{{$productSale->transport_area}}" class="form-control" placeholder="Transport Area">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Date <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
                                 <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">

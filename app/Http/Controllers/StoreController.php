@@ -47,6 +47,9 @@ class StoreController extends Controller
         $store->slug = Str::slug($request->name);
         $store->phone = $request->phone;
         $store->address = $request->address;
+        $store->website = $request->website;
+        $store->page = $request->page;
+        $store->email = $request->email;
         $logo = $request->file('logo');
         if(isset($logo)) {
             //make unique name for image
@@ -95,6 +98,9 @@ class StoreController extends Controller
         $store->slug = Str::slug($request->name);
         $store->phone = $request->phone;
         $store->address = $request->address;
+        $store->website = $request->website;
+        $store->page = $request->page;
+        $store->email = $request->email;
         $logo = $request->file('logo');
         if(isset($logo)) {
             //make unique name for image

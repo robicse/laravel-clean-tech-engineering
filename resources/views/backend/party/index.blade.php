@@ -38,7 +38,7 @@
                         <tbody>
                         @foreach($parties as $key => $party)
                         <tr>
-                            <td>{{ $key+1 }}</td>
+                            <td>C000{{ $key+1 }}</td>
                             <td>{{ $party->type}}</td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>

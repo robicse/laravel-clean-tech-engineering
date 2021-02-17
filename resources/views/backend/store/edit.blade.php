@@ -47,12 +47,45 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Store Email <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" type="email" placeholder="email" name="email" value="{{$store->email}}">
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Store Address <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Address" name="address" value="{{$store->address}}">
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Store Website <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('website') ? ' is-invalid' : '' }}" type="text" placeholder="Url" name="website" value="{{$store->website}}">
+                                @if ($errors->has('website'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('website') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right"> Facebook Page Link <span style="color: red">*</span></label>
+                            <div class="col-md-8">
+                                <input class="form-control{{ $errors->has('page') ? ' is-invalid' : '' }}" type="text" placeholder="page link" name="page" value="{{$store->page}}">
+                                @if ($errors->has('page'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('page') }}</strong>
                                     </span>
                                 @endif
                             </div>

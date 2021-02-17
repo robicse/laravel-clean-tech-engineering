@@ -33,7 +33,7 @@
                     <tbody>
                     @foreach($productSales as $key => $productSale)
                     <tr>
-                        <td>{{ $key+1 }}</td>
+                        <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>
                         <td>{{ $productSale->invoice_no}}</td>
                         <td>{{ $productSale->party->name}}</td>

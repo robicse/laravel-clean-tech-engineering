@@ -66,7 +66,7 @@
                         /*left: 0;*/
                         width: 100%;
                         height: 160px!important;
-                        margin-top: 8px;
+                        margin-top: 18px;
                         border-bottom: 3px solid black; /* for demo */
                         /*background: yellow;*/ /* for demo */
                     }
@@ -97,16 +97,16 @@
                 </style>
                 <div class="panel-body">
                     <div class="row  header-border" >
-                        <div class="page-header col-md-4" style="text-align: left">
-                            <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">
-                        </div>
-                        <div class="col-md-8" style="text-align: left; margin-left: 180px;margin-top: -120px">
-                            <h2 style="margin: 0px">CleanTech Engineering</h2>
-                            <p style="margin: 0px">Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
-                            <p style="margin: 0px"><b>Phone</b>: 02-58052342, 01701-666 606, 01701-666 601, 01711-991 851. </p>
-                            <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
-                            <p style="margin: 0px"> <b>Website</b>:www.cleantech.com.bd</p>
-                            <p style="margin: 0px"> Find us on www.facebook.com/cleantechbd</p>
+{{--                        <div class="page-header col-md-4" style="text-align: left">--}}
+{{--                            <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">--}}
+{{--                        </div>--}}
+                        <div class="col-md-12" style="text-align: left;">
+                            <h2 style="font-size:20px" >{{$store->name}}</h2>
+                            <p style="margin: 0px;font-size: 16px">Corporate Office :{{$store->address}}</p>
+                            <p style="margin: 0px;font-size: 16px"><b>Phone</b>: {{$store->phone}} </p>
+                            <p style="margin: 0px;font-size: 16px"> <b>Email</b>: {{$store->email}}</p>
+                            <p style="margin: 0px;font-size: 16px"> <b>Website</b>:{{$store->website}}</p>
+                            <p style="margin: 0px;font-size: 16px"> Find us on {{$store->page}}</p>
                         </div>
                     </div>
                     <div>&nbsp;
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block">
+                        <div class="col-md-6" style="width: 50%; float: left;display: inline-block">
                             <strong>Customer ID:</strong>
                             <strong>C000{{$party->id}}</strong><br>
                             <strong>Customer Name:</strong>
@@ -124,9 +124,11 @@
                             <strong>{{$party->address}}</strong><br>
                             <strong>Contact No:</strong>
                             <strong>{{$party->phone}}</strong><br>
+                            <strong style="font-size: 16px">{{$productSale->onlinePlatForm->name}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
+                            <strong style="font-size: 16px">Location: {{$productSale->transport_area}}</strong><br>
                         </div>
-                        <div class="col-md-6" style="text-align: right; width: 40%; display: inline-block">
-                            <div class="invoice-to">
+                        <div class="col-md-6" style="text-align: right; width: 50%; display: inline-block">
+                            <div class="invoice-to" style="float: right;">
                                 <table>
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Invoice:</b></td>
@@ -206,7 +208,7 @@
                             <td style="border: none">-{{$productSale->discount_amount}}</td>
                         </tr>
                         @php
-                            $totalAmount =( $productSale->total_amount +$productSale->transport_cost);
+                            $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
                             $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
                         @endphp
                         <tr>
@@ -227,30 +229,30 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table class="invoice" style="width: 40%;">
-                        <thead>
-                        <tr style="background-color: #dddddd">
-                            <th>SL NO.</th>
-                            <th>Free Product</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if(!empty($free_products->free_product_id))
-                            @foreach($free_products as $key => $p)
-                                <tr>
-                                    <td width="10%">{{$key+1}}</td>
-                                    <td width="50%"> {{$p->freeProduct->name}}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                    </table>
-                    <div class="write">
-                        <p class="lead"><b>Previous Due </b> :0.00 </p>
-                        <p class="lead"><b>Invoice Due </b> :0.00 </p>
-                        <p class="lead"  style="border-top: solid 2px #000;width: 264px"> </p>
-                        <p class="lead"  ><b>Total Due </b> :0.00 </p>
-                    </div>
+{{--                    <table class="invoice" style="width: 40%;">--}}
+{{--                        <thead>--}}
+{{--                        <tr style="background-color: #dddddd">--}}
+{{--                            <th>SL NO.</th>--}}
+{{--                            <th>Free Product</th>--}}
+{{--                        </tr>--}}
+{{--                        </thead>--}}
+{{--                        <tbody>--}}
+{{--                        @if(!empty($free_products->free_product_id))--}}
+{{--                            @foreach($free_products as $key => $p)--}}
+{{--                                <tr>--}}
+{{--                                    <td width="10%">{{$key+1}}</td>--}}
+{{--                                    <td width="50%"> {{$p->freeProduct->name}}</td>--}}
+{{--                                </tr>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                        </tbody>--}}
+{{--                    </table>--}}
+{{--                    <div class="write">--}}
+{{--                        <p class="lead"><b>Previous Due </b> :0.00 </p>--}}
+{{--                        <p class="lead"><b>Invoice Due </b> :0.00 </p>--}}
+{{--                        <p class="lead"  style="border-top: solid 2px #000;width: 264px"> </p>--}}
+{{--                        <p class="lead"  ><b>Total Due </b> :0.00 </p>--}}
+{{--                    </div>--}}
                     <div class="write">
                         <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
                     </div>

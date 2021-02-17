@@ -10,7 +10,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> Add Sales Product</h1>
+                <h1><i class=""></i> Add Sales Product1</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb" style="display:inline!important;white-space:nowrap;" >
                 <li>
@@ -87,6 +87,12 @@
                             <label class="control-label col-md-3 text-right">Transport Cost</label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" placeholder="Transport Cost">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Transport Area</label>
+                            <div class="col-md-8">
+                                <input type="text" name="transport_area" class="form-control" placeholder="Transport Area">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -223,7 +229,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="display:none;">
                                 <input type="button" class="btn btn-primary add1 " style="margin-left: 57px;" value="Add Free Product">
                                 <table id="example2" class="table table-bordered table-striped">
                                     <thead>
@@ -256,7 +262,7 @@
 
                                 </label>
                                 <div class="col-md-8">
-                                    <label class="checkbox-inline"><input type="checkbox" name="print_now" value="1" style="margin-right: 5px;height: 24px;width: 30px;"><span style="height: 30px;background-color: green;padding: 10px;border-radius: 3px;">Redirect Print Page</span></label>
+{{--                                    <label class="checkbox-inline"><input type="checkbox" name="print_now" value="1" style="margin-right: 5px;height: 24px;width: 30px;"><span style="height: 30px;background-color: green;padding: 10px;border-radius: 3px;">Redirect Print Page</span></label>--}}
                                     <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Product Sale</button>
                                 </div>
                             </div>
@@ -294,7 +300,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-md-3 text-right">Phone</label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Phone" name="phone">
+                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Phone" name="phone" id="phone">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -401,7 +407,7 @@
 
 
 
-                var sub_total = $('#total_amount').val();
+                var sub_total = $('#sub_total').val();
                 console.log('sub_total= ' + sub_total);
                 console.log('sub_total= ' + typeof sub_total);
                 sub_total = parseInt(sub_total);
@@ -424,6 +430,9 @@
                 $('#store_total_amount').val(grand_total);
                 $('#total_amount').val(grand_total);
                 $('#due_amount').val(grand_total);
+
+
+
         }
         // onkeyup
         function discountAmount(){
@@ -596,6 +605,15 @@
                 //alert(sel.value);
                 var current_row = row;
                 var current_product_id = sel.value;
+                if(current_row > 1){
+                    var previous_row = current_row - 1;
+                    var previous_product_id = $('#product_id_'+previous_row).val();
+                    if(previous_product_id === current_product_id){
+                        $('#product_id_'+current_row).val('');
+                        alert('You selected same product, Please selected another product!');
+                        return false
+                    }
+                }
 
                 $.ajax({
                     url : "{{URL('product-sale-relation-data')}}",
@@ -613,7 +631,6 @@
                         $("#product_brand_id_"+current_row).html(res.data.brandOptions);
                         $("#product_unit_id_"+current_row).html(res.data.unitOptions);
                         $("#stock_qty_"+current_row).val(res.data.current_stock);
-                        //$("#price_"+current_row).val(res.data.price);
                         $("#price_"+current_row).val(res.data.mrp_price);
                     },
                     error : function (err){
@@ -662,7 +679,29 @@
                 }
             });
         });
+        $('#phone').keyup(function (){
+            var phone = $(this).val();
+            $.ajax({
+                url :  "{{URL('check-phone-number')}}",
+                method : "get",
+                data : {
+                    phone : phone
+                },
+                success : function (res){
+                    console.log(res)
+                    if(res.data == 'Found'){
+                        $('#phone').val('')
+                        alert('Phone Number already exists, please add another!')
+                        return false
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
 
+            })
+
+        })
 
         function hidemodal() {
             var x = document.getElementById("customar_modal");

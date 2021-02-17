@@ -99,7 +99,7 @@
                                 <tbody class="neworderbody">
                                 <tr>
                                     <td width="5%" class="no">1</td>
-                                    <td width="28%">
+                                    <td width="25%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
                                             <option value="">Select  Product</option>
                                             @foreach($products as $product)
@@ -137,7 +137,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td width="09%">
                                         <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="" required >
                                     </td>
                                     <td width="12%">
@@ -146,7 +146,7 @@
                                     <td width="12%">
                                         <input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <input type="text" class="amount form-control" name="sub_total[]">
                                     </td>
                                 </tr>
@@ -168,7 +168,7 @@
                                         Discount(Flat):
                                         <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                     </th>
-                                    <th>
+                                    <th  colspan="2">
                                         Total:
                                         <input type="hidden" id="store_total_amount" class="form-control">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount">

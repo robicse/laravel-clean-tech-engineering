@@ -94,6 +94,7 @@ class ProductSaleController extends Controller
             $total_amount += $request->sub_total[$i];
         }
         $discount_type = $request->discount_type;
+        $vat_amount =($total_amount*$request->vat_amount)/100;
         if($discount_type == 'flat'){
             $total_amount -= $request->discount_amount;
         }else{
@@ -122,10 +123,11 @@ class ProductSaleController extends Controller
         $productSale->discount_amount = $request->discount_amount;
         //$productSale->vat_type = $request->vat_type;
         $productSale->vat_amount = $request->vat_amount;
-        $productSale->total_amount = $total_amount;
+        $productSale->total_amount = $total_amount +$vat_amount ;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
+        $productSale->transport_area = $request->transport_area;
         $productSale->save();
         $insert_id = $productSale->id;
         if($insert_id)
@@ -313,7 +315,7 @@ class ProductSaleController extends Controller
         {
             $total_amount += $request->sub_total[$i];
         }
-
+        $vat_amount =($total_amount*$request->vat_amount)/100;
         $discount_type = $request->discount_type;
         if($discount_type == 'flat'){
             $total_amount -= $request->discount_amount;
@@ -333,10 +335,11 @@ class ProductSaleController extends Controller
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
         //$productSale->vat_type = $request->vat_type;
-        $productSale->total_amount = $total_amount;
+        $productSale->total_amount = $total_amount + $vat_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
+        $productSale->transport_area = $request->transport_area;
         $productSale->update();
 
         for($i=0; $i<$row_count;$i++)
@@ -871,20 +874,22 @@ class ProductSaleController extends Controller
         //dd($request->all());
         $this->validate($request, [
             'name' => 'required',
-            //'phone'=> 'required|unique:parties,phone',
+            //'email'=> '',
+            //'address'=> '',
+            //'phone'=> '',
         ]);
         $parties = new Party();
         $parties->type = $request->type;
         $parties->name = $request->name;
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-        $parties->address = $request->address;
+        //$parties->address = $request->address;
         $parties->status = 1;
         $parties->save();
         $insert_id = $parties->id;
 
         if ($insert_id){
-            $sdata['id'] = $insert_id;
+           // $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;
             $sdata['email'] = $parties->email;
             $sdata['phone'] = $parties->phone;

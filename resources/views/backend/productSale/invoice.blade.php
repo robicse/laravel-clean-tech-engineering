@@ -63,9 +63,9 @@
                                 <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">
                             </div>
                             <div class="col-md-8" style="text-align: left; margin-left: 180px;margin-top: -150px">
-                                <h2>CleanTech Engineering</h2>
-                                <p style="margin: 0px">Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
-                                <p style="margin: 0px"><b>Phone</b>: 02-58052342, 01701-666 606, 01701-666 601, 01711-991 851. </p>
+                                <h2>{{$store->name}}</h2>
+                                <p style="margin: 0px">Corporate Office :{{$store->address}}</p>
+                                <p style="margin: 0px"><b>Phone</b>: {{$store->phone}} </p>
                                 <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
                                 <p style="margin: 0px"> <b>Website</b>:www.cleantech.com.bd</p>
                                 <p style="margin: 0px"> Find us on www.facebook.com/cleantechbd</p>

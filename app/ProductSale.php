@@ -23,5 +23,9 @@ class ProductSale extends Model
     {
         return $this->hasMany('App\ProductSaleDetail');
     }
+    public function onlinePlatForm()
+    {
+        return $this->belongsTo('App\OnlinePlatForm','online_platform_id');
+    }
 
 }
