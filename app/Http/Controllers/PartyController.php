@@ -43,6 +43,12 @@ class PartyController extends Controller
         $parties = Party::where('type','=','supplier')->latest()->get();
         return view('backend.party.supplier',compact('parties'));
     }
+     public function wholeCustomer()
+        {
+
+            $parties = Party::where('type','=','own')->latest()->get();
+            return view('backend.party.whole-customer',compact('parties'));
+        }
 
 
     public function create()

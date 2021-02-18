@@ -292,7 +292,12 @@
 {{--                            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
-
+                    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
+                    <div class="row" >
+                        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">
+                            <span style="text-align: left;width:400px">Computer Generated Invoice</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -14,10 +14,10 @@
             <div class="tile">
                 {{--<h3 class="tile-title">Accounts</h3>--}}
                 <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
-                    <h2>StarIT LTD</h2>
-                    <p style="margin: 0px">BBTOA Building,4th Floor,Road no:9 ,South Kallyanpur, Mirpur,Dhaka-1207</p>
-                    <p style="margin: 0px"><b>Phone</b>:+88028091125 <span>, <b>Email</b>:info@123@starit.com </span></p>
-                    <p><b>Web</b> :www.123starir.com</p>
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">

@@ -63,12 +63,12 @@
                                 <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">
                             </div>
                             <div class="col-md-8" style="text-align: left; margin-left: 180px;margin-top: -150px">
-                                <h2>{{$store->name}}</h2>
-                                <p style="margin: 0px">Corporate Office :{{$store->address}}</p>
-                                <p style="margin: 0px"><b>Phone</b>: {{$store->phone}} </p>
-                                <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
-                                <p style="margin: 0px"> <b>Website</b>:www.cleantech.com.bd</p>
-                                <p style="margin: 0px"> Find us on www.facebook.com/cleantechbd</p>
+                                <h2 style="font-size:20px" >{{$store->name}}</h2>
+                                <p style="margin: 0px;font-size: 16px">Corporate Office :{{$store->address}}</p>
+                                <p style="margin: 0px;font-size: 16px"><b>Phone</b>: {{$store->phone}} </p>
+                                <p style="margin: 0px;font-size: 16px"> <b>Email</b>: {{$store->email}}</p>
+                                <p style="margin: 0px;font-size: 16px"> <b>Website</b>:{{$store->website}}</p>
+                                <p style="margin: 0px;font-size: 16px"> Find us on {{$store->page}}</p>
                             </div>
                             <!-- Main content -->
                             <div class="invoice p-3 mb-3">

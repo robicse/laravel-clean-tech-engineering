@@ -213,13 +213,13 @@
                         @endphp
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$totalAmount}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right;font-size: 16px">Total Amount</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;font-size: 16px">{{$totalAmount}}</th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
-                            <th style="border: none;text-align: right">Paid Amount:</th>
-                            <td style="border: none">{{$productSale->paid_amount}}</td>
+                            <th style="border: none;text-align: right;font-size: 16px">Paid Amount:</th>
+                            <td style="border: none;font-size: 16px">{{$productSale->paid_amount}}</td>
                         </tr>
 
                         <tr>
@@ -261,44 +261,58 @@
                         <div class="col-md-6">
                             <table>
                                 <tr>
-                                    <td style="text-align: right;font-size: 16px;"><b>Notes</b></td>
-                                    <td style="text-align: left;font-size: 14px;">*One year electrical parts warranty</td>
+                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b></td>
+                                    <td style="text-align: left;font-size: 16px;">*One year electrical parts warranty</td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td style="text-align: left;font-size: 14px;">*Warranty will void if the machine used over the capacity</td>
+                                    <td style="text-align: left;font-size: 16px;">*Warranty will void if the machine used over the capacity</td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td style="text-align: left;font-size: 14px;">*No warranty for filter cartidge,faucet,Tank. </td>
+                                    <td style="text-align: left;font-size: 16px;">*No warranty for filter cartidge,faucet,Tank. </td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td style="text-align: left;font-size: 14px;">*Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
+                                    <td style="text-align: left;font-size: 16px;">*Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td style="text-align: left;font-size: 14px;">*We do not provide any electrical or plumbing work.</td>
+                                    <td style="text-align: left;font-size: 16px;">*We do not provide any electrical or plumbing work.</td>
                                 </tr>
                             </table>
 
                         </div>
                         <!-- /.col -->
                     </div>
+                    <div class="row" style="margin-top: 210px;display: block" >
+                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                            <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
+                        </div>
+                        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
+                            <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
+                        </div>
+                    </div>
+                    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
+                    <div class="row" >
+                        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">
+                            <span style="text-align: left;width:400px">Computer Generated Invoice</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<footer style="margin-top:200px">
-    <div class="row" >
-        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;margin-top: -42px">
-            <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>
-        </div>
-        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;margin-top: -42px">
-            <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>
-        </div>
-    </div>
+{{--<footer style="margin-top:200px;display: block">--}}
+{{--    <div class="row" >--}}
+{{--        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;margin-top: -42px">--}}
+{{--            <strong style="border-top: solid 1px #000;text-align: center;width:400px">Customer signature</strong><br>--}}
+{{--        </div>--}}
+{{--        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;margin-top: -42px">--}}
+{{--            <strong style="border-top: solid 1px #000;">Authorize Signature</strong><br>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 {{--    <div class="row">--}}
 {{--        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
 {{--            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>--}}
@@ -310,11 +324,11 @@
 {{--            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>--}}
 {{--            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
 {{--        </div>--}}
-{{--        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;margin-top: -12px">--}}
-{{--            <span style="text-align: left;width:400px">Express Retail By Link-Up Technology, Contact No.: 01911978897</span>--}}
+{{--        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">--}}
+{{--            <span style="text-align: left;width:400px">Computer Generated Invoice</span>--}}
 {{--        </div>--}}
 {{--    </div>--}}
-</footer>
+{{--</footer>--}}
 <!-- jQuery -->
 <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>
 

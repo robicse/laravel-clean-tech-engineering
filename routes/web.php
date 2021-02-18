@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('customer_complain','CustomerComplainController');
     Route::resource('online_platform','OnlinePlatFormController');
     Route::get('/supplier','PartyController@supplier');
+    Route::get('/whole-sale','PartyController@wholeCustomer');
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');
     Route::get('productPurchases-invoice','ProductPurchaseController@invoice')->name('productPurchases-invoice');

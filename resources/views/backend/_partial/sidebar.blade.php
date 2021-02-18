@@ -1,9 +1,9 @@
 <style>
-    .treeview-menu li{
-        background-color: black;
-    }
+    /*.treeview-menu li{*/
+    /*    background-color: black;*/
+    /*}*/
 </style>
-<aside class="app-sidebar" style="background: linear-gradient(#e66465, #9198e5);">
+<aside class="app-sidebar" style="background: url({{asset('backend/sidebar4.png')}})">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{!! asset('backend/user.png') !!} "
                                         alt="User Image" width="60px">
         <div>
@@ -29,10 +29,11 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('free-products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Free Product</span></a></li>
             </ul>
         </li>
-        <li class="treeview{{Request::is('party*')  ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Customer & Supplier </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview{{Request::is('party*')  ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Customers </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{{ route('party.index') }}"><i class="app-menu__icon fa fa-deviantart"></i><span class="app-menu__label">Customer List</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/supplier') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Supplier List</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/whole-sale') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Whole Customer List</span></a></li>
             </ul>
         </li>
         <li><a class="app-menu__item"  href="{{ route('online_platform.index') }}"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Online Platform </span><i class="treeview-indicator fa fa-angle-right"></i></a>
