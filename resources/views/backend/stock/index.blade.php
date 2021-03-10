@@ -13,6 +13,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Stock Table</h3>
+
                 @if(!empty($stores))
                     @foreach($stores as $store)
                         <div class="col-md-12">

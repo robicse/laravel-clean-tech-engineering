@@ -170,6 +170,7 @@
                                 if(!empty($productPurchaseDetails)){
                                     foreach($productPurchaseDetails as $key => $productPurchaseDetail){
                                         $purchase_average_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
+                                        //dd($purchase_average_price);
                                         $sum_purchase_price += $productPurchaseDetail->sub_total;
 
                                         // sale

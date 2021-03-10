@@ -76,9 +76,18 @@
         <div class="row">
             <div class="col-md-12">
 
-                <div class="page-header" style="text-align: center">
-                    <img src="{{ asset('header.png') }}" width="100%" height="150px" alt="header img">
+                <div class="col-md-8" style="text-align: center; margin-left: 100px">
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                    <p style="margin: 0px"> <b>Website</b>:www.cleantech.com.bd</p>
+                    <p style="margin: 0px"> Find us on www.facebook.com/cleantechbd</p>
                 </div>
+
+{{--                <div class="page-header" style="text-align: center">--}}
+{{--                    <img src="{{ asset('header.png') }}" width="100%" height="150px" alt="header img">--}}
+{{--                </div>--}}
 
                 <div class="page-footer">
                     <img src="{{ asset('footer.png') }}" width="100%" height="auto" alt="footer img">

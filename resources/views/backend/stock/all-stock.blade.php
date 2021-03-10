@@ -13,39 +13,21 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Stock Table</h3>
+                <form class="form-inline" action="{{ route('stock-purchase.allStock') }}">
+                    <div class="form-group col-md-4">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" class="datepicker form-control" value="">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" class="datepicker form-control" value="">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="{!! route('stock-purchase.allStock') !!}" class="btn btn-primary" type="button">Reset</a>
+                    </div>
+                </form>
 
-{{--                <form method="get" action="" class="form-inline">--}}
-{{--                    --}}{{--@csrf--}}
-{{--                    <div class="form-group" style="margin-left: 5px">--}}
-{{--                        <select class="form-control select2" name="product_id">--}}
-{{--                            <option value="">Select Product</option>--}}
-{{--                            @foreach($products as $product)--}}
-{{--                                <option value="{{$product->id}}" {{$product_id == $product->id ? 'selected' : ''}}>{{$product->name}}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group" style="margin-left: 5px">--}}
-{{--                        <select class="form-control select2" name="stock_product_type">--}}
-{{--                            <option value="">Select Stock Product Type</option>--}}
-{{--                            <option value="Finish Goods" {{$stock_product_type == 'Finish Goods' ? 'selected' : ''}}>Finish Goods</option>--}}
-{{--                            <option value="Raw Materials" {{$stock_product_type == 'Raw Materials' ? 'selected' : ''}}>Raw Materials</option>--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group" style="margin-left: 5px">--}}
-{{--                        <select class="form-control select2" name="stock_type">--}}
-{{--                            <option value="">Select Stock Type</option>--}}
-{{--                            <option value="purchase" {{$stock_type == 'purchase' ? 'selected' : ''}}>purchase</option>--}}
-{{--                            <option value="sale" {{$stock_type == 'sale' ? 'selected' : ''}}>sale</option>--}}
-{{--                            <option value="sale return" {{$stock_type == 'sale return' ? 'selected' : ''}}>sale return</option>--}}
-{{--                            <option value="production" {{$stock_type == 'production' ? 'selected' : ''}}>production</option>--}}
-{{--                            <option value="replace" {{$stock_type == 'replace' ? 'selected' : ''}}>replace</option>--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group" style="margin-left: 5px">--}}
-{{--                        <button class="btn btn-sm btn-primary float-left p-2">Advanced Search</button><span>&nbsp;</span>--}}
-{{--                        <a href="{{ route('stock.index') }}" class="btn btn-sm btn-info float-right p-2" role="button">Reset</a>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
                 <br/>
 
                 @if(!empty($stores))
@@ -64,7 +46,7 @@
                                 <thead>
                                 <tr>
                                     <th>SL NO</th>
-                                    <th>Product Type</th>
+{{--                                    <th>Product Type</th>--}}
                                     <th>Brand</th>
                                     <th>Product</th>
 {{--                                    <th>Party</th>--}}
@@ -78,15 +60,29 @@
                                 </thead>
                                 <tbody>
                                 @php
-                                    $stocks = \App\Stock::where('store_id',$store->id)->latest()->get();
-
-
+                                    $custom_start_date = $start_date;
+                                    $custom_end_date = $end_date;
+                                    //dd($custom_start_date);
+                                         $auth_user_id = Auth::user()->id;
+                                         $auth_user = Auth::user()->roles[0]->name;
+                                         //dd($auth_user);
+                                         if($start_date  != '' && $end_date  != '') {
+                                                if ($auth_user == "Admin") {
+                                                    $stocks = \App\Stock::where('date', '>=', $custom_start_date)->where('date', '<=', $custom_end_date)->where('store_id',$store->id)->latest('id','desc')->get();
+                                                //dd($stocks);
+                                                } else {
+                                                    $stocks = \App\Stock::where('date', '>=', $custom_start_date)->where('date', '<=', $custom_end_date)->where('store_id',$store->id)->latest('id','desc')->get();
+                                                }
+                                            }
+                                               else{
+                                                 $stocks = \App\Stock::where('store_id',$store->id)->latest()->get();
+                                               }
                                 @endphp
                                 @foreach($stocks as $key => $stock)
                                     <tr>
 {{--                                        <td>{{ $key+1 }}</td>--}}
                                         <td>{{ $stock->id }}</td>
-                                        <td>{{ $stock->product->product_type}}</td>
+{{--                                        <td>{{ $stock->product->product_type}}</td>--}}
                                         <td>{{ $stock->product->product_brand->name}}</td>
                                         <td>{{ $stock->product->name}}</td>
 {{--                                        <td>--}}
@@ -128,9 +124,7 @@
 {{--                                            @endphp--}}
 {{--                                        </td>--}}
                                         <td>
-
-                                                {{ $stock->stock_type}}
-
+                                            {{ $stock->stock_type}}
                                         </td>
                                         <td>{{ $stock->previous_stock}}</td>
                                         <td>{{ $stock->stock_in}}</td>

@@ -55,11 +55,12 @@
                     .footer_div {
                         position:absolute;
                         bottom: 0 !important;
-                        border-top: 1px solid #000000;
+                        /*border-top: 1px solid #000000;*/
                         width:100%;
                         font-size: 10px !important;
                         padding-bottom: 20px;
                     }
+
                     .header-border {
                         /*position: fixed;*/
                         /*top: 0mm;*/
@@ -111,7 +112,7 @@
                     </div>
                     <div>&nbsp;
                         <div class=" callout-info" style="">
-                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:3px; border-style:dotted"> INVOICE / BILL</h3>
+                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> INVOICE / BILL</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -124,7 +125,9 @@
                             <strong>{{$party->address}}</strong><br>
                             <strong>Contact No:</strong>
                             <strong>{{$party->phone}}</strong><br>
-                            <strong style="font-size: 16px">{{$productSale->onlinePlatForm->name}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
+                            @if(!empty($productSale->onlinePlatForm->name))
+                                <strong style="font-size: 16px">{{($productSale->onlinePlatForm->name)}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
+                            @endif
                             <strong style="font-size: 16px">Location: {{$productSale->transport_area}}</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; width: 50%; display: inline-block">
@@ -172,13 +175,13 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->qty}}</td>
-                                <td>{{$productSaleDetail->price}}</td>
+                                <td>{{number_format($productSaleDetail->price, 2, '.', '')}}</td>
                                 <td>
                                     @php
                                         $sub_total=$productSaleDetail->qty*$productSaleDetail->price;
                                         $sum_sub_total += $sub_total;
                                     @endphp
-                                    {{$sub_total}}
+                                    {{number_format($sub_total, 2, '.', '')}}
                                 </td>
                             </tr>
                         @endforeach
@@ -190,42 +193,44 @@
                         <tr >
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Subtotal:</th>
-                            <td  style="border: none">{{$sum_sub_total}}</td>
+                            <td  style="border: none">{{number_format($sum_sub_total, 2, '.', '')}}</td>
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Vat :</th>
-                            <td  style="border: none">{{$productSale->vat_amount}}%</td>
+                            <td  style="border: none">{{number_format($productSale->vat_amount, 2, '.', '')}}%</td>
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Transport/Labour :</th>
-                            <td  style="border: none">{{$productSale->transport_cost}}</td>
+                            <td  style="border: none">{{number_format($productSale->transport_cost, 2, '.', '')}}</td>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Discount:</th>
-                            <td style="border: none">-{{$productSale->discount_amount}}</td>
+                            <td style="border: none">-{{number_format($productSale->discount_amount, 2, '.', '')}}</td>
                         </tr>
                         @php
                             $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
-                            $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
+                            //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
+                            $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
+
                         @endphp
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right;font-size: 16px">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;font-size: 16px">{{$totalAmount}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;font-size: 16px">{{number_format($totalAmount, 2, '.', '')}}</th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border: none;text-align: right;font-size: 16px">Paid Amount:</th>
-                            <td style="border: none;font-size: 16px">{{$productSale->paid_amount}}</td>
+                            <td style="border: none;font-size: 16px">{{number_format($paid_amount, 2, '.', '')}}</td>
                         </tr>
 
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;text-align: right">Due Amount:</th>
-                            <td style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$DueAmount}}</td>
+                            <td style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{number_format($productSale->due_amount, 2, '.', '')}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -285,20 +290,21 @@
                         </div>
                         <!-- /.col -->
                     </div>
-                    <div class="row" style="margin-top: 210px;display: block" >
+                    <div class="row footer_div" style="margin-top: 210px;display: block" >
                         <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
                             <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
                             <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
                         </div>
-                    </div>
-                    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
-                    <div class="row" >
-                        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">
-                            <span style="text-align: left;width:400px">Computer Generated Invoice</span>
+                        <hr style="border-top:1px dotted black;width: 100%;height:1px;">
+                        <div class="row" >
+                            <div class="col-md-6" style="float:right">
+                                <span>Print Date: {{$productSale->created_at}} Computer Generated Invoice</span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -93,12 +93,13 @@
                                             $current_row = $key+1;
                                         @endphp
                                         <td width="28%">
-                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
-                                                <option value="">Select  Product</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{$product->id}}" {{$product->id == $productPurchaseDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>
-                                                @endforeach
-                                            </select>
+{{--                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>--}}
+{{--                                                <option value="">Select  Product</option>--}}
+{{--                                                @foreach($products as $product)--}}
+{{--                                                    <option value="{{$product->id}}" {{$product->id == $productPurchaseDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>--}}
+{{--                                                @endforeach--}}
+{{--                                            </select>--}}
+                                            <input type="text" name="product_id[]" id="product_id" class="form-control" value="{{$productPurchaseDetail->product->name}}" readonly>
                                             <input type="hidden" class="form-control" name="product_purchase_detail_id[]" value="{{$productPurchaseDetail->id}}" >
                                         </td>
                                         <td style="display: none">

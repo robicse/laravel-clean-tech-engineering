@@ -35,6 +35,9 @@
             .c-layout-header-fixed .c-layout-page{
                 margin-top: 0px!important;
             }
+            tr td{
+                width: 30%!important;
+            }
         }
         .table td {
             font-size: 20px!important;
@@ -83,11 +86,11 @@
                     <div class="c-content-product-2 c-bg-white">
                         <div class="c-content-product c-bg-gray table-responsive">
                             <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 100%">
-                                <tr>
+                                <tr style="background-color: grey">
                                     <th>Id</th>
                                     <th>Product Name</th>
                                     <th>Product Brand</th>
-                                    <th>Warranty</th>
+                                    <th width="30%">Warranty</th>
                                     <th>QTY</th>
 {{--                                    <th> Price</th>--}}
 {{--                                    <th> Total Amount</th>--}}
@@ -96,11 +99,11 @@
 
 
                                 @foreach($productHistory->productsaledetails()->get() as $key => $productdetail)
-                                   <tr>
+                                    <tr style="background-color: papayawhip">
                                        <td>{{$key+1}}</td>
                                        <td>{{$productdetail->product->name}}</td>
                                        <td>{{$productdetail->product_brand->name}}</td>
-                                       <td>{{$productdetail->product->warranty}}</td>
+                                       <td width="30%">{{$productdetail->product->warranty}}</td>
                                        <td>{{$productdetail->qty}}</td>
 {{--                                       <td>{{$productdetail->price}}</td>--}}
 {{--                                       <td>{{$productdetail->sub_total}}</td>--}}

@@ -2,6 +2,9 @@
     /*.treeview-menu li{*/
     /*    background-color: black;*/
     /*}*/
+    .custom_li_bg{
+        background-color: gray;
+    }
 </style>
 <aside class="app-sidebar" style="background: url({{asset('backend/sidebar4.png')}})">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{!! asset('backend/user.png') !!} "
@@ -26,7 +29,7 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productBrands.index') }}"><i class="app-menu__icon fa fa-bandcamp"></i><span class="app-menu__label">Product Brand</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productUnit.index') }}"><i class="app-menu__icon fa fa-bandcamp"></i><span class="app-menu__label">Product Unit</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Product</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('free-products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Free Product</span></a></li>
+                <li class="custom_li_bg" style="display: none"><a class="app-menu__item custom_li_a_position" href="{{ route('free-products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Free Product</span></a></li>
             </ul>
         </li>
         <li class="treeview{{Request::is('party*')  ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Customers </span><i class="treeview-indicator fa fa-angle-right"></i></a>

@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('party/new-office-costing-category','ExpenseController@newOfficeCostingCategory')->name('office.costing.category.new');
     Route::get('product-production-relation-data','ProductProductionController@productProductionRelationData');
 
-
+    Route::get('stock-date-wise','StockController@stockDateWise')->name('stock.date.wise');
 
 
     Route::get('productPosSales/list','ProductPosSaleController@index')->name('productPosSales.index');

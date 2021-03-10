@@ -7,6 +7,7 @@ use App\Exports\TransactionExport;
 use App\Stock;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class StockController extends Controller
@@ -17,9 +18,14 @@ class StockController extends Controller
         $this->middleware('permission:stock-summary-list', ['only' => ['stockSummaryList']]);
         $this->middleware('permission:stock-low-list', ['only' => ['stockLowList']]);
     }
-    public function allStockList(){
+    public function allStockList(Request $request){
+        //dd($request->all());
+
         $stores = Store::latest()->get();
-        return view('backend.stock.all-stock', compact('stores'));
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
+
+        return view('backend.stock.all-stock', compact('stores','start_date','end_date'));
     }
     public function stockList(){
         $stores = Store::latest()->get();
@@ -43,5 +49,12 @@ class StockController extends Controller
     public function stockLowList(){
         $stores = Store::latest()->get();
         return view('backend.stock.stock_low', compact('stores'));
+    }
+    public function stockDateWise(Request $request){
+        //dd($request->all());
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
+        $stores = Store::all();
+        return view('backend.stock.all-stock', compact('stores','start_date','end_date'));
     }
 }

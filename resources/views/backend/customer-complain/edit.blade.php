@@ -4,17 +4,17 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> Edit Customer Complain</h1>
+                <h1><i class=""></i> Edit Customer Support</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('customer_complain.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Customer Complain</a>
+                    <a href="{{ route('customer_complain.index') }}" class="btn btn-sm btn-primary col-sm" type="button">All Customer Support</a>
                 </li>
             </ul>
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Edit Customer Complaint</h3>
+                <h3 class="tile-title">Edit Customer Support</h3>
                 <div class="tile-body tile-footer">
                     @if(session('response'))
                         <div class="alert alert-success">

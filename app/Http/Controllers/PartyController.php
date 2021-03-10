@@ -98,7 +98,7 @@ class PartyController extends Controller
             $headcode="1010301";
             //$p_acc = $headcode ."-".$request->name;
         }
-        $p_acc = $request->name;
+        $p_acc = $request->name."-".$request->phone;
 
         $PHeadName = 'Account Receivable';
         $HeadLevel = 3;

@@ -24,7 +24,7 @@
                                 <select class="form-control select2" name="general_ledger" id="general_ledger">
                                     <option value="">Select One</option>
                                     @foreach($general_ledger_account_nos as $general_ledger_account_no)
-                                        <option value="{{ $general_ledger_account_no->HeadCode }}">{{ $general_ledger_account_no->HeadName }}</option>
+                                        <option value="{{ $general_ledger_account_no->HeadCode }}">{{ $general_ledger_account_no->HeadName. }}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('general_ledger'))

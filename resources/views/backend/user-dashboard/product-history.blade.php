@@ -83,7 +83,7 @@
                     <div class="c-content-product-2 c-bg-white">
                         <div class="c-content-product c-bg-gray table-responsive">
                             <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 98%">
-                                <tr>
+                                <tr style="background-color: grey">
                                     <th>Id</th>
                                     <th>Invoice No</th>
                                     <th>Date & Time</th>
@@ -91,15 +91,15 @@
 {{--                                    <th>QTY</th>--}}
 {{--                                    <th> Unit Price BDT</th>--}}
 {{--                                    <th> Total Amount</th>--}}
-                                    <th> Vat</th>
+{{--                                    <th> Vat</th>--}}
 {{--                                    <th> Discount</th>--}}
-                                    <th> Final Amount</th>
-                                    <th> Paid Amount</th>
-                                    <th> Due Amount</th>
+{{--                                    <th> Final Amount</th>--}}
+{{--                                    <th> Paid Amount</th>--}}
+{{--                                    <th> Due Amount</th>--}}
                                     <th> Details</th>
                                 </tr>
                                 @forelse($productHistory as $key => $productHist)
-                                    <tr>
+                                    <tr style="background-color: papayawhip">
                                         <td>{{$key + 1}}</td>
                                         <td>{{$productHist->invoice_no}}</td>
                                         <td>{{$productHist->created_at}}</td>
@@ -118,10 +118,10 @@
 {{--                                                <li>{{$sub_total->sub_total}}</li>--}}
 {{--                                            </ul>--}}
 {{--                                            @endforeach</td>--}}
-                                        <td>{{$productHist->vat_amount}}%</td>
-                                        <td>{{$productHist->total_amount}}</td>
-                                        <td>{{$productHist->paid_amount}}</td>
-                                        <td>{{$productHist->due_amount}}</td>
+{{--                                        <td>{{$productHist->vat_amount}}%</td>--}}
+{{--                                        <td>{{$productHist->total_amount}}</td>--}}
+{{--                                        <td>{{$productHist->paid_amount}}</td>--}}
+{{--                                        <td>{{$productHist->due_amount}}</td>--}}
                                         <td> <a href="{{route('product.details',$productHist->id)}}">
                                                 <i class="fa fa-shopping-cart"></i>
                                             </a></td>

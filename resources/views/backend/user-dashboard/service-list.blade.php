@@ -83,13 +83,13 @@
                     <div class="c-content-product-2 c-bg-white">
                         <div class="c-content-product c-bg-gray table-responsive">
                             <table class="table table-bordered table-condensed table-hover  table-striped" style="width: 98%">
-                                <tr>
+                                <tr style="background-color: grey">
                                     <th>Id</th>
                                     <th>Service  Name</th>
                                     <th>Date</th>
                                 </tr>
                                 @foreach($serviceDetails->sale_services()->orderby('date','ASC')->get() as $key => $productdetail)
-                                    <tr>
+                                    <tr style="background-color: papayawhip">
                                         <td>{{$key+1}}</td>
                                         <td>{{$productdetail->service->name}}</td>
                                         <td>{{($productdetail->date)}}</td>

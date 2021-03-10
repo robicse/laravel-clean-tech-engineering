@@ -119,12 +119,13 @@
                                             $current_row = $key+1;
                                         @endphp
                                         <td width="15%">
-                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
-                                                <option value="">Select  Product</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{$product->id}}" {{$product->id == $productSaleDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>
-                                                @endforeach
-                                            </select>
+{{--                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>--}}
+{{--                                                <option value="">Select  Product</option>--}}
+{{--                                                @foreach($products as $product)--}}
+{{--                                                    <option value="{{$product->id}}" {{$product->id == $productSaleDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>--}}
+{{--                                                @endforeach--}}
+{{--                                            </select>--}}
+                                            <input type="text" name="product_id[]" id="product_id" class="form-control" value="{{$productSaleDetail->product->name}}" readonly>
                                             <input type="hidden" class="form-control" name="product_Sale_detail_id[]" value="{{$productSaleDetail->id}}" >
                                         </td>
                                         <td width="12%" style="display: none">
@@ -221,7 +222,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="display:none;">
                                 <table id="example2" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>

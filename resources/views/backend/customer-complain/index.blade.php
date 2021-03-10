@@ -4,15 +4,15 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Customer Complain</h1>
+                <h1><i class=""></i> All Customer Support</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('customer_complain.create') !!}" class="btn btn-sm btn-primary" type="button">Add  Customer Complain</a></li>
+                <li class="breadcrumb-item"> <a href="{!! route('customer_complain.create') !!}" class="btn btn-sm btn-primary" type="button">Add  Customer Support</a></li>
             </ul>
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title"> Customer Complain</h3>
+                <h3 class="tile-title"> Customer Support</h3>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>

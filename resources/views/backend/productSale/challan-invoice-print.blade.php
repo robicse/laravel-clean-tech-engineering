@@ -115,16 +115,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6" style="width: 60%; float: left;display: inline-block">
-                            <strong style="font-size: 16px">Customer ID:</strong>
-                            <strong style="font-size: 16px">C000{{$party->id}}</strong><br>
-                            <strong style="font-size: 16px">Customer Name:</strong>
-                            <strong style="font-size: 16px">{{$party->name}}</strong><br>
-                            <strong style="font-size: 16px">Address:</strong>
-                            <strong style="font-size: 16px">{{$party->address}}</strong><br>
-                            <strong style="font-size: 16px">Contact No:</strong>
-                            <strong style="font-size: 16px">{{$party->phone}}</strong><br>
-                            <strong style="font-size: 16px">{{$productSale->onlinePlatForm->name}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
-                            <strong style="font-size: 16px">Location: {{$productSale->transport_area}}</strong><br>
+                            <strong style="font-size: 15px">Customer ID:</strong>
+                            <strong style="font-size: 15px">C000{{$party->id}}</strong><br>
+                            <strong style="font-size: 15px">Customer Name:</strong>
+                            <strong style="font-size: 15px">{{$party->name}}</strong><br>
+                            <strong style="font-size: 15px">Address:</strong>
+                            <strong style="font-size: 15px">{{$party->address}}</strong><br>
+                            <strong style="font-size: 15px">Contact No:</strong>
+                            <strong style="font-size: 15px">{{$party->phone}}</strong><br>
+                            @if(!empty($productSale->onlinePlatForm->name))
+                                <strong style="font-size: 15px">{{!empty($productSale->onlinePlatForm->name)}}.Invoice - {{!empty($productSale->online_platform_invoice_no)}}</strong><br>
+                            @endif
+                                <strong style="font-size: 15px">Location: {{$productSale->transport_area}}</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; width: 40%; display: inline-block">
                             <div class="invoice-to"  style="float: right;">
@@ -280,6 +282,12 @@
                             <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
                         </div>
                     </div>
+                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">
+                    <div class="row" >
+                        <div class="col-md-6" style="float:right">
+                            <span>Computer Generated Invoice</span>
+                        </div>
+                    </div>
 {{--                    <div class="row">--}}
 {{--                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
 {{--                            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>--}}
@@ -292,12 +300,6 @@
 {{--                            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
-                    <hr style="border-top:2px dotted black;width: 100%;height:1px;">
-                    <div class="row" >
-                        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">
-                            <span style="text-align: left;width:400px">Computer Generated Invoice</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

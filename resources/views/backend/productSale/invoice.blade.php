@@ -177,23 +177,24 @@
                                                 <th>-{{$productSale->discount_amount}}</th>
                                             </tr>
                                             @php
-                                                $totalAmount =( $productSale->total_amount +$productSale->transport_cost );
-                                                $DueAmount =( $productSale->due_amount +$productSale->transport_cost)
+                                                $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
+                                                  //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
+                                                  $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
                                             @endphp
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Total Amount</th>
-                                                <th>{{$totalAmount}}</th>
+                                                <th>{{number_format($totalAmount, 2, '.', '')}}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Paid Amount:</th>
-                                                <th>{{$productSale->paid_amount}}</th>
+                                                <th>{{number_format($paid_amount, 2, '.', '')}}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Due Amount:</th>
-                                                <th>{{$DueAmount}}</th>
+                                                <th>{{number_format($productSale->due_amount, 2, '.', '')}}</th>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -137,7 +137,7 @@
                                             $sum_loss_or_profit -= $loss_or_profit;
                                         }
                                     }*/
-                             $sum_purchase_price = 0;
+                                $sum_purchase_price = 0;
                                 $sum_sale_price = 0;
                                 $sum_sale_return_price = 0;
                                 $sum_loss_or_profit = 0;

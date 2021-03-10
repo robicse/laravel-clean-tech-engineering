@@ -64,7 +64,7 @@
     @stack('css')
 </head>
 
-<body class="c-layout-header-fixed c-layout-header-mobile-fixed">
+<body class="c-layout-header-fixed c-layout-header-mobile-fixed" >
 
 @yield('content')
 
