@@ -76,7 +76,7 @@
                             <tr>
                                 <td width="5%" class="no">1</td>
                                 <td>
-                                    <select class="form-control account_id select2" name="account_id[]" id="account_id_1" required>
+                                    <select class="form-control account_id select2" name="account_id[]" id="account_id_1" onchange="getval(1,this);" required>
                                         <option value="">Select Account Name</option>
                                         @foreach($chartOfAccounts as $account)
                                             <option value="{{$account->id}}">{{$account->group_1}}.{{$account->group_2}}.{{$account->group_3}}</option>
@@ -151,7 +151,7 @@
                 var debit_or_credit = $('.debit_or_credit').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td width="20%"><select class="form-control account_id select2" name="account_id[]" id="account_id_'+n+'" required>' + service + '</select></td>' +
+                    '<td width="20%"><select class="form-control account_id select2" name="account_id[]" id="account_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
                     '<td  width="20%"><select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_'+n+'" required>' + ledger + '</select></td>' +
                     '<td><select class="form-control debit_or_credit select2" name="debit_or_credit[]" id="debit_or_credit_'+n+'"  required>' + debit_or_credit + '</select></td>' +
                     '<td><input type="text" min="1" max="" class="price form-control" name="amount[]" value="" required></td>' +
@@ -220,7 +220,7 @@
                 success : function (res){
                     //console.log(res)
                     console.log(res.data)
-                    console.log(res.data.price)
+                    //console.log(res.data.price)
                     $("#ledger_id_"+current_row).html(res.data.ledgerOptions);
 
                 },

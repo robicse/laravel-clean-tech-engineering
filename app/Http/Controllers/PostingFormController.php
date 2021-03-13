@@ -110,24 +110,25 @@ class PostingFormController extends Controller
     }
     public function ledgerRelationData(Request $request){
         $chartOfAccount_id = $request->current_chart_of_account_id;
-        $product_category_id = Product::where('id',$chartOfAccount_id)->pluck('product_category_id')->first();
+        $ledger_id = Ledger::where('chart_of_account_id',$chartOfAccount_id)->pluck('id')->first();
+        //dd($ledger_id);
         $options = [
             'ledgerOptions' => '',
 
         ];
-        if($product_category_id){
-            $categories = ProductCategory::where('id',$product_category_id)->get();
-            if(count($categories) > 0){
+        if($ledger_id){
+            $ledgers = Ledger::where('id',$ledger_id)->get();
+            if(count($ledgers) > 0){
                 $options['ledgerOptions'] = "<select class='form-control' name='ledger_id[]'>";
-                foreach($categories as $category){
-                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
+                foreach($ledgers as $ledger){
+                    $options['ledgerOptions'] .= "<option value='$ledger->id'>$ledger->name</option>";
                 }
-                $options['categoryOptions'] .= "</select>";
+                $options['ledgerOptions'] .= "</select>";
             }
         }else{
-            $options['categoryOptions'] = "<select class='form-control' name='ledger_id[]' readonly>";
-            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
-            $options['categoryOptions'] .= "</select>";
+            $options['ledgerOptions'] = "<select class='form-control' name='ledger_id[]' readonly>";
+            $options['ledgerOptions'] .= "<option value=''>No Data Found!</option>";
+            $options['ledgerOptions'] .= "</select>";
         }
 
         return response()->json(['success'=>true,'data'=>$options]);
