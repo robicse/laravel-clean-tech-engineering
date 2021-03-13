@@ -85,6 +85,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('offers','OfferController');
     Route::resource('customer_complain','CustomerComplainController');
     Route::resource('online_platform','OnlinePlatFormController');
+    Route::resource('ChartOfAccount','ChartOfAccountController');
+    Route::resource('Ledger','LedgerController');
+    Route::resource('postingForm','PostingFormController');
+    Route::get('ledger-data','PostingFormController@ledgerRelationData');
+
+
     Route::get('/supplier','PartyController@supplier');
     Route::get('/whole-sale','PartyController@wholeCustomer');
     Route::get('check-name','ServiceController@checkName');

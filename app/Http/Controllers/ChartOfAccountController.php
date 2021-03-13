@@ -2,83 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\ChartOfAccount;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class ChartOfAccountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+       $chartOfAcc = ChartOfAccount::latest()->get();
+       return view('backend.chart-of-account.index',compact('chartOfAcc'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('backend.chart-of-account.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+            $chartOfAcc = new ChartOfAccount();
+            $chartOfAcc->group_1 = $request->group_1;
+            $chartOfAcc->group_2 = $request->group_2;
+            $chartOfAcc->group_3 = $request->group_3;
+            $chartOfAcc->group_4 = $request->group_4;
+            $chartOfAcc->status = $request->status;
+            $chartOfAcc->head_type = $request->head_type;
+            $chartOfAcc->save();
+            Toastr::success('Chart Of Account Created Successfully', 'Success');
+            return redirect()->back();
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $coa =  ChartOfAccount::find($id);
+        return view('backend.chart-of-account.edit',compact('coa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $chartOfAcc =  ChartOfAccount::find($id);
+        $chartOfAcc->group_1 = $request->group_1;
+        $chartOfAcc->group_2 = $request->group_2;
+        $chartOfAcc->group_3 = $request->group_3;
+        $chartOfAcc->group_4 = $request->group_4;
+        $chartOfAcc->status = $request->status;
+        $chartOfAcc->head_type = $request->head_type;
+        $chartOfAcc->save();
+
+        Toastr::success('Chart Of Account Updated Successfully', 'Success');
+        return redirect()->route('ChartOfAccount.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        $chartOfAcc =  ChartOfAccount::find($id);
+        $chartOfAcc->delete();
+
+        Toastr::success('Chart Of Account Deleted Successfully', 'Success');
+        return redirect()->route('ChartOfAccount.index');
     }
 }

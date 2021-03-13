@@ -71,6 +71,13 @@
 {{--                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('expenses.index') }}"><i class="app-menu__icon fa fa-circle"></i><span class="app-menu__label">Expense</span></a></li>--}}
 {{--            </ul>--}}
 {{--        </li>--}}
+        <li class="treeview{{Request::is('ChartOfAccount*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-signal"></i><span class="app-menu__label">New Account </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('ChartOfAccount.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">COA List</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('Ledger.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Ledger</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('postingForm.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Posting</span></a></li>
+            </ul>
+        </li>
         <li class="treeview{{Request::is('stock*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-sort-amount-asc"></i><span class="app-menu__label">Stock </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('stock-purchase.allStock') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">All Stock List</span></a></li>
