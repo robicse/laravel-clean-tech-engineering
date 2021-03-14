@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="control-label ">Description <small class="requiredCustom">*</small></label>
-                                            <textarea type="text" min="1" max="" rows="3" class="form-control" name="transaction_description"> </textarea>
+                                            <textarea type="text" min="1" max="" rows="3" class="form-control" name="description"> </textarea>
                                         </div>
                                         <div class="col-md-3">
                                             <label class="control-label text-right">Date  <small class="requiredCustom">*</small></label>
@@ -235,7 +235,7 @@
         $('#voucher_type_id').on('change',function (){
             var current_voucher_type_id = $('#voucher_type_id').val();
             $.ajax({
-                url : "{{URL('get-voucher-no')}}",
+                url : "{{URL('get-voucher-number')}}",
                 method : "get",
                 data : {
                     current_voucher_type_id : current_voucher_type_id,

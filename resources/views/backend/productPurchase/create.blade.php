@@ -4,6 +4,7 @@
         font-size: 20px;
         color: red;
     }
+
 </style>
 
 @section('content')

@@ -64,6 +64,7 @@ class PostingController extends Controller
         }
 
         $row_count = count($request->account_id);
+
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {

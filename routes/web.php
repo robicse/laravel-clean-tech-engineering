@@ -90,6 +90,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('postingForm','PostingFormController');
     Route::get('ledger-data','PostingFormController@ledgerRelationData');
 
+    Route::get('account/posting-edit/{voucher_type_id}/{voucher_no}','PostingFormController@postingEdit');
+    Route::post('account/posting-form-update/{voucher_type_id}/{voucher_no}','PostingFormController@postingUpdate');
+    Route::get('account/posting-invoice/{voucher_type_id}/{voucher_no}','PostingFormController@voucher_invoice');
+    Route::post('account/posting-delete/{voucher_type_id}/{voucher_no}/{id}','PostingFormController@postingDelete');
+
 
     Route::get('/supplier','PartyController@supplier');
     Route::get('/whole-sale','PartyController@wholeCustomer');
@@ -236,6 +241,7 @@ Route::group(['middleware' => ['auth']], function() {
    // Route::get('employeeSalary-relation-data','EmployeeSalaryController@employeeSalaryRelationData');
 
     Route::get('get-voucher-no','PostingController@getVoucherNo');
+    Route::get('get-voucher-number','PostingFormController@getVoucherNumber');
 
 
 

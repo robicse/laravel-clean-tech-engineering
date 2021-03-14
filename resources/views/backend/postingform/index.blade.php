@@ -28,31 +28,31 @@
                     @foreach($postingForms as $key => $posting)
 
                         @php
-                            $current_transactions = \Illuminate\Support\Facades\DB::table('postings')
+                            $current_transactions = \Illuminate\Support\Facades\DB::table('posting_forms')
                         ->where('voucher_type_id',$posting->voucher_type_id)
                         ->where('voucher_no',$posting->voucher_no)
                         ->first();
                         @endphp
-{{--                    <tr>--}}
-{{--                        <td>{{ $key+1 }}</td>--}}
-{{--                        <td>{{ $current_transactions->date}}</td>--}}
-{{--                        <td>--}}
-{{--                            @php--}}
-{{--                                echo \App\VoucherType::where('id',$posting->voucher_type_id)->pluck('name')->first();--}}
-{{--                            @endphp--}}
-{{--                        </td>--}}
-{{--                        <td> @php--}}
-{{--                                echo \App\VoucherType::where('id',$posting->voucher_type_id)->pluck('name')->first();--}}
-{{--                            @endphp -{{ $current_transactions->voucher_no}}</td>--}}
-{{--                        <td>--}}
-{{--                            <a href="{{ url('account/voucher-invoice/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">print</a>--}}
-{{--                            <a href="{{ url('account/transaction-edit/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>--}}
-{{--                            <form method="post" action="{{ url('account/transaction-delete/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}">--}}
-{{--                                @csrf--}}
-{{--                                <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
-{{--                            </form>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
+                    <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $posting->posting_date}}</td>
+                        <td>
+                            @php
+                                echo \App\VoucherType::where('id',$posting->voucher_type_id)->pluck('name')->first();
+                            @endphp
+                        </td>
+                        <td> @php
+                                echo \App\VoucherType::where('id',$posting->voucher_type_id)->pluck('name')->first();
+                            @endphp -{{ $current_transactions->voucher_no}}</td>
+                        <td>
+                            <a href="{{ url('account/posting-invoice/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">print</a>
+                            <a href="{{ url('account/posting-edit/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+                            <form method="post" action="{{ url('account/posting-delete/'.$posting->voucher_type_id.'/'.$posting->voucher_no.'/'.$posting->id) }}">
+                                @csrf
+                                <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
                         @endforeach
                     </tbody>
                 </table>
