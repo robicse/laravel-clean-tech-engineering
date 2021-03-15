@@ -74,9 +74,24 @@ class PostingFormController extends Controller
                         $credit = $request->amount[$i];
                     }
 
+
+                    $chart_of_account_id = $request->account_id[$i];
+
+                    $chart_of_account_details = ChartOfAccount::find($chart_of_account_id);
+                    $group_1=$chart_of_account_details->group_1;
+                    $group_2=$chart_of_account_details->group_2;
+                    $group_3=$chart_of_account_details->group_3;
+                    $group_4=$chart_of_account_details->group_4;
+
+
+
                     $postingFormDetails = new PostingFormDetails();
                     $postingFormDetails->posting_form_id = $insert_id;
                     $postingFormDetails->chart_of_account_id = $request->account_id[$i];
+                    $postingFormDetails->group_1 = $group_1;
+                    $postingFormDetails->group_2 = $group_2;
+                    $postingFormDetails->group_3 = $group_3;
+                    $postingFormDetails->group_4 = isset($group_4) ? $group_4 : NULL;
                     $postingFormDetails->ledger_id = $request->ledger_id[$i];
                     $postingFormDetails->debit = $debit;
                     $postingFormDetails->credit = $credit;
