@@ -18,7 +18,7 @@ class PostingFormController extends Controller
     public function index()
     {
         $postingForms = PostingForm::all();
-        return view('backend.postingForm.index',compact('postingForms'));
+        return view('backend.postingform.index',compact('postingForms'));
     }
 
 
@@ -82,8 +82,11 @@ class PostingFormController extends Controller
                     $group_2=$chart_of_account_details->group_2;
                     $group_3=$chart_of_account_details->group_3;
                     $group_4=$chart_of_account_details->group_4;
+                    $head_type=$chart_of_account_details->head_type;
 
-
+                    $ledger_id = $request->ledger_id[$i];
+                    $ledger_id_details = Ledger::find($ledger_id);
+                    $ledger_name = $ledger_id_details->name;
 
                     $postingFormDetails = new PostingFormDetails();
                     $postingFormDetails->posting_form_id = $insert_id;
@@ -91,8 +94,10 @@ class PostingFormController extends Controller
                     $postingFormDetails->group_1 = $group_1;
                     $postingFormDetails->group_2 = $group_2;
                     $postingFormDetails->group_3 = $group_3;
+                    $postingFormDetails->head_type = $head_type;
                     $postingFormDetails->group_4 = isset($group_4) ? $group_4 : NULL;
                     $postingFormDetails->ledger_id = $request->ledger_id[$i];
+                    $postingFormDetails->ledger_name = $ledger_name;
                     $postingFormDetails->debit = $debit;
                     $postingFormDetails->credit = $credit;
 
@@ -213,6 +218,7 @@ class PostingFormController extends Controller
             //$ledgers = Ledger::where('id',$ledger_id)->get();
             if(count($ledgers) > 0){
                 $options['ledgerOptions'] = "<select class='form-control' name='ledger_id[]'>";
+                $options['ledgerOptions'] .= "<option value=''>Select One</option>";
                 foreach($ledgers as $ledger){
                     $options['ledgerOptions'] .= "<option value='$ledger->id'>$ledger->name</option>";
                 }

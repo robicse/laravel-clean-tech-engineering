@@ -82,7 +82,7 @@
                                     <select class="form-control account_id select2" name="account_id[]" id="account_id_{{$key+1}}" onchange="getval({{$key+1}},this);" required>
                                         <option value="">Select Account Name</option>
                                         @foreach($chartOfAccounts as $account)
-                                            <option value="{{$account->id}}" {{ $postingFormsDetail->chart_of_account_id == $account->id ? 'selected' : ''}}>{{$account->group_1}}.{{$account->group_2}}.{{$account->group_3}}</option>
+                                            <option value="{{$account->id}}" {{ $postingFormsDetail->chart_of_account_id == $account->id ? 'selected' : ''}}>{{$account->group_1}}.{{$account->group_2}}.{{$account->group_3}}.{{$account->group_4}}</option>
                                         @endforeach
                                     </select>
                                 </td>

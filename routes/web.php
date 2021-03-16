@@ -95,6 +95,16 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('account/posting-invoice/{voucher_type_id}/{voucher_no}','PostingFormController@voucher_invoice');
     Route::post('account/posting-delete/{voucher_type_id}/{voucher_no}/{id}','PostingFormController@postingDelete');
 
+    //new account route
+    Route::get('account/general-ledger','LedgerController@general_ledger_form')->name('account.general.ledger');
+    Route::post('account/general-ledger-view','LedgerController@view_general_ledger')->name('account.general.ledger_view');
+    Route::get('account/general-ledger-invoice/{headcode}/{date_from}/{date_to}','LedgerController@general_ledger_print');
+    Route::get('account/trial/balance','TrialBalanceController@trial_balance_form');
+    Route::post('account/trial-balance-view','TrialBalanceController@view_trial_balance')->name('account.trial_balance_view');
+    Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');
+    Route::get('/account/income/statement','IncomeStatementController@incomeSatetment');
+    Route::post('account/income/statement-view','IncomeStatementController@view_incomeSatetment')->name('account.income_statement_view');
+    Route::get('account/income/statement-view-print/{date_from}/{date_to}','IncomeStatementController@income_statement_print');
 
     Route::get('/supplier','PartyController@supplier');
     Route::get('/whole-sale','PartyController@wholeCustomer');
