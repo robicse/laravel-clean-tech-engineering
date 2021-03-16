@@ -151,8 +151,8 @@
                 var debit_or_credit = $('.debit_or_credit').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td width="20%"><select class="form-control account_id select2" name="account_id[]" id="account_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
-                    '<td  width="20%"><select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_'+n+'" required>' + ledger + '</select></td>' +
+                    '<td width="30%"><select class="form-control account_id select2" name="account_id[]" id="account_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
+                    '<td  width="25%"><select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_'+n+'" required>' + ledger + '</select></td>' +
                     '<td><select class="form-control debit_or_credit select2" name="debit_or_credit[]" id="debit_or_credit_'+n+'"  required>' + debit_or_credit + '</select></td>' +
                     '<td><input type="text" min="1" max="" class="price form-control" name="amount[]" value="" required></td>' +
                     // '<td><textarea type="text" class="form-control" rows="3" name="transaction_description[]" required></textarea></td>' +
