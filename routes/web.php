@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('Ledger','LedgerController');
     Route::resource('postingForm','PostingFormController');
     Route::get('ledger-data','PostingFormController@ledgerRelationData');
+    Route::get('ledger-data-group2','PostingFormController@group2RelationData');
 
     Route::get('account/posting-edit/{voucher_type_id}/{voucher_no}','PostingFormController@postingEdit');
     Route::post('account/posting-form-update/{voucher_type_id}/{voucher_no}','PostingFormController@postingUpdate');

@@ -179,6 +179,7 @@ class IncomeStatementController extends Controller
 
 
             //dd($oResultAssets);
-        return view('backend.new-account.incomeStatement_view',compact('date_from','date_to','oResultAssets','oResultIncomes','oResultExpenses','oResultLiabilities','PreBalance','preDebCre'));
+        return view('backend.new-account.incomeStatement_view',compact('date_from','date_to','oResultAssets','oResultIncomes','oResultExpenses','oResultLiabilities','PreBalance','preDebCre'
+        ));
     }
 }

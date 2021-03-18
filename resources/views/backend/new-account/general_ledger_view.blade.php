@@ -30,7 +30,7 @@
                     <br>
                     Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="margin-top: 240px">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>

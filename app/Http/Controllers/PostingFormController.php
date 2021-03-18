@@ -233,6 +233,33 @@ class PostingFormController extends Controller
         return response()->json(['success'=>true,'data'=>$options]);
     }
 
+    public function group2RelationData(Request $request){
+        $current_chart_of_group_2 = $request->current_chart_of_group_2;
+        $currentChartOfGroup3s = ChartOfAccount::where('group_2',$current_chart_of_group_2)->select('group_3')->groupBy('group_3')->get();
+        //dd($ledger_id);
+        $options = [
+            'group3Options' => '',
+
+        ];
+        if($currentChartOfGroup3s){
+            //$ledgers = Ledger::where('id',$ledger_id)->get();
+            if(count($currentChartOfGroup3s) > 0){
+                $options['group3Options'] = "<select class='form-control' name='ledger_id[]'>";
+                $options['group3Options'] .= "<option value=''>Select One</option>";
+                foreach($currentChartOfGroup3s as $currentChartOfGroup3){
+                    $options['group3Options'] .= "<option value='$currentChartOfGroup3->group_3'>$currentChartOfGroup3->group_3</option>";
+                }
+                $options['group3Options'] .= "</select>";
+            }
+        }else{
+            $options['group3Options'] = "<select class='form-control' name='ledger_id[]' readonly>";
+            $options['group3Options'] .= "<option value=''>No Data Found!</option>";
+            $options['group3Options'] .= "</select>";
+        }
+
+        return response()->json(['success'=>true,'data'=>$options]);
+    }
+
     public function getVoucherNumber(Request $request){
 
         $current_voucher_type_id = $request->current_voucher_type_id;

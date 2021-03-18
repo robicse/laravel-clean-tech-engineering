@@ -83,25 +83,26 @@ class LedgerController extends Controller
     public function general_ledger_form()
     {
 
-        // $account_id = $request->account_id[$i];
-        // $accounts = Account::where('id',$account_id)->first();
-        //$general_ledger_account_nos = DB::table('postings')->where('account_id', '$accounts')->Orderby('account_no', 'asc')->get();
-        //$general_ledger_account_nos =Transaction::Orderby('account_no', 'asc')->get();
-        //$general_ledger_account_nos = DB::table('accounts')->where('IsGL', '1')->Orderby('HeadName', 'asc')->get();
-        //dd($general_ledger_account_nos);
         $chartOfAccounts = ChartOfAccount::all();
         $ledgers = Ledger::all();
-        return view('backend.new-account.general_ledger_form', compact('chartOfAccounts','ledgers'));
+        $chartOfAccountGroup2s = DB::table('chart_of_accounts')->select('group_2')->groupBy('group_2')->get();
+        //$chartOfAccountGroup3s = DB::table('chart_of_accounts')->select('group_3')->groupBy('group_3')->get();
+
+
+        return view('backend.new-account.general_ledger_form', compact('chartOfAccounts','ledgers','chartOfAccountGroup2s','chartOfAccountGroup3s'));
     }
 
     public function view_general_ledger(Request $request)
     {
         $general_ledger = $request->ledger_id;
-       //dd($general_ledger);
+        $group_2 = $request->group_2;
+        $group_3 = $request->group_3;
+       //dd($group_3);
         $date_from = $request->date_from;
         $date_to = $request->date_to;
 
-        if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
+//dd($gl_pre_valance_data);
+        if((!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) && (empty($group_2)) && (empty($group_3)))
         {
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -110,7 +111,27 @@ class LedgerController extends Controller
                 ->where('ledger_id',$general_ledger)
                 ->groupBy('ledger_id')
                 ->first();
-        }else{
+        }
+        elseif((!empty($group_2)) && (!empty($date_from)) && (!empty($date_to)) ){
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('group_2', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->where('posting_date', '<',$date_from)
+                ->where('group_2',$group_2)
+                ->groupBy('group_2')
+                ->first();
+        }
+        elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('group_2', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->where('posting_date', '<',$date_from)
+                ->where('group_3',$group_3)
+                ->groupBy('group_3')
+                ->first();
+        }
+
+        else{
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
@@ -137,24 +158,39 @@ class LedgerController extends Controller
             }
         }
 
-
-        if( (!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) )
+        if( (empty($group_2)) && (empty($group_3) ))
         {
             //echo 'okk';exit;
             $general_ledger_infos = DB::table('posting_form_details')
-                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-               // ->where('postings.account_no',$general_ledger)
                 ->where('ledger_id',$general_ledger)
-                ->whereBetween('posting_forms.posting_date', [$date_from, $date_to])
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
                 ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
                 ->get();
-        }else{
+        } elseif ((!empty($group_2)) &&  (empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('group_2',$group_2)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        elseif ( (!empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                // ->where('postings.account_no',$general_ledger)
+                ->where('group_3',$group_3)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        else
+        {
             //echo 'noo';exit;
             $general_ledger_infos = DB::table('posting_form_details')
                 //->join('accounts', 'postings.id', '=', 'accounts.user_id')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->whereBetween('posting_forms.posting_date', [$date_from, $date_to])
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
                 //->select('postings.voucher_type_id','postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
                 ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
                 ->get();
@@ -164,6 +200,8 @@ class LedgerController extends Controller
 
         return view('backend.new-account.general_ledger_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to'));
     }
+
+
     public function general_ledger_print($transaction_head,$date_from,$date_to)
     {
         //dd($transaction_head);
@@ -185,11 +223,6 @@ class LedgerController extends Controller
                 ->where('posting_date', '<',$date_from)
                 ->groupBy('ledger_id')
                 ->first();
-//            $gl_prevalance_data = DB::table('postings')
-//                ->select('account_no', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-//                ->where('date', '<',$date_from)
-//                ->groupBy('account_no')
-//                ->first();
         }
 
         $PreBalance=0;
@@ -213,13 +246,6 @@ class LedgerController extends Controller
         if( (!empty($transaction_head)) && (!empty($date_from)) && (!empty($date_to)) )
         {
             //echo 'okk';exit;
-//            $general_ledger_infos = DB::table('postings')
-//                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
-//                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
-//                ->where('postings.account_no',$transaction_head)
-//                ->whereBetween('postings.date', [$date_from, $date_to])
-//                ->select('postings.voucher_no', 'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
-//                ->get();
             $general_ledger_infos = DB::table('posting_form_details')
                 //->join('accounts', 'postings.id', '=', 'accounts.user_id')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -230,12 +256,6 @@ class LedgerController extends Controller
                 ->get();
         }else{
             //echo 'noo';exit;
-//            $general_ledger_infos = DB::table('postings')
-//                //->join('accounts', 'postings.id', '=', 'accounts.user_id')
-//                ->leftJoin('accounts', 'postings.account_no', '=', 'accounts.HeadCode')
-//                ->whereBetween('postings.date', [$date_from, $date_to])
-//                ->select('postings.voucher_no',  'postings.date', 'postings.account_no', 'postings.transaction_description', 'postings.debit', 'postings.credit', 'accounts.HeadName', 'accounts.PHeadName', 'accounts.HeadType')
-//                ->get();
             $general_ledger_infos = DB::table('posting_form_details')
                 //->join('accounts', 'postings.id', '=', 'accounts.user_id')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
