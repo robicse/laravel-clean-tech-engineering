@@ -105,6 +105,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/account/income/statement','IncomeStatementController@incomeSatetment');
     Route::post('account/income/statement-view','IncomeStatementController@view_incomeSatetment')->name('account.income_statement_view');
     Route::get('account/income/statement-view-print/{date_from}/{date_to}','IncomeStatementController@income_statement_print');
+    Route::get('/account/equity','EquityController@equityForm');
+    Route::post('account/equity','EquityController@viewEquity')->name('account.equity');
 
     Route::get('/supplier','PartyController@supplier');
     Route::get('/whole-sale','PartyController@wholeCustomer');

@@ -79,6 +79,7 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.general.ledger') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Ledger</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/trial/balance') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Trial Balance</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/income/statement') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Income Statement</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/equity') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Change In Equity</span></a></li>
             </ul>
         </li>
         <li class="treeview{{Request::is('stock*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-sort-amount-asc"></i><span class="app-menu__label">Stock </span><i class="treeview-indicator fa fa-angle-right"></i></a>
