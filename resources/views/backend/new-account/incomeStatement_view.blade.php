@@ -14,14 +14,54 @@
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th width="40%">Accounts Head</th>
-                        <th width="30%">Debit</th>
-                        <th width="30%">Credit</th>
+                        <th width="40%">Revenue</th>
+                        <th width="30%">Amount</th>
                         <th width="30%">Balance</th>
                     </tr>
                     </thead>
                     <tbody>
-
+                    <tr>
+                        <td>Sale</td>
+                        <td></td>
+                        <td>10000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Service</td>
+                        <td></td>
+                        <td>10000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Direct expense</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> expense</td>
+                        <td>10000</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> expense</td>
+                        <td>10000</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> expense</td>
+                        <td>10000</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> expense</td>
+                        <td>10000</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     </tbody>
                 </table>
                 </div>
