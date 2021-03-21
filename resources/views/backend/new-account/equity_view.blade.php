@@ -59,7 +59,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #83b735;color: white" >    1
+                    <tr style="background-color: #83b735;color: white" >
                         <td>Total Capital:</td>
                         <td>
                             @php

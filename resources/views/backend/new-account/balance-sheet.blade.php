@@ -14,7 +14,7 @@
                     <div class="form-group row">
                         <label class="control-label col-md-3 text-right">As On</label>
                         <div class="col-md-8">
-                            <input type="date" class="form-control-sm" name="as_on" value="" id="demoDate" required>
+                            <input type="date" class="form-control-sm" name="date_from" value="" id="demoDate" required>
                             @if ($errors->has('date_from'))
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('date_from') }}</strong>

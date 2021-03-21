@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 function sales_income_statement_for_equity($date_from, $date_to){
 
+   // dd($date_from);
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
