@@ -23,9 +23,11 @@ class TrialBalanceController extends Controller
         $PreResultIncomes = '';
         $PreResultExpenses = '';
         $PreResultLiabilities = '';
+        $PreResultEquities = '';
 
         $oResultAssets = '';
         $oResultIncomes = '';
+        $oResultEquities = '';
         $oResultExpenses = '';
         $oResultLiabilities = '';
 
@@ -87,7 +89,7 @@ class TrialBalanceController extends Controller
                 ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
                 ->select('posting_form_details.ledger_id','posting_form_details.ledger_name', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
-                ->where('posting_form_details.head_type','E')
+                ->where('posting_form_details.head_type','Ex')
                 ->where('posting_forms.posting_date','<', $date_from)
                 ->groupBy('posting_form_details.ledger_id')
                 ->groupBy('posting_form_details.ledger_name')
@@ -102,9 +104,32 @@ class TrialBalanceController extends Controller
                     $pre_sum_expense_credit += $PreResultExpense->credit;
                 }
             }
+            $pre_sum_equity_debit = 0;
+            $pre_sum_equity_credit = 0;
+
+            $PreResultEquities = DB::table('posting_form_details')
+                ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('posting_form_details.ledger_id','posting_form_details.ledger_name', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_form_details.head_type','E')
+                ->where('posting_forms.posting_date','<', $date_from)
+                ->groupBy('posting_form_details.ledger_id')
+                ->groupBy('posting_form_details.ledger_name')
+                ->get();
+
+
+            if(count($PreResultEquities) > 0)
+            {
+                foreach($PreResultEquities as $PreResultEquity)
+                {
+                    $pre_sum_equity_debit += $PreResultEquity->debit;
+                    $pre_sum_equity_credit += $PreResultEquity->credit;
+                }
+            }
 
             $pre_sum_liability_debit = 0;
             $pre_sum_liability_credit = 0;
+
             $PreResultLiabilities = DB::table('posting_form_details')
                 ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
@@ -125,8 +150,8 @@ class TrialBalanceController extends Controller
                 }
             }
 
-            $final_pre_sum_debit = $pre_sum_assets_debit + $pre_sum_income_debit + $pre_sum_expense_debit + $pre_sum_liability_debit;
-            $final_pre_sum_credit = $pre_sum_assets_credit + $pre_sum_income_credit + $pre_sum_expense_credit + $pre_sum_liability_credit;
+            $final_pre_sum_debit = $pre_sum_assets_debit + $pre_sum_income_debit + $pre_sum_expense_debit + $pre_sum_liability_debit+$pre_sum_equity_debit;
+            $final_pre_sum_credit = $pre_sum_assets_credit + $pre_sum_income_credit + $pre_sum_expense_credit + $pre_sum_liability_credit+$pre_sum_equity_credit;
             if($final_pre_sum_debit > $final_pre_sum_credit)
             {
                 $PreBalance = $final_pre_sum_debit - $final_pre_sum_credit;
@@ -155,7 +180,7 @@ class TrialBalanceController extends Controller
                 ->groupBy('posting_form_details.ledger_id')
                 ->groupBy('posting_form_details.ledger_name')
                 ->get();
-            $oResultExpenses = DB::table('posting_form_details')
+            $oResultEquities = DB::table('posting_form_details')
                 ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
                 ->select('posting_form_details.ledger_id','posting_form_details.ledger_name', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
@@ -173,6 +198,15 @@ class TrialBalanceController extends Controller
                 ->groupBy('posting_form_details.ledger_id')
                 ->groupBy('posting_form_details.ledger_name')
                 ->get();
+            $oResultExpenses = DB::table('posting_form_details')
+                ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                //->select('postings.debit', 'postings.credit', 'postings.transaction_description', 'accounts.HeadName')
+                ->select('posting_form_details.ledger_id','posting_form_details.ledger_name', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_form_details.head_type','Ex')
+                ->whereBetween('posting_forms.posting_date', [$date_from, $date_to])
+                ->groupBy('posting_form_details.ledger_id')
+                ->groupBy('posting_form_details.ledger_name')
+                ->get();
 
         }
 
@@ -180,6 +214,6 @@ class TrialBalanceController extends Controller
         //dd($oResultAssets);
 
 
-        return view('backend.new-account.trial_balance_view', compact('date_from','date_to','oResultAssets','oResultIncomes','oResultExpenses','oResultLiabilities','PreBalance','preDebCre'));
+        return view('backend.new-account.trial_balance_view', compact('date_from','date_to','oResultAssets','oResultIncomes','oResultExpenses','oResultEquities','oResultLiabilities','PreBalance','preDebCre'));
     }
 }

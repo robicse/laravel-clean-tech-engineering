@@ -208,6 +208,59 @@
                         </tr>
                     @endif
                     @php
+                        $sum_equity_debit = 0;
+                        $sum_equity_credit = 0;
+                    @endphp
+                    @if(count($oResultEquities) > 0)
+                        <tr>
+                            <th colspan="4" style="background-color: #00307f;color: white">Equity</th>
+                        </tr>
+                        @foreach($oResultEquities as $oResultEquity)
+                            @php
+                                $sum_equity_debit += $oResultEquity->debit;
+                                $sum_equity_credit += $oResultEquity->credit;
+
+                                $sum_debit += $oResultEquity->debit;
+                                $sum_credit += $oResultEquity->credit;
+
+                                $oResultEquityDebit = $oResultEquity->debit;
+                                $oResultEquityCredit = $oResultEquity->credit;
+                            @endphp
+                            <tr>
+                                <td>{{ $oResultEquity->ledger_name }}</td>
+                                <td>{{ $oResultEquity->debit }}</td>
+                                <td>{{ $oResultEquity->credit }}</td>
+                                <td>
+                                    @php
+                                        if($oResultEquityDebit > $oResultEquityCredit){
+                                            echo $oResultEquityDebit - $oResultEquityCredit;
+                                            echo 'De';
+                                        }else{
+                                            echo $oResultEquityCredit - $oResultEquityDebit;
+                                            echo 'Cr';
+                                        }
+                                    @endphp
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr style="background-color: pink;">
+                            <th>Total:</th>
+                            <th>Debit: {{ $sum_equity_debit }}</th>
+                            <th>Credit: {{ $sum_equity_credit }}</th>
+                            <th>
+                                @php
+                                    if($sum_equity_debit > $sum_equity_credit){
+                                        echo $sum_equity_debit - $sum_equity_credit;
+                                        echo 'De';
+                                    }else{
+                                        echo $sum_equity_credit - $sum_equity_debit;
+                                        echo 'Cr';
+                                    }
+                                @endphp
+                            </th>
+                        </tr>
+                    @endif
+                    @php
                         $sum_liability_debit = 0;
                         $sum_liability_credit = 0;
                     @endphp

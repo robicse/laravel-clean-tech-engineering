@@ -107,7 +107,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/income/statement-view','IncomeStatementController@view_incomeSatetment')->name('account.income_statement_view');
     Route::get('account/income/statement-view-print/{date_from}/{date_to}','IncomeStatementController@income_statement_print');
     Route::get('/account/equity','EquityController@equityForm');
-    Route::post('account/equity','EquityController@viewEquity')->name('account.equity');
+    Route::post('account/equity/view','EquityController@viewEquity')->name('account.equity-view');
+    Route::get('/account/balance/sheet','BalanceSheetController@balanceSheetForm');
+    Route::post('account/balance-sheet/view','BalanceSheetController@viewBalanceSheet')->name('account.balance-sheet-view');
+
+
+
 
     Route::get('/supplier','PartyController@supplier');
     Route::get('/whole-sale','PartyController@wholeCustomer');
@@ -229,8 +234,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('account/trial-balance','PostingController@trial_balance_form');
     Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');
     Route::post('account/trial-balance','PostingController@view_trial_balance')->name('account.trial_balance');
-    Route::get('account/balance-sheet','PostingController@balance_sheet');
-    Route::get('account/balance-sheet-print','PostingController@balance_sheet_print');
+   // Route::get('account/balance-sheet','PostingController@balance_sheet');
+   // Route::get('account/balance-sheet-print','PostingController@balance_sheet_print');
 
     Route::get('account/debit-voucher','AccountController@debit_voucher_form')->name('account.debit.voucher');
     Route::post('account/debit-voucher','AccountController@view_debit_voucher')->name('account.debit_voucher');

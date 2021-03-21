@@ -48,7 +48,8 @@
         ],
         "files": [
 
-            "app/helpers.php"
+            "app/helpers.php",
+            "app/incomeStatement.php"
 
         ]
     },
