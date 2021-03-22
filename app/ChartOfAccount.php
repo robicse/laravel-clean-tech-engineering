@@ -10,4 +10,8 @@ class ChartOfAccount extends Model
     {
         return 'Y-m-d H:i:s.u';
     }
+
+    public function PostingFormDetails(){
+        return $this->belongsTo('App\PostingFormDetails');
+    }
 }

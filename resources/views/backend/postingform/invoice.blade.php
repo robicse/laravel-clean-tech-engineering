@@ -111,24 +111,25 @@
                                 <!--*** CONTENT GOES HERE ***-->
                                 <div class="page" style="padding: 10px;">
                                     <h3 style="text-align: center;"><strong>@php
-                                                echo \App\VoucherType::where('id',$transaction_infos[0]->voucher_type_id)->pluck('name')->first();
+                                                echo \App\VoucherType::where('id',$postingForms[0]->voucher_type_id)->pluck('name')->first();
                                             @endphp</strong></h3>
                                     <div style="clear: both">&nbsp;</div>
                                     <div style="clear: both">&nbsp;</div>
-                                    <div class="col-md-6 text-left"><strong>Transaction No:</strong> {{$transaction_infos[0]->id}}</div>
+                                    <div class="col-md-6 text-left"><strong>Transaction No:</strong> {{$postingForms[0]->id}}</div>
                                     <div class="row">
                                         <div class="col-md-6"><strong> Voucher NO:</strong>
                                             @php
-                                                echo \App\VoucherType::where('id',$transaction_infos[0]->voucher_type_id)->pluck('name')->first();
-                                            @endphp - {{$transaction_infos[0]->voucher_no}}
+                                                echo \App\VoucherType::where('id',$postingForms[0]->voucher_type_id)->pluck('name')->first();
+                                            @endphp - {{$postingForms[0]->voucher_no}}
                                         </div>
-                                        <div class="col-md-6 text-right"><strong>Date:</strong> {{$transaction_infos[0]->date}}</div>
+                                        <div class="col-md-6 text-right"><strong>Date:</strong> {{$postingForms[0]->date}}</div>
                                     </div>
                                     <div style="clear: both">&nbsp;</div>
                                     <div style="clear: both">&nbsp;</div>
                                     <table class="invoice">
                                         <tr>
                                             <th width="60%">Head Of Account </th>
+                                            <th width="60%">Ladger</th>
                                             <th  width="20%">Debit Amount</th>
                                             <th  width="20%">Credit Amount</th>
                                         </tr>
@@ -136,22 +137,25 @@
                                             $sum_debit = 0;
                                             $sum_credit = 0;
                                         @endphp
-                                        @if(!empty($transaction_infos))
-                                            @foreach($transaction_infos as $transaction_info)
+                                        @if(!empty($postingFormsDetails))
+                                            @foreach($postingFormsDetails as $transaction_info)
                                                 @php
                                                     $sum_debit += $transaction_info->debit ? $transaction_info->debit : 0;
                                                     $sum_credit += $transaction_info->credit ? $transaction_info->credit : 0;
                                                 @endphp
                                                 <tr>
-                                                    <th>{{$transaction_info->account_name}}</th>
+{{--                                                    <th>{{$transaction_info->group_1}}</th>--}}
+                                                    <th>{{$transaction_info->group_1}}.{{$transaction_info->group_2}}.{{$transaction_info->group_3}}.{{$transaction_info->group_4}}</th>
+                                                    <th>{{$transaction_info->ledger_name}}</th>
                                                     <th>{{$transaction_info->debit ? $transaction_info->debit : ''}}</th>
                                                     <th>{{$transaction_info->credit ? $transaction_info->credit : ''}}</th>
                                                 </tr>
                                             @endforeach
                                         @endif
                                         <tr>
-                                            <th colspan="2">{{$transaction_info->transaction_description}}</th>
+                                            <th colspan="2">{{$postingFormsId->description}}</th>
 
+                                            <th></th>
                                             <th>Total Amount: {{$sum_credit}}</th>
                                         </tr>
                                     </table>

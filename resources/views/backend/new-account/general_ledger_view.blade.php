@@ -167,28 +167,29 @@
                             <td>{{ $particulars }}</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                             <td>{{ $sum_credit > $sum_debit ? number_format($PreBalance,2,'.',',') : '' }}</td>
                             <td>{{ $sum_debit > $sum_credit ? number_format($PreBalance,2,'.',',') : '' }}</td>
-                            <td>&nbsp;</td>
+
                         </tr>
                     @endif
                     <tr>
+
                         <td></td>
                         <td></td>
                         <td></td>
                         <td align="right">Total</td>
-{{--                        <td>{{ number_format($final_debit_credit,2,'.',',') }}</td>--}}
-{{--                        <td>{{ number_format($final_debit_credit,2,'.',',') }}</td>--}}
                         <td>{{ number_format($sum_debit,2,'.',',') }}</td>
                         <td>{{ number_format($sum_credit,2,'.',',') }}</td>
-                        <td>&nbsp;</td>
+
+
                     </tr>
                     </tbody>
                 </table>
                 </div>
             </div>
                 <div class="text-center">
-                    <a href="{{ url('account/general-ledger-invoice/'.$general_ledger.'/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+                    <a href="{{ url('account/general-ledger-invoice/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
                 </div>
         </div>
     </main>

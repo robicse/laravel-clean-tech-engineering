@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Chart Of Account</label>
-                            <div class="col-md-3">
+                            <div class="col-md-8">
                                 {{--                                <select class="form-control select2" name="general_ledger" id="general_ledger">--}}
                                 <select class="form-control account_id select2" name="account_id[]" id="account_id_1" onchange="getval(1,this);">
                                     <option value="">Select One</option>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">General Ledger Head</label>
-                            <div class="col-md-3">
+                            <div class="col-md-8">
                                 <select class="form-control ledger_id select2" name="ledger_id" id="ledger_id_1">
                                     <option value="">Select One</option>
                                     @foreach($ledgers as $ledger)

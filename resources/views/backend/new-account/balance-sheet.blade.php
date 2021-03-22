@@ -12,7 +12,7 @@
                 <form method="post" action="{{ route('account.balance-sheet-view') }}">
                     @csrf
                     <div class="form-group row">
-                        <label class="control-label col-md-3 text-right">As On</label>
+                        <label class="control-label col-md-3 text-right">As Onqqqq</label>
                         <div class="col-md-8">
                             <input type="date" class="form-control-sm" name="date_from" value="" id="demoDate" required>
                             @if ($errors->has('date_from'))

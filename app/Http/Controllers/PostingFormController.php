@@ -277,4 +277,21 @@ class PostingFormController extends Controller
 
         return response()->json(['success'=>true,'data'=>$voucher_no]);
     }
+    public function voucher_invoice($voucher_type_id,$voucher_no)
+    {
+    //    $transaction_infos = PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
+
+        //$transaction_count = count($transaction_infos);
+
+
+        $voucherTypes=VoucherType::all();
+        $ledgers = Ledger::all();
+        $chartOfAccounts = ChartOfAccount::all();
+        $postingForms= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
+        $postingFormsId= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->first();
+        //dd($postingForms->id);
+        $postingFormsDetails= PostingFormDetails::where('posting_form_id',$postingFormsId->id)->get();
+//dd($transaction_infos);
+        return view('backend.postingform.invoice', compact('postingForms','postingFormsId','postingFormsDetails'));
+    }
 }

@@ -108,12 +108,15 @@
                         <td>
                             <!--*** CONTENT GOES HERE ***-->
                             <div class="page" style="padding: 10px;">
-                                <h5 align="center">Bank Book Report of {{ $transaction_head }} from date {{ $date_from }} to date {{ $date_to }}</h5>
+{{--                                <h5 align="center">Bank Book Report of {{ $transaction_head }} from date {{ $date_from }} to date {{ $date_to }}</h5>--}}
+                                <h5 align="center">Bank Book Report of from date {{ $date_from }} to date {{ $date_to }}</h5>
                                 <table class="invoice">
                                     <thead>
                                     <tr>
                                         <th width="10%">Date</th>
                                         <th width="10%">Description</th>
+                                        <th width="10%">Voucher Type</th>
+                                        <th width="10%">Voucher NO</th>
                                         <th width="12%">Debit</th>
                                         <th width="12%">Credit</th>
                                         <th width="12%">Balance</th>

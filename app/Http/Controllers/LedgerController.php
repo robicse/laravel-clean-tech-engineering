@@ -202,7 +202,7 @@ class LedgerController extends Controller
     }
 
 
-    public function general_ledger_print($transaction_head,$date_from,$date_to)
+    public function general_ledger_print($date_from,$date_to)
     {
         //dd($transaction_head);
         //echo ($transaction_head->account_no);

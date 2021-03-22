@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth']], function() {
     //new account route
     Route::get('account/general-ledger','LedgerController@general_ledger_form')->name('account.general.ledger');
     Route::post('account/general-ledger-view','LedgerController@view_general_ledger')->name('account.general.ledger_view');
-    Route::get('account/general-ledger-invoice/{headcode}/{date_from}/{date_to}','LedgerController@general_ledger_print');
+    Route::get('account/general-ledger-invoice/{date_from}/{date_to}','LedgerController@general_ledger_print');
     Route::get('account/trial/balance','TrialBalanceController@trial_balance_form');
     Route::post('account/trial-balance-view','TrialBalanceController@view_trial_balance')->name('account.trial_balance_view');
     Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');

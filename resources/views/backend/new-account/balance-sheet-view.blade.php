@@ -28,11 +28,30 @@
                     $tangible_assets_furniture_and_fixture =0;
                     $tangible_assets_vehicle =0;
                     $tangible_assets =0;
+                    $intangible_assets =0;
+                    $cash_in_hands_assets = 0;
+                    $cash_at_bank_assets = 0;
+                    $cash_at_bank_FDR_assets = 0;
+                    $loan_and_advances_AOR_assets = 0;
+                    $loan_and_advances_AAP_assets = 0;
+                    $loan_and_advances_AAS_assets = 0;
+                    $loan_and_advances_assets = 0;
+
+
+                    $loan_from_owner = 0;
+                    $loan_from_other = 0;
+                    $advanced_receive_against_sale = 0;
+
+
+                    $opening_capital = 0;
+                    $additional_capital = 0;
+                    $opening_profit = 0;
+                    $net_profit = 0;
 
 
 
                     @endphp
-                    <tr style="background-color: #117a8b;color: white">
+                    <tr style="background-color: #83b735;color: white">
                         <td>ASSETS</td>
                         <td></td>
                         <td></td>
@@ -103,11 +122,329 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td> Total</td>
-                        <td> @php echo  $fixed_assets =$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                        <td> Intangible Assets</td>
+                        @php
+                            $get_data = intangible_assets($date_from);
+  //dd($get_data);
+                        @endphp
+                        <td> {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+
+                            @php
+                                $intangible_assets +=$get_data['PreBalance'];
+                            @endphp</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> Total Fixed Assets</td>
+                        <td> @php echo  $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
                             @endphp
                         </td>
-                        <td> @php echo  $fixed_assets =$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                        <td> @php echo  $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                            @endphp </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Current Assets:</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cash In Hand</td>
+                        <td>
+                            @php
+                                $get_data = cash_in_hands_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $cash_in_hands_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cash At Bank</td>
+                        <td>
+                            @php
+                                $get_data = cash_at_bank_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $cash_at_bank_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cash At Bank(FDR) </td>
+                        <td>
+                            @php
+                                $get_data = cash_at_bank_FDR_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $cash_at_bank_FDR_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loans & Advances(Advanced office rent)</td>
+                        <td>
+                            @php
+                                $get_data = loan_and_advances_AOR_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_and_advances_AOR_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loans & Advances(Advanced Againts Purchase)</td>
+                        <td>
+                            @php
+                                $get_data = loan_and_advances_AAP_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_and_advances_AAP_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loans & Advances(Advanced Againts Salary)</td>
+                        <td>
+                            @php
+                                $get_data = loan_and_advances_AAS_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_and_advances_AAS_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loans & Advances(Loan To Owner)</td>
+                        <td>
+                            @php
+                                $get_data = loan_and_advances_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_and_advances_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> Total Current Assets:</td>
+                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets;
+                            @endphp
+                        </td>
+                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets;
+                            @endphp </td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: #313a95;color: white">
+                        <td><b> Total Assets:</b></td>
+                        <td> @php echo  $total_assets =$current_assets+$fixed_assets;
+                            @endphp
+                        </td>
+                        <td> @php echo $total_assets =$current_assets+$fixed_assets;
+                            @endphp </td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: #83b735;color: white">
+                        <td>Equity And Liabilities</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr >
+                        <td>Equity</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td>Opening Capitals</td>
+                        <td>@php
+
+                                $get_data = opening_statement($date_from,$date_to);
+                                //dd($get_data);
+
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $opening_capital +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td>Addition</td>
+                        <td> @php
+
+                                $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
+                               // dd($get_data);
+
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $additional_capital +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total Capital:</td>
+                        <td>
+                            @php
+                                $total_capital =$additional_capital+$opening_capital;
+                            @endphp
+                            {{$total_capital}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Opening Profit</td>
+                        <td>@php
+
+                                $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
+                               //dd($get_data);
+
+                            @endphp
+                            {{$get_data['from_data']}}
+                            @php
+                                $opening_profit +=$get_data['from_data'];
+//dd($opening_profit);
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Net Profit</td>
+                        <td>@php
+
+                                $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
+                                //dd($get_data);
+
+                            @endphp
+                            {{$get_data['get_data']}}
+                            @php
+                                $net_profit +=$get_data['get_data'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @php
+                        $total_profit =$opening_profit+$net_profit;
+                    @endphp
+                    <tr>
+                        <td>Retained Earning: </td>
+                        <td>{{$total_profit}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @php
+                        $total_equity=$total_capital+$total_profit;
+                    @endphp
+                    <tr>
+                        <td><b>Total Equity:</b></td>
+                        <td>{{$total_equity}}</td>
+                        <td>{{$total_equity}}</td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>Current Liabilities</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loan From Owners</td>
+                        <td>
+                            @php
+                                $get_data = loan_from_owner($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_from_owner +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Loan From Other</td>
+                        <td>
+                            @php
+                                $get_data = loan_from_other($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_from_other +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Advanced Received Against Sales</td>
+                        <td>
+                            @php
+                                $get_data = advanced_receive_against_sale($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $advanced_receive_against_sale +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> Total Liabilities</td>
+                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner;
+                            @endphp
+                        </td>
+                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner;
+                            @endphp </td>
+                        <td></td>
+                    </tr>
+                    <tr style="background-color: #313a95;color: white">
+                        <td> <b>Total Equity & Liabilities</b></td>
+                        <td> @php echo  $totalEquityAndLiabilities=$liabilities+$total_equity;
+                            @endphp
+                        </td>
+                        <td> @php echo $totalEquityAndLiabilities=$liabilities+$total_equity;
                             @endphp </td>
                         <td></td>
                     </tr>

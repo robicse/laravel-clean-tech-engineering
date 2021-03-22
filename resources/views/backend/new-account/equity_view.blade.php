@@ -48,7 +48,7 @@
                         <td> @php
 
                                 $get_data = additional_capital($date_from,$date_to);
-                                //dd($get_data);
+                               // dd($get_data);
 
                             @endphp
                             {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
@@ -74,7 +74,7 @@
                         <td>@php
 
                                 $get_data = additional_capital($date_from,$date_to);
-                                //dd($get_data);
+                               //dd($get_data);
 
                             @endphp
                             {{$get_data['from_data']}}

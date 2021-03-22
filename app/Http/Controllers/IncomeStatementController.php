@@ -15,26 +15,27 @@ class IncomeStatementController extends Controller
     {
 
 
-//            //$date_from = date('Y-m-01');
-//            $date_from = $request->date_form;
-//            //$date_to = date('Y-m-d');
-//
-//            $PreBalance=0;
-//            $preDebCre = 'De/Cr';
-//            $PreResultAssets = '';
-//            $PreResultIncomes = '';
-//            $PreResultExpenses = '';
-//            $PreResultLiabilities = '';
-//
-//            $oResultAssets = '';
-//            $oResultIncomes = '';
-//            $oResultExpenses = '';
-//            $oResultLiabilities = '';
-//
-//            if ($request->isMethod('post') && $request->date_from) {
-//                $date_from = $request->date_from;
-//               // $date_to = $request->date_to;
-//
+            //$date_from = date('Y-m-01');
+            $date_from = $request->date_form;
+            $date_from = $request->date_to;
+            //$date_to = date('Y-m-d');
+
+            $PreBalance=0;
+            $preDebCre = 'De/Cr';
+            $PreResultAssets = '';
+            $PreResultIncomes = '';
+            $PreResultExpenses = '';
+            $PreResultLiabilities = '';
+
+            $oResultAssets = '';
+            $oResultIncomes = '';
+            $oResultExpenses = '';
+            $oResultLiabilities = '';
+
+            if ($request->isMethod('post') && $request->date_from && $request->date_to) {
+                $date_from = $request->date_from;
+               $date_to = $request->date_to;
+
 //                $pre_sum_assets_debit = 0;
 //                $pre_sum_assets_credit = 0;
 //
@@ -175,11 +176,11 @@ class IncomeStatementController extends Controller
 //                    ->groupBy('posting_form_details.ledger_id')
 //                    ->groupBy('posting_form_details.ledger_name')
 //                    ->get();
-//
-//            }
-//
+
+            }
+
 
             //dd($oResultAssets);
-        return view('backend.new-account.incomeStatement_view');
+        return view('backend.new-account.incomeStatement_view',compact('date_from','date_to'));
     }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 
-function sales_income_statement($date_from, $date_to){
+function sales_income_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -49,7 +49,8 @@ function sales_income_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Received againts Sales')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -105,15 +106,15 @@ function sales_income_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function service_income_statement($date_from, $date_to){
+function service_income_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -160,7 +161,8 @@ function service_income_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Received againts Services')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -179,7 +181,7 @@ function service_income_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -217,15 +219,15 @@ function service_income_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function purchase_account_statement($date_from, $date_to){
+function purchase_account_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -272,7 +274,8 @@ function purchase_account_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Purchase Account')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -291,7 +294,7 @@ function purchase_account_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -329,15 +332,15 @@ function purchase_account_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function purchase_installation_statement($date_from, $date_to){
+function purchase_installation_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -384,7 +387,8 @@ function purchase_installation_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Product Installation')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -403,7 +407,7 @@ function purchase_installation_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -441,15 +445,15 @@ function purchase_installation_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function service_expense_statement($date_from, $date_to){
+function service_expense_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -496,7 +500,8 @@ function service_expense_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Service Expenses')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -515,7 +520,7 @@ function service_expense_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -553,15 +558,15 @@ function service_expense_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function carrying_expense_statement($date_from, $date_to){
+function carrying_expense_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -608,7 +613,8 @@ function carrying_expense_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Carrying Expenses')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -627,7 +633,7 @@ function carrying_expense_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -665,15 +671,15 @@ function carrying_expense_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function godwon_storage_statement($date_from, $date_to){
+function godwon_storage_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -720,7 +726,8 @@ function godwon_storage_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Godwon & Storage')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -739,7 +746,7 @@ function godwon_storage_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -777,15 +784,15 @@ function godwon_storage_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function admin_expense_statement($date_from, $date_to){
+function admin_expense_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -832,7 +839,8 @@ function admin_expense_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Admin Expense')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -851,7 +859,7 @@ function admin_expense_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -889,15 +897,15 @@ function admin_expense_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function selling_MKT_Expense1_statement($date_from, $date_to){
+function selling_MKT_Expense1_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -944,7 +952,8 @@ function selling_MKT_Expense1_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Selling & MKT Expense(Com/Ins)')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -963,7 +972,7 @@ function selling_MKT_Expense1_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -1001,15 +1010,15 @@ function selling_MKT_Expense1_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function selling_MKT_Expense_statement($date_from, $date_to){
+function selling_MKT_Expense_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -1056,7 +1065,8 @@ function selling_MKT_Expense_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Selling & MKT Expense')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -1075,7 +1085,7 @@ function selling_MKT_Expense_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -1113,15 +1123,15 @@ function selling_MKT_Expense_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function finance_charges_statement($date_from, $date_to){
+function finance_charges_for_balanceSheet_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -1168,7 +1178,8 @@ function finance_charges_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Finance Charges')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -1187,7 +1198,7 @@ function finance_charges_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -1225,15 +1236,16 @@ function finance_charges_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
     //return $data['PreBalance'];
     return $data;
 }
-function finance_expense_statement($date_from, $date_to){
+function finance_expense_for_balanceSheet_statement($date_from, $date_to){
+
 
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
@@ -1280,7 +1292,8 @@ function finance_expense_statement($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Finance Expenses')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -1299,7 +1312,7 @@ function finance_expense_statement($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -1337,8 +1350,8 @@ function finance_expense_statement($date_from, $date_to){
         }
 
 
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
+        $data['PreBalance'] = $PreBalance;
+        $data['preDebCre'] = $preDebCre;
 
     }
 
@@ -1347,8 +1360,8 @@ function finance_expense_statement($date_from, $date_to){
 }
 
 
-function additional_capital($date_from, $date_to){
 
+function additional_capital_for_balanceSheet($date_from, $date_to){
 
 
     $income_sale =0;
@@ -1365,45 +1378,45 @@ function additional_capital($date_from, $date_to){
     $finance_charges =0;
     $finance_expense =0;
 
-    $get_sales_income_statement = sales_income_statement($date_from,$date_to);
+    $get_sales_income_statement = sales_income_for_balanceSheet_statement($date_from,$date_to);
     $income_sale +=$get_sales_income_statement['PreBalance'];
 
-    $get_service_income_statement = service_income_statement($date_from,$date_to);
+    $get_service_income_statement = service_income_for_balanceSheet_statement($date_from,$date_to);
     $income_service +=$get_service_income_statement['PreBalance'];
 
     $income =$income_service+$income_sale;
 
-    $get_purchase_account_statement = purchase_account_statement($date_from,$date_to);
+    $get_purchase_account_statement = purchase_account_for_balanceSheet_statement($date_from,$date_to);
     $purchase_account +=$get_purchase_account_statement['PreBalance'];
 
-    $get_purchase_installation_statement = purchase_installation_statement($date_from,$date_to);
+    $get_purchase_installation_statement = purchase_installation_for_balanceSheet_statement($date_from,$date_to);
     $purchase_installation +=$get_purchase_installation_statement['PreBalance'];
 
-    $get_service_expense_statement = service_expense_statement($date_from,$date_to);
+    $get_service_expense_statement = service_expense_for_balanceSheet_statement($date_from,$date_to);
     $service_expense +=$get_service_expense_statement['PreBalance'];
 
-    $get_carrying_expense_statement = carrying_expense_statement($date_from,$date_to);
+    $get_carrying_expense_statement = carrying_expense_for_balanceSheet_statement($date_from,$date_to);
     $carrying_expense +=$get_carrying_expense_statement['PreBalance'];
 
-    $get_godwon_storage_statement = godwon_storage_statement($date_from,$date_to);
+    $get_godwon_storage_statement = godwon_storage_for_balanceSheet_statement($date_from,$date_to);
     $godwon_storage +=$get_godwon_storage_statement['PreBalance'];
 
     $expense =$purchase_account+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
     $gross_profit =$income-$expense;
 
-    $get_admin_expense_statement = admin_expense_statement($date_from,$date_to);
+    $get_admin_expense_statement = admin_expense_for_balanceSheet_statement($date_from,$date_to);
     $admin_expense +=$get_admin_expense_statement['PreBalance'];
 
-    $get_selling_MKT_Expense1_statement = selling_MKT_Expense1_statement($date_from,$date_to);
+    $get_selling_MKT_Expense1_statement = selling_MKT_Expense1_for_balanceSheet_statement($date_from,$date_to);
     $selling_MKT_Expense1 +=$get_selling_MKT_Expense1_statement['PreBalance'];
 
-    $get_selling_MKT_Expense_statement = selling_MKT_Expense_statement($date_from,$date_to);
+    $get_selling_MKT_Expense_statement = selling_MKT_Expense_for_balanceSheet_statement($date_from,$date_to);
     $selling_MKT_Expense +=$get_selling_MKT_Expense_statement['PreBalance'];
 
-    $get_finance_charges_statement = finance_charges_statement($date_from,$date_to);
+    $get_finance_charges_statement = finance_charges_for_balanceSheet_statement($date_from,$date_to);
     $finance_charges +=$get_finance_charges_statement['PreBalance'];
 
-    $get_finance_expense_statement = finance_expense_statement($date_from,$date_to);
+    $get_finance_expense_statement = finance_expense_for_balanceSheet_statement($date_from,$date_to);
     $finance_expense +=$get_finance_expense_statement['PreBalance'];
 
     $indirecExpense = $admin_expense+$selling_MKT_Expense1+$selling_MKT_Expense+$finance_charges+$finance_expense;
@@ -1473,6 +1486,10 @@ function additional_capital($date_from, $date_to){
 
 
 
+
+
+
+
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
@@ -1520,7 +1537,8 @@ function additional_capital($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Capital Account')
-        ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+        ->where('posting_date', '<=',$date_from)
+       // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 
@@ -1539,119 +1557,7 @@ function additional_capital($date_from, $date_to){
             else
                 $curRowDebCre = 'Cr';
 
-           // if($preDebCre == 'De/Cr' && $flag == 0)
-            if($preDebCre == 'De/Cr' && $flag == 0)
-            {
-                $preDebCre = $curRowDebCre;
-                $flag = 1;
-            }
-
-            if($preDebCre == 'De' && $curRowDebCre == 'De')
-            {
-                $PreBalance += $debit;
-                $preDebCre = 'De';
-            }elseif($preDebCre == 'De' && $curRowDebCre == 'Cr'){
-                if($PreBalance > $credit)
-                {
-                    $PreBalance = $PreBalance - $credit;
-                    $preDebCre = 'De';
-                }else{
-                    $PreBalance = $credit - $PreBalance;
-                    $preDebCre = 'Cr';
-                }
-            }elseif($preDebCre == 'Cr' && $curRowDebCre == 'De'){
-                if($PreBalance > $debit)
-                {
-                    $PreBalance = $PreBalance - $debit;
-                    $preDebCre = 'Cr';
-                }else{
-                    $PreBalance = $debit - $PreBalance;
-                    $preDebCre = 'De';
-                }
-            }elseif($preDebCre == 'Cr' && $curRowDebCre == 'Cr'){
-                $PreBalance += $credit;
-                $preDebCre = 'Cr';
-            }else{
-
-            }
-        }
-
-
-            $data['PreBalance'] = $PreBalance;
-            $data['preDebCre'] = $preDebCre;
-
-    }
-
-    //return $data['PreBalance'];
-    return $data;
-}
-function opening_statement($date_from, $date_to){
-
-    $gl_pre_valance_data = DB::table('posting_form_details')
-        ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-        ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<=',$date_from)
-        ->where('group_3','Capital Account')
-        ->groupBy('group_3')
-        ->first();
-
-
-    $data = [
-        'PreBalance' => 0,
-        'preDebCre' => 'De/Cr'
-    ];
-
-//    $PreBalance=0;
-//    $preDebCre = 'De/Cr';
-
-    if(!empty($gl_pre_valance_data))
-    {
-        //echo 'ok';exit;
-        $debit = $gl_pre_valance_data->debit;
-        $credit = $gl_pre_valance_data->credit;
-        if($debit > $credit)
-        {
-            $PreBalance = $debit - $credit;
-            $preDebCre = 'De';
-        }else{
-            $PreBalance = $credit - $debit;
-            $preDebCre = 'Cr';
-        }
-    }
-
-    $sum_debit = 0;
-    $sum_credit = 0;
-    $final_debit_credit = 0;
-    $preDebCre = 0;
-    $PreBalance = 0;
-    $flag = 0;
-    $first_day = date('Y-m-01',strtotime($date_from));
-    $last_day = date('Y-m-t',strtotime($date_from));
-
-
-    $general_ledger_infos = DB::table('posting_form_details')
-        ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-        ->where('group_3','Capital Account')
-        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
-        ->where('posting_date', '<=',$date_from)
-        ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
-        ->get();
-
-    //return $general_ledger_infos;
-
-    if(count($general_ledger_infos) > 0){
-        foreach($general_ledger_infos as $key => $general_ledger_info){
-            $debit = $general_ledger_info->debit;
-            $credit = $general_ledger_info->credit;
-
-            $sum_debit  += $debit;
-            $sum_credit += $credit;
-
-            if($debit > $credit)
-                $curRowDebCre = 'De';
-            else
-                $curRowDebCre = 'Cr';
-
+            // if($preDebCre == 'De/Cr' && $flag == 0)
             if($preDebCre == 'De/Cr' && $flag == 0)
             {
                 $preDebCre = $curRowDebCre;
@@ -1697,4 +1603,6 @@ function opening_statement($date_from, $date_to){
     //return $data['PreBalance'];
     return $data;
 }
+
+
 ?>

@@ -9,7 +9,7 @@ function sales_income_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Received againts Sales')
         ->groupBy('group_3')
         ->first();
@@ -51,7 +51,7 @@ function sales_income_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Received againts Sales')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -121,7 +121,7 @@ function service_income_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Received againts Services')
         ->groupBy('group_3')
         ->first();
@@ -163,7 +163,7 @@ function service_income_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Received againts Services')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -234,7 +234,7 @@ function purchase_account_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Purchase Account')
         ->groupBy('group_3')
         ->first();
@@ -276,7 +276,7 @@ function purchase_account_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Purchase Account')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
        //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -347,7 +347,7 @@ function purchase_installation_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Product Installation')
         ->groupBy('group_3')
         ->first();
@@ -389,7 +389,7 @@ function purchase_installation_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Product Installation')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -460,7 +460,7 @@ function service_expense_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Service Expenses')
         ->groupBy('group_3')
         ->first();
@@ -502,7 +502,7 @@ function service_expense_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Service Expenses')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -573,7 +573,7 @@ function carrying_expense_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Carrying Expenses')
         ->groupBy('group_3')
         ->first();
@@ -615,7 +615,7 @@ function carrying_expense_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Carrying Expenses')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -686,7 +686,7 @@ function godwon_storage_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Godwon & Storage')
         ->groupBy('group_3')
         ->first();
@@ -728,7 +728,7 @@ function godwon_storage_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Godwon & Storage')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -799,7 +799,7 @@ function admin_expense_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Admin Expense')
         ->groupBy('group_3')
         ->first();
@@ -841,7 +841,7 @@ function admin_expense_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Admin Expense')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
        // ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -912,7 +912,7 @@ function selling_MKT_Expense1_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Selling & MKT Expense(Com/Ins)')
         ->groupBy('group_3')
         ->first();
@@ -954,7 +954,7 @@ function selling_MKT_Expense1_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Selling & MKT Expense(Com/Ins)')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -1025,7 +1025,7 @@ function selling_MKT_Expense_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Selling & MKT Expense')
         ->groupBy('group_3')
         ->first();
@@ -1067,7 +1067,7 @@ function selling_MKT_Expense_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Selling & MKT Expense')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -1138,7 +1138,7 @@ function finance_charges_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Finance Charges')
         ->groupBy('group_3')
         ->first();
@@ -1180,7 +1180,7 @@ function finance_charges_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Finance Charges')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
@@ -1251,7 +1251,7 @@ function finance_expense_statement_for_equity($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         ->where('group_3','Finance Expenses')
         ->groupBy('group_3')
         ->first();
@@ -1293,7 +1293,7 @@ function finance_expense_statement_for_equity($date_from, $date_to){
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Finance Expenses')
-        ->where('posting_date', '<',$date_from)
+        ->where('posting_date', '<=',$date_from)
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();

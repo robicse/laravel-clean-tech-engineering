@@ -124,7 +124,7 @@
                             <strong>Address:</strong>
                             <strong>{{$party->address}}</strong><br>
                             <strong>Contact No:</strong>
-                            <strong>{{$party->phone}}</strong><br>
+                            <strong>{{$party->phone}}</strong><br><br>
                             @if(!empty($productSale->onlinePlatForm->name))
                                 <strong style="font-size: 16px">{{($productSale->onlinePlatForm->name)}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
                             @endif
@@ -142,7 +142,7 @@
                                         <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;font-size: 14px;"><b> Phone NO:</b> </td>
+                                        <td style="text-align: right;font-size: 14px;"><b> Phone:</b> </td>
                                         <td style="text-align: right;font-size: 14px;">{{$party->phone}}</td>
                                     </tr>
                                     <tr>
@@ -264,26 +264,26 @@
                     <div class="row" style="">
                         <!-- accepted payments column -->
                         <div class="col-md-6">
-                            <table>
+                            <table width="70%">
                                 <tr>
-                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b></td>
+                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b>*</td>
                                     <td style="text-align: left;font-size: 16px;">*One year electrical parts warranty</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*Warranty will void if the machine used over the capacity</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine used over the capacity</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*No warranty for filter cartidge,faucet,Tank. </td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">No warranty for filter cartidge,faucet,Tank. </td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*We do not provide any electrical or plumbing work.</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">We do not provide any electrical or plumbing work.</td>
                                 </tr>
                             </table>
 
@@ -291,11 +291,13 @@
                         <!-- /.col -->
                     </div>
                     <div class="row footer_div" style="margin-top: 210px;display: block" >
-                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-                            <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
-                        </div>
-                        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
-                            <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
+                        <div class="row">
+                            <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                                <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
+                            </div>
+                            <div class="col-md-6" style="text-align: right; float: right;width: 40%;margin-left: 20px; display: inline-block;">
+                                <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
+                            </div>
                         </div>
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
