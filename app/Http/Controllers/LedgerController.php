@@ -102,6 +102,7 @@ class LedgerController extends Controller
         $date_to = $request->date_to;
 
 //dd($gl_pre_valance_data);
+        //dd($request->all());
         if((!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) && (empty($group_2)) && (empty($group_3)))
         {
             $gl_pre_valance_data = DB::table('posting_form_details')
@@ -110,6 +111,15 @@ class LedgerController extends Controller
                 ->where('posting_date', '<',$date_from)
                 ->where('ledger_id',$general_ledger)
                 ->groupBy('ledger_id')
+                ->first();
+        }
+        elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->where('posting_date', '<',$date_from)
+                ->where('group_3',$group_3)
+                ->groupBy('group_3')
                 ->first();
         }
         elseif((!empty($group_2)) && (!empty($date_from)) && (!empty($date_to)) ){
@@ -121,16 +131,6 @@ class LedgerController extends Controller
                 ->groupBy('group_2')
                 ->first();
         }
-        elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
-            $gl_pre_valance_data = DB::table('posting_form_details')
-                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('group_2', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-                ->where('posting_date', '<',$date_from)
-                ->where('group_3',$group_3)
-                ->groupBy('group_3')
-                ->first();
-        }
-
         else{
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')

@@ -12,6 +12,8 @@ function sales_income_statement($date_from, $date_to){
         ->groupBy('group_3')
         ->first();
 
+    //dd($gl_pre_valance_data);
+
 
     $data = [
         'PreBalance' => 0,
@@ -48,10 +50,11 @@ function sales_income_statement($date_from, $date_to){
 
     $general_ledger_infos = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-        ->where('group_3','Received againts Sales')
+        ->where('posting_form_details.group_3','Received againts Sales')
         ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
+    //dd($general_ledger_infos);
 
     //return $general_ledger_infos;
 
@@ -1366,7 +1369,9 @@ function additional_capital($date_from, $date_to){
     $finance_expense =0;
 
     $get_sales_income_statement = sales_income_statement($date_from,$date_to);
+    //dd($get_sales_income_statement);
     $income_sale +=$get_sales_income_statement['PreBalance'];
+    //dd($income_sale);
 
     $get_service_income_statement = service_income_statement($date_from,$date_to);
     $income_service +=$get_service_income_statement['PreBalance'];
@@ -1390,7 +1395,7 @@ function additional_capital($date_from, $date_to){
 
     $expense =$purchase_account+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
     $gross_profit =$income-$expense;
-
+   // dd($expense);
     $get_admin_expense_statement = admin_expense_statement($date_from,$date_to);
     $admin_expense +=$get_admin_expense_statement['PreBalance'];
 
@@ -1590,7 +1595,7 @@ function opening_statement($date_from, $date_to){
     $gl_pre_valance_data = DB::table('posting_form_details')
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-        ->where('posting_date', '<=',$date_from)
+        ->where('posting_date', '<',$date_from)
         ->where('group_3','Capital Account')
         ->groupBy('group_3')
         ->first();
@@ -1633,7 +1638,7 @@ function opening_statement($date_from, $date_to){
         ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
         ->where('group_3','Capital Account')
         //->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
-        ->where('posting_date', '<=',$date_from)
+        ->where('posting_date', '<',$date_from)
         ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
         ->get();
 

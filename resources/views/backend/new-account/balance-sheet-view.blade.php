@@ -284,12 +284,12 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr style="display: none">
+                    <tr style="display:none;">
                         <td>Opening Capitals</td>
                         <td>@php
 
                                 $get_data = opening_statement($date_from,$date_to);
-                                //dd($get_data);
+//dd($get_data);
 
                             @endphp
                             {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
@@ -300,17 +300,18 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr style="display: none">
+                    <tr style="display:none;">
                         <td>Addition</td>
                         <td> @php
 
                                 $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
-                               // dd($get_data);
+                              // dd($get_data);
 
                             @endphp
                             {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
                             @php
                                 $additional_capital +=$get_data['PreBalance'];
+//dd($additional_capital);
                             @endphp
                         </td>
                         <td></td>
@@ -320,35 +321,37 @@
                         <td>Total Capital:</td>
                         <td>
                             @php
-                                $total_capital =$additional_capital+$opening_capital;
+                               // $total_capital =$additional_capital+$opening_capital;
+                                $total_capital =$additional_capital;
+
                             @endphp
                             {{$total_capital}}</td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none;">
                         <td>Opening Profit</td>
                         <td>@php
 
-                                $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
+                                $get_data = additional_capital_for_balanceSheet($date_from);
                                //dd($get_data);
 
                             @endphp
                             {{$get_data['from_data']}}
                             @php
                                 $opening_profit +=$get_data['from_data'];
-//dd($opening_profit);
+
                             @endphp
 
                         </td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none;">
                         <td>Net Profit</td>
                         <td>@php
 
-                                $get_data = additional_capital_for_balanceSheet($date_from,$date_to);
+                                $get_data = additional_capital_for_balanceSheet($date_from);
                                 //dd($get_data);
 
                             @endphp
@@ -361,7 +364,9 @@
                         <td></td>
                     </tr>
                     @php
-                        $total_profit =$opening_profit+$net_profit;
+                        //$total_profit =$opening_profit+$net_profit;
+                        $total_profit =$net_profit;
+
                     @endphp
                     <tr>
                         <td>Retained Earning: </td>
@@ -455,10 +460,15 @@
                 </div>
             </div>
             <div class="text-center">
-                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+
+                <button onclick="window.print()">Print</button>
+{{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>
     </main>
 @endsection
 
 
+{{--<script type="text/javascript">--}}
+{{--    window.addEventListener("load", window.print());--}}
+{{--</script>--}}
