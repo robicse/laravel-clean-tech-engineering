@@ -9,14 +9,30 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>
+                <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                </div>
+                <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
+                    <h1>Change In Equity </h1>
+                </div>
+                <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
+                    From Date : {{ $date_from }}
+                    <br/>
+                    To Date : {{ $date_to }}
+                    <br>
+                </div>
+{{--                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>--}}
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th width="40%">Particulars</th>
-                        <th width="30%">Amount</th>
-                        <th width="30%">Balance</th>
+                        <th width="60%">Particulars</th>
+                        <th width="20%">Amount</th>
+                        <th width="20%">Balance</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -59,7 +75,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #83b735;color: white" >
+                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td>Total Capital:</td>
                         <td>
                             @php
@@ -86,7 +102,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #83b735;color: white" >
+                    <tr>
                         <td>Net Profit</td>
                         <td>@php
 
@@ -105,7 +121,7 @@
                     @php
                         $total_profit =$opening_profit+$net_profit;
                     @endphp
-                    <tr>
+                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td>Retained Earning: </td>
                         <td>{{$total_profit}}</td>
                         <td>{{$total_profit}}</td>
@@ -114,7 +130,7 @@
                     @php
                         $total_equity=$total_capital+$total_profit;
                     @endphp
-                    <tr style="background-color: #313a95;color: white" #83b735>
+                    <tr style="color: black;font-size: 20px;font-style: italic" >
                         <td> </td>
                         <td><b>Total Equity:</b></td>
                         <td>{{$total_equity}}</td>
@@ -127,7 +143,8 @@
                 </div>
             </div>
             <div class="text-center">
-                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+                <button onclick="window.print()" target="_blank" class=" btn btn-sm btn-primary float-left">Print</button>
+{{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>
     </main>

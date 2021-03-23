@@ -9,10 +9,21 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                @php
-                echo $date_from;
-                @endphp
-                <h3 class="tile-title text-center">Date Of {{$date_from}}</h3>
+                <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                </div>
+
+                <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
+                    <h2>Balance Sheet</h2>
+                </div>
+                <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
+                   <h5> Date Of {{$date_from}}</h5>
+                    <br/>
+                </div>
+{{--                <h3 class="tile-title text-center">Date Of {{$date_from}}</h3>--}}
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -51,14 +62,14 @@
 
 
                     @endphp
-                    <tr style="background-color: #83b735;color: white">
-                        <td>ASSETS</td>
+                    <tr class="table-secondary" style="color: black;font-style: italic;font-size: 20px">
+                        <td><b>ASSETS</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td>Fixed Assets:</td>
+                    <tr  style="color: black;font-size: 17px">
+                        <td><b>Fixed Assets:</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -120,6 +131,7 @@
                                 $tangible_assets +=$get_data['PreBalance'];
                             @endphp</td>
                         <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td> Intangible Assets</td>
@@ -133,8 +145,9 @@
                                 $intangible_assets +=$get_data['PreBalance'];
                             @endphp</td>
                         <td></td>
+                        <td></td>
                     </tr>
-                    <tr>
+                    <tr style="color: black;font-size: 17px">
                         <td> Total Fixed Assets</td>
                         <td> @php echo  $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
                             @endphp
@@ -143,8 +156,8 @@
                             @endphp </td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td>Current Assets:</td>
+                    <tr style="color: black;font-size: 17px">
+                        <td><b>Current Assets:</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -254,7 +267,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr style="color: black;font-size: 17px">
                         <td> Total Current Assets:</td>
                         <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets;
                             @endphp
@@ -263,7 +276,7 @@
                             @endphp </td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #313a95;color: white">
+                    <tr style="color: black;font-size: 17px">
                         <td><b> Total Assets:</b></td>
                         <td> @php echo  $total_assets =$current_assets+$fixed_assets;
                             @endphp
@@ -272,14 +285,14 @@
                             @endphp </td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #83b735;color: white">
-                        <td>Equity And Liabilities</td>
+                    <tr class="table-secondary" style="color: black;font-style: italic;font-size: 20px">
+                        <td><b>Equity And Liabilities</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr >
-                        <td>Equity</td>
+                    <tr style="color: black;font-size: 17px">
+                        <td><b>Equity</b></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -377,7 +390,7 @@
                     @php
                         $total_equity=$total_capital+$total_profit;
                     @endphp
-                    <tr>
+                    <tr style="color: black;font-size: 17px">
                         <td><b>Total Equity:</b></td>
                         <td>{{$total_equity}}</td>
                         <td>{{$total_equity}}</td>
@@ -435,8 +448,8 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td> Total Liabilities</td>
+                    <tr  style="color: black;font-size: 17px">
+                        <td> <b>Total Liabilities</b></td>
                         <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner;
                             @endphp
                         </td>
@@ -444,7 +457,7 @@
                             @endphp </td>
                         <td></td>
                     </tr>
-                    <tr style="background-color: #313a95;color: white">
+                    <tr  style="color: black;font-size: 17px">
                         <td> <b>Total Equity & Liabilities</b></td>
                         <td> @php echo  $totalEquityAndLiabilities=$liabilities+$total_equity;
                             @endphp

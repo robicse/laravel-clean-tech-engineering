@@ -110,6 +110,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/equity/view','EquityController@viewEquity')->name('account.equity-view');
     Route::get('/account/balance/sheet','BalanceSheetController@balanceSheetForm');
     Route::post('account/balance-sheet/view','BalanceSheetController@viewBalanceSheet')->name('account.balance-sheet-view');
+    Route::get('/account/cash-flow','CashflowController@cashflowForm');
+    Route::post('account/cash-flow/view','CashflowController@viewCashFlow')->name('account.cash-flow-view');
 
 
 

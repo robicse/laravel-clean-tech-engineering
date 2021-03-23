@@ -9,15 +9,30 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>
+                <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                </div>
+                <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
+                    <h1>Trial Blanace</h1>
+                </div>
+                <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
+                    From Date : {{ $date_from }}
+                    <br/>
+                    To Date : {{ $date_to }}
+                    <br>
+                </div>
+{{--                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>--}}
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th width="40%">Accounts Head</th>
-                        <th width="30%">Debit</th>
-                        <th width="30%">Credit</th>
-                        <th width="30%">Balance</th>
+                        <th width="50%">Accounts Head</th>
+                        <th width="16%">Debit</th>
+                        <th width="16%">Credit</th>
+                        <th width="16%">Balance</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,8 +68,8 @@
                         </tr>
                     @endif
                     @if(count($oResultAssets) > 0)
-                        <tr>
-                            <th colspan="4" style="background-color: #00307f;color: white">Assets</th>
+                        <tr >
+                            <th class="table-secondary" colspan="4" style="color: black;font-size: 20px;font-style: italic">Assets</th>
                         </tr>
                         @foreach($oResultAssets as $oResultAsset)
                             @php
@@ -84,7 +99,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr style="background-color: pink;">
+                        <tr class="table-secondary">
                             <th>Total:</th>
                             <th>Debit: {{ $sum_assets_debit }}</th>
                             <th>Credit: {{ $sum_assets_credit }}</th>
@@ -107,7 +122,7 @@
                     @endphp
                     @if(count($oResultIncomes) > 0)
                         <tr>
-                            <th colspan="4" style="background-color: #00307f;color: white">Income</th>
+                            <th colspan="4" class="table-secondary" style="color: black;font-size: 20px;font-style: italic">Income</th>
                         </tr>
                         @foreach($oResultIncomes as $oResultIncome)
                             @php
@@ -137,7 +152,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr style="background-color: pink;">
+                        <tr class="table-secondary">
                             <th>Total:</th>
                             <th>Debit: {{ $sum_income_debit }}</th>
                             <th>Credit: {{ $sum_income_credit }}</th>
@@ -160,7 +175,7 @@
                     @endphp
                     @if(count($oResultExpenses) > 0)
                         <tr>
-                            <th colspan="4" style="background-color: #00307f;color: white">Expense</th>
+                            <th class="table-secondary" colspan="4" style="color: black;font-size: 20px;font-style: italic">Expense</th>
                         </tr>
                         @foreach($oResultExpenses as $oResultExpense)
                             @php
@@ -190,7 +205,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr style="background-color: pink;">
+                        <tr class="table-secondary">
                             <th>Total:</th>
                             <th>Debit: {{ $sum_expense_debit }}</th>
                             <th>Credit: {{ $sum_expense_credit }}</th>
@@ -213,7 +228,7 @@
                     @endphp
                     @if(count($oResultEquities) > 0)
                         <tr>
-                            <th colspan="4" style="background-color: #00307f;color: white">Equity</th>
+                            <th colspan="4"  class="table-secondary"  style="color: black;font-size: 20px;font-style: italic">Equity</th>
                         </tr>
                         @foreach($oResultEquities as $oResultEquity)
                             @php
@@ -243,7 +258,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr style="background-color: pink;">
+                        <tr  class="table-secondary">
                             <th>Total:</th>
                             <th>Debit: {{ $sum_equity_debit }}</th>
                             <th>Credit: {{ $sum_equity_credit }}</th>
@@ -266,7 +281,7 @@
                     @endphp
                     @if(count($oResultLiabilities) > 0)
                         <tr>
-                            <th colspan="4" style="background-color: #00307f;color: white">Liability</th>
+                            <th colspan="4"  class="table-secondary"  style="color: black;font-size: 20px;font-style: italic">Liability</th>
                         </tr>
                         @foreach($oResultLiabilities as $oResultLiabilitie)
                             @php
@@ -296,7 +311,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                        <tr style="background-color: pink;">
+                        <tr  class="table-secondary" >
                             <th>Total:</th>
                             <th>Debit: {{ $sum_liability_debit }}</th>
                             <th>Credit: {{ $sum_liability_credit }}</th>
@@ -341,7 +356,7 @@
                             <td>&nbsp;</td>
                         </tr>
                     @endif
-                    <tr style="background-color: green;">
+                    <tr  class="table-secondary" >
                         <th>Final Total:</th>
                         <th>Debit: {{ $sum_debit }}</th>
                         <th>Credit: {{ $sum_credit }}</th>
@@ -354,7 +369,8 @@
                 </div>
             </div>
             <div class="text-center">
-                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+                <button onclick="window.print()" target="_blank" class=" btn btn-sm btn-primary float-left">Print</button>
+{{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>
     </main>

@@ -1,6 +1,12 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
+    <style>
+        .noPrint{
+            display:none;
+        }
+
+    </style>
     <main class="app-content">
         <div class="col-md-12">
 
@@ -155,7 +161,7 @@
                             if($sum_debit > $sum_credit)
                             {
                                 $final_debit_credit = $sum_debit;
-                                $particulars = "By balance c/d (Final Balance)";
+                                $particulars =  "By balance c/d (Final Balance)";
                             }else{
                                 $final_debit_credit = $sum_credit;
                                 $particulars = "To balance c/d (Final Balance)";
@@ -188,8 +194,10 @@
                 </table>
                 </div>
             </div>
+
                 <div class="text-center">
-                    <a href="{{ url('account/general-ledger-invoice/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+                    <button onclick="window.print()" target="_blank" class=" btn btn-sm btn-primary float-left">Print</button>
+{{--                    <a href="{{ url('account/general-ledger-invoice/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
                 </div>
         </div>
     </main>

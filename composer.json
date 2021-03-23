@@ -51,7 +51,8 @@
             "app/helpers.php",
             "app/incomeStatement.php",
             "app/balanceSheet.php",
-            "app/equityForBalanceSheet.php"
+            "app/equityForBalanceSheet.php",
+            "app/cashFlow.php"
 
         ]
     },
