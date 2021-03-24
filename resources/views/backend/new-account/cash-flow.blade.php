@@ -212,6 +212,7 @@
                         $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
 
                             @endphp
+
                           </td>
                         <td> @php
                                 echo
@@ -233,13 +234,14 @@
                         $tangible_assets_vehicle_for_cashFlow_statement = 0;
                         $tangible_assets_for_cashFlow_statement = 0;
                         $intangible_assets_for_cashFlow_statement = 0;
+
+                        $sum_cash_paid_on = 0;
+                        $sum_financing_paid_on = 0;
                     @endphp
-                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
-                        <td><b>Others Operating Expenses: </b></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @php
+
+                        echo $total_cash = $cash_receive_from_customer - $total_cash_paid_to_supplier
+                    @endphp
                     <tr>
                         <td>Admin Expense</td>
                         <td>@php
@@ -301,18 +303,50 @@
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from  Operating Activities: </b></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            @php
+                            echo
+                            $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
+
+                            @endphp
+                            </td>
+                        <td>
+                            @php
+                                echo
+                                $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
+
+                            @endphp
+                        </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Tangible Assets(Plant & Machinery)</td>
-                        <td>@php
-                                $get_data = tangible_assets_plant_and_machinery_for_cashFlow_statement($date_from,$date_to);
-                            @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>
                             @php
-                                $tangible_assets_plant_and_machinery_for_cashFlow_statement +=$get_data['PreBalance'];
+                                $get_data = tangible_assets_plant_and_machinery_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_cash_paid_on -= $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_cash_paid_on += $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+
+                                //$tangible_assets_plant_and_machinery_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
@@ -321,12 +355,32 @@
                     </tr>
                     <tr>
                         <td>Tangible Assets(Furniture & Fixture)</td>
-                        <td>@php
-                                $get_data = tangible_assets_furniture_and_fixture_for_cashFlow_statement($date_from,$date_to);
-                            @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>
                             @php
-                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +=$get_data['PreBalance'];
+                                $get_data = tangible_assets_furniture_and_fixture_for_cashFlow_statement($date_from,$date_to);
+$cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_cash_paid_on -= $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_cash_paid_on += $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+
+                                //$tangible_assets_furniture_and_fixture_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
@@ -337,10 +391,28 @@
                         <td>Tangible Assets(Vehicle)</td>
                         <td>@php
                                 $get_data = tangible_assets_vehicle_for_cashFlow_statement($date_from,$date_to);
-                            @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
-                            @php
-                                $tangible_assets_vehicle_for_cashFlow_statement +=$get_data['PreBalance'];
+$cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_cash_paid_on -= $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_cash_paid_on += $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                //$tangible_assets_vehicle_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
@@ -349,12 +421,31 @@
                     </tr>
                     <tr>
                         <td>Tangible Assets</td>
-                        <td>@php
-                                $get_data = tangible_assets_for_cashFlow_statement($date_from,$date_to);
-                            @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>
                             @php
-                                $tangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
+                                $get_data = tangible_assets_for_cashFlow_statement($date_from,$date_to);
+$cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_cash_paid_on -= $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_cash_paid_on += $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                //$tangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
@@ -365,52 +456,119 @@
                         <td>Intangible Assets</td>
                         <td>@php
                                 $get_data = intangible_assets_for_cashFlow_statement($date_from,$date_to);
-                            @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
-                            @php
-                                $intangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
+$cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_cash_paid_on -= $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_cash_paid_on += $get_data['PreBalance'];
+                                    if($sum_cash_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                //$intangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
                         <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="table-secondary" style="color: black;font-size: 17px;" >
-                        <td>Cash Paid On</td>
-                        <td>
-                            @php
-                                echo
-                                - $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +
-                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +
-                                $tangible_assets_vehicle_for_cashFlow_statement +
-                                $tangible_assets_for_cashFlow_statement +
-                                $intangible_assets_for_cashFlow_statement ;
-
-                            @endphp
-                        </td>
-                        <td>  @php
-                                echo
-                                - $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +
-                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +
-                                $tangible_assets_vehicle_for_cashFlow_statement +
-                                $tangible_assets_for_cashFlow_statement +
-                                $intangible_assets_for_cashFlow_statement ;
-
-                            @endphp</td>
                         <td></td>
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Investment Activities: </b></td>
+{{--                        <td>--}}
+{{--                            @php--}}
+{{--                                echo--}}
+{{--                                $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_vehicle_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_for_cashFlow_statement +--}}
+{{--                                $intangible_assets_for_cashFlow_statement ;--}}
+
+{{--                            @endphp--}}
+{{--                        </td>--}}
+{{--                        <td>  @php--}}
+{{--                                echo--}}
+{{--                                $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_vehicle_for_cashFlow_statement +--}}
+{{--                                $tangible_assets_for_cashFlow_statement +--}}
+{{--                                $intangible_assets_for_cashFlow_statement ;--}}
+
+{{--                            @endphp</td>--}}
+                        <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
+                        <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
+{{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_cash_paid_on}}</td>--}}
                         <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Loan From Owner</td>
+                        <td>@php
+                                $get_data = loan_from_owner_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
+
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Loan From Other</td>
                         <td>@php
-
-
-                                @endphp
+                                $get_data = loan_from_other_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
 
                         </td>
                         <td></td>
@@ -419,9 +577,29 @@
                     <tr>
                         <td>Capital Account</td>
                         <td>@php
-
-
-                                @endphp
+                                $get_data = capital_account_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
 
                         </td>
                         <td></td>
@@ -429,22 +607,37 @@
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Financing Activities: </b></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="table-secondary" style="color: black;font-size: 18px;" >
-                        <td><b>Cashflow from Financing Activities: </b></td>
-                        <td></td>
-                        <td></td>
+                        <td>@php echo $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on @endphp</td>
+                        <td>@php echo $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on @endphp</td>
+{{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
+{{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
                         <td></td>
                     </tr>
+                    <tr class="table-secondary" style="color: black;font-size: 22px;" >
+                        <td><b>Net Cash Increase/Decrease : </b></td>
+                        <td></td>
+                        <td>@php
+                            echo
+                              $net_cash = $cashflow_from_operating+$cash_from_invest+$cash_from_finance;
+
+                            @endphp
+                        </td>
+                        <td></td>
+                    </tr>
+                    @php
+                        $cash_in_hands_for_cashFlow_statement = 0;
+                        $cash_at_bank_for_cashFlow_statement = 0;
+
+                    @endphp
                     <tr>
                         <td>Cash in Hand</td>
                         <td>@php
-
-
-                                @endphp
+                                $get_data = cash_in_hands_for_cashFlow_statement($date_from);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $cash_in_hands_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
 
                         </td>
                         <td></td>
@@ -453,18 +646,39 @@
                     <tr>
                         <td>Cash at Bank</td>
                         <td>@php
-
-
-                                @endphp
+                                $get_data = cash_at_bank_for_cashFlow_statement($date_from);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $cash_at_bank_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
 
                         </td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
+                        <td><b>Beginning Cash And Cash Equivalent: </b></td>
+                        <td>    @php
+                            echo
+                                $closing =$cash_in_hands_for_cashFlow_statement+$cash_at_bank_for_cashFlow_statement;
+                            @endphp</td>
+                        <td>    @php
+                            echo
+                                $closing =$cash_in_hands_for_cashFlow_statement+$cash_at_bank_for_cashFlow_statement;
+                            @endphp</td>
+                        <td></td>
+                    </tr>
+                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Closing Cash And Cash Equivalent: </b></td>
-                        <td></td>
-                        <td></td>
+                        <td>    @php
+                            echo
+                                $finalClosing =$closing+$net_cash;
+                            @endphp</td>
+                        <td>    @php
+                            echo
+                                $finalClosing =$closing+$net_cash;
+                            @endphp</td>
                         <td></td>
                     </tr>
                     </tbody>

@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostingFormDetails extends Model
 {
+//    public function getDateFormat()
+//    {
+//        return 'Y-m-d H:i:s.u';
+//    }
+
     public function ledger(){
         return $this->belongsTo('App\Ledger');
     }
