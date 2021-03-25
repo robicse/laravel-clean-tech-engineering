@@ -2,10 +2,11 @@
 
 @section('content')
     <style>
-        .noPrint{
-            display:none;
+        @media print {
+            #printPageButton {
+                display: none;
+            }
         }
-
     </style>
     <main class="app-content">
         <div class="col-md-12">
@@ -34,7 +35,19 @@
                     <br/>
                     To Date : {{ $date_to }}
                     <br>
-                    Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
+
+                        Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
+
+
+                    @if(!empty ($group_2) && empty($group_3) )
+                        Account Name :  {{ $group_2}}
+
+                    @endif
+                    @if(!empty ($group_3) && ($group_2) )
+                        Account Name :  {{ $group_3}}
+
+                    @endif
+
                 </div>
                 <div class="table-responsive" style="margin-top: 240px">
                     <table id="example1" class="table table-bordered table-striped">
@@ -196,7 +209,7 @@
             </div>
 
                 <div class="text-center">
-                    <button onclick="window.print()" target="_blank" class=" btn btn-sm btn-primary float-left">Print</button>
+                    <button onclick="window.print()" target="_blank"  id="printPageButton" class=" btn btn-sm btn-primary float-left">Print</button>
 {{--                    <a href="{{ url('account/general-ledger-invoice/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
                 </div>
         </div>

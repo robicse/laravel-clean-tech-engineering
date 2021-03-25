@@ -1,6 +1,13 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
+    <style>
+        @media print {
+            #printPageButton {
+                display: none;
+            }
+        }
+    </style>
     <main class="app-content">
         <div class="app-title">
             <div>
@@ -246,7 +253,8 @@
                 </div>
             </div>
             <div class="text-center">
-                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>
+                <button onclick="window.print()" target="_blank"  id="printPageButton" class=" btn btn-sm btn-primary float-left">Print</button>
+{{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>
     </main>

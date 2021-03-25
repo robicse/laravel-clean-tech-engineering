@@ -1,12 +1,20 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
+    <style>
+        @media print {
+            #printPageButton {
+                display: none;
+            }
+        }
+    </style>
     <main class="app-content">
         <div class="app-title">
             <div>
                 <h1><i class=""></i> Cash Flow</h1>
             </div>
         </div>
+    <div id="printArea">
         <div class="col-md-12">
             <div class="tile">
                 <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
@@ -24,7 +32,6 @@
                     To Date : {{ $date_to }}
                     <br>
                 </div>
-{{--                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>--}}
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -94,7 +101,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
+                    <tr id="myH2" style="background-color:pink;font-size: 20px;font-style: italic" >
                         <td>Cash Received From Customer</td>
                         <td>
                             @php echo
@@ -239,8 +246,7 @@
                         $sum_financing_paid_on = 0;
                     @endphp
                     @php
-
-                        echo $total_cash = $cash_receive_from_customer - $total_cash_paid_to_supplier
+                        $total_cash = $cash_receive_from_customer - $total_cash_paid_to_supplier
                     @endphp
                     <tr>
                         <td>Admin Expense</td>
@@ -486,32 +492,74 @@ $cash_paid_on_plus_minus = "";
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Investment Activities: </b></td>
-{{--                        <td>--}}
-{{--                            @php--}}
-{{--                                echo--}}
-{{--                                $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_vehicle_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_for_cashFlow_statement +--}}
-{{--                                $intangible_assets_for_cashFlow_statement ;--}}
-
-{{--                            @endphp--}}
-{{--                        </td>--}}
-{{--                        <td>  @php--}}
-{{--                                echo--}}
-{{--                                $total_cash_paid_on = $tangible_assets_plant_and_machinery_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_furniture_and_fixture_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_vehicle_for_cashFlow_statement +--}}
-{{--                                $tangible_assets_for_cashFlow_statement +--}}
-{{--                                $intangible_assets_for_cashFlow_statement ;--}}
-
-{{--                            @endphp</td>--}}
                         <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
                         <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_cash_paid_on}}</td>--}}
                         <td></td>
                     </tr>
 
+                    <tr>
+                        <td>Finance Charges</td>
+                        <td>@php
+                                $get_data = final_charges_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Finance Expenses</td>
+                        <td>@php
+                                $get_data = final_expense_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     <tr>
                         <td>Loan From Owner</td>
                         <td>@php
@@ -687,12 +735,30 @@ $cash_paid_on_plus_minus = "";
                 <div class="tile-footer">
                 </div>
             </div>
-            <div class="text-center">
-                <button onclick="window.print()" target="_blank" class=" btn btn-sm btn-primary float-left">Print</button>
+            <div class="text-center" id="print" style="margin: 20px">
+                <button onclick="window.print()" target="_blank" id="printPageButton" class=" btn btn-sm btn-primary float-left">Print</button>
+{{--                <input type="button" class="btn btn-warning" name="btnPrint" id="btnPrint" value="Print" onclick="printDiv();"/>--}}
 {{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>
+        </div>
     </main>
+    <script type="text/javascript">
+        function printDiv() {
+            var divName = "printArea";
+           // document.getElementById("myH2").style.color = "#d21616";
+           var printContents = document.getElementById(divName).innerHTML;
+            // var originalContents = document.body.innerHTML;
+            console.log("myH2");
+            document.body.innerHTML = printContents;
+            // document.body.style.marginTop="-45px";
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
 @endsection
+
+
 
 

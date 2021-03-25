@@ -46,7 +46,7 @@
                             @endphp -{{ $current_transactions->voucher_no}}</td>
                         <td>
                             <a href="{{ url('account/posting-invoice/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">print</a>
-                            <a href="{{ url('account/posting-edit/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+{{--                            <a href="{{ url('account/posting-edit/'.$posting->voucher_type_id.'/'.$posting->voucher_no) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>--}}
                             <form method="post" action="{{ url('account/posting-delete/'.$posting->voucher_type_id.'/'.$posting->voucher_no.'/'.$posting->id) }}">
                                 @csrf
                                 <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>

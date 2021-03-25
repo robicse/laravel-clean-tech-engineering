@@ -122,7 +122,7 @@
                                                 echo \App\VoucherType::where('id',$postingForms[0]->voucher_type_id)->pluck('name')->first();
                                             @endphp - {{$postingForms[0]->voucher_no}}
                                         </div>
-                                        <div class="col-md-6 text-right"><strong>Date:</strong> {{$postingForms[0]->date}}</div>
+                                        <div class="col-md-6 text-right"><strong>Date:</strong> {{$postingForms[0]->posting_date}}</div>
                                     </div>
                                     <div style="clear: both">&nbsp;</div>
                                     <div style="clear: both">&nbsp;</div>
