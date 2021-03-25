@@ -101,7 +101,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr id="myH2" style="background-color:pink;font-size: 20px;font-style: italic" >
+                    <tr class="table-secondary" style="font-size: 20px;font-style: italic" >
                         <td>Cash Received From Customer</td>
                         <td>
                             @php echo
