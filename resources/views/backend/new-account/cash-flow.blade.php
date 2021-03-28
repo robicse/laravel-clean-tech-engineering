@@ -100,7 +100,8 @@
                         </td>
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr>9
+
                     <tr class="table-secondary" style="font-size: 20px;font-style: italic" >
                         <td>Cash Received From Customer</td>
                         <td>

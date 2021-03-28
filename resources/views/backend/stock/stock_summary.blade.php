@@ -41,6 +41,9 @@
                                     //dd($stocks)
 
                                 @endphp
+                                @php
+                                    $total_price = 0;
+                                @endphp
                                 @foreach($stocks as $key => $stock)
 {{--                                    @php--}}
 {{--                                     echo '<pre>';--}}
@@ -53,8 +56,9 @@
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $stock->product->product_brand->name}}</td>
                                         <td>{{ $stock->product->name}}</td>
+
                                         @php
-                                            $total_price = 0;
+
                                             $productPurchaseDetails = DB::table('product_purchase_details')
                                                             //->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
                                                             ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
@@ -73,13 +77,11 @@
                                                         $product_avrg_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
                                                         $sum_price = $stock->current_stock*$product_avrg_price;
                                                         //dd($sum_price);
-                                                        $total_price += $sum_price;
-                                                        //    dd($total_price);
-                                                    }
+
                                                 }
-
-
-
+                                                    }
+                                                 $total_price += $sum_price;
+                                                    //dd($total_price);
                                         @endphp
                                         <td>{{ $stock->current_stock}}</td>
                                         <td>{{$stock->current_stock*$product_avrg_price}}</td>
@@ -91,9 +93,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-{{--                                    <td>total</td>--}}
-                                    <td></td>
+                                    <td>total</td>
+                                    <td>{{$total_price}}</td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -60,7 +60,7 @@
                         </table>
 
                         <div class="table-responsive">
-                            <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
+                            <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More">
                             <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>

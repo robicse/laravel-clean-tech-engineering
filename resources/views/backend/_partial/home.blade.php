@@ -238,12 +238,21 @@
                                             ->where('product_sales.store_id',$store->id)
                                             ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
                                             ->first();
+                                    //dd($discount);
                                     if($discount){
                                         $sum_loss_or_profit -=$discount->total_discount_amount;
                                         $discount_amount = $discount->total_discount_amount;
                                         $sum_sale_price_discount = $sum_sale_price-$discount_amount;
                                     }
                                 }
+                                 $productSale_amount = 0;
+                                 $productSales =DB::table('product_sales')
+                                            ->where('store_id',$store->id)
+                                            ->select('product_sales.total_amount')
+                                            ->get();
+                                 foreach ($productSales as $productSale)
+                                 $productSale_amount += $productSale->total_amount;
+                                   //dd($productSale_amount);
 
                     @endphp
 
@@ -260,7 +269,7 @@
                             <div class="info">
                                 <h4>Total Sell</h4>
 {{--                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>--}}
-                                <p><b>{{number_format($sum_sale_price_discount, 2, '.', '')}}</b></p>
+                                <p><b>{{number_format($productSale_amount, 2, '.', '')}}</b></p>
                             </div>
                         </div>
                     </div>

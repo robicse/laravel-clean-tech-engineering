@@ -76,10 +76,17 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }} <span style="color: red">*</span></label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" required>
+                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" >
+                                </div>
+                            </div>
+                        <div class="form-group row">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }} <span style="color: red">*</span></label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="phone" required>
                                 </div>
                             </div>
 
@@ -111,11 +118,11 @@
 {{--                                </div>--}}
 {{--                            </div>--}}
 
-                            <div class="form-group row" style="display: block">
-                                <label for="" class="col-md-4 col-form-label text-md-right">Role</label>
+                            <div class="form-group row" >
+                                <label for="" class="col-md-4 col-form-label text-md-right">Role <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
-                                    {!! Form::select('roles[]', $roles,['User'], array('class' => 'form-control','multiple')) !!}
+                                    {!! Form::select('roles[]', $roles,['User'], array('class' => 'form-control')) !!}
                                 </div>
                             </div>
 

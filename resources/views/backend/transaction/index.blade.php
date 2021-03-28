@@ -26,11 +26,12 @@
                                 <tr>
                                     <th width="5%">SL NO</th>
                                     <th width="10%">User</th>
+                                    <th width="15%">Date</th>
                                     <th width="15%">Party</th>
                                     <th width="15%">Transaction Type</th>
                                     <th width="15%">Payment Type</th>
                                     <th width="15%">Amount</th>
-                                    <th width="15%">Date</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -42,6 +43,7 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $transaction->user->name}}</td>
+                                            <td>{{ $transaction->created_at}}</td>
                                             <td>{{ $transaction->party ? $transaction->party->name : ''}}</td>
                                             <td>{{ $transaction->transaction_type}}</td>
                                             <td>
@@ -51,7 +53,6 @@
                                                 @endif
                                             </td>
                                             <td>{{ $transaction->amount}}</td>
-                                            <td>{{ $transaction->created_at}}</td>
                                         </tr>
                                     @endforeach
                                 @endif

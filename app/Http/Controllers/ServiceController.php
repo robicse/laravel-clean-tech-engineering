@@ -115,7 +115,7 @@ class ServiceController extends Controller
                 ->get();;
         }
 
-        $serviceProviders = User::where('name','!=','Admin')->where('store_id',NULL)->where('party_id',NULL)->get();
+        $serviceProviders = User::where('type','provider')->get();
         $users=User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
 //        $id = $users->id;
 //        dd($id);

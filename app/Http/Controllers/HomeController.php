@@ -12,6 +12,7 @@ use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,17 @@ class HomeController extends Controller
   public function __construct()
     {
         $this->middleware('auth');
+        //dd(Auth::User()->getRoleNames()[0]);
+        if(Auth::User()->getRoleNames()[0] == 'Customer'){
+            return redirect()->route('user.dashboard');
+        }
+        if(Auth::User()->getRoleNames()[0] == 'Service Provider'){
+            return redirect()->route('user.dashboard');
+        }
+
+//        if(Auth::User()->getRoleNames()[0] == 'Service Executive'){
+//            return redirect()->route('user.dashboard');
+//        }
     }
 
     /*function __construct()

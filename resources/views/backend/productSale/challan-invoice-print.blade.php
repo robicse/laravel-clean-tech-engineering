@@ -54,11 +54,12 @@
                     .footer_div {
                         position:absolute;
                         bottom: 0 !important;
-                        border-top: 1px solid #000000;
+                        /*border-top: 1px solid #000000;*/
                         width:100%;
-                        font-size: 16px !important;
+                        font-size: 10px !important;
                         padding-bottom: 20px;
                     }
+
                     .header-border {
                         /*position: fixed;*/
                         /*top: 0mm;*/
@@ -248,46 +249,64 @@
                     <div class="row" style="">
                         <!-- accepted payments column -->
                         <div class="col-md-6">
-                            <table>
+                            <table width="70%">
                                 <tr>
-                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b></td>
+                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b>*</td>
                                     <td style="text-align: left;font-size: 16px;">*One year electrical parts warranty</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*Warranty will void if the machine used over the capacity</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine used over the capacity</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*No warranty for filter cartidge,faucet,Tank. </td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">No warranty for filter cartidge,faucet,Tank. </td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td style="text-align: left;font-size: 16px;">*We do not provide any electrical or plumbing work.</td>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">We do not provide any electrical or plumbing work.</td>
                                 </tr>
                             </table>
 
                         </div>
                         <!-- /.col -->
                     </div>
-                    <div class="row" style="margin-top: 210px;display: block" >
-                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
-                            <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
+{{--                    <div class="row" style="margin-top: 210px;display: block" >--}}
+{{--                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
+{{--                            <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">--}}
+{{--                            <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">--}}
+{{--                    <div class="row" >--}}
+{{--                        <div class="col-md-6" style="float:right">--}}
+{{--                            <span>Computer Generated Invoice</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+                    <div class="row footer_div" style="margin-top: 210px;display: block" >
+                        <div class="row">
+                            <div class="col-md-6" style="width: 50%; float: left;display: inline-block;">
+                                <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
+                            </div>
+                            <div class="col-md-6" style="text-align:right;float: right;width: 30%;margin-right: 10px; display: inline-block;">
+                                <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
+                            </div>
                         </div>
-                        <div class="col-md-6" style="text-align: right; float: right;width: 40%; display: inline-block;">
-                            <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
+                        <hr style="border-top:1px dotted black;width: 100%;height:1px;">
+                        <div class="row" >
+                            <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
+                                <span>Print Date: {{$productSale->created_at}} Computer Generated Invoice</span>
+                            </div>
                         </div>
                     </div>
-                    <hr style="border-top:1px dotted black;width: 100%;height:1px;">
-                    <div class="row" >
-                        <div class="col-md-6" style="float:right">
-                            <span>Computer Generated Invoice</span>
-                        </div>
-                    </div>
+
 {{--                    <div class="row">--}}
 {{--                        <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">--}}
 {{--                            <p style="text-align: left;width:400px">** THANK YOU FOR YOUR BUSINESS **</p><br>--}}

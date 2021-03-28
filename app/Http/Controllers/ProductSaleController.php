@@ -42,25 +42,46 @@ class ProductSaleController extends Controller
         $this->middleware('permission:product-sale-delete', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //dd('d');
-        $auth_user_id = Auth::user()->id;
-        $auth_user = Auth::user()->roles[0]->name;
+//        $auth_user_id = Auth::user()->id;
+//        $auth_user = Auth::user()->roles[0]->name;
 //        if($auth_user == "Admin"){
-        $productSales = ProductSale::latest()->get();
+//        $productSales = ProductSale::latest()->get();
 //        }else{
 //            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
 //        }
-        return view('backend.productSale.index',compact('productSales'));
+
+        $auth_user_id = Auth::user()->id;
+        $auth_user = Auth::user()->roles[0]->name;
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
+        if($start_date && $end_date) {
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }else{
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        return view('backend.productSale.index',compact('productSales','start_date','end_date'));
     }
+
 
 
     public function create()
     {
         $auth = Auth::user();
         $auth_user = Auth::user()->roles[0]->name;
-        $parties = Party::where('type','customer')->get() ;
+        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
+//dd($parties);
+//        $parties = Party::where('type','customer')->get() ;
         if($auth_user == "Admin"){
             $stores = Store::all();
         }else{
@@ -281,7 +302,7 @@ class ProductSaleController extends Controller
         }else{
             $stores = Store::where('id',$auth->store_id)->get();
         }
-        $parties = Party::where('type','customer')->get() ;
+        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
         $products = Product::all();
         $productSale = ProductSale::find($id);
         $productCategories = ProductCategory::all();

@@ -17,8 +17,11 @@
                     <thead>
                     <tr>
                         <th width="5%">SL NO</th>
-                        <th width="10%">Date</th>
+                        <th width="7%">Date</th>
                         <th width="10%">Name</th>
+                        <th width="8%">Phone</th>
+                        <th width="10%">Address </th>
+                        <th width="20%">Review </th>
                         <th width="15%">Action</th>
                     </tr>
                     </thead>
@@ -28,6 +31,9 @@
                         <td>{{ $key+1 }}</td>
                         <td>{{ $customer_complain->date}}</td>
                         <td>{{ $customer_complain->name}}</td>
+                        <td>{{ $customer_complain->phone}}</td>
+                        <td>{{ $customer_complain->address}}</td>
+                        <td>{{ $customer_complain->description}}</td>
                         <td>
                             <a href="{{ route('customer_complain.edit',$customer_complain->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
                             <form method="post" action="{{ route('customer_complain.destroy',$customer_complain->id) }}" >

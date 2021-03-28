@@ -32,7 +32,7 @@
                 <li class="custom_li_bg" style="display: none"><a class="app-menu__item custom_li_a_position" href="{{ route('free-products.index') }}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Free Product</span></a></li>
             </ul>
         </li>
-        <li class="treeview{{Request::is('party*')  ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Customers </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview{{Request::is('party*')  ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Customers & Suppliers </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{{ route('party.index') }}"><i class="app-menu__icon fa fa-deviantart"></i><span class="app-menu__label">Customer List</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/supplier') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Supplier List</span></a></li>
@@ -71,19 +71,7 @@
 {{--                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('expenses.index') }}"><i class="app-menu__icon fa fa-circle"></i><span class="app-menu__label">Expense</span></a></li>--}}
 {{--            </ul>--}}
 {{--        </li>--}}
-        <li class="treeview{{Request::is('ChartOfAccount*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-signal"></i><span class="app-menu__label">New Account </span><i class="treeview-indicator fa fa-angle-right"></i></a>
-            <ul class="treeview-menu">
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('ChartOfAccount.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">COA List</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('Ledger.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Create Ledger</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('postingForm.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Posting</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.general.ledger') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Ledger</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/trial/balance') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Trial Balance</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/income/statement') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Income Statement</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/equity') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Change In Equity</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/balance/sheet/') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Balance Sheet</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/cash-flow/') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Cash Flow</span></a></li>
-            </ul>
-        </li>
+
         <li class="treeview{{Request::is('stock*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-sort-amount-asc"></i><span class="app-menu__label">Stock </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('stock-purchase.allStock') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">All Stock List</span></a></li>
@@ -123,6 +111,21 @@
 
 {{--            </ul>--}}
 {{--        </li>--}}
+        <li class="treeview{{Request::is('ChartOfAccount*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-signal"></i><span class="app-menu__label"> Accounts </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('ChartOfAccount.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">COA</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('Ledger.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Create Ledger</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('postingForm.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Voucher Posting</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.general.ledger') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Ledger</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.cash.book') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Cash Book</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.bank.book') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Bank Book</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/trial/balance') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Trial Balance</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/income/statement') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Income Statement</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/equity') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Change In Equity</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/balance/sheet/') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Balance Sheet</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/cash-flow/') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Cash Flow</span></a></li>
+            </ul>
+        </li>
         <hr/>
         <li><a class="app-menu__item" href="{{ route('monthly.services') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Monthly Service</span></a></li>
         <li><a class="app-menu__item" href="{{ route('offers.index') }}"><i class="app-menu__icon fa fa-window-restore"></i><span class="app-menu__label">Offers</span></a></li>

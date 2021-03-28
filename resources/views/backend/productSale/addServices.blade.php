@@ -1,7 +1,7 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
-    <main class="app-content">
+    <main class="app-content" >
         <div class="app-title">
             <div>
                 <h1><i class=""></i> Add Services For this Product</h1>
@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item"> <a href="{!! route('productSales.index') !!}" class="btn btn-sm btn-primary" type="button">Back</a></li>
             </ul>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" >
             <div class="tile">
                 <h3 class="tile-title">Add Services</h3>
                 <div class="table-responsive">
@@ -18,7 +18,7 @@
                     <form method="post" action="{{ route('productSales-store-services') }}">
                         @csrf
 
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-striped"  style="height: 100px">
 
                         <thead>
                         <tr>
@@ -45,7 +45,7 @@
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
                                 <td width="20%">
-                                    <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
+                                    <select class="form-control service_id select2" name="service_id[]" id="service_id_" required>
                                         <option value="">Select  Service</option>
                                         @foreach($services as $service)
                                             <option value="{{$service->id}}">{{$service->name}}</option>
@@ -63,8 +63,8 @@
                         <label class="control-label col-md-3">
 
                         </label>
-                        <div class="col-md-8">
-                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Services For This Product</button>
+                        <div class="col-md-8" style="margin-top: 50px">
+                            <button class="btn btn-primary" type="submit" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Save Services For This Product</button>
                         </div>
                     </div>
                     </form>
@@ -90,7 +90,7 @@
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
-                    '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
+                    '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" required>' + service + '</select></td>' +
                     '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
                     '<td><input type="number" class=" form-control" name="duration[]" id="duration_'+n+'" ></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';

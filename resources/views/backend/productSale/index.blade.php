@@ -12,6 +12,22 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
+                <form class="form-inline" action="{{ route('productSales.index') }}">
+                    @csrf
+                    <div class="form-group col-md-4">
+                        <label for="start_date">Start Date:</label>
+                        <input type="text" name="start_date" class="datepicker form-control" value="{{$start_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">End Date:</label>
+                        <input type="text" name="end_date" class="datepicker form-control" value="{{$end_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="{!! route('productSales.index') !!}" class="btn btn-primary" type="button">Reset</a>
+                    </div>
+                </form>
+                <div>&nbsp;</div>
 
                 <h3 class="tile-title">Product Sales Table</h3>
                 <table id="example1" class="table table-bordered table-striped">
@@ -31,7 +47,17 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $sum_total_amount = 0;
+                        $sum_paid_amount = 0;
+                        $sum_due_amount = 0;
+                    @endphp
                     @foreach($productSales as $key => $productSale)
+                        @php
+                            $sum_total_amount += $productSale->total_amount;
+                            $sum_paid_amount += $productSale->paid_amount;
+                            $sum_due_amount += $productSale->due_amount;
+                        @endphp
                     <tr>
                         <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>
@@ -40,7 +66,7 @@
 {{--                        <td>{{ $productSale->payment_type}}</td>--}}
                         <td>{{ $productSale->total_amount}}</td>
                         <td>{{ $productSale->paid_amount}}</td>
-                        <td>{{ $productSale->created_at}}</td>
+                        <td>{{ $productSale->date}}</td>
                         <td>
                             {{ $productSale->due_amount}}
                             @if($productSale->total_amount != $productSale->paid_amount)
@@ -117,7 +143,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="tile-footer">
+                <div class="tile-footer text-right">
+                    <h3><strong><span style="margin-right: 50px;">Total Amount: {{$sum_total_amount}}</span></strong></h3>
+                    <h3><strong><span style="margin-right: 50px;">Paid Amount: {{$sum_paid_amount}}</span></strong></h3>
+                    <h3><strong><span style="margin-right: 50px;">Due Amount: {{$sum_due_amount}}</span></strong></h3>
                 </div>
 {{--                {{ $parties->links() }}--}}
             </div>

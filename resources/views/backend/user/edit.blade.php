@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">User Email <span style="color: red">*</span></label>
+                            <label class="control-label col-md-3 text-right">User Email </label>
                             <div class="col-md-8">
                                 <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" type="email" placeholder="User Email" name="email" value="{!! $user->email !!}">
                                 @if ($errors->has('email'))

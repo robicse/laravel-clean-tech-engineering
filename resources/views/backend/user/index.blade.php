@@ -42,6 +42,7 @@
                             <th width="10%">Store Name</th>
                             <th width="10%">Name</th>
                             <th width="10%">Email</th>
+                            <th width="10%">Phone</th>
                             <th width="10%">Role</th>
                             <th width="15%">Action</th>
                         </tr>
@@ -58,6 +59,7 @@
                             </td>
                             <td>{!! $user->name !!}</td>
                             <td>{!! $user->email !!}</td>
+                            <td>{!! $user->phone !!}</td>
                             <td>
                                 @if(!empty($user->getRoleNames()))
                                     @foreach($user->getRoleNames() as $v)

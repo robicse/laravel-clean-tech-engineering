@@ -85,7 +85,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('offers','OfferController');
     Route::resource('customer_complain','CustomerComplainController');
     Route::resource('online_platform','OnlinePlatFormController');
-    Route::resource('ChartOfAccount','ChartOfAccountController');
+    Route::resource('account/ChartOfAccount','ChartOfAccountController');
     Route::resource('Ledger','LedgerController');
     Route::resource('postingForm','PostingFormController');
     Route::get('ledger-data','PostingFormController@ledgerRelationData');
@@ -112,7 +112,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/balance-sheet/view','BalanceSheetController@viewBalanceSheet')->name('account.balance-sheet-view');
     Route::get('/account/cash-flow','CashflowController@cashflowForm');
     Route::post('account/cash-flow/view','CashflowController@viewCashFlow')->name('account.cash-flow-view');
-
+    Route::get('account/cash-book','LedgerController@cashBook_form')->name('account.cash.book');
+    Route::post('account/cash-book-view','LedgerController@view_cashBook')->name('account.general.cashbook_view');
+    Route::get('account/bank-book','LedgerController@bankBook_form')->name('account.bank.book');
+    Route::post('account/bank-book-view','LedgerController@view_bankBook')->name('account.general.bankbook_view');
 
 
 

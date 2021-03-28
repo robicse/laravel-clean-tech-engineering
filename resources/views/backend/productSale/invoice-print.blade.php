@@ -292,16 +292,16 @@
                     </div>
                     <div class="row footer_div" style="margin-top: 210px;display: block" >
                         <div class="row">
-                            <div class="col-md-6" style="width: 60%; float: left;display: inline-block;">
+                            <div class="col-md-6" style="width: 50%; float: left;display: inline-block;">
                                 <strong style="border-top: solid 1px #000;text-align: center;width:400px;margin-top: -42px;font-size: 16px">Customer signature</strong><br>
                             </div>
-                            <div class="col-md-6" style="text-align: right; float: right;width: 40%;margin-left: 20px; display: inline-block;">
+                            <div class="col-md-6" style="text-align:right;float: right;width: 30%;margin-right: 10px; display: inline-block;">
                                 <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
                             </div>
                         </div>
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
-                            <div class="col-md-6" style="float:right">
+                            <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
                                 <span>Print Date: {{$productSale->created_at}} Computer Generated Invoice</span>
                             </div>
                         </div>
