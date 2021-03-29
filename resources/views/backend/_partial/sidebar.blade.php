@@ -36,7 +36,7 @@
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{{ route('party.index') }}"><i class="app-menu__icon fa fa-deviantart"></i><span class="app-menu__label">Customer List</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/supplier') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Supplier List</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/whole-sale') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Whole Customer List</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position"  href="{!! URL::to('/whole-sale') !!}"><i class="app-menu__icon fa fa-dropbox"></i><span class="app-menu__label">Whole Sale Customers </span></a></li>
             </ul>
         </li>
         <li><a class="app-menu__item"  href="{{ route('online_platform.index') }}"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Online Platform </span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -116,7 +116,7 @@
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('ChartOfAccount.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">COA</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('Ledger.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Create Ledger</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('postingForm.index') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Voucher Posting</span></a></li>
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.general.ledger') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Ledger</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.general.ledger') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">General Ledger</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.cash.book') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Cash Book</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('account.bank.book') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Bank Book</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{!! URL::to('/account/trial/balance') !!}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Trial Balance</span></a></li>

@@ -19,14 +19,14 @@ class HomeController extends Controller
 
   public function __construct()
     {
-        $this->middleware('auth');
-        //dd(Auth::User()->getRoleNames()[0]);
-        if(Auth::User()->getRoleNames()[0] == 'Customer'){
-            return redirect()->route('user.dashboard');
-        }
-        if(Auth::User()->getRoleNames()[0] == 'Service Provider'){
-            return redirect()->route('user.dashboard');
-        }
+//        $this->middleware('auth');
+//        //dd(Auth::User()->getRoleNames()[0]);
+//        if(Auth::User()->getRoleNames()[0] == 'Customer'){
+//            return redirect()->route('user.dashboard');
+//        }
+//        if(Auth::User()->getRoleNames()[0] == 'Service Provider'){
+//            return redirect()->route('user.dashboard');
+//        }
 
 //        if(Auth::User()->getRoleNames()[0] == 'Service Executive'){
 //            return redirect()->route('user.dashboard');

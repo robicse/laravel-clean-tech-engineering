@@ -46,6 +46,10 @@
                             <th>Date</th>
                             <td>{{$productSale->date}}</td>
                         </tr>
+                        <tr>
+                            <th>Invoice No</th>
+                            <td>{{$productSale->invoice_no}}</td>
+                        </tr>
 {{--                        <tr>--}}
 {{--                            <th>Payment Type</th>--}}
 {{--                            <td>--}}

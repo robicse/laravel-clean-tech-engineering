@@ -10,4 +10,8 @@ class Ledger extends Model
 //    {
 //        return 'Y-m-d H:i:s.u';
 //    }
+
+    public function COA(){
+        return $this->belongsTo('App\ChartOfAccount','chart_of_account_id');
+    }
 }

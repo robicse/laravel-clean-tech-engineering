@@ -250,6 +250,7 @@ class ProductPurchaseController extends Controller
         for($i=0; $i<$row_count;$i++)
         {
             $product_id = $request->product_id[$i];
+            //dd($product_id);
             $warranty = Product::where('id',$product_id)->pluck('warranty')->first();
 
             // product purchase detail

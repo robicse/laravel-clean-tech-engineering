@@ -261,7 +261,7 @@
                     <div class="write">
                         <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
                     </div>
-                    <div class="row" style="">
+                    <div class="row" style="margin-top: 150px">
                         <!-- accepted payments column -->
                         <div class="col-md-6">
                             <table width="70%">

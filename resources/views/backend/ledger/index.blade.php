@@ -19,6 +19,7 @@
                     <tr>
                         <th width="5%">#Id</th>
                         <th>Name</th>
+                        <th width="40%">Account Head</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -27,6 +28,7 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $ledger->name}}</td>
+                        <td>{{ $ledger->COA->group_1}}.{{ $ledger->COA->group_2}}.{{ $ledger->COA->group_3}}.{{ $ledger->COA->group_4}}</td>
 
                         <td>
                             <a href="{{ route('Ledger.edit',$ledger->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>

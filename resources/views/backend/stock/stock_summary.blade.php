@@ -27,7 +27,7 @@
                                     <th width="12%">Product</th>
                                     <th width="12%">Current Stock</th>
                                     <th width="12%"> Price</th>
-{{--                                    <th width="12%">Date</th>--}}
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -89,7 +89,7 @@
                                     </tr>
 
                                 @endforeach
-                                <tr>
+                                <tr style="color: red">
                                     <td></td>
                                     <td></td>
                                     <td></td>

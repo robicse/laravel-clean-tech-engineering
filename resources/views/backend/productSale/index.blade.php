@@ -36,12 +36,12 @@
                     <tr>
                         <th width="5%">SL NO</th>
                         <th>Sale User</th>
+                        <th>Date</th>
                         <th>Invoice No</th>
                         <th>Customer</th>
 {{--                        <th>Payment Type</th>--}}
                         <th>Total Amount</th>
                         <th>Paid Amount</th>
-                        <th>Date</th>
                         <th>Due Amount</th>
                         <th>Action</th>
                     </tr>
@@ -61,12 +61,12 @@
                     <tr>
                         <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>
+                        <td>{{ $productSale->date}}</td>
                         <td>{{ $productSale->invoice_no}}</td>
-                        <td>{{ $productSale->party->name}}</td>
+                        <td>{{ $productSale->party->name}}.{{ $productSale->party->phone}}</td>
 {{--                        <td>{{ $productSale->payment_type}}</td>--}}
                         <td>{{ $productSale->total_amount}}</td>
                         <td>{{ $productSale->paid_amount}}</td>
-                        <td>{{ $productSale->date}}</td>
                         <td>
                             {{ $productSale->due_amount}}
                             @if($productSale->total_amount != $productSale->paid_amount)
