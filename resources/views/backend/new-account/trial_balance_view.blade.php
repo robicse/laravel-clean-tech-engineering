@@ -369,7 +369,6 @@
                         <th>Credit: {{ $sum_credit }}</th>
                         <th>&nbsp;</th>
                     </tr>
-                    </tbody>
                 </table>
                 </div>
                 <div class="tile-footer">
