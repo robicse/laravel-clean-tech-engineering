@@ -338,7 +338,8 @@ class ProductSaleController extends Controller
         }
         $vat_amount =($total_amount*$request->vat_amount)/100;
         $discount_type = $request->discount_type;
-        if($discount_type == 'flat'){
+        if($discount_type == 'flat')
+        {
             $total_amount -= $request->discount_amount;
         }else{
             $total_amount = ($total_amount*$request->discount_amount)/100;

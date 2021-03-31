@@ -54,6 +54,10 @@
                                 </textarea>
 
                             </div>
+                            <div class="col-md-5">
+                                <input class="form-control" type="text" placeholder="Status" name="status" value="{{$customer_complains->status }}">
+
+                            </div>
                         </div>
 
                         <div class="form-group row">

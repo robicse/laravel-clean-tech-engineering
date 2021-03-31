@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productPurchases','ProductPurchaseController');
     Route::resource('productSales','ProductSaleController');
     Route::resource('productSaleReturns','ProductSaleReturnController');
+    Route::resource('productPurchaseReturns','ProductPurchaseReturnController');
     Route::resource('officeCostingCategory','OfficeCostingCategoryController');
     Route::resource('expenses','ExpenseController');
     Route::resource('productPurchaseRawMaterials','ProductPurchaseRawMaterialsController');
@@ -142,7 +143,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
 
     Route::get('returnable-sale-product-list','ProductSaleReturnController@returnableSaleProduct')->name('returnable.sale.product');
+    Route::get('returnable-purchase-product-list','ProductPurchaseReturnController@returnablePurchaseProduct')->name('returnable.purchase.product');
     Route::post('sale-product-return','ProductSaleReturnController@saleProductReturn')->name('sale.product.return');
+    Route::post('purchase-product-return','ProductPurchaseReturnController@purchaseProductReturn')->name('purchase.product.return');
+
     Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
     Route::get('transaction-loss-profit','TransactionController@lossProfit')->name('transaction.lossProfit');
     Route::get('delivery-list','TransactionController@deliveryList')->name('delivery.index');
@@ -178,6 +182,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('get-sale-product/{sale_id}','ProductSaleReplacementController@getSaleProduct');
     Route::get('get-returnable-product/{sale_id}','ProductSaleReturnController@getReturnableProduct');
+    Route::get('get-returnable-purchase-product/{purchase_id}','ProductPurchaseReturnController@getReturnablePurchaseProduct');
 
 
     //add service
@@ -208,6 +213,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     //monthly service list
     Route::get('monthly-service','ServiceController@monthlyService')->name('monthly.services');
+    Route::get('completed-service','ServiceController@completedService')->name('completed.services');
     Route::post('send-sms','ServiceController@sendSMS')->name('send.mail');
 
 

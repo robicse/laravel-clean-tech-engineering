@@ -4,7 +4,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Monthly Service</h1>
+                <h1><i class=""></i> All Completed Monthly Service</h1>
             </div>
 
 {{--            <ul class="app-breadcrumb breadcrumb">--}}
@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h2 class="tile-title" style="text-align: center">{{date('F')}} month Services</h2>
+                <h2 class="tile-title" style="text-align: center">{{date('F')}} Month Completed Services</h2>
                 <form class="form-inline" action="{{ route('monthly.services') }}">
                     <div class="form-group col-md-4">
                         <label for="start_date">Start Date:</label>
@@ -55,7 +55,6 @@
                                 <td width="8%"> {{$saleService->date}}</td>
                                 <td width="12%">
                                     @php
-
                                         $product_sale_detail_id = $saleService->product_sale_detail_id;
 //dd($product_sale_detail_id);
                                         $customer = DB::table('product_sales')
@@ -64,7 +63,7 @@
                                             ->where('product_sale_details.id', $product_sale_detail_id)
                                             ->select('parties.name','parties.phone','parties.address','parties.id')
                                             ->first();
-//dd($customer);
+
                                     if(!empty($customer)){
                                         $customer_id = $customer->id;
                                         $customer_name = $customer->name;
@@ -76,27 +75,25 @@
                                         $customer_phone = '';
                                         $customer_address = '';
                                     }
-
                                     @endphp
                                     {{$customer_name}}
                                 </td>
                                 <td width="12%">{{$customer_phone}}</td>
                                 <td width="12%">{{$customer_address}}</td>
                                 <td width="25%">
-                                    <form action="{{route('send.mail')}}" method="post">
-                                        @csrf
+                                    {{$saleService->provider->name}}
                                         <input type="hidden" name="customer_id" value="{{$customer_id}}">
                                         <input type="hidden" name="row_id" value="{{$saleService->id}}">
-                                        <input type="hidden" name="service_id" value="{{$saleService->service->id}}">
-                                        <select class="form-control select2" name="service_provider_id"  required>
-                                            <option value="">Select  Service Provider</option>
-                                            @foreach($serviceProviders as $serviceProvider)
-                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $saleService
-->provider_id ? 'selected' : '' }}>{{$serviceProvider->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Send</button>
-                                    </form>
+                                        <input type="hidden" name="service_id" value="{{$saleService->service->name}}">
+
+{{--                                        <select class="form-control select2" name="service_provider_id"  required>--}}
+{{--                                            <option value="">Select  Service Provider</option>--}}
+{{--                                            @foreach($serviceProviders as $serviceProvider)--}}
+{{--                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $saleService--}}
+{{--->provider_id ? 'selected' : '' }}>{{$serviceProvider->name}}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+
                                 </td>
                             </tr>
                         @endforeach

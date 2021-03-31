@@ -69,6 +69,7 @@ class CustomerComplainController extends Controller
         $customer_complains->phone = $request->phone;
         $customer_complains->address = $request->address;
         $customer_complains->date = $request->date;
+        $customer_complains->status = $request->status;
         $customer_complains->description = $request->description;
 
         $customer_complains->save();

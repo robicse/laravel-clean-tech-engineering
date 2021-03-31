@@ -13,7 +13,7 @@ class CreatePostingFormDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posting_form__details', function (Blueprint $table) {
+        Schema::create('posting_form_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
         });

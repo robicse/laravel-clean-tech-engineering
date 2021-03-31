@@ -59,8 +59,6 @@
                     $opening_profit = 0;
                     $net_profit = 0;
 
-
-
                     @endphp
                     <tr class="table-secondary" style="color: black;font-style: italic;font-size: 20px">
                         <td><b>ASSETS</b></td>

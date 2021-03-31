@@ -45,11 +45,11 @@
                             <td>{{ $party->email}}</td>
                             <td>
                                 <a href="{{ route('party.edit',$party->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >
-                                   @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
-                                </form>
+{{--                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >--}}
+{{--                                   @method('DELETE')--}}
+{{--                                    @csrf--}}
+{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
+{{--                                </form>--}}
                             </td>
                         </tr>
                             @endforeach

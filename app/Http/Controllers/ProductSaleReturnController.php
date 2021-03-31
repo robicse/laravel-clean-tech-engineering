@@ -103,7 +103,7 @@ class ProductSaleReturnController extends Controller
 //        $returnable_sale_products = ProductSaleDetail::where('return_type','returnable')->get();
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
-        $parties = Party::where('type','customer')->get() ;
+        $parties = Party::where('type','customer')->orWhere('type', 'own')->get() ;
         if($auth_user == "Admin"){
             $stores = Store::all();
         }else{

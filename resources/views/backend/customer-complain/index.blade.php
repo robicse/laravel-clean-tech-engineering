@@ -22,6 +22,7 @@
                         <th width="8%">Phone</th>
                         <th width="10%">Address </th>
                         <th width="20%">Review </th>
+                        <th width="10%">Status </th>
                         <th width="15%">Action</th>
                     </tr>
                     </thead>
@@ -34,6 +35,7 @@
                         <td>{{ $customer_complain->phone}}</td>
                         <td>{{ $customer_complain->address}}</td>
                         <td>{{ $customer_complain->description}}</td>
+                        <td>{{ $customer_complain->status}}</td>
                         <td>
                             <a href="{{ route('customer_complain.edit',$customer_complain->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
                             <form method="post" action="{{ route('customer_complain.destroy',$customer_complain->id) }}" >

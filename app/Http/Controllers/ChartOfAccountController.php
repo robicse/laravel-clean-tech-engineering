@@ -11,7 +11,7 @@ class ChartOfAccountController extends Controller
 
     public function index()
     {
-       $chartOfAcc = ChartOfAccount::latest()->get();
+       $chartOfAcc = ChartOfAccount::all();
        return view('backend.chart-of-account.index',compact('chartOfAcc'));
     }
 

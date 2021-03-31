@@ -81,8 +81,16 @@ class ProductPurchaseController extends Controller
         }else{
             $total_amount = ($total_amount*$request->discount_amount)/100;
         }
+        $get_invoice_no = ProductPurchase::latest()->pluck('invoice_no')->first();
+        //dd($get_invoice_no);
+        if(!empty($get_invoice_no)){
+            $invoice_no = $get_invoice_no+1;
+        }else{
+            $invoice_no = 1000;
+        }
         // product purchase
         $productPurchase = new ProductPurchase();
+        $productPurchase ->invoice_no = $invoice_no;
         $productPurchase ->party_id = $request->party_id;
         $productPurchase ->store_id = $request->store_id;
         $productPurchase ->user_id = Auth::id();
@@ -151,7 +159,7 @@ class ProductPurchaseController extends Controller
 
             // transaction
             $transaction = new Transaction();
-            $transaction->invoice_no = Null;
+            $transaction->invoice_no = $invoice_no;
             $transaction->user_id = Auth::id();
             $transaction->store_id = $request->store_id;
             $transaction->party_id = $request->party_id;
@@ -549,6 +557,7 @@ class ProductPurchaseController extends Controller
 
         // transaction
         $transaction = new Transaction();
+        $transaction->invoice_no = $product_purchase->invoice_no;
         $transaction->user_id = Auth::id();
         $transaction->store_id = $product_purchase->store_id;
         $transaction->party_id = $product_purchase->party_id;

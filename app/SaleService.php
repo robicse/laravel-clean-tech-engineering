@@ -14,8 +14,8 @@ class SaleService extends Model
     {
         return $this->belongsTo('App\ProductSaleDetail');
     }
-//    public function provider()
-//    {
-//        return $this->belongsTo('App\User');
-//    }
+    public function provider()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
