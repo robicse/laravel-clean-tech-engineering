@@ -246,13 +246,31 @@
                                     }
                                 }
                                  $productSale_amount = 0;
+                                 $productSaleReturn_amount = 0;
+                                 $productPurchaseReturn_amount = 0;
+
+
                                  $productSales =DB::table('product_sales')
                                             ->where('store_id',$store->id)
                                             ->select('product_sales.total_amount')
                                             ->get();
                                  foreach ($productSales as $productSale)
                                  $productSale_amount += $productSale->total_amount;
-                                   //dd($productSale_amount);
+
+                                $productSalesReturns =DB::table('product_sale_returns')
+                                            ->where('store_id',$store->id)
+                                            ->select('product_sale_returns.total_amount')
+                                            ->get();
+                                 foreach ($productSalesReturns as $productSalesReturn)
+                                 $productSaleReturn_amount += $productSalesReturn->total_amount;
+
+                                 $productPurchaseReturns =DB::table('product_purchase_returns')
+                                            ->where('store_id',$store->id)
+                                            ->select('product_purchase_returns.total_amount')
+                                            ->get();
+                                 foreach ($productPurchaseReturns as $productPurchaseReturn)
+                                 $productPurchaseReturn_amount += $productPurchaseReturn->total_amount;
+    //dd($productPurchaseReturn_amount);
 
                     @endphp
 
@@ -270,6 +288,24 @@
                                 <h4>Total Sell</h4>
 {{--                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>--}}
                                 <p><b>{{number_format($productSale_amount, 2, '.', '')}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget-small danger coloured-icon"><i class="icon fas fa-money-check-alt "></i>
+                            <div class="info">
+                                <h4>Total Purchase Return</h4>
+{{--                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>--}}
+                                <p><b>{{number_format($productPurchaseReturn_amount, 2, '.', '')}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget-small danger coloured-icon"><i class="icon fas fa-money-check-alt "></i>
+                            <div class="info">
+                                <h4>Total Sell Return</h4>
+{{--                                <p><b>{{number_format($sum_sale_price, 2, '.', '')}}</b></p>--}}
+                                <p><b>{{number_format($productSaleReturn_amount, 2, '.', '')}}</b></p>
                             </div>
                         </div>
                     </div>

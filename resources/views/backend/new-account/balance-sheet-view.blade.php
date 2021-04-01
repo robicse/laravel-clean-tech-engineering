@@ -1,6 +1,13 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
+    <style>
+        @media print {
+            #printPageButton {
+                display: none;
+            }
+        }
+    </style>
     <main class="app-content">
         <div class="app-title">
             <div>
@@ -43,6 +50,7 @@
                     $cash_in_hands_assets = 0;
                     $cash_at_bank_assets = 0;
                     $cash_at_bank_FDR_assets = 0;
+                    $account_receivable_assets = 0;
                     $loan_and_advances_AOR_assets = 0;
                     $loan_and_advances_AAP_assets = 0;
                     $loan_and_advances_AAS_assets = 0;
@@ -50,6 +58,7 @@
 
 
                     $loan_from_owner = 0;
+                    $account_payable = 0;
                     $loan_from_other = 0;
                     $advanced_receive_against_sale = 0;
 
@@ -58,6 +67,7 @@
                     $additional_capital = 0;
                     $opening_profit = 0;
                     $net_profit = 0;
+                    $inventory_assets = 0;
 
                     @endphp
                     <tr class="table-secondary" style="color: black;font-style: italic;font-size: 20px">
@@ -206,6 +216,36 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Accounts Receivable</td>
+                        <td>
+                            @php
+                                $get_data = account_receivable_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $account_receivable_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Inventory</td>
+                        <td>
+                            @php
+                                $get_data = inventory_assets($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $inventory_assets +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td>Loans & Advances(Advanced office rent)</td>
                         <td>
                             @php
@@ -267,10 +307,10 @@
                     </tr>
                     <tr style="color: black;font-size: 17px">
                         <td> Total Current Assets:</td>
-                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets;
+                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
                             @endphp
                         </td>
-                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets;
+                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
                             @endphp </td>
                         <td></td>
                     </tr>
@@ -402,6 +442,21 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Account Payable</td>
+                        <td>
+                            @php
+                                $get_data = account_payable($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $account_payable +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td>Loan From Owners</td>
                         <td>
                             @php
@@ -448,10 +503,10 @@
                     </tr>
                     <tr  style="color: black;font-size: 17px">
                         <td> <b>Total Liabilities</b></td>
-                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner;
+                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
                             @endphp
                         </td>
-                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner;
+                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
                             @endphp </td>
                         <td></td>
                     </tr>
@@ -472,7 +527,7 @@
             </div>
             <div class="text-center">
 
-                <button onclick="window.print()">Print</button>
+                <button onclick="window.print()" id="printPageButton" class="btn btn-sm btn-primary float-left">Print</button>
 {{--                <a href="{{ url('account/trial-balance-print/'.$date_from.'/'.$date_to) }}" target="_blank" class="btn btn-sm btn-primary float-left">Print</a>--}}
             </div>
         </div>

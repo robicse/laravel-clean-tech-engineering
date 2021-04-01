@@ -29,6 +29,7 @@
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h2>CashBook</h2>
+                    <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}

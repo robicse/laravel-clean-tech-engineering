@@ -11,7 +11,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> Change In Equity Statement</h1>
+                <h1><i class=""></i> Changes In Equity Statement</h1>
             </div>
         </div>
         <div class="col-md-12">
@@ -23,7 +23,8 @@
                     <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
                 </div>
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h1>Change In Equity </h1>
+                    <h1>Changes In Equity </h1>
+                    <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}
@@ -49,6 +50,11 @@
                             $additional_capital = 0;
                             $opening_profit = 0;
                             $net_profit = 0;
+
+
+                            $drowing = 0;
+                            $drowing_adjustment = 0;
+
 
                         @endphp
                         <td>Opening Capitals</td>
@@ -110,6 +116,38 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Drowing Opening</td>
+                        <td>@php
+
+                                $get_data = drowing($date_from,$date_to);
+                              // dd($get_data);
+
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $drowing +=$get_data['PreBalance'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @php
+                    $opening_retained_earning = $opening_profit - $drowing;
+                    @endphp
+                    <tr>
+                        <td> Opening Retained Earning:</td>
+                        <td>@php
+
+                              echo  $opening_retained_earning;
+
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td>Net Profit</td>
                         <td>@php
 
@@ -125,8 +163,25 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>Adjustment During The Year/ Drowings</td>
+                        <td>@php
+
+                                $get_data = drowing_adjustment($date_from,$date_to);
+                                //dd($get_data);
+
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $drowing_adjustment +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     @php
-                        $total_profit =$opening_profit+$net_profit;
+                        $final_net_profit = $net_profit - $drowing_adjustment;
+                        $total_profit =$opening_profit + $final_net_profit;
                     @endphp
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td>Retained Earning: </td>
@@ -135,7 +190,7 @@
                         <td></td>
                     </tr>
                     @php
-                        $total_equity=$total_capital+$total_profit;
+                        $total_equity=$opening_retained_earning+$total_profit;
                     @endphp
                     <tr style="color: black;font-size: 20px;font-style: italic" >
                         <td> </td>

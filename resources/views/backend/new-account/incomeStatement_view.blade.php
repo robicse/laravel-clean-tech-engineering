@@ -16,7 +16,8 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title text-center">Month of from {{ $date_from }} to {{ $date_to }}</h3>
+                <h1  class="tile-title text-center">Income Statement</h1>
+                <h3 class="tile-title text-center">For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -31,11 +32,14 @@
                     $income_sale =0;
                     $income_service =0;
 
+                    $inventory =0;
                     $purchase_account =0;
+                    $closing_inventory =0;
                     $purchase_installation =0;
                     $service_expense =0;
                     $carrying_expense =0;
                     $godwon_storage =0;
+                    $miscellaneous_expense =0;
                     $admin_expense =0;
                     $selling_MKT_Expense1 =0;
                     $selling_MKT_Expense =0;
@@ -86,6 +90,22 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Opening Inventory</td>
+                             @php
+
+                                $get_data = inventory_statement($date_from,$date_to);
+                                //dd($get_data);
+
+                            @endphp
+                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $inventory +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td> Purchase Account</td>
                              @php
 
@@ -96,6 +116,43 @@
                         <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
                             @php
                                 $purchase_account +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td> Closing Inventory</td>
+                             @php
+
+                                $get_data = closing_inventory_statement($date_from,$date_to);
+                                //dd($get_data);
+
+                            @endphp
+                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $closing_inventory +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @php
+                    $inventory_purchase = $inventory + $purchase_account;
+                    $closing =  $inventory_purchase - $closing_inventory;
+                    @endphp
+                    <tr>
+                        <td> Cost Of Good Sold</td>
+                        @php
+
+                            $get_data = closing_inventory_statement($date_from,$date_to);
+                            //dd($get_data);
+
+                        @endphp
+                        <td>
+                            @php
+                              echo  $closing =  $inventory_purchase - $closing_inventory;
                             @endphp
                         </td>
                         <td></td>
@@ -148,10 +205,21 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Miscellaneous Expense / Damage Goods</td>
+                        @php
+                            $get_data = miscellaneous_expense($date_from,$date_to);
+                        @endphp
+                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $miscellaneous_expense +=$get_data['PreBalance'];
+                            @endphp</td>
                         <td></td>
-                        <td>Total : @php echo  $expense =$purchase_account+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Total : @php echo  $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
                             @endphp  </td>
-                        <td>@php echo  $expense =$purchase_account+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
+                        <td>@php echo  $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
                             @endphp </td>
                         <td></td>
                     </tr>

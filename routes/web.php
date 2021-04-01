@@ -117,6 +117,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/cash-book-view','LedgerController@view_cashBook')->name('account.general.cashbook_view');
     Route::get('account/bank-book','LedgerController@bankBook_form')->name('account.bank.book');
     Route::post('account/bank-book-view','LedgerController@view_bankBook')->name('account.general.bankbook_view');
+    Route::get('account/receipt-payment','LedgerController@receiptPayment_form')->name('account.receipt.payment');
+    Route::post('account/receipt-payment-view','LedgerController@view_receiptPayment')->name('account.receipt.payment_view');
 
 
 

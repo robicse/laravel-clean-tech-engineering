@@ -24,6 +24,7 @@
                 </div>
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h1>Trial Blanace</h1>
+                    <h4 >For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}

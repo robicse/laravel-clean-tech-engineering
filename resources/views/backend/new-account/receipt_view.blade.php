@@ -28,19 +28,8 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h2>General Ledger</h2>
-                 <h3>{{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
-                 </h3>
-
-
-                    @if(!empty ($group_2) && empty($group_3) )
-                        <h3>{{ $group_2}}</h3>
-                        <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
-                    @endif
-                    @if(!empty ($group_3) && ($group_2) )
-                       <h3>{{ $group_3}}</h3>
-                        <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
-                    @endif
+                    <h2>Receipt Payment</h2>
+                    <h5>For The Period Of {{ $date_from }} to {{ $date_to }}</h5>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}
@@ -48,30 +37,18 @@
                     To Date : {{ $date_to }}
                     <br>
 
-                        Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
-
-
-                    @if(!empty ($group_2) && empty($group_3) )
-                        Account Name :  {{ $group_2}}
-
-                    @endif
-                    @if(!empty ($group_3) && ($group_2) )
-                        Account Name :  {{ $group_3}}
-
-                    @endif
-
                 </div>
                 <div class="table-responsive" style="margin-top: 240px">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th width="10%">Date</th>
-                        <th width="10%">Description</th>
-                        <th width="10%">Voucher Type</th>
+                        <th width="20%">Description</th>
+{{--                        <th width="10%">Voucher Type</th>--}}
                         <th width="10%">Voucher NO</th>
                         <th width="12%">Debit</th>
                         <th width="12%">Credit</th>
-                        <th width="12%">Balance</th>
+{{--                        <th width="12%">Balance</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -99,7 +76,7 @@
                             <td>{{ $pre_particulars }}</td>
                             <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
                             <td>{{ $preDebCre == 'Cr' ? number_format($PreBalance,2,'.',',') : '' }}</td>
-                            <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>
+{{--                            <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>--}}
                         </tr>
                     @endif
                     @foreach($general_ledger_infos as $key => $general_ledger_info)
@@ -168,17 +145,17 @@
                         <tr>
                             <td>{{ $general_ledger_info->posting_date }}</td>
                             <td>{{ $general_ledger_info->description }}</td>
-                            <td>
-                                @php
-                                    echo \App\VoucherType::where('id',$general_ledger_info->voucher_type_id)->pluck('name')->first();
-                                @endphp
-                            </td>
+{{--                            <td>--}}
+{{--                                @php--}}
+{{--                                    echo \App\VoucherType::where('id',$general_ledger_info->voucher_type_id)->pluck('name')->first();--}}
+{{--                                @endphp--}}
+{{--                            </td>--}}
                             <td>@php
                                     echo \App\VoucherType::where('id',$general_ledger_info->voucher_type_id)->pluck('name')->first();
                                 @endphp - {{ $general_ledger_info->voucher_no }}</td>
                             <td>{{ number_format($debit,2,'.',',') }}</td>
                             <td>{{ number_format($credit,2,'.',',') }}</td>
-                            <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>
+{{--                            <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>--}}
                         </tr>
                     @endforeach
                     @if($sum_debit !=$sum_credit)
@@ -196,8 +173,8 @@
                         <tr style="background-color: red">
                             <td>{{ $last_day }}</td>
                             <td>{{ $particulars }}</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
+{{--                            <td>&nbsp;</td>--}}
+{{--                            <td>&nbsp;</td>--}}
                             <td>&nbsp;</td>
                             <td>{{ $sum_credit > $sum_debit ? number_format($PreBalance,2,'.',',') : '' }}</td>
                             <td>{{ $sum_debit > $sum_credit ? number_format($PreBalance,2,'.',',') : '' }}</td>
@@ -206,8 +183,8 @@
                     @endif
                     <tr>
 
-                        <td></td>
-                        <td></td>
+{{--                        <td></td>--}}
+{{--                        <td></td>--}}
                         <td></td>
                         <td align="right">Total</td>
                         <td>{{ number_format($sum_debit,2,'.',',') }}</td>
