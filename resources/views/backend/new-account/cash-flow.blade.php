@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h1>Cash Flow </h1>
-                    <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                    <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}
@@ -101,7 +101,7 @@
                         </td>
                         <td></td>
                         <td></td>
-                    </tr>9
+                    </tr>
 
                     <tr class="table-secondary" style="font-size: 20px;font-style: italic" >
                         <td>Cash Received From Customer</td>
@@ -725,10 +725,12 @@ $cash_paid_on_plus_minus = "";
                             echo
                                 $finalClosing =$closing+$net_cash;
                             @endphp</td>
-                        <td>    @php
+                        <td>
+                            @php
                             echo
                                 $finalClosing =$closing+$net_cash;
-                            @endphp</td>
+                            @endphp
+                        </td>
                         <td></td>
                     </tr>
                     </tbody>

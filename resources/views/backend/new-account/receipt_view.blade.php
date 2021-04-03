@@ -71,7 +71,7 @@
                                 $sum_credit += $PreBalance;
                             }
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $first_day }}</td>
                             <td>{{ $pre_particulars }}</td>
                             <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
@@ -170,7 +170,7 @@
                             }
 
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $last_day }}</td>
                             <td>{{ $particulars }}</td>
 {{--                            <td>&nbsp;</td>--}}

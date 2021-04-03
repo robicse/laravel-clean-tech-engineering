@@ -126,8 +126,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/whole-sale','PartyController@wholeCustomer');
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');
-    Route::get('productPurchases-invoice','ProductPurchaseController@invoice')->name('productPurchases-invoice');
-    Route::get('productPurchases-invoice-print','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
+    Route::get('check-product-name','ProductController@checkProductName');
+    Route::get('productPurchases-invoice/{id}','ProductPurchaseController@invoice')->name('productPurchases-invoice');
+    Route::get('productPurchases-invoice-print/{id}','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
     Route::get('productSales-invoice/{id}','ProductSaleController@invoice')->name('productSales-invoice');
     Route::get('productSales-Challaninvoice/{id}','ProductSaleController@Challaninvoice')->name('productSales-Challaninvoice');
     Route::get('productSales-invoice-print/{id}','ProductSaleController@invoicePrint')->name('productSales-invoice-print');

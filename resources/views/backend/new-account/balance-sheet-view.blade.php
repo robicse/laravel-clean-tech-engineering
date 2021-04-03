@@ -25,6 +25,7 @@
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h2>Balance Sheet</h2>
+                    <h4>As on  {{$date_from}}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                    <h5> Date Of {{$date_from}}</h5>

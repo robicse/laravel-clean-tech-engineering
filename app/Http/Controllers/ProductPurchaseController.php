@@ -19,6 +19,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use NumberFormatter;
 
 
 class ProductPurchaseController extends Controller
@@ -492,13 +493,29 @@ class ProductPurchaseController extends Controller
 //
 //        return response()->json(['success'=>true,'data'=>$options]);
 //    }
-    public function invoice()
+    public function invoice($id)
     {
-        return view('backend.productPurchase.invoice');
+        $productPurchase = ProductPurchase::find($id);
+        $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
+        $transaction = Transaction::where('ref_id',$id)->first();
+        $store_id = $productPurchase->store_id;
+        $party_id = $productPurchase->party_id;
+        $store = Store::find($store_id);
+        $party = Party::find($party_id);
+        $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        return view('backend.productPurchase.invoice',compact('productPurchase','productPurchaseDetails','transaction','store','party','digit'));
     }
-    public function invoicePrint()
+    public function invoicePrint($id)
     {
-        return view('backend.productPurchase.invoice-print');
+        $productPurchase = ProductPurchase::find($id);
+        $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
+        $transaction = Transaction::where('ref_id',$id)->first();
+        $store_id = $productPurchase->store_id;
+        $party_id = $productPurchase->party_id;
+        $store = Store::find($store_id);
+        $party = Party::find($party_id);
+        $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        return view('backend.productPurchase.invoice-print',compact('productPurchase','productPurchaseDetails','transaction','store','party','digit'));
     }
 
     public function newParty(Request $request){

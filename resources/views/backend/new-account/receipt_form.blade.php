@@ -40,7 +40,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" style="display:none;">
                             <label class="control-label col-md-3 text-right">Chart Of Account</label>
                             <div class="col-md-8">
                                 {{--                                <select class="form-control select2" name="general_ledger" id="general_ledger">--}}
@@ -56,7 +56,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" style="display:none;">
                             <label class="control-label col-md-3 text-right">General Ledger Head</label>
                             <div class="col-md-8">
                                 <select class="form-control ledger_id select2" name="ledger_id" id="ledger_id_1">

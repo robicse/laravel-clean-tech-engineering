@@ -184,4 +184,17 @@ class ProductController extends Controller
 
         return response()->json(['success'=>true,'data'=>$barcode_check]);
     }
+    public function checkProductName(Request $request ){
+        $productName= $request->model;
+        $exist_productName = Product::where('model',$productName)->get();
+        if (count($exist_productName) >0)
+        {
+            $check_productName = "Found";
+        }
+        else{
+            $check_productName = "Not Found";
+        }
+        return response()->json(['success'=>true,'data'=>$check_productName]);
+    }
+
 }

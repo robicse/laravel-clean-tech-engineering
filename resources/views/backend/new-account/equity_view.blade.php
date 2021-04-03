@@ -98,7 +98,7 @@
                         <td>{{$total_capital}}</td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr style="display: none">
                         <td>Opening Profit</td>
                         <td>@php
 
@@ -115,8 +115,8 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td>Drowing Opening</td>
+                    <tr style="display: none">
+                        <td>Drawing Opening</td>
                         <td>@php
 
                                 $get_data = drowing($date_from,$date_to);
@@ -135,7 +135,7 @@
                     @php
                     $opening_retained_earning = $opening_profit - $drowing;
                     @endphp
-                    <tr>
+                    <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td> Opening Retained Earning:</td>
                         <td>@php
 
@@ -164,7 +164,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td>Adjustment During The Year/ Drowings</td>
+                        <td>Adjustment During The Year/ Drawings</td>
                         <td>@php
 
                                 $get_data = drowing_adjustment($date_from,$date_to);

@@ -16,8 +16,22 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h1  class="tile-title text-center">Income Statement</h1>
-                <h3 class="tile-title text-center">For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
+                    <h2>Clean Tech Engineering</h2>
+                    <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                    <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
+                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                </div>
+                <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
+                    <h1>Income Statement</h1>
+                    <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
+                </div>
+                <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
+                    From Date : {{ $date_from }}
+                    <br/>
+                    To Date : {{ $date_to }}
+                    <br>
+                </div>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                     <thead>

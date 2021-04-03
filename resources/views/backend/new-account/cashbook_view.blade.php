@@ -28,26 +28,14 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h2>CashBook</h2>
-                    <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                    <h1>CashBook</h1>
+                    <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}
                     <br/>
                     To Date : {{ $date_to }}
                     <br>
-
-{{--                        Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}--}}
-
-
-{{--                    @if(!empty ($group_2) && empty($group_3) )--}}
-{{--                        Account Name :  {{ $group_2}}--}}
-
-{{--                    @endif--}}
-{{--                    @if(!empty ($group_3) && ($group_2) )--}}
-{{--                        Account Name :  {{ $group_3}}--}}
-
-{{--                    @endif--}}
 
                 </div>
                 <div class="table-responsive" style="margin-top: 240px">
@@ -83,7 +71,7 @@
                                 $sum_credit += $PreBalance;
                             }
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $first_day }}</td>
                             <td>{{ $pre_particulars }}</td>
                             <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
@@ -182,7 +170,7 @@
                             }
 
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color:  #b5b5b5">
                             <td>{{ $last_day }}</td>
                             <td>{{ $particulars }}</td>
                             <td>&nbsp;</td>

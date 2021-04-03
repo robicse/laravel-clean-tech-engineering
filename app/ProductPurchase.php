@@ -21,6 +21,6 @@ class ProductPurchase extends Model
     }
     public function product()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Product','');
     }
 }

@@ -229,6 +229,31 @@
             var final_name = name + '.' + model
             $('#final_name').val(final_name);
         })
+
+
+        $('#model').keyup(function (){
+            var model = $(this).val();
+            $.ajax({
+                url :  "{{URL('check-product-name')}}",
+                method : "get",
+                data : {
+                    model : model
+                },
+                success : function (res){
+                    console.log(res)
+                    if(res.data == 'Found'){
+                        $('#model').val('')
+                        alert('Model already exists, please add another!')
+                        return false
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
+
+            })
+
+        })
     </script>
 @endpush
 

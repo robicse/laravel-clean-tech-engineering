@@ -6,6 +6,12 @@
             #printPageButton {
                 display: none;
             }
+
+        }
+        @media print {
+            tr {
+                background-color: #1a4567 !important;
+            }
         }
     </style>
     <main class="app-content">
@@ -28,8 +34,8 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h2>Bank Book</h2>
-                    <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                    <h1>Bank Book</h1>
+                    <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
                     From Date : {{ $date_from }}
@@ -83,7 +89,7 @@
                                 $sum_credit += $PreBalance;
                             }
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $first_day }}</td>
                             <td>{{ $pre_particulars }}</td>
                             <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
@@ -182,7 +188,7 @@
                             }
 
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color:#b5b5b5">
                             <td>{{ $last_day }}</td>
                             <td>{{ $particulars }}</td>
                             <td>&nbsp;</td>
