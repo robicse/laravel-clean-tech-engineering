@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h2>Receipt Payment</h2>
+                    <h1>Receipt Payment</h1>
                     <h5>For The Period Of {{ $date_from }} to {{ $date_to }}</h5>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
@@ -46,8 +46,8 @@
                         <th width="20%">Description</th>
 {{--                        <th width="10%">Voucher Type</th>--}}
                         <th width="10%">Voucher NO</th>
-                        <th width="12%">Debit</th>
-                        <th width="12%">Credit</th>
+                        <th width="12%">Receipt</th>
+                        <th width="12%">Payment</th>
 {{--                        <th width="12%">Balance</th>--}}
                     </tr>
                     </thead>

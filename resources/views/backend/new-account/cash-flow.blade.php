@@ -48,11 +48,13 @@
                         $sales_income_for_cashFlow_statement = 0;
                         $service_income_for_cashFlow_statement = 0;
                         $advancedReceivedAgaintsSales_for_cashFlow_statement = 0;
+                        $account_receivable_for_cashFlow_statement = 0;
 
 
                         $loan_and_advances_AOR_for_cashFlow_statement = 0;
                         $loan_and_advances_AAP_for_cashFlow_statement = 0;
                         $purchase_account_for_cashFlow_statement = 0;
+                        $account_payable_for_cashFlow_statement = 0;
                         $purchase_installation_for_cashFlow_statement = 0;
                         $service_expense_for_cashFlow_statement = 0;
                         $carrying_expense_statement_for_cashFlow_statement = 0;
@@ -60,6 +62,7 @@
 
 
                     @endphp
+{{--                    <tr style="display: none">--}}
                     <tr>
                         <td>Received Against Sale</td>
                         <td> @php
@@ -68,6 +71,31 @@
                             {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
                             @php
                                 $sales_income_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+{{--                    <tr style="display: none">--}}
+                    <tr>
+                        <td>Accounts Receivale</td>
+                        <td> @php
+                                $get_data = account_receivable_for_cashFlow_statement($date_from,$date_to);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $account_receivable_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>Recipt Against Sale</td>
+                        <td> @php
+                               echo $total_receipt =  $sales_income_for_cashFlow_statement - $account_receivable_for_cashFlow_statement;
                             @endphp
                         </td>
                         <td></td>
@@ -107,11 +135,11 @@
                         <td>Cash Received From Customer</td>
                         <td>
                             @php echo
-                            $cash_receive_from_customer =  $sales_income_for_cashFlow_statement+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
+                            $cash_receive_from_customer =  $total_receipt+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
                             @endphp
                           </td>
                         <td> @php echo
-                            $cash_receive_from_customer =  $sales_income_for_cashFlow_statement+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
+                            $cash_receive_from_customer =  $total_receipt+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
                             @endphp</td>
                         <td></td>
                     </tr>
@@ -143,6 +171,7 @@
                         <td></td>
                         <td></td>
                     </tr>
+{{--                    <tr style="display: none">--}}
                     <tr>
                         <td>Purchase Account</td>
                         <td>@php
@@ -151,6 +180,33 @@
                             {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
                             @php
                                 $purchase_account_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+{{--                    <tr style="display: none">--}}
+                    <tr>
+                        <td> Accounts Payable</td>
+                        <td>@php
+                                $get_data = account_payable_for_cashFlow_statement($date_from,$date_to);
+                            @endphp
+                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @php
+                                $account_payable_for_cashFlow_statement +=$get_data['PreBalance'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Paid Against Purchase</td>
+                        <td>
+                        @php
+                       echo $total_paid_against_purchase =$purchase_account_for_cashFlow_statement - $account_payable_for_cashFlow_statement;
+
                             @endphp
 
                         </td>
@@ -217,7 +273,7 @@
                             @php
                             echo
                             - $total_cash_paid_to_supplier =
-                             $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$purchase_account_for_cashFlow_statement +$purchase_installation_for_cashFlow_statement +
+                             $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
                         $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
 
                             @endphp
@@ -226,7 +282,7 @@
                         <td> @php
                                 echo
                                - $total_cash_paid_to_supplier =
-                                 $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$purchase_account_for_cashFlow_statement +$purchase_installation_for_cashFlow_statement +
+                                 $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
                             $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
 
                             @endphp</td>

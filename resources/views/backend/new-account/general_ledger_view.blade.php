@@ -28,18 +28,18 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
-                    <h2>General Ledger</h2>
+                    <h1>General Ledger</h1>
                  <h3>{{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}
                  </h3>
 
 
                     @if(!empty ($group_2) && empty($group_3) )
                         <h3>{{ $group_2}}</h3>
-                        <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                        <h5>For The Period Of {{ $date_from }} to {{ $date_to }}</h5>
                     @endif
                     @if(!empty ($group_3) && ($group_2) )
                        <h3>{{ $group_3}}</h3>
-                        <h3>For The Period Of {{ $date_from }} to {{ $date_to }}</h3>
+                        <h5>For The Period Of {{ $date_from }} to {{ $date_to }}</h5>
                     @endif
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
@@ -56,7 +56,7 @@
 
                     @endif
                     @if(!empty ($group_3) && ($group_2) )
-                        Account Name :  {{ $group_3}}
+                      {{ $group_3}}
 
                     @endif
 
@@ -94,7 +94,7 @@
                                 $sum_credit += $PreBalance;
                             }
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $first_day }}</td>
                             <td>{{ $pre_particulars }}</td>
                             <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
@@ -193,7 +193,7 @@
                             }
 
                         @endphp
-                        <tr style="background-color: red">
+                        <tr style="background-color: #b5b5b5">
                             <td>{{ $last_day }}</td>
                             <td>{{ $particulars }}</td>
                             <td>&nbsp;</td>

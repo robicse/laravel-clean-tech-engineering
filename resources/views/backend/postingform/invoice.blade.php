@@ -112,10 +112,10 @@
                                 <div class="page" style="padding: 10px;">
                                     <h3 style="text-align: center;"><strong>@php
                                                 echo \App\VoucherType::where('id',$postingForms[0]->voucher_type_id)->pluck('name')->first();
-                                            @endphp</strong></h3>
+                                            @endphp</strong> Voucher</h3>
                                     <div style="clear: both">&nbsp;</div>
                                     <div style="clear: both">&nbsp;</div>
-                                    <div class="col-md-6 text-left"><strong>Transaction No:</strong> {{$postingForms[0]->id}}</div>
+{{--                                    <div class="col-md-6 text-left"><strong>Transaction No:</strong> {{$postingForms[0]->id}}</div>--}}
                                     <div class="row">
                                         <div class="col-md-6"><strong> Voucher NO:</strong>
                                             @php
