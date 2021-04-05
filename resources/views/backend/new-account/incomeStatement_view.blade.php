@@ -123,14 +123,16 @@
                         <td> Purchase Account</td>
                              @php
 
-                                $get_data = purchase_account_statement($date_from,$date_to);
-                                //dd($get_data);
+                                $get_data = purchase_account1_statement($date_from,$date_to);
+                               // dd($get_data->debit);
 
                             @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>@if(!empty($get_data))
+                            {{$get_data->debit}}De
                             @php
-                                $purchase_account +=$get_data['PreBalance'];
+                                $purchase_account +=$get_data->debit;
                             @endphp
+                                @endif
                         </td>
                         <td></td>
                         <td></td>

@@ -72,6 +72,7 @@
 {{--            </ul>--}}
 {{--        </li>--}}
 
+
         <li class="treeview{{Request::is('stock*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-sort-amount-asc"></i><span class="app-menu__label">Stock </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('stock-purchase.allStock') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">All Stock List</span></a></li>
@@ -86,6 +87,18 @@
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">Transaction List</span></a></li>
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.lossProfit') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Loss/Profit</span></a></li>
+            </ul>
+        </li>
+        <li class="treeview{{Request::is('deliveryService*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Delivery Service </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('deliveryService.index') }}"><i class="app-menu__icon fas fa-users"></i> <span class="app-menu__label">Delivery Service List</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('deliveryService.create') }}"><i class="app-menu__icon fas fa-users"></i> <span class="app-menu__label">Delivery Service Create</span></a></li>
+            </ul>
+        </li>
+        <li class="treeview{{Request::is('stockTransfers*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-signal"></i><span class="app-menu__label">Stock Transfer  </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('stockTransfers.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">Stock Transfer List</span></a></li>
+                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('stockTransfers.create') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Stock Transfer Create</span></a></li>
             </ul>
         </li>
         <li class="treeview{{Request::is('voucherType*') || Request::is('voucherType*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Voucher Types</span><i class="treeview-indicator fa fa-angle-right"></i></a>
