@@ -266,8 +266,13 @@
                         <div class="col-md-6">
                             <table width="70%">
                                 <tr>
-                                    <td style="text-align: right;font-size: 18px;"><b>Notes</b>*</td>
-                                    <td style="text-align: left;font-size: 16px;">*One year electrical parts warranty</td>
+                                    <td style="text-align: left;font-size: 18px;"><b>Notes</b></td>
+                                    <td style="text-align: left;font-size: 18px;">:{{$productSale->note}}</td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 17px;"><b>Conditions</b>*</td>
+                                    <td style="font-size: 16px;">One year electrical parts warranty</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
@@ -286,6 +291,7 @@
                                     <td style="text-align: left;font-size: 16px;">We do not provide any electrical or plumbing work.</td>
                                 </tr>
                             </table>
+
 
                         </div>
                         <!-- /.col -->

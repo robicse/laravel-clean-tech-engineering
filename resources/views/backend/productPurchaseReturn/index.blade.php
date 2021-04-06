@@ -21,7 +21,7 @@
                             <th width="5%">SL NO</th>
                             <th>Invoice NO</th>
                             <th>User</th>
-{{--                            <th>Store</th>--}}
+                            <th>Store</th>
                             <th>Party</th>
                             <th>Payment Type</th>
                             <th>Total Amount</th>
@@ -34,9 +34,9 @@
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td>{{ $productPurchaseReturn->invoice_no}}</td>
-{{--                            <td>{{ $productPurchaseReturn->user->name}}</td>--}}
-{{--                            <td>{{ $productSaleReturn->store->name}}</td>--}}
-{{--                            <td>{{ $productPurchaseReturn->party->name}}</td>--}}
+                            <td>{{ $productPurchaseReturn->user->name}}</td>
+                            <td>{{ $productPurchaseReturn->store->name}}</td>
+                            <td>{{ $productPurchaseReturn->party->name}}</td>
                             <td>
                                 @php
                                   echo $payment_type = \Illuminate\Support\Facades\DB::table('transactions')

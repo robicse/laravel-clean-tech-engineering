@@ -1695,7 +1695,9 @@ function additional_capital($date_from, $date_to){
     $income_sale =0;
     $income_service =0;
 
+    $inventory =0;
     $purchase_account =0;
+    $closing_inventory =0;
     $purchase_installation =0;
     $service_expense =0;
     $carrying_expense =0;
@@ -1716,8 +1718,17 @@ function additional_capital($date_from, $date_to){
 
     $income =$income_service+$income_sale;
 
-    $get_purchase_account_statement = purchase_account_statement($date_from,$date_to);
-    $purchase_account +=$get_purchase_account_statement['PreBalance'];
+    $get_inventory_statement = inventory_statement($date_from,$date_to);
+    $inventory +=$get_inventory_statement['PreBalance'];
+
+    $get_purchase_account_statement = purchase_account1_statement($date_from,$date_to);
+    $purchase_account +=$get_purchase_account_statement->debit;
+
+    $get_closing_inventory_statement = closing_inventory_statement($date_from,$date_to);
+    $closing_inventory +=$get_closing_inventory_statement['PreBalance'];
+
+    $inventory_purchase = $inventory + $purchase_account;
+    $closing =  $inventory_purchase - $closing_inventory;
 
     $get_purchase_installation_statement = purchase_installation_statement($date_from,$date_to);
     $purchase_installation +=$get_purchase_installation_statement['PreBalance'];
@@ -1731,7 +1742,7 @@ function additional_capital($date_from, $date_to){
     $get_godwon_storage_statement = godwon_storage_statement($date_from,$date_to);
     $godwon_storage +=$get_godwon_storage_statement['PreBalance'];
 
-    $expense =$purchase_account+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
+    $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage;
     $gross_profit =$income-$expense;
    // dd($expense);
     $get_admin_expense_statement = admin_expense_statement($date_from,$date_to);

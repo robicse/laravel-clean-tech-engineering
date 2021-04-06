@@ -15,7 +15,17 @@ class CreateStockTransferDetailsTable extends Migration
     {
         Schema::create('stock_transfer_details', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('stock_transfer_id')->unsigned();
+            $table->integer('product_category_id');
+            $table->integer('product_sub_category_id')->nullable();
+            $table->integer('product_brand_id');
+            $table->bigInteger('product_id')->unsigned();
+            $table->integer('qty');
+            $table->float('price',8,2);
+            $table->float('sub_total',8,2);
             $table->timestamps();
+            $table->foreign('stock_transfer_id')->references('id')->on('stock_transfers')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

@@ -77,7 +77,12 @@
                                 <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Note</label>
+                            <div class="col-md-8">
+                                <input type="text" name="note" class="form-control" placeholder="Note">
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
                             <table class="table table-bordered table-striped">

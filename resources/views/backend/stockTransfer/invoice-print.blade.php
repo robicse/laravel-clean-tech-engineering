@@ -101,42 +101,34 @@
                         {{--                            <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">--}}
                         {{--                        </div>--}}
                         <div class="col-md-12" style="text-align: left;">
-                            <h2 style="font-size:20px" >{{$store->name}}</h2>
-                            <p style="margin: 0px;font-size: 16px">Corporate Office :{{$store->address}}</p>
-                            <p style="margin: 0px;font-size: 16px"><b>Phone</b>: {{$store->phone}} </p>
-                            <p style="margin: 0px;font-size: 16px"> <b>Email</b>: {{$store->email}}</p>
-                            <p style="margin: 0px;font-size: 16px"> <b>Website</b>:{{$store->website}}</p>
-                            <p style="margin: 0px;font-size: 16px"> Find us on {{$store->page}}</p>
+                            <h2 style="font-size:20px" >CleanTech Engineering</h2>
+                            <p style="margin: 0px;font-size: 16px">Corporate Office ::Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
+                            <p style="margin: 0px;font-size: 16px"><b>Phone</b>:  01701-666 606 </p>
+                            <p style="margin: 0px;font-size: 16px"> <b>Email</b>: </p>
+                            <p style="margin: 0px;font-size: 16px"> <b>Website</b>:</p>
+
                         </div>
                     </div>
                     <div>&nbsp;
                         <div class=" callout-info" style="">
-                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> Purchase Invoice</h3>
+                            <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> Stock Transfer Invoice</h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6" style="width: 60%; float: left;display: inline-block">
-                            <strong style="font-size: 15px">Customer Name:</strong>
-                            <strong style="font-size: 15px">{{$party->name}}</strong><br>
-                            <strong style="font-size: 15px">Address:</strong>
-                            <strong style="font-size: 15px">{{$party->address}}</strong><br>
-                            <strong style="font-size: 15px">Contact No:</strong>
-                            <strong style="font-size: 15px">{{$party->phone}}</strong><br>
+                            <strong style="font-size: 15px">From Store:</strong>
+                            <strong style="font-size: 15px">{{$stockTransfer->from_store->name}}</strong><br>
+                            <strong style="font-size: 15px">To Store:</strong>
+                            <strong style="font-size: 15px">{{$stockTransfer->to_store->name}}</strong><br>
+                            <strong style="font-size: 15px">Remarks:</strong>
+                            <strong style="font-size: 15px">{{$stockTransfer->send_remarks}}</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; width: 40%; display: inline-block">
                             <div class="invoice-to"  style="float: right;">
                                 <table>
                                     <tr>
-                                        <td style="text-align: right;font-size: 16px;"><b>Invoice:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{$productPurchase->date}}{{$productPurchase->invoice_no}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right;font-size: 16px;"><b>DateTime:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right;font-size: 16px;"><b> Phone NO:</b> </td>
-                                        <td style="text-align: right;font-size: 16px;">{{$party->phone}}</td>
+                                        <td style="text-align: left;font-size: 16px;"><b>Invoice:</b></td>
+                                        <td style="text-align: right;font-size: 16px;">{{$stockTransfer->invoice_no}}</td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
@@ -155,6 +147,7 @@
                             <th style="font-size: 18px">SL NO.</th>
                             <th style="font-size: 18px">Product Information</th>
                             <th style="font-size: 18px">Qty</th>
+                            <th style="font-size: 18px">Brand</th>
                             <th style="font-size: 18px">Unit Price BDT</th>
                             <th style="font-size: 18px">Amount BDT</th>
                         </tr>
@@ -163,19 +156,17 @@
                         @php
                             $sum_sub_total = 0;
                         @endphp
-                        @foreach($productPurchaseDetails as $key => $productPurchaseDetail)
+                        @foreach($stockTransferDetails as $key =>$stockTransferDetail)
                             <tr>
                                 <td style="font-size: 16px">{{$key+1}}</td>
-                                <td style="font-size: 16px">{{$productPurchaseDetail->product->name}}</td>
-                                <td style="font-size: 16px">{{$productPurchaseDetail->qty}}</td>
-                                <td>{{$productPurchaseDetail->product_unit->name}}</td>
+                                <td>{{$stockTransferDetail->product->name}}</td>
+                                <td>{{$stockTransferDetail->qty}}</td>
+                                <td>{{$stockTransferDetail->product->product_brand->name}}</td>
+                                <td>{{$stockTransferDetail->price}}</td>
                                 <td>
-                                    @php
-                                        $sub_total=$productPurchaseDetail->qty*$productPurchaseDetail->price;
-                                        $sum_sub_total += $sub_total;
-                                    @endphp
-                                    {{$sub_total}}
+                                    {{$stockTransferDetail->sub_total}}
                                 </td>
+                            </tr>
                             </tr>
                         @endforeach
                         <tr >
@@ -184,37 +175,15 @@
                             <td style="border: none">&nbsp;</td>
                         </tr>
                         <tr >
-                            <th colspan="3"  style="border: none">&nbsp;</th>
+                            <th colspan="4"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right;font-size: 16px">Subtotal:</th>
-                            <th  style="border: none"></th>
+                            <th  style="border: none"> {{$stockTransferDetail->sub_total}}</th>
                         </tr>
 
-                        <tr>
-                            <th colspan="3" style="border: none">&nbsp;</th>
-                            <th  style="border: none;text-align: right;font-size: 16px">Discount:</th>
-                            <th style="border: none">-{{$productPurchase->discount_amount}}</th>
-                        </tr>
-
-                        <tr>
-                            <th colspan="3" style="border: none">&nbsp;</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right;font-size: 16px">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$productPurchase->total_amount}}</th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="border: none">&nbsp;</th>
-                            <th style="border: none;text-align: right">Paid Amount:</th>
-                            <th style="border: none">{{$productPurchase->paid_amount}}</th>
-                        </tr>
-
-                        <tr>
-                            <th colspan="3" style="border: none">&nbsp;</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;text-align: right;font-size: 16px">Due Amount:</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$productPurchase->due_amount}}</th>
-                        </tr>
                         </tbody>
                     </table>
                     <div class="write">
-                        <p class="lead"><b>In Word : {{ucwords($digit->format($productPurchase->total_amount))}} Only </b></p>
+                        <p class="lead"><b>In Word : {{ucwords($digit->format( $stockTransferDetail->sub_total))}} Only </b></p>
                     </div>
                     <div class="row" style="margin-top: 150px">
                         <!-- accepted payments column -->
@@ -225,7 +194,7 @@
                                     <td style="font-size: 16px;"></td>
                                 </tr>
                                 <tr>
-                                    <td style="font-size: 18px;">*{{$productPurchase->note}}</td>
+                                    <td style="font-size: 18px;"> {{$stockTransfer->note}}</td>
                                     <td style="font-size: 16px;"></td>
                                 </tr>
                                 <tr>
@@ -251,7 +220,7 @@
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
-                                <span>Print Date: {{$productPurchase->created_at}} Computer Generated Invoice</span>
+                                <span>Print Date: {{$stockTransfer->created_at}} Computer Generated Invoice</span>
                             </div>
                         </div>
                     </div>

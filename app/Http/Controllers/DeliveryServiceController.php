@@ -2,83 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\DeliveryService;
+use App\ProductBrand;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DeliveryServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+//    function __construct()
+//    {
+//        $this->middleware('permission:product-brand-list|product-brand-create|product-brand-edit|product-brand-delete', ['only' => ['index','show']]);
+//        $this->middleware('permission:product-brand-create', ['only' => ['create','store']]);
+//        $this->middleware('permission:product-brand-edit', ['only' => ['edit','update']]);
+//        $this->middleware('permission:product-brand-delete', ['only' => ['destroy']]);
+//    }
+
     public function index()
     {
-        //
+        $deliveryServices = DeliveryService::latest()->get();
+        return view('backend.deliveryService.index', compact('deliveryServices'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('backend.deliveryService.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $deliveryService = new DeliveryService;
+        $deliveryService->name = $request->name;
+        $deliveryService->slug = Str::slug($request->name);
+        $deliveryService->save();
+
+        Toastr::success('Delivery Service Created Successfully');
+        return redirect()->route('deliveryService.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $deliveryService = DeliveryService::find($id);
+        return view('backend.deliveryService.edit', compact('deliveryService'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $deliveryService = DeliveryService::find($id);
+        $deliveryService->name = $request->name;
+        $deliveryService->slug = Str::slug($request->name);
+        $deliveryService->save();
+
+        Toastr::success('Delivery Service Updated Successfully');
+        return redirect()->route('deliveryService.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        DeliveryService::destroy($id);
+        Toastr::success('Delivery Service Deleted Successfully');
+        return redirect()->route('deliveryService.index');
     }
 }

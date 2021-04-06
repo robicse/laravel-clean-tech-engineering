@@ -80,7 +80,7 @@
                                                 <span>&nbsp;</span>
                                                 <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
                                                 <span>&nbsp;</span>
-                                                <input type="text" name="check_date" id="check_date" class="datepicker form-control" placeholder="Issue Deposit Date ">
+                                                <input type="date" name="check_date" id="check_date" class="form-control" placeholder="Issue Deposit Date ">
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -96,6 +96,7 @@ class ProductPurchaseController extends Controller
         $productPurchase ->store_id = $request->store_id;
         $productPurchase ->user_id = Auth::id();
         $productPurchase ->date = $request->date;
+        $productPurchase ->note = $request->note;
         $productPurchase->discount_type = $request->discount_type;
         $productPurchase->discount_amount = $request->discount_amount;
         $productPurchase->total_amount = $total_amount;
@@ -247,6 +248,7 @@ class ProductPurchaseController extends Controller
         $productPurchase ->store_id = $request->store_id;
         $productPurchase ->user_id = Auth::id();
         $productPurchase ->date = $request->date;
+        $productPurchase ->note = $request->note;
         $productPurchase ->payment_type = $request->payment_type;
         $productPurchase->check_number = $request->check_number ? $request->check_number : '';
         $productPurchase->discount_type = $request->discount_type;

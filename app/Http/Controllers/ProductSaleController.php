@@ -139,6 +139,7 @@ class ProductSaleController extends Controller
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
+        $productSale->note = $request->note;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
@@ -351,6 +352,7 @@ class ProductSaleController extends Controller
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
+        $productSale->note = $request->note;
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;

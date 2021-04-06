@@ -91,6 +91,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('postingForm','PostingFormController');
     Route::get('ledger-data','PostingFormController@ledgerRelationData');
     Route::get('ledger-data-group2','PostingFormController@group2RelationData');
+    Route::resource('deliveryService','DeliveryServiceController');
+    Route::resource('stockTransfers','StockTransferController');
+
+
+    Route::get('stock-transfer-invoice/{id}','StockTransferController@invoice')->name('stock.transfer.invoice');
+    Route::get('stock-transfer-invoice-print/{id}','StockTransferController@invoicePrint')->name('stock.transfer.invoice.print');
 
     Route::get('account/posting-edit/{voucher_type_id}/{voucher_no}','PostingFormController@postingEdit');
     Route::post('account/posting-form-update/{voucher_type_id}/{voucher_no}','PostingFormController@postingUpdate');
@@ -143,6 +149,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('stock-sale-list','StockController@stockList')->name('stock.index');
     Route::get('stock-purchase-list','StockController@stockPurchaseList')->name('stock-purchase.index');
     Route::get('stock-summary-list','StockController@stockSummaryList')->name('stock.summary.list');
+
+    Route::get('stock-summary/{store_id}','StockController@stockSummary');
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
 
     Route::get('returnable-sale-product-list','ProductSaleReturnController@returnableSaleProduct')->name('returnable.sale.product');

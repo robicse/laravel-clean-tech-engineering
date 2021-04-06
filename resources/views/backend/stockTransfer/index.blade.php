@@ -38,7 +38,7 @@
                         <td>{{ $stockTransfer->send_remarks}}</td>
                         <td class="d-inline-flex">
                             <a href="{{ route('stockTransfers.show',$stockTransfer->id) }}" class="btn btn-sm btn-info float-left">Show</a>
-{{--                            <a href="{{ route('stockTransfers.edit',$stockTransfer->id) }}" class="btn btn-sm btn-primary float-left"><i class="fa fa-edit"></i></a>--}}
+                            <a href="{{ route('stock.transfer.invoice',$stockTransfer->id) }}" class="btn btn-sm btn-primary float-left">invoice</a>
 {{--                            <form method="post" action="{{ route('stockTransfers.destroy',$stockTransfer->id) }}" >--}}
 {{--                               @method('DELETE')--}}
 {{--                                @csrf--}}

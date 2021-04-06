@@ -177,9 +177,15 @@
                         <td>@php
                                 $get_data = purchase_account_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            @if(!empty($get_data))
+                                {{$get_data->debit}}De
+                                @php
+                                    $purchase_account_for_cashFlow_statement +=$get_data->debit;
+                                @endphp
+                            @endif
+{{--                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}--}}
                             @php
-                                $purchase_account_for_cashFlow_statement +=$get_data['PreBalance'];
+                               //$purchase_account_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
                         </td>
@@ -684,6 +690,37 @@ $cash_paid_on_plus_minus = "";
                         <td>Capital Account</td>
                         <td>@php
                                 $get_data = capital_account_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Drawings Account</td>
+                        <td>@php
+                                $get_data = drawings_account_for_cashFlow_statement($date_from,$date_to);
                                 $cash_paid_on_plus_minus = "";
                                 if($get_data['preDebCre'] == "De"){
                                     $sign = "-";

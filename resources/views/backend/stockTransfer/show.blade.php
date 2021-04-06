@@ -59,7 +59,7 @@
                         <th>Category</th>
                         <th>Brand</th>
 {{--                        <th>Product Image</th>--}}
-                        <th>Barcode</th>
+{{--                        <th>Barcode</th>--}}
                         <th>Product</th>
                         <th>Qty</th>
                         <th>Price</th>
@@ -82,7 +82,7 @@
 {{--                            <td>--}}
 {{--                                <img src="{{asset('uploads/product/'.$stockTransferDetail->product->image)}}" width="50" height="50" />--}}
 {{--                            </td>--}}
-                            <td>{{$stockTransferDetail->product->barcode}}</td>
+{{--                            <td>{{$stockTransferDetail->product->barcode}}</td>--}}
                             <td>{{$stockTransferDetail->product->name}}</td>
                             <td>{{$stockTransferDetail->qty}}</td>
                             <td>{{$stockTransferDetail->price}}</td>
