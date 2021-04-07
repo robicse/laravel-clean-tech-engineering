@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserDashboardController extends Controller
+class   UserDashboardController extends Controller
 {
     public function dashboard()
     {

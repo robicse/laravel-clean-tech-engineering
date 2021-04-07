@@ -62,7 +62,7 @@
                             <!-- small box -->
                             <div class="small-box bg-danger" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('posting.create')}}" style="color: black">Posting</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('postingForm.create')}}" style="color: black">Posting</a></h3>
                                 </div>
                             </div>
                         </div>

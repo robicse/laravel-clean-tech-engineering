@@ -42,7 +42,18 @@
                                 <select name="party_id" id="party_id" class="form-control select2">
                                     <option value="">Select One</option>
                                     @foreach($parties as $party)
-                                        <option value="{{$party->id}}" {{$party->id == $productSale->party_id ? 'selected' : ''}}>{{$party->name}} </option>
+                                        <option value="{{$party->id}}" {{$party->id == $productSale->party_id ? 'selected' : ''}}>{{$party->name}}.{{$party->phone}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Service Provider   <small class="requiredCustom">*</small></label>
+                            <div class="col-md-8">
+                                <select name="provider_id" id="provider_id" class="form-control select2">
+                                    <option value="">Select One</option>
+                                    @foreach($providers as $provider)
+                                        <option value="{{$provider->id}}" {{$provider->id == $productSale->provider_id ? 'selected' : ''}}>{{$provider->name}} </option>
                                     @endforeach
                                 </select>
                             </div>

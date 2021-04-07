@@ -310,6 +310,7 @@ class ProductSaleController extends Controller
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
+        $providers = User::where('type' , 'provider' )->get() ;
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $freeProductDetails =  FreeProductSaleDetails::where('product_sale_id',$id)->get();
         // dd($productSale);
@@ -317,7 +318,7 @@ class ProductSaleController extends Controller
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
         $online_platforms = OnlinePlatForm::all();
         $freeProducts = FreeProduct::all();
-        return view('backend.productSale.edit',compact('online_platforms','freeProductDetails','freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
+        return view('backend.productSale.edit',compact('providers','online_platforms','freeProductDetails','freeProducts','parties','stores','products','productSale','productSaleDetails','productCategories','productSubCategories','productBrands','productUnits','transaction','stock_id'));
     }
 
 
@@ -351,6 +352,7 @@ class ProductSaleController extends Controller
         $productSale->user_id = Auth::id();
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
+        $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
         $productSale->online_platform_id = $request->online_platform_id;

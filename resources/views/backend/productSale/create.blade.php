@@ -37,7 +37,7 @@
                                 <select name="party_id" id="customer" class="form-control select2" required>
                                     <option value="">Select One</option>
                                     @foreach($parties as $party)
-                                        <option value="{{$party->id}}">{{$party->name}} </option>
+                                        <option value="{{$party->id}}">{{$party->name}}.{{$party->phone}} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -214,7 +214,7 @@
                                         </select>
                                     </th>
                                     <th>
-                                        Discount(Flat):
+                                        Discount:
                                         <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                     </th>
 

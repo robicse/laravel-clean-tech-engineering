@@ -18,7 +18,7 @@
                         <thead>
                         <tr>
                             <th width="5%">SL NO</th>
-                            <th width="15%">Name</th>
+                            <th width="15%">Description</th>
                             <th width="15%">Image</th>
                             <th width="15%">Action</th>
                         </tr>
