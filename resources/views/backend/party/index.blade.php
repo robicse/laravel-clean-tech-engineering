@@ -38,7 +38,8 @@
                         <tbody>
                         @foreach($parties as $key => $party)
                         <tr>
-                            <td>C000{{ $key+1 }}</td>
+{{--                            @dd($party->id);--}}
+                            <td>C000{{ $party->id }}</td>
                             <td>{{ $party->type}}</td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>
