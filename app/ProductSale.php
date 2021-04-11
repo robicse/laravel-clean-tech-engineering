@@ -31,5 +31,8 @@ class ProductSale extends Model
     {
         return $this->belongsTo('App\OnlinePlatForm','online_platform_id');
     }
-
+    public function provider()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

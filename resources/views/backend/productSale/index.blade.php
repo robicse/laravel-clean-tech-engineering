@@ -43,6 +43,7 @@
                         <th>Total Amount</th>
                         <th>Paid Amount</th>
                         <th>Due Amount</th>
+                        <th>Provider</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -52,18 +53,24 @@
                         $sum_paid_amount = 0;
                         $sum_due_amount = 0;
                     @endphp
+                    @if(!empty($productSales))
                     @foreach($productSales as $key => $productSale)
                         @php
                             $sum_total_amount += $productSale->total_amount;
                             $sum_paid_amount += $productSale->paid_amount;
                             $sum_due_amount += $productSale->due_amount;
                         @endphp
+
                     <tr>
                         <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>
                         <td>{{ $productSale->date}}</td>
                         <td>{{ $productSale->invoice_no}}</td>
+                        @if(!empty($productSale->party->name))
                         <td>{{ $productSale->party->name}}.{{ $productSale->party->phone}}</td>
+                        @else
+                            <td></td>
+                        @endif
 {{--                        <td>{{ $productSale->payment_type}}</td>--}}
                         <td>{{ $productSale->total_amount}}</td>
                         <td>{{ $productSale->paid_amount}}</td>
@@ -73,6 +80,11 @@
                                 <a href="" class="btn btn-warning btn-sm mx-1" data-toggle="modal" data-target="#exampleModal-<?= $productSale->id;?>"> Pay Due</a>
                             @endif
                         </td>
+                        @if(!empty($productSale->provider->name))
+                        <td>{{ $productSale->provider->name}}</td>
+                        @else
+                            <td></td>
+                        @endif
                         <td>
                             <a href="{{ route('productSales.show',$productSale->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
                             <a href="{!! route('productSales-invoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
@@ -141,6 +153,7 @@
                         </div>
                     </div>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
                 <div class="tile-footer text-right">
