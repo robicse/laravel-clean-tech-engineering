@@ -145,7 +145,7 @@
                                                 @endphp
                                                 <tr>
 {{--                                                    <th>{{$transaction_info->group_1}}</th>--}}
-                                                    <th>{{$transaction_info->group_1}}.{{$transaction_info->group_2}}.{{$transaction_info->group_3}}.{{$transaction_info->group_4}}</th>
+                                                    <th>{{$transaction_info->group_3}}.{{$transaction_info->group_4}}</th>
                                                     <th>{{$transaction_info->ledger_name}}</th>
                                                     <th>{{$transaction_info->debit ? $transaction_info->debit : ''}}</th>
                                                     <th>{{$transaction_info->credit ? $transaction_info->credit : ''}}</th>

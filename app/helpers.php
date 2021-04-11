@@ -1722,6 +1722,7 @@ function additional_capital($date_from, $date_to){
     $inventory +=$get_inventory_statement['PreBalance'];
 
     $get_purchase_account_statement = purchase_account1_statement($date_from,$date_to);
+    if(!empty($get_purchase_account_statement))
     $purchase_account +=$get_purchase_account_statement->debit;
 
     $get_closing_inventory_statement = closing_inventory_statement($date_from,$date_to);
