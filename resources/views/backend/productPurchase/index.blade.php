@@ -46,11 +46,11 @@
                                 <a href="{{ route('productPurchases.show',$productPurches->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
                                 <a href="{!! route('productPurchases-invoice',$productPurches->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
                                 <a href="{{ route('productPurchases.edit',$productPurches->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                <form method="post" action="{{ route('productPurchases.destroy',$productPurches->id) }}" >
-                                   @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
-                                </form>
+{{--                                <form method="post" action="{{ route('productPurchases.destroy',$productPurches->id) }}" >--}}
+{{--                                   @method('DELETE')--}}
+{{--                                    @csrf--}}
+{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
+{{--                                </form>--}}
                             </td>
                         </tr>
                         <!-- Modal -->

@@ -2,14 +2,14 @@
 
 @section('content')
     <main class="app-content">
-        <div class="app-title">
-            <div>
-                <h1><i class=""></i> All COA</h1>
-            </div>
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('ChartOfAccount.create') !!}" class="btn btn-sm btn-primary" type="button">Add COA</a></li>
-            </ul>
-        </div>
+{{--        <div class="app-title">--}}
+{{--            <div>--}}
+{{--                <h1><i class=""></i> All COA</h1>--}}
+{{--            </div>--}}
+{{--            <ul class="app-breadcrumb breadcrumb">--}}
+{{--                <li class="breadcrumb-item"> <a href="{!! route('ChartOfAccount.create') !!}" class="btn btn-sm btn-primary" type="button">Add COA</a></li>--}}
+{{--            </ul>--}}
+{{--        </div>--}}
 
         <div class="col-md-12">
             <div class="tile">

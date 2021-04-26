@@ -140,13 +140,29 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Date & Time</th>
+{{--                                            <th> customer name</th>--}}
                                             <th> Service Name</th>
                                             <th>Status</th>
                                         </tr>
+
                                         @forelse($saleServices as $key => $saleService)
+                                            @php
+
+                                               // $party = \Illuminate\Support\Facades\DB::table('product_sales')
+                                                                                                    //->join('product_sales','product_sales.id','=','product_sale_details.product_sale_id')
+                                                                                                    //->join('parties','parties.id','=','product_sales.party_id')
+
+                                                                                                   // ->where('product_sale_details','id',$saleService->product_sale_detail_id)
+                                                                                                     //->where('product_sale_details.product_sale_id',$product_sale->id)
+                                                                                                    //->join()
+                                                                                                       //->select('product_sales.*')
+                                                                                                      // ->get();
+
+                                                @endphp
                                             <tr>
                                                 <td>{{$key + 1}}</td>
                                                 <td>{{$saleService->date}}</td>
+{{--                                                <td>{{$saleService->product_sale_details->product_sales->id}}</td>--}}
                                                 <td>{{$saleService->service->name}}</td>
                                                 <td style="text-align: center">
                                                     <input onchange="status(this)" value="{{ $saleService->id }}" {{$saleService->status == 1 ? 'checked':''}} type="checkbox"  data-toggle="toggle">

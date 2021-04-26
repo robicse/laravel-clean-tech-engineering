@@ -21,6 +21,7 @@ class ServiceController extends Controller
         $this->middleware('permission:service-delete', ['only' => ['destroy']]);
         $this->middleware('permission:monthly-service', ['only' => ['monthlyService']]);
         $this->middleware('permission:monthly-service-sms', ['only' => ['sendSMS']]);
+        $this->middleware('permission:completed-service', ['only' => ['completedService']]);
     }
     public function index()
     {

@@ -23,6 +23,14 @@ use NumberFormatter;
 class StockTransferController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:stock-transfer-list|stock-transfer-create|stock-transfer-edit|stock-transfer-delete', ['only' => ['index','show','invoice']]);
+        $this->middleware('permission:stock-transfer-create', ['only' => ['create','store']]);
+        $this->middleware('permission:stock-transfer-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:stock-transfer-invoice', ['only' => ['invoice']]);
+    }
+
     public function index()
     {
         $auth_user_id = Auth::user()->id;

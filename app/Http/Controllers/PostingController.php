@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class PostingController extends Controller
 {
-    function __construct()
-    {
-        $this->middleware('permission:posting-list|posting-create|posting-edit|posting-delete', ['only' => ['index','show','voucher_invoice']]);
-        $this->middleware('permission:posting-create', ['only' => ['create','store']]);
-        $this->middleware('permission:posting-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:posting-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:general-ledger-list', ['only' => ['general_ledger_form','view_general_ledger']]);
-        $this->middleware('permission:trial-balance-list', ['only' => ['trial_balance_form','view_trial_balance']]);
-        $this->middleware('permission:balance-sheet-list', ['only' => ['balance_sheet']]);
-    }
+//    function __construct()
+//    {
+//        $this->middleware('permission:posting-list|posting-create|posting-edit|posting-delete', ['only' => ['index','show','voucher_invoice']]);
+//        $this->middleware('permission:posting-create', ['only' => ['create','store']]);
+//        $this->middleware('permission:posting-edit', ['only' => ['edit','update']]);
+//        $this->middleware('permission:posting-delete', ['only' => ['destroy']]);
+//        $this->middleware('permission:general-ledger-list', ['only' => ['general_ledger_form','view_general_ledger']]);
+//        $this->middleware('permission:trial-balance-list', ['only' => ['trial_balance_form','view_trial_balance']]);
+//        $this->middleware('permission:balance-sheet-list', ['only' => ['balance_sheet']]);
+//    }
 
     public function index()
     {

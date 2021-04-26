@@ -909,7 +909,7 @@ class ProductSaleController extends Controller
         $parties->name = $request->name;
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-        //$parties->address = $request->address;
+        $parties->address = $request->address;
         $parties->status = 1;
         $parties->save();
         $insert_id = $parties->id;

@@ -31,7 +31,7 @@
                             <th width="10%">Type</th>
                             <th width="15%">Name</th>
                             <th width="15%">Phone</th>
-                            <th width="15%">Email</th>
+                            <th width="15%">Address</th>
                             <th width="15%">Action</th>
                         </tr>
                         </thead>
@@ -43,7 +43,7 @@
                             <td>{{ $party->type}}</td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>
-                            <td>{{ $party->email}}</td>
+                            <td>{{ $party->address}}</td>
                             <td>
                                 <a href="{{ route('party.edit',$party->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
 {{--                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >--}}

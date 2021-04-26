@@ -86,7 +86,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }} <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="phone" required>
+                                    <input id="phone" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="phone" required>
                                 </div>
                             </div>
 
@@ -143,3 +143,31 @@
 @endsection
 
 
+@push('js')
+    <script>
+        $('#phone').keyup(function (){
+            var phone = $(this).val();
+            $.ajax({
+                url :  "{{URL('check-phone-number-provider')}}",
+                method : "get",
+                data : {
+                    phone : phone
+                },
+                success : function (res){
+                    console.log(res)
+                    if(res.data == 'Found'){
+                        $('#phone').val('')
+                        alert('Phone Number already exists, please add another!')
+                        return false
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
+
+            })
+
+        })
+
+    </script>
+@endpush

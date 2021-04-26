@@ -44,7 +44,8 @@ class UserController extends Controller
     {
         //$roles = Role::pluck('name','name')->all();
         $stores = Store::all();
-        $roles = Role::where('name','!=','Admin')->pluck('name','name')->all();
+       // $roles = Role::where('name','!=','Admin')->where('name','!=','Customer')->pluck('name','name')->all();
+        $roles = Role::where('name','!=','Customer')->pluck('name','name')->all();
         //dd($roles);
         return view('backend.user.create',compact('roles','stores'));
     }
@@ -96,10 +97,11 @@ class UserController extends Controller
         $auth_user = Auth::user()->roles[0]->name;
         if($auth_user == "Admin") {
             //$roles = Role::pluck('name','name')->all();
-            $roles = Role::all();
+            $roles = Role::where('name','!=','Customer')->get();
         }else{
             //$roles = Role::where('name', '!=', 'Admin')->pluck('name', 'name')->all();
-            $roles = Role::where('name', '!=', 'Admin')->all();
+            //$roles = Role::where('name', '!=', 'Admin')->where('name','!=','Customer')->all();
+            $roles = Role::where('name','!=','Customer')->all();
         }
         $userRole = $user->roles->pluck('name','name')->first();
 

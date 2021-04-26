@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProductPurchaseReturnController extends Controller
 {
-//    function __construct()
-//    {
-//        $this->middleware('permission:product-purchase-return-list|product-sale-return-create|product-purchase-return-edit|product-purchase-return-delete', ['only' => ['index','show','returnablePurchaseProduct','saleProductReturn']]);
-//        $this->middleware('permission:product-purchase-return-create', ['only' => ['create','store']]);
-//        $this->middleware('permission:product-purchase-return-edit', ['only' => ['edit','update']]);
-//        $this->middleware('permission:product-purchase-return-delete', ['only' => ['destroy']]);
-//    }
+    function __construct()
+    {
+        $this->middleware('permission:product-purchase-return-list|product-sale-return-create|product-purchase-return-edit|product-purchase-return-delete', ['only' => ['index','show','returnablePurchaseProduct','saleProductReturn']]);
+        $this->middleware('permission:product-purchase-return-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-purchase-return-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:product-purchase-return-delete', ['only' => ['destroy']]);
+    }
 
     public function index()
     {

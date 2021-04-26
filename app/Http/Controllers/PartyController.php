@@ -27,6 +27,7 @@ class PartyController extends Controller
         $this->middleware('permission:party-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:party-delete', ['only' => ['destroy']]);
         $this->middleware('permission:supplier-list', ['only' => ['supplier']]);
+        $this->middleware('permission:whole-list', ['only' => ['wholeCustomer']]);
     }
 
     public function index()
@@ -172,8 +173,22 @@ class PartyController extends Controller
     }
     public function checkPhoneNumber(Request $request ){
         $phone = $request->phone;
+        $exist_phone_number_provider = User::where('phone',$phone)->get();
         $exist_phone_number = Party::where('phone',$phone)->get();
-        if (count($exist_phone_number) >0)
+        if (count($exist_phone_number) >0 && count($exist_phone_number_provider) >0)
+        {
+            $check_number = "Found";
+        }
+        else{
+            $check_number = "Not Found";
+        }
+        return response()->json(['success'=>true,'data'=>$check_number]);
+    }
+    public function checkPhoneNumberProvider(Request $request ){
+        $phone = $request->phone;
+        $exist_phone_number = Party::where('phone',$phone)->get();
+        $exist_phone_number_provider = User::where('phone',$phone)->get();
+        if (count($exist_phone_number) >0 && count($exist_phone_number_provider) >0)
         {
             $check_number = "Found";
         }
