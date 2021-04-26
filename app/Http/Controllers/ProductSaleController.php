@@ -18,10 +18,12 @@ use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\SaleService;
+use App\SaleServiceDuration;
 use App\Service;
 use App\Stock;
 use App\Transaction;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
 use Brian2694\Toastr\Facades\Toastr;
@@ -490,7 +492,9 @@ class ProductSaleController extends Controller
             $saleServices->product_sale_detail_id = $product_sale_detail_id;
             $saleServices->created_user_id = Auth::id();
             $saleServices->service_id = $request->service_id[$i];
-            $saleServices->date = $request->date[$i];
+            $saleServices->duration = $request->duration[$i];
+            $saleServices->start_date = $request->start_date[$i];
+            $saleServices->end_date = $request->end_date[$i];
             $saleServices->status = 0;
             $saleServices->save();
             $insert_id = $saleServices->id;
@@ -499,22 +503,48 @@ class ProductSaleController extends Controller
                 $duration_row_count = $request->duration[$i];
                 //dd($duration_row_count);
                 if ($duration_row_count != NULL){
-                    $date = $request->date[$i];
-                    $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
+//                    $date = $request->date[$i];
+//                    $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
+//
+//                    for($j=0; $j<$duration_row_count;$j++) {
+//                        $saleServices = new SaleService();
+//                        $saleServices->product_sale_detail_id = $product_sale_detail_id;
+//                        //dd($saleServices->product_sale_detail_id);
+//                        $saleServices->created_user_id = Auth::id();
+//                        $saleServices->service_id = $request->service_id[$i];
+//                        $saleServices->date = $nextMonth;
+//                        $saleServices->status = 0;
+//                        //dd($saleServices);
+//                        $saleServices->save();
+//
+//                        $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
+//                    }
 
-                    for($j=0; $j<$duration_row_count;$j++) {
-                        $saleServices = new SaleService();
-                        $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                        //dd($saleServices->product_sale_detail_id);
-                        $saleServices->created_user_id = Auth::id();
-                        $saleServices->service_id = $request->service_id[$i];
-                        $saleServices->date = $nextMonth;
-                        $saleServices->status = 0;
-                        //dd($saleServices);
-                        $saleServices->save();
 
-                        $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
-                    }
+
+
+
+                    $service_date = $request->start_date[$i];
+                    $end_date = $request->end_date[$i];
+
+                    do {
+                        // initial
+                        $saleServiceDuration = new SaleServiceDuration();
+                        $saleServiceDuration->sale_service_id = $insert_id;
+                        $saleServiceDuration->service_date = $service_date;
+                        $saleServiceDuration->save();
+                        //$x++;
+                        //$start_date = $request->start_date[$i];
+                        $add_next_service_date = $service_date."+".$duration_row_count." month";
+                        $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+
+                        $service_date = $nextServiceDate;
+                    } while ($service_date <= $end_date);
+
+
+
+
+
 
                 }
             }
