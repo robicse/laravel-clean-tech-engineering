@@ -173,9 +173,9 @@ class PartyController extends Controller
     }
     public function checkPhoneNumber(Request $request ){
         $phone = $request->phone;
-        $exist_phone_number_provider = User::where('phone',$phone)->get();
         $exist_phone_number = Party::where('phone',$phone)->get();
-        if (count($exist_phone_number) >0 && count($exist_phone_number_provider) >0)
+        $exist_phone_number_provider = User::where('phone',$phone)->get();
+        if (count($exist_phone_number) >0 or count($exist_phone_number_provider) >0)
         {
             $check_number = "Found";
         }
@@ -188,7 +188,7 @@ class PartyController extends Controller
         $phone = $request->phone;
         $exist_phone_number = Party::where('phone',$phone)->get();
         $exist_phone_number_provider = User::where('phone',$phone)->get();
-        if (count($exist_phone_number) >0 && count($exist_phone_number_provider) >0)
+        if (count($exist_phone_number) >0 or count($exist_phone_number_provider) >0)
         {
             $check_number = "Found";
         }

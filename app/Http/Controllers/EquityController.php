@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class EquityController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:equity-form', ['only' => ['equityForm']]);
+
+    }
     public function equityForm(){
         return view('backend.new-account.equity');
     }

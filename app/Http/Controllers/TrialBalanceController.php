@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class TrialBalanceController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:trialBalance-form', ['only' => ['trial_balance_form']]);
+
+    }
+
     public function trial_balance_form()
     {
         return view('backend.new-account.trial_balance_form');

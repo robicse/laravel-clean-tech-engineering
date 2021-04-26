@@ -142,19 +142,19 @@ class ServiceController extends Controller
         //dd($start_date);
         $end_date = $request->end_date ? $request->end_date : '';
         if($start_date && $end_date) {
-            $saleServices = SaleService::orderBy('date','ASC')->where('status',0)->where('date','>=',$start_date)->where('date', '<=', $end_date)->get();
+            $saleServices = SaleService::orderBy('start_date','ASC')->where('status',0)->where('start_date','>=',$start_date)->where('end_date', '<=', $end_date)->get();
         }else{
-            $saleServices = SaleService::orderBy('date','ASC')
+            $saleServices = SaleService::orderBy('start_date','ASC')
                 ->where('status',0)
-                ->where('date','>=',$custom_date_start)
-                ->where('date','<=',$custom_date_end)
+                ->where('start_date','>=',$custom_date_start)
+                ->where('start_date','<=',$custom_date_end)
                 ->get();;
         }
 
         $serviceProviders = User::where('type','provider')->get();
         $users=User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
 //        $id = $users->id;
-//        dd($id);
+        //dd($serviceProviders);
 
         return view('backend.monthly-service.index',compact('users','saleServices','serviceProviders','current_month','start_date','end_date'));
     }

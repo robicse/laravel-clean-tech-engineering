@@ -17,11 +17,11 @@
                 <form class="form-inline" action="{{ route('monthly.services') }}">
                     <div class="form-group col-md-4">
                         <label for="start_date">Start Date:</label>
-                        <input type="text" name="start_date" class="datepicker form-control" value="{{$start_date}}">
+                        <input type="date" name="start_date" class=" form-control" value="{{$start_date}}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="end_date">End Date:</label>
-                        <input type="text" name="end_date" class="datepicker form-control" value="{{$end_date}}">
+                        <input type="date" name="end_date" class=" form-control" value="{{$end_date}}">
                     </div>
                    <div class="form-group" style="margin-left: 30px">
                     <button class="btn btn-sm btn-primary float-left p-2">Advanced Search</button><span>&nbsp;</span>
@@ -52,7 +52,7 @@
                             <tr>
                                 <td width="5%" >{{$key+1}}</td>
                                 <td width="15%"> {{$saleService->service->name}}</td>
-                                <td width="8%"> {{$saleService->date}}</td>
+                                <td width="8%"> {{$saleService->start_date}}</td>
                                 <td width="12%">
                                     @php
 

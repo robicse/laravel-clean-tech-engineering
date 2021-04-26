@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class BalanceSheetController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:balanceSheet-form', ['only' => ['balanceSheetForm']]);
+
+    }
+
     public function balanceSheetForm()
     {
         //dd('dd');

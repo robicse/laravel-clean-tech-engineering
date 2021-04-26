@@ -252,8 +252,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/posting-update/{voucher_type_id}/{voucher_no}','PostingController@transactionUpdate');
     Route::get('account/generalledger','PostingController@general_ledger_form')->name('account.generalledger');
     Route::get('/get-transaction-head/{id}','AccountController@transaction_head');
-    Route::post('account/general-ledger','PostingController@view_general_ledger')->name('account.general_ledger');
-    Route::get('account/general-ledger-print/{headcode}/{date_from}/{date_to}','PostingController@general_ledger_print');
+   // Route::post('account/general-ledger','PostingController@view_general_ledger')->name('account.general_ledger');
+  //  Route::get('account/general-ledger-print/{headcode}/{date_from}/{date_to}','PostingController@general_ledger_print');
     Route::get('account/trial-balance','PostingController@trial_balance_form');
     Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');
     Route::post('account/trial-balance','PostingController@view_trial_balance')->name('account.trial_balance');

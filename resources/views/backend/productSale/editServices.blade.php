@@ -25,7 +25,9 @@
                             <th >ID</th>
                             <th>Product</th>
                             <th>Services</th>
-                            <th>Date</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Duration</th>
                     </tr>
                         </thead>
                         <tbody class="neworderbody">
@@ -44,13 +46,18 @@
                                                 ->first();
                                     @endphp
                                 </td>
-                                <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_" onchange="getval(1,this);" required>
+                                <td width="20%"> <select class="form-control service_id select2" name="service_id[]" id="service_id_"  required>
                                         <option value="">Select  Service</option>
                                         @foreach($services as $service)
                                             <option value="{{$service->id}}" {{$service->id == $saleService->service_id ? 'selected' : ''}}>{{$service->name}}</option>
                                         @endforeach
                                     </select></td>
-                                <td><input type="text" name="date[]" class="datepicker form-control"  id="date_" value="{{$saleService->date}}"></td>
+{{--                                <td><input type="date" name="date[]" class=" form-control"  id="date_" value="{{$saleService->date}}"></td>--}}
+                                <td><input type="date" name="start_date[]" class="form-control"  id="start_date_" value="{{$saleService->start_date}}"></td>
+                                <td><input type="date" name="end_date[]" class="form-control"  id="end_date_" value="{{$saleService->end_date}}"></td>
+                                <td>
+                                    <input type="number" name="duration[]" class="form-control"  id="duration_1" value="{{$saleService->duration}}">
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -84,11 +91,13 @@
                 var tr = '<tr><td class="no">' + n + '</td>' +
                     '<td></td>' +
                     '<td></td>' +
-                    '<td></td>' +
-                    '<td></td>' +
-                    '<td></td>' +
+                    // '<td></td>' +
+                    // '<td></td>' +
+                    // '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
-                    '<td><input type="text" class="datepicker form-control" name="date[]" id="date_" value=\"{{date('Y-m-d')}}\" required></td>' +
+                    '<td><input type="date" class="form-control" name="start_date[]" id="start_date_" value=\"{{date('Y-m-d')}}\" required></td>' +
+                    '<td><input type="date" class="form-control" name="end_date[]" id="end_date_" value=\"{{date('Y-m-d')}}\" required></td>' +
+                    '<td><input type="number" class=" form-control" name="duration[]" id="duration_'+n+'" ></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
 
                 $('.neworderbody').append(tr);

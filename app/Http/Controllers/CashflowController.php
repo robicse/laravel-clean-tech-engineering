@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class CashflowController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:cashflow-form', ['only' => ['cashflowForm']]);
+
+    }
+
     public function cashflowForm(){
         return view('backend.new-account.cashFlow_form');
     }

@@ -31,6 +31,11 @@
                         </thead>
                         <tbody>
                         @foreach($saleServices as $saleService)
+                            @php
+                                $saleServicesDurations =  \App\SaleServiceDuration::where('sale_service_id',$saleService->id)->get();
+                                    //dd($saleServicesDuration)
+                                    foreach ($saleServicesDurations as $saleServicesDuration)
+                            @endphp
                             <tr>
                                 <td>
                                     @php
@@ -42,7 +47,7 @@
                                     @endphp
                                 </td>
                                 <td>{{$saleService->service->name}}</td>
-                                <td>{{$saleService->date}}</td>
+                                <td>{{$saleServicesDuration->service_date}}</td>
                             </tr>
                         @endforeach
                         </tbody>

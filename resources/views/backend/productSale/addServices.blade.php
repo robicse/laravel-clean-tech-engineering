@@ -91,7 +91,7 @@
                     '<td></td>' +
                     '<td></td>' +
                     '<td></td>' +
-                    '<td></td>' +
+                    // '<td></td>' +
                     '<td><select class="form-control service_id select2" name="service_id[]" id="service_id_'+n+'" required>' + service + '</select></td>' +
                     '<td><input type="date" class="form-control" name="start_date[]" id="start_date_" value=\"{{date('Y-m-d')}}\" required></td>' +
                     '<td><input type="date" class="form-control" name="end_date[]" id="end_date_" value=\"{{date('Y-m-d')}}\" required></td>' +

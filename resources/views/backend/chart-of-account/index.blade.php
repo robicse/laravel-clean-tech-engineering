@@ -23,7 +23,7 @@
                             <th width="15%">Group 2</th>
                             <th width="15%">Group 3</th>
                             <th width="15%">Group 4</th>
-                            <th width="15%">Action</th>
+{{--                            <th width="15%">Action</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -34,14 +34,14 @@
                             <td>{{ $coa->group_2}}</td>
                             <td>{{ $coa->group_3}}</td>
                             <td>{{ $coa->group_4}}</td>
-                            <td>
-                                <a href="{{ route('ChartOfAccount.edit',$coa->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                <form method="post" action="{{ route('ChartOfAccount.destroy',$coa->id) }}" >
-                                   @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
-                                </form>
-                            </td>
+{{--                            <td>--}}
+{{--                                <a href="{{ route('ChartOfAccount.edit',$coa->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>--}}
+{{--                                <form method="post" action="{{ route('ChartOfAccount.destroy',$coa->id) }}" >--}}
+{{--                                   @method('DELETE')--}}
+{{--                                    @csrf--}}
+{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
                         </tr>
                             @endforeach
                         </tbody>
