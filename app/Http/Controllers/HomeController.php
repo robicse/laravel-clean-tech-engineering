@@ -58,9 +58,9 @@ class HomeController extends Controller
         $product = Product::all()->count();
         $service = Service::all()->count();
         $offers = Offer::all()->count();
-        $saleServices = SaleService::orderBy('date','ASC')
-            ->where('date','>=',$custom_date_start)
-            ->where('date','<=',$custom_date_end)
+        $saleServices = SaleService::orderBy('start_date','ASC')
+            ->where('start_date','>=',$custom_date_start)
+            ->where('end_date','<=',$custom_date_end)
             ->get()
             ->count();
         //dd($saleServices);
