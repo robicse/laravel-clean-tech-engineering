@@ -501,28 +501,9 @@ class ProductSaleController extends Controller
 
             if($insert_id){
                 $duration_row_count = $request->duration[$i];
-                //dd($duration_row_count);
                 if ($duration_row_count != NULL){
-//                    $date = $request->date[$i];
-//                    $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
-//
-//                    for($j=0; $j<$duration_row_count;$j++) {
-//                        $saleServices = new SaleService();
-//                        $saleServices->product_sale_detail_id = $product_sale_detail_id;
-//                        //dd($saleServices->product_sale_detail_id);
-//                        $saleServices->created_user_id = Auth::id();
-//                        $saleServices->service_id = $request->service_id[$i];
-//                        $saleServices->date = $nextMonth;
-//                        $saleServices->status = 0;
-//                        //dd($saleServices);
-//                        $saleServices->save();
-//
-//                        $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
-//                    }
-
                     $service_date = $request->start_date[$i];
                     $end_date = $request->end_date[$i];
-
                     do {
                         // initial
                         $saleServiceDuration = new SaleServiceDuration();
@@ -536,9 +517,6 @@ class ProductSaleController extends Controller
 
                         $service_date = $nextServiceDate;
                     } while ($service_date <= $end_date);
-
-
-
                 }
             }
 
@@ -589,29 +567,51 @@ class ProductSaleController extends Controller
             $saleServices->save();
             $insert_id = $saleServices->id;
             if($insert_id){
+//                $duration_row_count = $request->duration[$i];
+//                //dd($duration_row_count);
+//                if ($duration_row_count != NULL){
+//                    $service_date = $request->start_date[$i];
+//                    $end_date = $request->end_date[$i];
+//
+//                    do {
+//                        // initial
+//                        $saleServiceDuration = SaleServiceDuration::where('sale_service_id',$sale_service_id)->first();
+//                        $saleServiceDuration->sale_service_id = $insert_id;
+//                        $saleServiceDuration->service_date = $service_date;
+//
+//                        //$x++;
+//                        //$start_date = $request->start_date[$i];
+//                        $add_next_service_date = $service_date."+".$duration_row_count." month";
+//                        $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+//                        //dd($saleServiceDuration);
+//                        $saleServiceDuration->update();
+//                        $service_date = $nextServiceDate;
+//                    } while ($service_date <= $end_date);
+//
+//
+//
+//                }
+
                 $duration_row_count = $request->duration[$i];
-                //dd($duration_row_count);
                 if ($duration_row_count != NULL){
+
+                    DB::table('sale_service_durations')->where('sale_service_id',$sale_service_id)->delete();
+
                     $service_date = $request->start_date[$i];
                     $end_date = $request->end_date[$i];
-
                     do {
                         // initial
-                        $saleServiceDuration = SaleServiceDuration::where('sale_service_id',$sale_service_id)->first();
+                        $saleServiceDuration = new SaleServiceDuration();
                         $saleServiceDuration->sale_service_id = $insert_id;
                         $saleServiceDuration->service_date = $service_date;
-
+                        $saleServiceDuration->save();
                         //$x++;
                         //$start_date = $request->start_date[$i];
                         $add_next_service_date = $service_date."+".$duration_row_count." month";
                         $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
-                        //dd($saleServiceDuration);
-                        $saleServiceDuration->update();
+
                         $service_date = $nextServiceDate;
                     } while ($service_date <= $end_date);
-
-
-
                 }
             }
         }
