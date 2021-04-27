@@ -47,16 +47,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($saleServices as $key=>$saleService)
+{{--                        @foreach($saleServices as $key=>$saleService)--}}
+                        @foreach($saleServiceDurations as $key=>$saleServiceDuration)
 
                             <tr>
                                 <td width="5%" >{{$key+1}}</td>
-                                <td width="15%"> {{$saleService->service->name}}</td>
-                                <td width="8%"> {{$saleService->start_date}}</td>
+                                <td width="15%"> {{$saleServiceDuration->name}}</td>
+                                <td width="8%"> {{$saleServiceDuration->service_date}}</td>
                                 <td width="12%">
                                     @php
 
-                                        $product_sale_detail_id = $saleService->product_sale_detail_id;
+                                        $product_sale_detail_id = $saleServiceDuration->product_sale_detail_id;
 //dd($product_sale_detail_id);
                                         $customer = DB::table('product_sales')
                                             ->join('product_sale_details', 'product_sales.id', '=', 'product_sale_details.product_sale_id')
@@ -86,12 +87,12 @@
                                     <form action="{{route('send.mail')}}" method="post">
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$customer_id}}">
-                                        <input type="hidden" name="row_id" value="{{$saleService->id}}">
-                                        <input type="hidden" name="service_id" value="{{$saleService->service->id}}">
+                                        <input type="hidden" name="row_id" value="{{$saleServiceDuration->id}}">
+                                        <input type="hidden" name="service_id" value="{{$saleServiceDuration->service_id}}">
                                         <select class="form-control select2" name="service_provider_id"  required>
                                             <option value="">Select  Service Provider</option>
                                             @foreach($serviceProviders as $serviceProvider)
-                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $saleService
+                                                <option value="{{$serviceProvider->id}}" {{$serviceProvider->id == $saleServiceDuration
 ->provider_id ? 'selected' : '' }}>{{$serviceProvider->name}}</option>
                                             @endforeach
                                         </select>

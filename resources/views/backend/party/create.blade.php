@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Address</label>
+                            <label class="control-label col-md-3 text-right">Address <span style="color: red">*</span></label>
                             <div class="col-md-8">
                                 <input type="text" id="address" name="address" class="form-control" required>
                             </div>
