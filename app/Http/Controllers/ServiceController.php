@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UserInfo;
 use App\SaleService;
+use App\SaleServiceDuration;
 use App\Service;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -142,13 +143,27 @@ class ServiceController extends Controller
         //dd($start_date);
         $end_date = $request->end_date ? $request->end_date : '';
         if($start_date && $end_date) {
-            $saleServices = SaleService::orderBy('start_date','ASC')->where('status',0)->where('start_date','>=',$start_date)->where('end_date', '<=', $end_date)->get();
+            //$saleServices = SaleService::orderBy('start_date','ASC')->where('status',0)->where('start_date','>=',$start_date)->where('end_date', '<=', "'".$end_date."'")->get();
+            $saleServiceDurations = DB::table('sale_service_durations')
+                ->join('sale_services','sale_service_durations.sale_service_id','sale_services.id')
+                ->where('service_date','>=',$start_date)
+                ->where('service_date','<=',$end_date)
+                ->select('sale_service_durations.service_date')
+                ->get();
+            //dd($saleServiceDurations);
         }else{
-            $saleServices = SaleService::orderBy('start_date','ASC')
-                ->where('status',0)
-                ->where('start_date','>=',$custom_date_start)
-                ->where('start_date','<=',$custom_date_end)
-                ->get();;
+//            $saleServices = SaleService::orderBy('start_date','ASC')
+//                ->where('status',0)
+//                ->where('start_date','>=',$custom_date_start)
+//                ->where('start_date','<=',$custom_date_end)
+//                ->get();
+
+            $saleServiceDurations = DB::table('sale_service_durations')
+                ->join('sale_services','sale_service_durations.sale_service_id','sale_services.id')
+                ->where('service_date','>=',$custom_date_start)
+                ->where('service_date','<=',$custom_date_end)
+                ->select('sale_service_durations.service_date')
+                ->get();
         }
 
         $serviceProviders = User::where('type','provider')->get();
