@@ -33,8 +33,7 @@ class PartyController extends Controller
 
     public function index()
     {
-
-
+        //UserInfo::smsAPI("8801725930131",'Testing');
         $parties = Party::where('type','=','customer')->latest()->get();
         return view('backend.party.index',compact('parties'));
     }
