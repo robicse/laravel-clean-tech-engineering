@@ -967,14 +967,13 @@ class ProductSaleController extends Controller
         $parties->email = $request->email;
         $parties->address = $request->address;
         $parties->status = 1;
+        $parties->save();
+        $insert_id = $parties->id;
         $text_for_customer = "Dear  $parties->name Sir,
 Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$parties->id.
 Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
 For any queries call our support 09638-888 000..";
         UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
-        $parties->save();
-        $insert_id = $parties->id;
-
         if ($insert_id){
            // $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;

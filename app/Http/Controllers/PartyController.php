@@ -75,16 +75,16 @@ class PartyController extends Controller
         $parties->status = $request->status;
         //dd($parties);
 
-        $text_for_customer = "Dear  $parties->name Sir,
-Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$parties->id.
-Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
-For any queries call our support 09638-888 000..";
-        UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
-
         $parties->save();
         $insert_id = $parties->id;
         //dd($insert_id);
         if($insert_id  && $request->type == 2){
+            $text_for_customer = "Dear  $parties->name Sir,
+Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$parties->id.
+Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000..";
+            UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
+
             $user_data['name'] = $request->name;
             $user_data['email'] = $request->email;
             $user_data['phone'] = $request->phone;

@@ -143,6 +143,7 @@ class ServiceController extends Controller
     public function completedService(Request $request)
 
     {
+
 //        $current_year = date('Y');
 //        $current_month = date('m');
 //        $custom_date_start = $current_year . "-" . $current_month . "-01";
@@ -214,6 +215,7 @@ class ServiceController extends Controller
                     ->select('sale_service_durations.service_date', 'sale_services.service_id', 'sale_services.id', 'sale_services.product_sale_detail_id', 'sale_services.provider_id', 'services.name')
                     ->get();
             }
+            //dd('hh');
             // dd($saleServiceDurations);
             $serviceProviders = User::where('type', 'provider')->get();
             $users = User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();

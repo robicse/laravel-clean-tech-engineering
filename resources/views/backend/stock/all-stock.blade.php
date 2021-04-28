@@ -1,5 +1,6 @@
 @extends('backend._partial.dashboard')
 
+
 @section('content')
     <main class="app-content">
         <div class="app-title">
@@ -16,11 +17,11 @@
                 <form class="form-inline" action="{{ route('stock-purchase.allStock') }}">
                     <div class="form-group col-md-4">
                         <label for="start_date">Start Date:</label>
-                        <input type="date" name="start_date" class="datepicker form-control" value="">
+                        <input type="date" name="start_date" class="form-control" value="">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="end_date">End Date:</label>
-                        <input type="date" name="end_date" class="datepicker form-control" value="">
+                        <input type="date" name="end_date" class="form-control" value="">
                     </div>
                     <div class="form-group col-md-4">
                         <button type="submit" class="btn btn-success">Submit</button>
