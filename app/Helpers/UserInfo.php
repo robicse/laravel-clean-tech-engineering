@@ -97,7 +97,7 @@ class UserInfo
         ));
 
         $response = curl_exec($ch);
-        dd($response);
+        //dd($response);
         curl_close($ch);
 
         return $response;
