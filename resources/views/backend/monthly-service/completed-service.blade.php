@@ -6,10 +6,6 @@
             <div>
                 <h1><i class=""></i> All Completed Monthly Service</h1>
             </div>
-
-{{--            <ul class="app-breadcrumb breadcrumb">--}}
-{{--                <li class="breadcrumb-item"> <a href="{!! route('service.create') !!}" class="btn btn-sm btn-primary" type="button">Add Service</a></li>--}}
-{{--            </ul>--}}
         </div>
         <div class="col-md-12">
             <div class="tile">

@@ -147,12 +147,20 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('product-relation-data','ProductPurchaseController@productRelationData');
     Route::get('product-sale-relation-data','ProductSaleController@productSaleRelationData');
     Route::get('all-stock-sale-list','StockController@allStockList')->name('stock-purchase.allStock');
+    Route::get('stock-details/{store_id}','StockController@stockDetails')->name('stock.details');
     Route::get('stock-sale-list','StockController@stockList')->name('stock.index');
     Route::get('stock-purchase-list','StockController@stockPurchaseList')->name('stock-purchase.index');
     Route::get('stock-summary-list','StockController@stockSummaryList')->name('stock.summary.list');
 
+    Route::get('stock-purchase-list-details/{store_id}','StockController@stockPurchaseDetails')->name('stock.purchase.listDetails');
+    Route::get('stock-sale-list-details/{store_id}','StockController@stockSaleDetails')->name('stock.sale.listDetails');
+    // stock sync
+    Route::get('stock_sync','StockController@stock_sync')->name('stock_sync');
+
     Route::get('stock-summary/{store_id}','StockController@stockSummary');
+
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
+    Route::get('stock-low-list-details/{store_id}','StockController@stockLowListDEtails')->name('stock.low.list.details');
 
     Route::get('returnable-sale-product-list','ProductSaleReturnController@returnableSaleProduct')->name('returnable.sale.product');
     Route::get('returnable-purchase-product-list','ProductPurchaseReturnController@returnablePurchaseProduct')->name('returnable.purchase.product');

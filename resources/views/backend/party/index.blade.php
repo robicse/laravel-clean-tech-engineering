@@ -4,7 +4,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Customer</h1>
+                <h1><i class=""></i> All Customer </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer</a></li>

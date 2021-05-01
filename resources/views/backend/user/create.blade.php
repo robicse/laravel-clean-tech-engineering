@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }} <span style="color: red">*</span></label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Name <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -76,14 +76,14 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" >
                                 </div>
                             </div>
                         <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }} <span style="color: red">*</span></label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Phone <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="phone" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="phone" required>
@@ -91,7 +91,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }} <span style="color: red">*</span></label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Password <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>

@@ -72,14 +72,14 @@ class PartyController extends Controller
         $parties->email = $request->email;
         $parties->address = $request->address;
         $parties->status = $request->status;
-        //dd($parties);
 
         $parties->save();
+
         $insert_id = $parties->id;
         //dd($insert_id);
         if($insert_id  && $request->type == 2){
             $text_for_customer = "Dear  $parties->name Sir,
-Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$parties->id.
+Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$insert_id.
 Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
 For any queries call our support 09638-888 000..";
             UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
@@ -165,6 +165,27 @@ For any queries call our support 09638-888 000..";
         $parties->status = $request->status;
         // dd($parties);
         $parties->save();
+        $insert_id = $parties->id;
+        //dd($insert_id);
+//        if($insert_id  && $request->type == 2){
+//            $text_for_customer = "Dear  $parties->name Sir,
+//Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$insert_id.
+//Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+//For any queries call our support 09638-888 000..";
+//            UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
+//
+//            $user_data['name'] = $request->name;
+//            $user_data['email'] = $request->email;
+//            $user_data['phone'] = $request->phone;
+//            $user_data['password'] = Hash::make(123456);
+//            $user_data['party_id'] = $insert_id;
+//            //$user_data['role_id'] = 3;
+//            //dd($user_data);
+//            $user = User::create($user_data);
+//
+//            $user->assignRole('Customer');
+//            // dd($user);
+//        }
         Toastr::success('Party Updtaed Successfully', 'Success');
         return redirect()->route('party.index');
     }

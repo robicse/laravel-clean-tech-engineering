@@ -51,9 +51,18 @@ class   UserDashboardController extends Controller
     public function serviceList($id)
     {
        // dd($id);
-        $serviceDetails = \App\ProductSaleDetail::find($id);
-        //dd($productHistory);
-        return view('backend.user-dashboard.service-list', compact('serviceDetails'));
+       // $serviceDetails = \App\ProductSaleDetail::find($id);
+
+        $saleServiceDurations = DB::table('sale_service_durations')
+            ->join('sale_services','sale_service_durations.sale_service_id','sale_services.id')
+            ->join('services','sale_services.service_id','services.id')
+            ->where('sale_services.product_sale_detail_id','=',$id)
+            //->where('service_date','<=',$custom_date_end)
+            ->select('sale_service_durations.service_date','sale_services.*','services.name')
+            ->orderby('service_date','ASC')
+            ->get();
+       // dd($saleServiceDurations);
+        return view('backend.user-dashboard.service-list', compact('saleServiceDurations'));
 
     }
     public function updateProfile(Request $request)

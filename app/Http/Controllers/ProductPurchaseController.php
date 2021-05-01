@@ -50,7 +50,7 @@ class ProductPurchaseController extends Controller
         if($auth_user == "Admin"){
             $stores = Store::all();
         }else{
-            $stores = Store::where('user_id',$auth_user_id)->get();
+            $stores = Store::where(' ',$auth_user_id)->get();
         }
         $productCategories = ProductCategory::all();
         $productUnits = ProductUnit::all();
