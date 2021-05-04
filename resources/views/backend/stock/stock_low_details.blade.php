@@ -44,7 +44,7 @@
                                             @if($stock->product->product_type == 'Finish Goods')
                                                 <a href="{!! route('productPurchases.create') !!}" class="btn btn-sm btn-primary" type="button">Purchases Now</a>
                                             @else
-                                                <a href="{!! route('productPurchaseRawMaterials.create') !!}" class="btn btn-sm btn-primary" type="button">Purchases Now</a>
+                                                <a href="{!! route('productPurchases.create') !!}" class="btn btn-sm btn-primary" type="button">Purchases Now</a>
                                             @endif
                                         </td>
                                     </tr>

@@ -13,23 +13,21 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Stock Details</h3>
-{{--                @php--}}
-{{--                foreach ($stores as $store)--}}
-{{--                @endphp--}}
-{{--                                <form class="form-inline" action="{{ url('stock-details/'.$store->id) }}" style="margin-bottom: 20px">--}}
-{{--                                    <div class="form-group col-md-4">--}}
-{{--                                        <label for="start_date">Start Date:</label>--}}
-{{--                                        <input type="date" name="start_date" class="form-control" value="">--}}
-{{--                                    </div>--}}
-{{--                                    <div class="form-group col-md-4">--}}
-{{--                                        <label for="end_date">End Date:</label>--}}
-{{--                                        <input type="date" name="end_date" class="form-control" value="">--}}
-{{--                                    </div>--}}
-{{--                                    <div class="form-group col-md-4">--}}
-{{--                                        <button type="submit" class="btn btn-success">Submit</button>--}}
-{{--                                        <a href="{{ url('stock-details/'.$store->id) }}" class="btn btn-primary" type="button">Reset</a>--}}
-{{--                                    </div>--}}
-{{--                                </form>--}}
+
+                                <form class="form-inline" action="{{ url('stock-details/'.$store_id) }}" style="margin-bottom: 20px">
+                                    <div class="form-group col-md-4">
+                                        <label for="start_date">Start Date:</label>
+                                        <input type="date" name="start_date" class="form-control" value="{{$start_date}}">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="end_date">End Date:</label>
+                                        <input type="date" name="end_date" class="form-control" value="{{$end_date}}">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <button type="submit" class="btn btn-success">Advanced Search</button>
+                                        <a href="{{ url('stock-details/'.$store_id) }}" class="btn btn-primary" type="button">Reset</a>
+                                    </div>
+                                </form>
                 <div class="col-md-12"></div>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">

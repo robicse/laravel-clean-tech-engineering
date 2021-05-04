@@ -56,6 +56,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/invoice', 'UserDashboardController@invoice')->name('invoice');
     Route::post('/invoice-details', 'UserDashboardController@invoiceDetails')->name('invoice.details');
 
+    //reset Password
+    Route::get('reset-password','VerificationController@getPhoneNumber')->name('user.reset.password');
+    Route::post('otp-store','VerificationController@checkPhoneNumber')->name('phone.check');
+    Route::post('change-password','VerificationController@otpStore')->name('otp.store');
+    Route::post('new-password/update/{id}','VerificationController@passwordUpdate')->name('reset.password.update');
+
 //});
 
 Route::group(['middleware' => ['auth']], function() {
@@ -178,7 +184,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('party/new-office-costing-category','ExpenseController@newOfficeCostingCategory')->name('office.costing.category.new');
     Route::get('product-production-relation-data','ProductProductionController@productProductionRelationData');
 
-    Route::get('stock-date-wise','StockController@stockDateWise')->name('stock.date.wise');
+    Route::get('stock-date-wise/{store_id}','StockController@stockDateWise')->name('stock.date.wise');
 
 
     Route::get('productPosSales/list','ProductPosSaleController@index')->name('productPosSales.index');
@@ -235,7 +241,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('monthly-service','ServiceController@monthlyService')->name('monthly.services');
     Route::get('completed-service','ServiceController@completedService')->name('completed.services');
     Route::post('send-sms','ServiceController@sendSMS')->name('send.mail');
-
 
 
 

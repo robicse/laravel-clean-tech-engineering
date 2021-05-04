@@ -89,6 +89,10 @@
                             <td>{{$productSale->discount_type}}</td>
                         </tr>
                         <tr>
+                            <th>Payment Type</th>
+                            <td>{{$transactions->payment_type ? 'cash' : 'check' }}</td>
+                        </tr>
+                        <tr>
                             <th>Discount Amount</th>
                             <td>{{$productSale->discount_amount}}</td>
                         </tr>

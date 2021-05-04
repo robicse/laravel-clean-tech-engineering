@@ -172,11 +172,31 @@ class StockController extends Controller
 
 
     public function stockDetails(Request $request,$store_id){
-            $start_date = $request->start_date ? $request->start_date : '';
+
+        $auth_user_id = Auth::user()->id;
+        $auth_user = Auth::user()->roles[0]->name;
+        $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
-        $stocks = Stock::where('store_id',$store_id)->latest()->get();
+
+
+        if($start_date && $end_date) {
+            if ($auth_user == "Admin") {
+                $stocks = Stock::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('store_id',$store_id)->latest('id','desc')->get();
+            } else {
+                $stocks = Stock::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('store_id',$store_id)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }else{
+            if ($auth_user == "Admin") {
+                $stocks = Stock::where('store_id',$store_id)->latest('id','desc')->get();
+            } else {
+                $stocks = Stock::where('store_id',$store_id)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+//dd($stocks);
+
+        //$stocks = Stock::where('store_id',$store_id)->latest()->get();
         $stores = Store::all();
-        return view('backend.stock.details', compact('stocks','start_date','end_date','stores'));
+        return view('backend.stock.details', compact('stocks','start_date','end_date','stores','store_id'));
     }
 
     public function stockList(){
@@ -236,7 +256,8 @@ class StockController extends Controller
         $stores = Store::latest()->get();
         return view('backend.stock.stock_low_details', compact('stores','stocks'));
     }
-    public function stockDateWise(Request $request){
+
+    public function stockDateWise(Request $request,$store_id){
         //dd($request->all());
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';

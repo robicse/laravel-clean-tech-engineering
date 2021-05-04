@@ -272,9 +272,9 @@ class ServiceController extends Controller
         }
 
         //dd($service_name);
-        $text_for_customer = "Dear,Customer $customer_name ,Your $service_name will be done by $service_provider_name.$service_provider_name Number: $service_provider_phone.For any queries call our support 09638-888 000.";
+        $text_for_customer = "Dear,Customer $customer_name Sir,Your water purifier Service $service_name will be done by $service_provider_name.$service_provider_name Number: $service_provider_phone.For any queries call our support 09638-888 000.";
         //dd($text_for_customer);
-        //$text_for_provider = "Dear,  robi,Your next work with $customer_name.$customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Service Name is:$service_name";
+
         $text_for_provider = "Dear,Service Provider $service_provider_name,Your next work with $customer_name. $customer_name's Mobile No: is $customer_phone,Address: $customer_address,And Your Service Name is:$service_name";
         //dd($text_for_provider);
         UserInfo::smsAPI("88".$customer_phone,$text_for_customer);

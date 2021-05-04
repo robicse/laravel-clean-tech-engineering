@@ -56,37 +56,37 @@
                             <input type="checkbox"><span class="label-text">Stay Signed in</span>
                         </label>
                     </div>
-{{--                    <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Forgot Password ?</a></p>--}}
+                    <p class=""><a href="{{route('user.reset.password')}}">Forgot Password ?</a></p>
                 </div>
             </div>
             <div class="form-group btn-container">
                 <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
             </div>
         </form>
-        <form method="POST" class="forget-form" action="{{ route('password.email') }}">
-            @csrf
-            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
-            <div class="form-group">
-                {{--@if (session('status'))--}}
-                {{--<div class="alert alert-success" role="alert">--}}
-                {{--{{ session('status') }}--}}
-                {{--</div>--}}
-                {{--@endif--}}
-                <label class="control-label">Phone No</label>
-                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Phone No" required>
-                @if ($errors->has('phone'))
-                    <span class="invalid-feedback" role="alert">
-                         <strong>{{ $errors->first('phone') }}</strong>
-                    </span>
-                @endif
-            </div>
-            <div class="form-group btn-container">
-                <button class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>Send Password Reset Link</button>
-            </div>
-            <div class="form-group mt-3">
-                <p class="semibold-text mb-0"><a href="#" data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Back to Login</a></p>
-            </div>
-        </form>
+{{--        <form method="POST" class="forget-form" action="{{ route('phone.check') }}">--}}
+{{--            @csrf--}}
+{{--            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>--}}
+{{--            <div class="form-group">--}}
+{{--                --}}{{--@if (session('status'))--}}
+{{--                --}}{{--<div class="alert alert-success" role="alert">--}}
+{{--                --}}{{--{{ session('status') }}--}}
+{{--                --}}{{--</div>--}}
+{{--                --}}{{--@endif--}}
+{{--                <label class="control-label">Phone No</label>--}}
+{{--                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone"  placeholder="Phone No" required>--}}
+{{--                @if ($errors->has('phone'))--}}
+{{--                    <span class="invalid-feedback" role="alert">--}}
+{{--                         <strong>{{ $errors->first('phone') }}</strong>--}}
+{{--                    </span>--}}
+{{--                @endif--}}
+{{--            </div>--}}
+{{--            <div class="form-group btn-container">--}}
+{{--                <button class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>Send Password Reset Link</button>--}}
+{{--            </div>--}}
+{{--            <div class="form-group mt-3">--}}
+{{--                <p class="semibold-text mb-0"><a href="#" data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Back to Login</a></p>--}}
+{{--            </div>--}}
+{{--        </form>--}}
     </div>
 </section>
 <!-- Essential javascripts for application to work-->

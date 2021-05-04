@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UserInfo;
+use App\Model\VerificationCode;
 use App\Store;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -25,6 +28,7 @@ class UserController extends Controller
         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
+
 
     public function index()
     {
@@ -185,9 +189,18 @@ class UserController extends Controller
         return back();
     }
 
-    public function changedPassword($user_id)
+    public function changedPassword(Request $request,$user_id)
     {
-        return view('backend.user.edit-password', compact('user_id'));
+        $user = User::find($user_id);
+        //$hashedPassword = User::where('id',$user_id)->pluck('password')->first();
+//        if (\Illuminate\Support\Facades\Hash::check($user->password, $hashedPassword)) {
+//            if (!Hash::check($user->password, $hashedPassword)) {
+//                $user->password;
+//            }
+//
+//        }
+       //dd($hashedPassword);
+        return view('backend.user.edit-password', compact('user_id','user'));
     }
     public function changedPasswordUpdated(Request $request)
     {
