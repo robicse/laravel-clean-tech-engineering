@@ -56,6 +56,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, [
 //            'store_id' => 'required',
             'name' => 'required',

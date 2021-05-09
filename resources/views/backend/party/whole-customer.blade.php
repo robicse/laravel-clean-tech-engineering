@@ -39,17 +39,18 @@
                         @foreach($parties as $key => $party)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            <td>{{ $party->type}}</td>
+{{--                            <td>{{ $party->type}} </td>--}}
+                            <td>Whole sale </td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>
                             <td>{{ $party->email}}</td>
                             <td>
                                 <a href="{{ route('party.edit',$party->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >
-                                   @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
-                                </form>
+{{--                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >--}}
+{{--                                   @method('DELETE')--}}
+{{--                                    @csrf--}}
+{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
+{{--                                </form>--}}
                             </td>
                         </tr>
                             @endforeach

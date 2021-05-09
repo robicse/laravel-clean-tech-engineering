@@ -52,7 +52,15 @@
                             <!-- small box -->
                             <div class="small-box bg-primary mobile" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productSales.create')}}" style="color: white">Sale</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productSales.create')}}" style="color: white">Retail Sale</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6" style="margin-top:10px">
+                            <!-- small box -->
+                            <div class="small-box bg-primary mobile" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productWholeSales.create')}}" style="color: white">Whole Sale</a></h3>
                                 </div>
                             </div>
                         </div>

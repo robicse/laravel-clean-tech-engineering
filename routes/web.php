@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('party','PartyController');
     Route::resource('productPurchases','ProductPurchaseController');
     Route::resource('productSales','ProductSaleController');
+    Route::resource('productWholeSales','ProductWholeSaleController');
     Route::resource('productSaleReturns','ProductSaleReturnController');
     Route::resource('productPurchaseReturns','ProductPurchaseReturnController');
     Route::resource('officeCostingCategory','OfficeCostingCategoryController');
@@ -152,6 +153,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('check-barcode','ProductController@checkBarcode');
     Route::get('product-relation-data','ProductPurchaseController@productRelationData');
     Route::get('product-sale-relation-data','ProductSaleController@productSaleRelationData');
+
+    Route::get('product-Transfersale-relation-data','StockTransferController@productSaleRelationData');
+    Route::get('product-wholeSale-relation-data','ProductWholeSaleController@productWholeSaleRelationData');
     Route::get('all-stock-sale-list','StockController@allStockList')->name('stock-purchase.allStock');
     Route::get('stock-details/{store_id}','StockController@stockDetails')->name('stock.details');
     Route::get('stock-sale-list','StockController@stockList')->name('stock.index');

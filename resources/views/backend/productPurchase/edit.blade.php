@@ -85,10 +85,11 @@
                                     <th>Product</th>
                                     <th style="display: none">Category</th>
                                     <th>Brand</th>
-                                    <th>Unit</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>MRP Price</th>
+                                    <th style="display: none">Unit</th>
+                                    <th>Qty<small class="requiredCustom">*</small></th>
+                                    <th>Purchase Price<small class="requiredCustom">*</small></th>
+                                    <th>MRP Price<small class="requiredCustom">*</small></th>
+                                    <th>WholeSale Price <small class="requiredCustom">*</small></th>
                                     <th>Sub Total</th>
                                 </tr>
                                 </thead>
@@ -128,7 +129,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="12%">
+                                        <td width="12%" style="display: none">
                                             <div id="product_unit_id_{{$current_row}}">
                                                 <select class="form-control product_unit_id select2" name="product_unit_id[]" readonly required>
                                                     <option value="">Select  Unit</option>
@@ -146,6 +147,9 @@
                                         </td>
                                         <td width="10%">
                                             <input type="number" min="1" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >
+                                        </td>
+                                        <td width="10%">
+                                            <input type="number" min="1" max="" class="form-control" name="wholeSale_price[]" value="{{$productPurchaseDetail->wholeSale_price}}" required >
                                         </td>
                                         <td width="15%">
                                             <input type="text" class="amount form-control" name="sub_total[]" value="{{$productPurchaseDetail->sub_total}}">
@@ -287,7 +291,7 @@
                     '<td><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                     // '<td><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
-                    '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
+                    '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
                     '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                     '<td><input type="number" min="1" max="" class="price form-control" id="price_"  name="price[]" value="" required></td>' +
                     //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +

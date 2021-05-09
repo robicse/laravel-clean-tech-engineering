@@ -122,7 +122,7 @@
                                 <label for="" class="col-md-4 col-form-label text-md-right">Role <span style="color: red">*</span></label>
 
                                 <div class="col-md-6">
-                                    {!! Form::select('roles[]', $roles,['User'], array('class' => 'form-control')) !!}
+                                    {!! Form::select('roles', $roles,['User'], array('class' => 'form-control')) !!}
                                 </div>
                             </div>
 

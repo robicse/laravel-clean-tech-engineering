@@ -93,10 +93,11 @@
                                     <th style="display: none">Category</th>
 {{--                                    <th>Sub Category</th>--}}
                                     <th>Brand</th>
-                                    <th>Unit</th>
+                                    <th  style="display: none">Unit</th>
                                     <th>Qty <small class="requiredCustom">*</small></th>
-                                    <th>Price <small class="requiredCustom">*</small></th>
+                                    <th>Purchase Price <small class="requiredCustom">*</small></th>
                                     <th>MRP Price <small class="requiredCustom">*</small></th>
+                                    <th>WholeSale Price <small class="requiredCustom">*</small></th>
                                     <th>Sub Total</th>
                                     <th>Action</th>
 
@@ -133,7 +134,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td width="12%"  style="display: none">
                                         <div id="product_unit_id_1">
                                             <select class="form-control product_unit_id select2" name="product_unit_id[]" required>
                                                 <option value="">Select  Unit</option>
@@ -151,6 +152,9 @@
                                     </td>
                                     <td width="12%">
                                         <input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required >
+                                    </td>
+                                    <td width="12%">
+                                        <input type="text" min="1" max="" class="form-control" name="wholeSale_price[]" value="" required >
                                     </td>
                                     <td width="10%">
                                         <input type="text" class="amount form-control" name="sub_total[]">
@@ -351,10 +355,11 @@
                     '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
                     '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
-                    '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
+                    '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
                     '<td><input type="text" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                     '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_'+n+'" value="" required></td>' +
                     '<td><input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required></td>' +
+                    '<td><input type="text" min="1" max="" class="form-control" name="wholeSale_price[]" value="" required></td>' +
                     //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                     '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';

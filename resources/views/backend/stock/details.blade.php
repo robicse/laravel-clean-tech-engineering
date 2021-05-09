@@ -60,7 +60,11 @@
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td>{{ $stock->store->name}}</td>
-                            <td>{{ $stock->stock_type}}</td>
+                            @if( $stock->stock_type == 'sale')
+                            <td>{{ $stock->stock_type}}.{{ $stock->sale_type}}</td>
+                            @else
+                                <td>{{ $stock->stock_type}}</td>
+                            @endif
                             <td>{{ $stock->product->name}}</td>
                             <td>{{ $stock->previous_stock}}</td>
                             <td>{{ $stock->stock_in}}</td>

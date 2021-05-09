@@ -138,7 +138,7 @@ class ServiceController extends Controller
 //        $id = $users->id;
         //dd($serviceProviders);
 
-        return view('backend.monthly-service.index',compact('saleServiceDurations','users','saleServices','serviceProviders','current_month','start_date','end_date'));
+        return view('backend.monthly-service.index',compact('saleServiceDurations','users','serviceProviders','current_month','start_date','end_date'));
     }
     public function completedService(Request $request)
 
@@ -221,7 +221,7 @@ class ServiceController extends Controller
             $users = User::where('party_id', NULL)->where('store_id', NULL)->latest()->get();
 //        $id = $users->id;
             //dd($serviceProviders);
-            return view('backend.monthly-service.completed-service', compact('saleServiceDurations','users', 'saleServices', 'serviceProviders', 'current_month', 'start_date', 'end_date'));
+            return view('backend.monthly-service.completed-service', compact('saleServiceDurations','users', 'serviceProviders', 'current_month', 'start_date', 'end_date'));
         }
     }
     public function sendSMS(Request $request){

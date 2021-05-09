@@ -45,7 +45,11 @@
                                             <td>{{ $transaction->user->name}}</td>
                                             <td>{{ $transaction->created_at}}</td>
                                             <td>{{ $transaction->party ? $transaction->party->name : ''}}</td>
+                                            @if($transaction->transaction_type == 'sale')
+                                            <td>{{ $transaction->transaction_type}} .{{ $transaction->sale_type}} </td>
+                                            @else
                                             <td>{{ $transaction->transaction_type}}</td>
+                                            @endif
                                             <td>
                                                 {{ $transaction->payment_type}}
                                                 @if($transaction->payment_type == 'Check')

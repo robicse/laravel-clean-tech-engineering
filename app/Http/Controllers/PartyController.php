@@ -178,7 +178,7 @@ For any queries call our support 09638-888 000..";
 
 
             // user
-            $user = User::where('party_id',$id)->first();
+            $user = User::where('party_id',$insert_id)->first();
             $user->name = $request->name;
             $user->phone = $request->phone;
             $exist_phone_number = User::where('phone',$request->phone)->get();
@@ -189,7 +189,7 @@ For any queries call our support 09638-888 000..";
             $user->email = $request->email;
             $user->password = Hash::make(123456);
             $user->update();
-            // dd($user);
+             dd($user);
         }
         Toastr::success('Party Updtaed Successfully', 'Success');
         return redirect()->route('party.index');

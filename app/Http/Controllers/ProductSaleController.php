@@ -80,9 +80,10 @@ class ProductSaleController extends Controller
 
     public function create()
     {
+
         $auth = Auth::user();
         $auth_user = Auth::user()->roles[0]->name;
-        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
+        $parties = Party::where('type','customer' )->get() ;
 //dd($parties);
 //        $parties = Party::where('type','customer')->get() ;
         if($auth_user == "Admin"){
@@ -143,6 +144,7 @@ class ProductSaleController extends Controller
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->sale_type ="Retail Sale";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
@@ -189,6 +191,7 @@ class ProductSaleController extends Controller
                 $stock->date = $request->date;
                 $stock->product_id = $request->product_id[$i];
                 $stock->stock_type = 'sale';
+                $stock->sale_type = "Retail Sale";
                 $stock->previous_stock = $previous_stock;
                 $stock->stock_in = 0;
                 $stock->stock_out = $request->qty[$i];
@@ -219,6 +222,7 @@ class ProductSaleController extends Controller
             $transaction->date = $request->date;
             $transaction->ref_id = $insert_id;
             $transaction->transaction_type = 'sale';
+            $transaction->sale_type = "Retail Sale";
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
             $transaction->check_date = $request->check_date ? $request->check_date : '';
@@ -306,7 +310,7 @@ class ProductSaleController extends Controller
         }else{
             $stores = Store::where('id',$auth->store_id)->get();
         }
-        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
+        $parties = Party::where('type' , 'customer' )->get() ;
         $products = Product::all();
         $productSale = ProductSale::find($id);
         $productCategories = ProductCategory::all();
@@ -358,6 +362,7 @@ class ProductSaleController extends Controller
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->sale_type ="Retail Sale";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
@@ -403,6 +408,7 @@ class ProductSaleController extends Controller
             $stock->date = $request->date;
             $stock->product_id = $request->product_id[$i];
             $stock->previous_stock = $previous_stock;
+            $stock->sale_type = "Retail Sale";
             $stock->stock_in = 0;
             $stock->stock_out = $request->qty[$i];
             $stock->current_stock = $previous_stock - $request->qty[$i];
@@ -427,6 +433,7 @@ class ProductSaleController extends Controller
         $transaction->store_id = $request->store_id;
         $transaction->party_id = $request->party_id;
         $transaction->date = $request->date;
+        $transaction->sale_type = "Retail Sale";
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
         $transaction->check_date = $request->check_date ? $request->check_date : '';

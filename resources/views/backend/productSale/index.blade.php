@@ -6,9 +6,9 @@
             <div>
                 <h1><i class=""></i> All Product Sale</h1>
             </div>
-            <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"> <a href="{!! route('productSales.create') !!}" class="btn btn-sm btn-primary" type="button">Add Product Sales</a></li>
-            </ul>
+{{--            <ul class="app-breadcrumb breadcrumb">--}}
+{{--                <li class="breadcrumb-item"> <a href="{!! route('productSales.create') !!}" class="btn btn-sm btn-primary" type="button">Add Product Sales</a></li>--}}
+{{--            </ul>--}}
         </div>
         <div class="col-md-12">
             <div class="tile">
@@ -39,7 +39,7 @@
                         <th>Date</th>
                         <th>Invoice No</th>
                         <th>Customer</th>
-{{--                        <th>Payment Type</th>--}}
+                        <th>Sale Type</th>
                         <th>Total Amount</th>
                         <th>Paid Amount</th>
                         <th>Due Amount</th>
@@ -71,7 +71,7 @@
                         @else
                             <td></td>
                         @endif
-{{--                        <td>{{ $productSale->payment_type}}</td>--}}
+                        <td>{{ $productSale->sale_type}}</td>
                         <td>{{ $productSale->total_amount}}</td>
                         <td>{{ $productSale->paid_amount}}</td>
                         <td>
@@ -89,7 +89,12 @@
                             <a href="{{ route('productSales.show',$productSale->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
                             <a href="{!! route('productSales-invoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
                             <a href="{!! route('productSales-Challaninvoice',$productSale->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px;margin-top: 5px" type="button">Challan Print</a>
+
+                            @if( $productSale->sale_type == 'Whole Sale')
+                            <a href="{{ route('productWholeSales.edit',$productSale->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px;margin-top: 5px"><i class="fa fa-edit"></i></a>
+                            @else
                             <a href="{{ route('productSales.edit',$productSale->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px;margin-top: 5px"><i class="fa fa-edit"></i></a>
+                            @endif
                             <form method="post" action="{{ route('productSales.destroy',$productSale->id) }}" >
                                @method('DELETE')
                                 @csrf
