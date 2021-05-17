@@ -177,7 +177,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('sale-product-return','ProductSaleReturnController@saleProductReturn')->name('sale.product.return');
     Route::post('purchase-product-return','ProductPurchaseReturnController@purchaseProductReturn')->name('purchase.product.return');
 
-    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
+    Route::get('transaction-store','TransactionController@transactionStore')->name('transaction.store');
+    Route::get('transaction-list/{store_id}','TransactionController@transactionList')->name('transaction.index');
+
+//    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
+
+
     Route::get('transaction-loss-profit','TransactionController@lossProfit')->name('transaction.lossProfit');
     Route::get('delivery-list','TransactionController@deliveryList')->name('delivery.index');
     Route::post('party/new-party','ProductSaleController@newParty')->name('parties.store.new');

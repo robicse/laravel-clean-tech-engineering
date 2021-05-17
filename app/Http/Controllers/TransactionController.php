@@ -21,10 +21,18 @@ class TransactionController extends Controller
         $this->middleware('permission:product-list', ['only' => ['transactionList','lossProfit']]);
     }
 
-    public function transactionList(){
+    public function transactionStore(){
+       // dd('ff');
+        $stores = Store::all();
+        //dd($stores);
+
+        return view('backend.transaction.transaction_store', compact('stores'));
+    }
+    public function transactionList($store_id){
         $stores = Store::all();
 
-        return view('backend.transaction.index', compact('stores'));
+        $transactions = Transaction::where('store_id',$store_id)->latest()->get();
+        return view('backend.transaction.index', compact('stores','store_id','transactions'));
     }
 
     public function lossProfit(Request $request){

@@ -12,14 +12,14 @@
                 <div>
                     <h1><i class=""></i> All Transaction</h1>
                 </div>
-                <ul class="app-breadcrumb breadcrumb">
+                <ul class="app-breadcrumb breadcrumb" style="margin-bottom: 20px">
                     <li class="breadcrumb-item"><a class="btn btn-warning" href="{{ route('transaction.export') }}">Export Data</a></li>
                 </ul>
-                @if(!empty($stores))
-                    @foreach($stores as $store)
-                        <div class="col-md-12">
-                            <h1 class="text-center">{{$store->name}}</h1>
-                        </div>
+{{--                @if(!empty($stores))--}}
+{{--                    @foreach($stores as $store)--}}
+{{--                        <div class="col-md-12">--}}
+{{--                            <h1 class="text-center">{{$store->name}}</h1>--}}
+{{--                        </div>--}}
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
@@ -35,9 +35,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @php
-                                    $transactions = \App\Transaction::where('store_id',$store->id)->latest()->get();
-                                @endphp
+{{--                                @php--}}
+{{--                                    $transactions = \App\Transaction::where('store_id',$store->id)->latest()->get();--}}
+{{--                                @endphp--}}
                                 @if(!empty($transactions))
                                     @foreach($transactions as $key => $transaction)
                                         <tr>
@@ -65,8 +65,8 @@
                             <div class="tile-footer">
                             </div>
                         </div>
-                    @endforeach
-                @endif
+{{--                    @endforeach--}}
+{{--                @endif--}}
             </div>
 
         </div>
