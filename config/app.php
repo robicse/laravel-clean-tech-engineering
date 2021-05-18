@@ -161,7 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-       
+
 
         /*
          * Package Service Providers...
@@ -244,6 +244,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'NumConvert' => 'HnhDigital\LaravelNumberConverter\Facade',
 
 
     ],

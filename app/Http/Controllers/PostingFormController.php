@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class PostingFormController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:postingForm-list|postingForm-create|postingForm-edit|postingForm-delete', ['only' => ['index','show','voucher_invoice']]);
+        $this->middleware('permission:postingForm-create', ['only' => ['create','store']]);
+        $this->middleware('permission:postingForm-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:postingForm-delete', ['only' => ['postingDelete']]);
+    }
 
     public function index()
     {
@@ -49,7 +56,30 @@ class PostingFormController extends Controller
         $row_count = count($request->account_id);
        // dd($row_count);
         $total_amount = 0;
-        
+        $sum_debit = 0;
+        $sum_credit = 0;
+        for($i=0; $i<$row_count;$i++)
+        {
+            $total_amount += $request->amount[$i];
+
+            $debit_or_credit = $request->debit_or_credit[$i];
+            if($debit_or_credit == 'debit'){
+                $sum_debit += $request->amount[$i];
+            }
+            if($debit_or_credit == 'credit'){
+                $sum_credit += $request->amount[$i];
+            }
+        }
+
+        if ($sum_debit != $sum_credit){
+            Toastr::warning('Your Debit Or Credit Wrong Entry', 'Warning');
+            return back();
+        }
+        for($i=0; $i<$row_count;$i++)
+        {
+            $total_amount += $request->amount[$i];
+        }
+
             $postingForms = new PostingForm();
             $postingForms ->user_id = Auth::id();
             $postingForms->voucher_type_id = $request->voucher_type_id;

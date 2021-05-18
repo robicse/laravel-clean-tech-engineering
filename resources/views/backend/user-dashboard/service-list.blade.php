@@ -88,11 +88,18 @@
                                     <th>Service  Name</th>
                                     <th>Date</th>
                                 </tr>
-                                @foreach($serviceDetails->sale_services()->orderby('date','ASC')->get() as $key => $productdetail)
+{{--                                @foreach($serviceDetails->sale_services()->orderby('date','ASC')->get() as $key => $productdetail)--}}
+{{--                                    <tr style="background-color: papayawhip">--}}
+{{--                                        <td>{{$key+1}}</td>--}}
+{{--                                        <td>{{$productdetail->service->name}}</td>--}}
+{{--                                        <td>{{($productdetail->date)}}</td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+                                @foreach($saleServiceDurations  as $key => $productdetail)
                                     <tr style="background-color: papayawhip">
                                         <td>{{$key+1}}</td>
-                                        <td>{{$productdetail->service->name}}</td>
-                                        <td>{{($productdetail->date)}}</td>
+                                        <td>{{$productdetail->name}}</td>
+                                        <td>{{($productdetail->service_date)}}</td>
                                     </tr>
                                 @endforeach
                             </table>

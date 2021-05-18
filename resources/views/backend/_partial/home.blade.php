@@ -1,5 +1,12 @@
 @extends('backend._partial.dashboard')
 
+<style>
+    @media only screen and (max-width: 600px) {
+    .mobile{
+        margin-top: 10px;
+    }
+    }
+</style>
 @section('content')
     <main class="app-content">
         <div class="app-title">
@@ -19,50 +26,84 @@
                     <div class="row">
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-danger" style="min-height:95px ">
+                            <div class="small-box bg-primary" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('party.create')}}" style="color: black">Customer</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('party.create')}}" style="color: white">Customer</a></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-success" style="min-height:95px ">
+                            <div class="small-box bg-primary" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('products.create')}}" style="color: black">Product</a> </h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{!! URL::to('/supplier') !!}" style="color: white">Supplier</a></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-warning" style="min-height:95px ">
+                            <div class="small-box bg-primary mobile" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('expenses.create')}}" style="color: black">Expense</a> </h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productPurchases.create')}}" style="color: white">Stock In</a></h3>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-3 col-6" >
                             <!-- small box -->
-                            <div class="small-box bg-info" style="min-height:95px ">
+                            <div class="small-box bg-primary mobile" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productSales.create')}}" style="color: black">Product Sale</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productSales.create')}}" style="color: white">Retail Sale</a></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-6" style="margin-top:10px">
                             <!-- small box -->
-                            <div class="small-box bg-secondary" style="min-height:95px ">
+                            <div class="small-box bg-primary mobile" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('customer_complain.create')}}" style="color: black">Customer Support</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('productWholeSales.create')}}" style="color: white">Whole Sale</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6" style="margin-top:10px" >
+                            <!-- small box -->
+                            <div class="small-box bg-primary" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('monthly.services')}}" style="color: white">Monthly Service</a></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6" style="margin-top:10px">
+                            <!-- small box -->
+                            <div class="small-box bg-primary" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('products.create')}}" style="color: white">Product</a> </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6" style="margin-top:10px">
+                            <!-- small box -->
+                            <div class="small-box bg-primary" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('customer_complain.create')}}" style="color: white">Customer Support</a></h3>
                                 </div>
 
                             </div>
                         </div>
+                        <div class="col-lg-3 col-6" style="margin-top:10px" >
+                            <!-- small box -->
+                            <div class="small-box bg-primary" style="min-height:95px ">
+                                <div class="inner">
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('Ledger.create')}}" style="color: white">Create Ledger</a></h3>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-3 col-6" style="margin-top:10px">
                             <!-- small box -->
-                            <div class="small-box bg-danger" style="min-height:95px ">
+                            <div class="small-box bg-primary" style="min-height:95px ">
                                 <div class="inner">
-                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('postingForm.create')}}" style="color: black">Posting</a></h3>
+                                    <h3 style="text-align: center;padding-top: 30px"><a href="{{route('postingForm.create')}}" style="color: white">Voucher Posting</a></h3>
                                 </div>
                             </div>
                         </div>

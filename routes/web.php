@@ -56,6 +56,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/invoice', 'UserDashboardController@invoice')->name('invoice');
     Route::post('/invoice-details', 'UserDashboardController@invoiceDetails')->name('invoice.details');
 
+    //reset Password
+    Route::get('reset-password','VerificationController@getPhoneNumber')->name('user.reset.password');
+    Route::post('otp-store','VerificationController@checkPhoneNumber')->name('phone.check');
+    Route::post('change-password','VerificationController@otpStore')->name('otp.store');
+    Route::post('new-password/update/{id}','VerificationController@passwordUpdate')->name('reset.password.update');
+
 //});
 
 Route::group(['middleware' => ['auth']], function() {
@@ -75,6 +81,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('party','PartyController');
     Route::resource('productPurchases','ProductPurchaseController');
     Route::resource('productSales','ProductSaleController');
+    Route::resource('productWholeSales','ProductWholeSaleController');
     Route::resource('productSaleReturns','ProductSaleReturnController');
     Route::resource('productPurchaseReturns','ProductPurchaseReturnController');
     Route::resource('officeCostingCategory','OfficeCostingCategoryController');
@@ -132,6 +139,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/whole-sale','PartyController@wholeCustomer');
     Route::get('check-name','ServiceController@checkName');
     Route::get('check-phone-number','PartyController@checkPhoneNumber');
+    Route::get('check-phone-number-provider','PartyController@checkPhoneNumberProvider');
     Route::get('check-product-name','ProductController@checkProductName');
     Route::get('productPurchases-invoice/{id}','ProductPurchaseController@invoice')->name('productPurchases-invoice');
     Route::get('productPurchases-invoice-print/{id}','ProductPurchaseController@invoicePrint')->name('productPurchases-invoice-print');
@@ -145,20 +153,36 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('check-barcode','ProductController@checkBarcode');
     Route::get('product-relation-data','ProductPurchaseController@productRelationData');
     Route::get('product-sale-relation-data','ProductSaleController@productSaleRelationData');
+
+    Route::get('product-Transfersale-relation-data','StockTransferController@productSaleRelationData');
+    Route::get('product-wholeSale-relation-data','ProductWholeSaleController@productWholeSaleRelationData');
     Route::get('all-stock-sale-list','StockController@allStockList')->name('stock-purchase.allStock');
+    Route::get('stock-details/{store_id}','StockController@stockDetails')->name('stock.details');
     Route::get('stock-sale-list','StockController@stockList')->name('stock.index');
     Route::get('stock-purchase-list','StockController@stockPurchaseList')->name('stock-purchase.index');
     Route::get('stock-summary-list','StockController@stockSummaryList')->name('stock.summary.list');
 
+    Route::get('stock-purchase-list-details/{store_id}','StockController@stockPurchaseDetails')->name('stock.purchase.listDetails');
+    Route::get('stock-sale-list-details/{store_id}','StockController@stockSaleDetails')->name('stock.sale.listDetails');
+    // stock sync
+    Route::get('stock_sync','StockController@stock_sync')->name('stock_sync');
+
     Route::get('stock-summary/{store_id}','StockController@stockSummary');
+
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
+    Route::get('stock-low-list-details/{store_id}','StockController@stockLowListDEtails')->name('stock.low.list.details');
 
     Route::get('returnable-sale-product-list','ProductSaleReturnController@returnableSaleProduct')->name('returnable.sale.product');
     Route::get('returnable-purchase-product-list','ProductPurchaseReturnController@returnablePurchaseProduct')->name('returnable.purchase.product');
     Route::post('sale-product-return','ProductSaleReturnController@saleProductReturn')->name('sale.product.return');
     Route::post('purchase-product-return','ProductPurchaseReturnController@purchaseProductReturn')->name('purchase.product.return');
 
-    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
+    Route::get('transaction-store','TransactionController@transactionStore')->name('transaction.store');
+    Route::get('transaction-list/{store_id}','TransactionController@transactionList')->name('transaction.index');
+
+//    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
+
+
     Route::get('transaction-loss-profit','TransactionController@lossProfit')->name('transaction.lossProfit');
     Route::get('delivery-list','TransactionController@deliveryList')->name('delivery.index');
     Route::post('party/new-party','ProductSaleController@newParty')->name('parties.store.new');
@@ -169,7 +193,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('party/new-office-costing-category','ExpenseController@newOfficeCostingCategory')->name('office.costing.category.new');
     Route::get('product-production-relation-data','ProductProductionController@productProductionRelationData');
 
-    Route::get('stock-date-wise','StockController@stockDateWise')->name('stock.date.wise');
+    Route::get('stock-date-wise/{store_id}','StockController@stockDateWise')->name('stock.date.wise');
 
 
     Route::get('productPosSales/list','ProductPosSaleController@index')->name('productPosSales.index');
@@ -229,7 +253,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 
 
-
     ///////////////////////////Account////////////////////////////////////////////
 
 
@@ -251,8 +274,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('account/posting-update/{voucher_type_id}/{voucher_no}','PostingController@transactionUpdate');
     Route::get('account/generalledger','PostingController@general_ledger_form')->name('account.generalledger');
     Route::get('/get-transaction-head/{id}','AccountController@transaction_head');
-    Route::post('account/general-ledger','PostingController@view_general_ledger')->name('account.general_ledger');
-    Route::get('account/general-ledger-print/{headcode}/{date_from}/{date_to}','PostingController@general_ledger_print');
+   // Route::post('account/general-ledger','PostingController@view_general_ledger')->name('account.general_ledger');
+  //  Route::get('account/general-ledger-print/{headcode}/{date_from}/{date_to}','PostingController@general_ledger_print');
     Route::get('account/trial-balance','PostingController@trial_balance_form');
     Route::get('account/trial-balance-print/{date_from}/{date_to}','PostingController@trial_balance_print');
     Route::post('account/trial-balance','PostingController@view_trial_balance')->name('account.trial_balance');

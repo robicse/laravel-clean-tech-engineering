@@ -16,8 +16,8 @@ class ProductSaleDetail extends Model
     public function product_unit(){
         return $this->belongsTo('App\ProductUnit');
     }
-    public function productsale(){
-        return $this->belongsTo('App\ProductSale');
+    public function product_sales(){
+        return $this->belongsTo('App\ProductSale','product_sale_id');
     }
     public function sale_services(){
         return $this->hasMany('App\SaleService');

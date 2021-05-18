@@ -299,13 +299,13 @@
                                                 <label class="control-label col-md-3 text-right">Name <small class="requiredCustom">*</small></label>
                                                 <div class="col-md-8">
                                                     <input class="form-control" type="hidden" name="type" value="customer">
-                                                    <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Name" name="name">
+                                                    <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Name" name="name" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Phone</label>
+                                                <label class="control-label col-md-3 text-right">Phone<small class="requiredCustom">*</small></label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Phone" name="phone" id="phone">
+                                                    <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Phone" name="phone" id="phone" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -320,9 +320,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="control-label col-md-3 text-right">Address</label>
+                                                <label class="control-label col-md-3 text-right">Address<small class="requiredCustom">*</small></label>
                                                 <div class="col-md-8">
-                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Address" name="address"></textarea>
+                                                    <textarea rows="5" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Address" name="address" required></textarea>
                                                     @if ($errors->has('address'))
                                                         <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('address') }}</strong>

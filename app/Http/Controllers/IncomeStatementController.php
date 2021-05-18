@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class IncomeStatementController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:incomestatement-form', ['only' => ['incomeSatetment']]);
+
+    }
     public function incomeSatetment()
     {
         return view('backend.new-account.incomeStatement');

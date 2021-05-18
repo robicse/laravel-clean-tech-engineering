@@ -58,12 +58,20 @@ class HomeController extends Controller
         $product = Product::all()->count();
         $service = Service::all()->count();
         $offers = Offer::all()->count();
-        $saleServices = SaleService::orderBy('date','ASC')
-            ->where('date','>=',$custom_date_start)
-            ->where('date','<=',$custom_date_end)
+//        $saleServices = SaleService::orderBy('start_date','ASC')
+//            ->where('start_date','>=',$custom_date_start)
+//            ->where('end_date','<=',$custom_date_end)
+//            ->get()
+//            ->count();
+        $saleServices = \Illuminate\Support\Facades\DB::table('sale_service_durations')
+            ->join('sale_services','sale_service_durations.sale_service_id','sale_services.id')
+            ->join('services','sale_services.service_id','services.id')
+            ->where('service_date','>=',$custom_date_start)
+            ->where('service_date','<=',$custom_date_end)
             ->get()
-            ->count();
-        //dd($saleServices);
+            ->count();;
+
+       // dd($saleServices);
         return view('backend._partial.home', compact('product','stores','customer','service_provider','servise_executive','service','offers','saleServices'));
     }
 }

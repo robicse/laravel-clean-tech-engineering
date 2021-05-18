@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProductPurchaseReturnController extends Controller
 {
-//    function __construct()
-//    {
-//        $this->middleware('permission:product-purchase-return-list|product-sale-return-create|product-purchase-return-edit|product-purchase-return-delete', ['only' => ['index','show','returnablePurchaseProduct','saleProductReturn']]);
-//        $this->middleware('permission:product-purchase-return-create', ['only' => ['create','store']]);
-//        $this->middleware('permission:product-purchase-return-edit', ['only' => ['edit','update']]);
-//        $this->middleware('permission:product-purchase-return-delete', ['only' => ['destroy']]);
-//    }
+    function __construct()
+    {
+        $this->middleware('permission:product-purchase-return-list|product-sale-return-create|product-purchase-return-edit|product-purchase-return-delete', ['only' => ['index','show','returnablePurchaseProduct','saleProductReturn']]);
+        $this->middleware('permission:product-purchase-return-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-purchase-return-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:product-purchase-return-delete', ['only' => ['destroy']]);
+    }
 
     public function index()
     {
@@ -144,7 +144,7 @@ class ProductPurchaseReturnController extends Controller
                     $product_id = $productPurchaseDetail->product_id;
 
 
-                    $check_previous_stock = Stock::where('product_id', $product_id)->latest()->pluck('current_stock')->first();
+                    $check_previous_stock = Stock::where('product_id', $product_id)->where('store_id',$productPurchase->store_id)->latest()->pluck('current_stock')->first();
                     if (!empty($check_previous_stock)) {
                         $previous_stock = $check_previous_stock;
                     } else {

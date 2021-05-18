@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Helpers\UserInfo;
 use App\Imports\CustomersImport;
 use App\Party;
 use App\User;
@@ -27,12 +28,12 @@ class PartyController extends Controller
         $this->middleware('permission:party-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:party-delete', ['only' => ['destroy']]);
         $this->middleware('permission:supplier-list', ['only' => ['supplier']]);
+        $this->middleware('permission:whole-list', ['only' => ['wholeCustomer']]);
     }
 
     public function index()
     {
-
-
+        //UserInfo::smsAPI("8801725930131",'Testing');
         $parties = Party::where('type','=','customer')->latest()->get();
         return view('backend.party.index',compact('parties'));
     }
@@ -71,12 +72,18 @@ class PartyController extends Controller
         $parties->email = $request->email;
         $parties->address = $request->address;
         $parties->status = $request->status;
-        //dd($parties);
+
         $parties->save();
 
         $insert_id = $parties->id;
         //dd($insert_id);
         if($insert_id  && $request->type == 2){
+            $text_for_customer = "Dear  $parties->name Sir,
+Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$insert_id.
+Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000..";
+            UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
+
             $user_data['name'] = $request->name;
             $user_data['email'] = $request->email;
             $user_data['phone'] = $request->phone;
@@ -158,6 +165,32 @@ class PartyController extends Controller
         $parties->status = $request->status;
         // dd($parties);
         $parties->save();
+        $insert_id = $parties->id;
+        //dd($insert_id);
+        if($insert_id  && $request->type == 2){
+            $text_for_customer = "Dear  $parties->name Sir,
+Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$insert_id.
+Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000..";
+            UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
+
+
+
+
+            // user
+            $user = User::where('party_id',$insert_id)->first();
+            $user->name = $request->name;
+            $user->phone = $request->phone;
+            $exist_phone_number = User::where('phone',$request->phone)->get();
+            if ( count($exist_phone_number) >0  ){
+                Toastr::success(' Mobile number allready Exist', 'Success');
+                return back();
+            }
+            $user->email = $request->email;
+            $user->password = Hash::make(123456);
+            $user->update();
+             dd($user);
+        }
         Toastr::success('Party Updtaed Successfully', 'Success');
         return redirect()->route('party.index');
     }
@@ -173,7 +206,21 @@ class PartyController extends Controller
     public function checkPhoneNumber(Request $request ){
         $phone = $request->phone;
         $exist_phone_number = Party::where('phone',$phone)->get();
-        if (count($exist_phone_number) >0)
+        $exist_phone_number_provider = User::where('phone',$phone)->get();
+        if (count($exist_phone_number) >0 or count($exist_phone_number_provider) >0)
+        {
+            $check_number = "Found";
+        }
+        else{
+            $check_number = "Not Found";
+        }
+        return response()->json(['success'=>true,'data'=>$check_number]);
+    }
+    public function checkPhoneNumberProvider(Request $request ){
+        $phone = $request->phone;
+        $exist_phone_number = Party::where('phone',$phone)->get();
+        $exist_phone_number_provider = User::where('phone',$phone)->get();
+        if (count($exist_phone_number) >0 or count($exist_phone_number_provider) >0)
         {
             $check_number = "Found";
         }

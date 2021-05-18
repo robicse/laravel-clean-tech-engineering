@@ -76,6 +76,12 @@ class ProductController extends Controller
         }else {
             $imagename = "default.png";
         }
+        $exist_productName = Product::where('name',$product_name)->get();
+        if (count($exist_productName) >0)
+        {
+             Toastr::warning('Product Name Already Exis');
+            return back();
+        }
 
         $product->image = $imagename;
         //dd($product);

@@ -47,10 +47,11 @@ class ProductPurchaseController extends Controller
         $parties = Party::where('type','supplier')->get() ;
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
+        $auth = Auth::user();
         if($auth_user == "Admin"){
             $stores = Store::all();
         }else{
-            $stores = Store::where('user_id',$auth_user_id)->get();
+            $stores = Store::where('id',$auth->store_id)->get();
         }
         $productCategories = ProductCategory::all();
         $productUnits = ProductUnit::all();
@@ -115,23 +116,25 @@ class ProductPurchaseController extends Controller
                 $purchase_purchase_detail = new ProductPurchaseDetail();
                 $purchase_purchase_detail->product_purchase_id = $insert_id;
                 $purchase_purchase_detail->product_category_id = $request->product_category_id[$i];
-                $purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
+                //$purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
                 $purchase_purchase_detail->product_brand_id = $request->product_brand_id[$i];
                 $purchase_purchase_detail->product_unit_id = $request->product_unit_id[$i];
                 $purchase_purchase_detail->product_id = $request->product_id[$i];
                 $purchase_purchase_detail->qty = $request->qty[$i];
                 $purchase_purchase_detail->price = $request->price[$i];
                 $purchase_purchase_detail->mrp_price = $request->mrp_price[$i];
+                $purchase_purchase_detail->wholeSale_price = $request->wholeSale_price[$i];
                 $purchase_purchase_detail->sub_total = $request->qty[$i]*$request->price[$i];
                 $purchase_purchase_detail->warranty = $warranty;
                 $purchase_purchase_detail->save();
 
-                $check_previous_stock = Stock::where('product_id',$product_id)->latest()->pluck('current_stock')->first();
+                $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id )->latest()->pluck('current_stock')->first();
                 if(!empty($check_previous_stock)){
                     $previous_stock = $check_previous_stock;
                 }else{
                     $previous_stock = 0;
                 }
+
                 // product stock
                 $stock = new Stock();
                 $stock->user_id = Auth::id();
@@ -268,13 +271,14 @@ class ProductPurchaseController extends Controller
             $product_purchase_detail_id = $request->product_purchase_detail_id[$i];
             $purchase_purchase_detail = ProductPurchaseDetail::findOrFail($product_purchase_detail_id);;
             $purchase_purchase_detail->product_category_id = $request->product_category_id[$i];
-            $purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
+            //$purchase_purchase_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
             $purchase_purchase_detail->product_brand_id = $request->product_brand_id[$i];
             $purchase_purchase_detail->product_unit_id = $request->product_unit_id[$i];
             $purchase_purchase_detail->product_id = $request->product_id[$i];
             $purchase_purchase_detail->qty = $request->qty[$i];
             $purchase_purchase_detail->price = $request->price[$i];
             $purchase_purchase_detail->mrp_price = $request->mrp_price[$i];
+            $purchase_purchase_detail->wholeSale_price = $request->wholeSale_price[$i];
             $purchase_purchase_detail->sub_total = $request->qty[$i]*$request->price[$i];
             $purchase_purchase_detail->warranty = $warranty;
             $purchase_purchase_detail->update();
@@ -282,7 +286,7 @@ class ProductPurchaseController extends Controller
             //dd($purchase_purchase_detail);
 
             // product stock
-            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->where('product_id',$product_id)->first();
+            $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->where('product_id',$product_id)->where('store_id',$request->store_id)->first();
             //dd($stock_row);
             if($stock_row->stock_in != $request->qty[$i]){
                 if($request->qty[$i] > $stock_row->stock_in){

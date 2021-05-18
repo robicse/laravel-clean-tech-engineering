@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class LedgerController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ledger-list|ledger-create|ledger-edit|ledger-delete', ['only' => ['index','show','voucher_invoice']]);
+        $this->middleware('permission:ledger-create', ['only' => ['create','store']]);
+        $this->middleware('permission:ledger-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:ledger-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:ledger-form', ['only' => ['general_ledger_form']]);
+        $this->middleware('permission:cashbook-form', ['only' => ['cashBook_form']]);
+        $this->middleware('permission:bankbook-form', ['only' => ['bankBook_form']]);
+        $this->middleware('permission:recipt-form', ['only' => ['receiptPayment_form']]);
+    }
 
     public function index()
     {

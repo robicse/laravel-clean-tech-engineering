@@ -89,6 +89,10 @@
                             <td>{{$productSale->discount_type}}</td>
                         </tr>
                         <tr>
+                            <th>Payment Type</th>
+                            <td>{{$transactions->payment_type ? 'cash' : 'check' }}</td>
+                        </tr>
+                        <tr>
                             <th>Discount Amount</th>
                             <td>{{$productSale->discount_amount}}</td>
                         </tr>
@@ -143,7 +147,7 @@
                                 <td>{{$productSaleDetail->sub_total}}</td>
                                 <td class="d-inline-flex">
                                     <a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSale->id)}}"><i class="fa fa-plus"></i></a>
-                                    <a href="{{route('productSales-showServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-eye"></i></a>
+{{--                                    <a href="{{route('productSales-showServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-eye"></i></a>--}}
                                     <a href="{{route('productSales-editServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
                                 </td>
 

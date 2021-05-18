@@ -397,7 +397,7 @@
                 var current_product_id = sel.value;
 
                 $.ajax({
-                    url : "{{URL('product-sale-relation-data')}}",
+                    url : "{{URL('product-Transfersale-relation-data')}}",
                     method : "get",
                     data : {
                         store_id : store_id,
@@ -412,7 +412,7 @@
                         $("#product_brand_id_"+current_row).html(res.data.brandOptions);
                         $("#product_unit_id_"+current_row).html(res.data.unitOptions);
                         $("#stock_qty_"+current_row).val(res.data.current_stock);
-                        $("#price_"+current_row).val(res.data.mrp_price);
+                        $("#price_"+current_row).val(res.data.price);
                     },
                     error : function (err){
                         console.log(err)

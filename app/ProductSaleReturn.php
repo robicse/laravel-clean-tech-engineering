@@ -17,6 +17,6 @@ class ProductSaleReturn extends Model
 
     public function party()
     {
-        return $this->belongsTo('App\Party');
+        return $this->belongsTo('App\Party','party_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Account;
 use App\Due;
 use App\FreeProduct;
 use App\FreeProductSaleDetails;
+use App\Helpers\UserInfo;
 use App\OnlinePlatForm;
 use App\Party;
 use App\Posting;
@@ -18,10 +19,12 @@ use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\SaleService;
+use App\SaleServiceDuration;
 use App\Service;
 use App\Stock;
 use App\Transaction;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
 use Brian2694\Toastr\Facades\Toastr;
@@ -77,9 +80,10 @@ class ProductSaleController extends Controller
 
     public function create()
     {
+
         $auth = Auth::user();
         $auth_user = Auth::user()->roles[0]->name;
-        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
+        $parties = Party::where('type','customer' )->get() ;
 //dd($parties);
 //        $parties = Party::where('type','customer')->get() ;
         if($auth_user == "Admin"){
@@ -140,6 +144,7 @@ class ProductSaleController extends Controller
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->sale_type ="Retail Sale";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
@@ -172,7 +177,7 @@ class ProductSaleController extends Controller
                 $product_sale_detail_id = $purchase_sale_detail->id;
 
                 $product_id = $request->product_id[$i];
-                $check_previous_stock = Stock::where('product_id',$product_id)->latest()->pluck('current_stock')->first();
+                $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
                 if(!empty($check_previous_stock)){
                     $previous_stock = $check_previous_stock;
                 }else{
@@ -186,6 +191,7 @@ class ProductSaleController extends Controller
                 $stock->date = $request->date;
                 $stock->product_id = $request->product_id[$i];
                 $stock->stock_type = 'sale';
+                $stock->sale_type = "Retail Sale";
                 $stock->previous_stock = $previous_stock;
                 $stock->stock_in = 0;
                 $stock->stock_out = $request->qty[$i];
@@ -216,6 +222,7 @@ class ProductSaleController extends Controller
             $transaction->date = $request->date;
             $transaction->ref_id = $insert_id;
             $transaction->transaction_type = 'sale';
+            $transaction->sale_type = "Retail Sale";
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
             $transaction->check_date = $request->check_date ? $request->check_date : '';
@@ -303,7 +310,7 @@ class ProductSaleController extends Controller
         }else{
             $stores = Store::where('id',$auth->store_id)->get();
         }
-        $parties = Party::where('type' , 'customer' )->orWhere('type', 'own')->get() ;
+        $parties = Party::where('type' , 'customer' )->get() ;
         $products = Product::all();
         $productSale = ProductSale::find($id);
         $productCategories = ProductCategory::all();
@@ -355,6 +362,7 @@ class ProductSaleController extends Controller
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->sale_type ="Retail Sale";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
@@ -387,7 +395,7 @@ class ProductSaleController extends Controller
 
 
             $product_id = $request->product_id[$i];
-            $check_previous_stock = Stock::where('product_id',$product_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
+            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
             if(!empty($check_previous_stock)){
                 $previous_stock = $check_previous_stock;
             }else{
@@ -400,6 +408,7 @@ class ProductSaleController extends Controller
             $stock->date = $request->date;
             $stock->product_id = $request->product_id[$i];
             $stock->previous_stock = $previous_stock;
+            $stock->sale_type = "Retail Sale";
             $stock->stock_in = 0;
             $stock->stock_out = $request->qty[$i];
             $stock->current_stock = $previous_stock - $request->qty[$i];
@@ -424,6 +433,7 @@ class ProductSaleController extends Controller
         $transaction->store_id = $request->store_id;
         $transaction->party_id = $request->party_id;
         $transaction->date = $request->date;
+        $transaction->sale_type = "Retail Sale";
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
         $transaction->check_date = $request->check_date ? $request->check_date : '';
@@ -490,32 +500,31 @@ class ProductSaleController extends Controller
             $saleServices->product_sale_detail_id = $product_sale_detail_id;
             $saleServices->created_user_id = Auth::id();
             $saleServices->service_id = $request->service_id[$i];
-            $saleServices->date = $request->date[$i];
+            $saleServices->duration = $request->duration[$i];
+            $saleServices->start_date = $request->start_date[$i];
+            $saleServices->end_date = $request->end_date[$i];
             $saleServices->status = 0;
             $saleServices->save();
             $insert_id = $saleServices->id;
 
             if($insert_id){
                 $duration_row_count = $request->duration[$i];
-                //dd($duration_row_count);
                 if ($duration_row_count != NULL){
-                    $date = $request->date[$i];
-                    $nextMonth = date("Y-m-d",strtotime($date."+1 month"));
+                    $service_date = $request->start_date[$i];
+                    $end_date = $request->end_date[$i];
+                    do {
+                        // initial
+                        $saleServiceDuration = new SaleServiceDuration();
+                        $saleServiceDuration->sale_service_id = $insert_id;
+                        $saleServiceDuration->service_date = $service_date;
+                        $saleServiceDuration->save();
+                        //$x++;
+                        //$start_date = $request->start_date[$i];
+                        $add_next_service_date = $service_date."+".$duration_row_count." month";
+                        $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
 
-                    for($j=0; $j<$duration_row_count;$j++) {
-                        $saleServices = new SaleService();
-                        $saleServices->product_sale_detail_id = $product_sale_detail_id;
-                        //dd($saleServices->product_sale_detail_id);
-                        $saleServices->created_user_id = Auth::id();
-                        $saleServices->service_id = $request->service_id[$i];
-                        $saleServices->date = $nextMonth;
-                        $saleServices->status = 0;
-                        //dd($saleServices);
-                        $saleServices->save();
-
-                        $nextMonth = date("Y-m-d",strtotime($nextMonth."+1 month"));
-                    }
-
+                        $service_date = $nextServiceDate;
+                    } while ($service_date <= $end_date);
                 }
             }
 
@@ -529,7 +538,8 @@ class ProductSaleController extends Controller
         //dd($productSaleDetail);
         //$saleService =  SaleService::find($id);
         $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
-        //dd($saleServices);
+
+        //dd($saleServicesDuration);
         $services = Service::latest()->get();
         return view('backend.productSale.showServices',compact('productSaleDetail','services','saleServices'));
     }
@@ -558,9 +568,62 @@ class ProductSaleController extends Controller
             $saleServices =  SaleService::where('id',$sale_service_id)->where('product_sale_detail_id',$id)->first();
             $saleServices->created_user_id = Auth::id();
             $saleServices->service_id = $request->service_id[$i];
-            $saleServices->date = $request->date[$i];
+            $saleServices->duration = $request->duration[$i];
+            $saleServices->start_date = $request->start_date[$i];
+            $saleServices->end_date = $request->end_date[$i];
+            $saleServices->status = 0;;
             $saleServices->save();
+            $insert_id = $saleServices->id;
+            if($insert_id){
+//                $duration_row_count = $request->duration[$i];
+//                //dd($duration_row_count);
+//                if ($duration_row_count != NULL){
+//                    $service_date = $request->start_date[$i];
+//                    $end_date = $request->end_date[$i];
+//
+//                    do {
+//                        // initial
+//                        $saleServiceDuration = SaleServiceDuration::where('sale_service_id',$sale_service_id)->first();
+//                        $saleServiceDuration->sale_service_id = $insert_id;
+//                        $saleServiceDuration->service_date = $service_date;
+//
+//                        //$x++;
+//                        //$start_date = $request->start_date[$i];
+//                        $add_next_service_date = $service_date."+".$duration_row_count." month";
+//                        $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+//                        //dd($saleServiceDuration);
+//                        $saleServiceDuration->update();
+//                        $service_date = $nextServiceDate;
+//                    } while ($service_date <= $end_date);
+//
+//
+//
+//                }
+
+                $duration_row_count = $request->duration[$i];
+                if ($duration_row_count != NULL){
+
+                    DB::table('sale_service_durations')->where('sale_service_id',$sale_service_id)->delete();
+
+                    $service_date = $request->start_date[$i];
+                    $end_date = $request->end_date[$i];
+                    do {
+                        // initial
+                        $saleServiceDuration = new SaleServiceDuration();
+                        $saleServiceDuration->sale_service_id = $insert_id;
+                        $saleServiceDuration->service_date = $service_date;
+                        $saleServiceDuration->save();
+                        //$x++;
+                        //$start_date = $request->start_date[$i];
+                        $add_next_service_date = $service_date."+".$duration_row_count." month";
+                        $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+
+                        $service_date = $nextServiceDate;
+                    } while ($service_date <= $end_date);
+                }
+            }
         }
+
         return redirect()->route('productSales.index');
     }
     public function productSaleRelationData(Request $request){
@@ -909,11 +972,15 @@ class ProductSaleController extends Controller
         $parties->name = $request->name;
         $parties->phone = $request->phone;
         $parties->email = $request->email;
-        //$parties->address = $request->address;
+        $parties->address = $request->address;
         $parties->status = 1;
         $parties->save();
         $insert_id = $parties->id;
-
+        $text_for_customer = "Dear  $parties->name Sir,
+Thank you for purchasing from CleanTech Engineering, your Customer ID is  C000$insert_id.
+Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000..";
+        UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
         if ($insert_id){
            // $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;

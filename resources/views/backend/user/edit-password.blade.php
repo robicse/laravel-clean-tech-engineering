@@ -34,7 +34,7 @@
 
                         <div class="col-md-6">
                             <input id="user_id" type="hidden" class="form-control" name="user_id"  value="{{$user_id}}">
-                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="old_password"  required>
+                            <input id="password" type="text" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="old_password"  required>
 
                             @if ($errors->has('password'))
                                 <span class="invalid-feedback" role="alert">

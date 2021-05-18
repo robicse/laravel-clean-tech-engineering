@@ -272,23 +272,27 @@
                                 </tr>
                                 <tr>
                                     <td style="font-size: 17px;"><b>Conditions</b>*</td>
-                                    <td style="font-size: 16px;">One year electrical parts warranty</td>
+                                    <td style="font-size: 16px;">One year electrical parts replacement warranty.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine used over the capacity</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine used over the capacity.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">No warranty for filter cartidge,faucet,Tank. </td>
+                                    <td style="text-align: left;font-size: 16px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">Warranty will not apply in case of electrical equipment are operated at fluctuating voltage</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
                                     <td style="text-align: left;font-size: 16px;">We do not provide any electrical or plumbing work.</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;font-size: 18px;">*</td>
+                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
                                 </tr>
                             </table>
 

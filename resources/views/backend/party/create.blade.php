@@ -37,13 +37,13 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Name <small class="text-danger">*</small></label>
                             <div class="col-md-8">
-                                <input type="text" id="name" name="name" class="form-control">
+                                <input type="text" id="name" name="name" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Phone <span style="color: red">*</span></label>
                             <div class="col-md-8">
-                                <input type="text" id="phone" name="phone" class="form-control">
+                                <input type="text" id="phone" name="phone" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -53,9 +53,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Address</label>
+                            <label class="control-label col-md-3 text-right">Address <span style="color: red">*</span></label>
                             <div class="col-md-8">
-                                <input type="text" id="address" name="address" class="form-control">
+                                <input type="text" id="address" name="address" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group row">

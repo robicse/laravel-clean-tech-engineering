@@ -4,7 +4,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class=""></i> All Customer</h1>
+                <h1><i class=""></i> All Customer </h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customer</a></li>
@@ -31,7 +31,7 @@
                             <th width="10%">Type</th>
                             <th width="15%">Name</th>
                             <th width="15%">Phone</th>
-                            <th width="15%">Email</th>
+                            <th width="15%">Address</th>
                             <th width="15%">Action</th>
                         </tr>
                         </thead>
@@ -39,11 +39,11 @@
                         @foreach($parties as $key => $party)
                         <tr>
 {{--                            @dd($party->id);--}}
-                            <td>C000{{ $party->id }}</td>
+                            <td>CTE0{{ $party->id }}</td>
                             <td>{{ $party->type}}</td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>
-                            <td>{{ $party->email}}</td>
+                            <td>{{ $party->address}}</td>
                             <td>
                                 <a href="{{ route('party.edit',$party->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
 {{--                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >--}}

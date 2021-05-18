@@ -21,7 +21,7 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-        $roles = Role::latest()->get();
+        $roles = Role::where('name','!=','Customer')->where('name','!=','Service Provider')->latest()->get();
         return view('backend.role.index',compact('roles'));
     }
 
