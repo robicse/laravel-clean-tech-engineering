@@ -49,10 +49,7 @@ class PostingFormController extends Controller
         $row_count = count($request->account_id);
        // dd($row_count);
         $total_amount = 0;
-        for($i=0; $i<$row_count;$i++)
-        {
-            $total_amount += $request->amount[$i];
-        }
+        
             $postingForms = new PostingForm();
             $postingForms ->user_id = Auth::id();
             $postingForms->voucher_type_id = $request->voucher_type_id;
@@ -101,6 +98,10 @@ class PostingFormController extends Controller
                     $postingFormDetails->debit = $debit;
                     $postingFormDetails->credit = $credit;
 
+                    if ($debit == $credit){
+                        Toastr::success('You give Wrong Entry', 'Success');
+                        return back();
+                    }
                   //  dd($postingFormDetails);
                     $postingFormDetails->save();
                 }
