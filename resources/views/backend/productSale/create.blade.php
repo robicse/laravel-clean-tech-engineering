@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Transport Cost</label>
+                            <label class="control-label col-md-3 text-right" style="color: red">Transport/Labour</label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" placeholder="Transport Cost">
                             </div>
@@ -112,6 +112,7 @@
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
+
                                     <th >ID</th>
                                     <th>Product <small class="requiredCustom">*</small></th>
                                     <th style="display: none">Category</th>
@@ -740,5 +741,7 @@
         {{--});--}}
     </script>
 @endpush
+
+
 
 

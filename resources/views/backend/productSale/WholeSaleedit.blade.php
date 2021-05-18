@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
+                            <label class="control-label col-md-3 text-right" style="color: red">Transport/Labour</label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" value="{{$productSale->transport_cost}}" placeholder="Transport Cost">
                             </div>

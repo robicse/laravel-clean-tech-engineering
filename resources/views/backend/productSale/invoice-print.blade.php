@@ -35,7 +35,7 @@
 
                     .invoice td {
                         text-align: center;
-                        font-size: 13px;
+                        font-size: 12px;
                         border: 1px solid #000;
                     }
 
@@ -118,7 +118,7 @@
                     <div class="row">
                         <div class="col-md-6" style="width: 50%; float: left;display: inline-block">
                             <strong>Customer ID:</strong>
-                            <strong>C000{{$party->id}}</strong><br>
+                            <strong>CTE0{{$party->id}}</strong><br>
                             <strong>Customer Name:</strong>
                             <strong>{{$party->name}}</strong><br>
                             <strong>Address:</strong>
@@ -128,7 +128,7 @@
                             @if(!empty($productSale->onlinePlatForm->name))
                                 <strong style="font-size: 16px">{{($productSale->onlinePlatForm->name)}}.Invoice {{$productSale->online_platform_invoice_no}}</strong><br>
                             @endif
-                            <strong style="font-size: 16px">Location: {{$productSale->transport_area}}</strong><br>
+                            <strong style="font-size: 16px">Delivery Address: {{$productSale->transport_area}}</strong><br>
                         </div>
                         <div class="col-md-6" style="text-align: right; width: 50%; display: inline-block">
                             <div class="invoice-to" style="float: right;">
@@ -138,13 +138,15 @@
                                         <td style="text-align: right;font-size: 14px;">{{$productSale->date}}{{$productSale->invoice_no}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;font-size: 14px;"><b>DateTime:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
+                                        <td style="text-align: right;font-size: 14px;"><b>Date:</b></td>
+                                        <td style="text-align: right;font-size: 16px;">{{$productSale->date}}</td>
                                     </tr>
-                                    <tr>
-                                        <td style="text-align: right;font-size: 14px;"><b> Phone:</b> </td>
-                                        <td style="text-align: right;font-size: 14px;">{{$party->phone}}</td>
-                                    </tr>
+
+
+{{--                                    <tr>--}}
+{{--                                        <td style="text-align: right;font-size: 14px;"><b> Phone:</b> </td>--}}
+{{--                                        <td style="text-align: right;font-size: 14px;">{{$party->phone}}</td>--}}
+{{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Served By:</b></td>
                                         <td style="text-align: right;font-size: 14px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
@@ -261,7 +263,7 @@
                     <div class="write">
                         <p class="lead"><b>In Word : {{ucwords($digit->format($totalAmount))}} Only</b></p>
                     </div>
-                    <div class="row" style="margin-top: 150px">
+                    <div class="row" style="margin-top: 50px">
                         <!-- accepted payments column -->
                         <div class="col-md-6">
                             <table width="70%">
@@ -271,28 +273,28 @@
 
                                 </tr>
                                 <tr>
-                                    <td style="font-size: 17px;"><b>Conditions</b>*</td>
-                                    <td style="font-size: 16px;">One year electrical parts replacement warranty.</td>
+                                    <td style="font-size: 15px;"><b>Conditions</b>*</td>
+                                    <td style="font-size: 15px;">One year electrical parts replacement warranty.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine used over the capacity.</td>
+                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
+                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
+                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">We do not provide any electrical or plumbing work.</td>
+                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 16px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
+                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
                                 </tr>
                             </table>
 

@@ -12,6 +12,7 @@ use App\Transaction;
 use App\ProductPurchaseDetail;
 //use Illuminate\Support\Facades\DB;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
@@ -28,11 +29,29 @@ class TransactionController extends Controller
 
         return view('backend.transaction.transaction_store', compact('stores'));
     }
-    public function transactionList($store_id){
+    public function transactionList(Request $request,$store_id){
         $stores = Store::all();
+        $auth_user_id = Auth::user()->id;
+        $auth_user = Auth::user()->roles[0]->name;
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
 
-        $transactions = Transaction::where('store_id',$store_id)->latest()->get();
-        return view('backend.transaction.index', compact('stores','store_id','transactions'));
+
+        if($start_date && $end_date) {
+            if ($auth_user == "Admin") {
+                $transactions = Transaction::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('store_id',$store_id)->latest('id','desc')->get();
+            } else {
+                $transactions = Transaction::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('store_id',$store_id)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }else{
+            if ($auth_user == "Admin") {
+                $transactions = Transaction::where('store_id',$store_id)->latest('id','desc')->get();
+            } else {
+                $transactions = Transaction::where('store_id',$store_id)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        //$transactions = Transaction::where('store_id',$store_id)->latest()->get();
+        return view('backend.transaction.index', compact('stores','store_id','transactions','start_date','end_date'));
     }
 
     public function lossProfit(Request $request){

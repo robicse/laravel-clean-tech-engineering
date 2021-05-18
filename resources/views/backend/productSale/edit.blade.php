@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Transport Cost <small class="requiredCustom">*</small></label>
+                            <label class="control-label col-md-3 text-right" style="color: red">Transport/Labour</label>
                             <div class="col-md-8">
                                 <input type="text" name="transport_cost" class="form-control" value="{{$productSale->transport_cost}}" placeholder="Transport Cost">
                             </div>
@@ -145,7 +145,7 @@
 {{--                                            <input type="text" name="product_id[]" id="product_id" class="form-control" value="{{$productSaleDetail->product->name}}" readonly>--}}
                                             <input type="hidden" class="form-control" name="product_Sale_detail_id[]" value="{{$productSaleDetail->id}}" >
                                         </td>
-                                        <td width="12%" style="display: none">
+                                        <td style="display: none">
                                             <div id="product_category_id_{{$current_row}}">
                                                 <select class="form-control product_category_id" name="product_category_id[]" readonly required>
                                                     <option value="">Select  Category</option>
@@ -155,7 +155,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="12%" style="display: none">
+                                        <td  style="display: none">
                                             <div id="product_sub_category_id_{{$current_row}}">
                                                 <select class="form-control product_sub_category_id" name="product_sub_category_id[]" readonly>
                                                     <option value="">Select  Sub Category</option>
@@ -429,11 +429,11 @@
             var product = $('.product_id').html();
             var n = ($('.neworderbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
-                '<td width="18%"><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
-                '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
+                '<td width="15%"><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
+                '<td  style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
-                '<td><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
+                '<td width="12%"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                 '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                 '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
@@ -461,6 +461,8 @@
             $('.select2').select2();
 
         });
+
+
 
         $('.neworderbody').delegate('.delete', 'click', function () {
             $(this).parent().parent().remove();

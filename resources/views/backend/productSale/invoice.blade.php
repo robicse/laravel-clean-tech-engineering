@@ -80,7 +80,7 @@
                                     <div class="col-md-8 invoice-col">
                                         <address>
                                             <strong>Customer ID:</strong>
-                                            <strong>C000{{$party->id}}</strong>
+                                            <strong>CTE0{{$party->id}}</strong>
                                         </address>
                                         <address>
                                             <strong>Customer Name:</strong>

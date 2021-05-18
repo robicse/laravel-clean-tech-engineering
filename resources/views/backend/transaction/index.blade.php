@@ -6,15 +6,30 @@
             <div>
                 <h1><i class=""></i> All Transaction</h1>
             </div>
+            <ul class="app-breadcrumb breadcrumb" style="margin-bottom: 20px">
+                <li class="breadcrumb-item"><a class="btn btn-warning" href="{{ route('transaction.export') }}">Export Data</a></li>
+            </ul>
         </div>
         <div class="col-md-12">
             <div class="tile">
                 <div>
                     <h1><i class=""></i> All Transaction</h1>
                 </div>
-                <ul class="app-breadcrumb breadcrumb" style="margin-bottom: 20px">
-                    <li class="breadcrumb-item"><a class="btn btn-warning" href="{{ route('transaction.export') }}">Export Data</a></li>
-                </ul>
+                <form class="form-inline" action="{{ url('transaction-list/'.$store_id) }}" style="margin-bottom: 20px">
+                    <div class="form-group col-md-4">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" class="form-control" value="{{$start_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" class="form-control" value="{{$end_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button type="submit" class="btn btn-success">Advanced Search</button>
+                        <a href="{{ url('transaction-list/'.$store_id) }}" class="btn btn-primary" type="button">Reset</a>
+                    </div>
+                </form>
+
 {{--                @if(!empty($stores))--}}
 {{--                    @foreach($stores as $store)--}}
 {{--                        <div class="col-md-12">--}}
