@@ -85,12 +85,12 @@
                                 <input type="text" name="online_platform_invoice_no" id="online_platform_invoice_no" class="form-control" value="{{ $productSale->online_platform_invoice_no}}" placeholder="Invoice No">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right" style="color: red">Transport/Labour</label>
-                            <div class="col-md-8">
-                                <input type="text" name="transport_cost" class="form-control" value="{{$productSale->transport_cost}}" placeholder="Transport Cost">
-                            </div>
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            <label class="control-label col-md-3 text-right" style="color: red">Transport/Labour</label>--}}
+{{--                            <div class="col-md-8">--}}
+{{--                                <input type="text" name="transport_cost" class="form-control" value="{{$productSale->transport_cost}}" placeholder="Transport Cost">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Transport Area</label>
                             <div class="col-md-8">
@@ -131,11 +131,11 @@
                                     @php
                                         $current_stock = \App\Stock::where('product_id',$productSaleDetail->product_id)->latest()->pluck('current_stock')->first();
                                     @endphp
-                                    <tr>
+                                    <tr >
                                         @php
                                             $current_row = $key+1;
                                         @endphp
-                                        <td width="15%">
+                                        <td width="30%">
                                             <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
                                                 <option value="">Select  Product</option>
                                                 @foreach($products as $product)
@@ -165,7 +165,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td width="12%">
+                                        <td width="14%">
                                             <div id="product_brand_id_{{$current_row}}">
                                                 <select class="form-control product_brand_id" name="product_brand_id[]" readonly required>
                                                     <option value="">Select  Brand</option>
@@ -191,10 +191,10 @@
                                                 <option value="not returnable" {{'not returnable' == $productSaleDetail->return_type ? 'selected' : ''}}>not returnable</option>
                                             </select>
                                         </td>
-                                        <td width="10%">
+                                        <td width="12%">
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >
                                         </td>
-                                        <td width="8%">
+                                        <td width="10%">
                                             <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="{{$productSaleDetail->qty}}" required >
                                         </td>
                                         <td width="12%">
@@ -208,9 +208,14 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>
                                         Vat(Percentage):
                                         <input type="number" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')" value="{{$productSale->vat_amount}}">
+                                    </th>
+                                    <th >
+                                        Transport/Labour:
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" placeholder="Transport Cost" onblur="transportCost('')" value="{{$productSale->transport_cost}}">
                                     </th>
                                     <th>
                                         Type:
@@ -228,7 +233,7 @@
                                         <input type="hidden" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}">
                                     </th>
-                                    <th colspan="2">
+                                    <th>
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" name="paid_amount" onkeyup="paidAmount('')" value="{{$productSale->paid_amount}}">
                                     </th>
@@ -313,49 +318,7 @@
             $('#due_amount').val(t);
         }
 
-        // onkeyup
-        function discountAmount(){
-            var discount_type = $('#discount_type').val();
 
-            //var total = $('#total_amount').val();
-            //console.log('total= ' + total);
-            //console.log('total= ' + typeof total);
-            //total = parseInt(total);
-            //console.log('total= ' + typeof total);
-
-            var store_total_amount = $('#store_total_amount').val();
-            console.log('store_total_amount= ' + store_total_amount);
-            console.log('store_total_amount= ' + typeof store_total_amount);
-            store_total_amount = parseInt(store_total_amount);
-            console.log('total= ' + typeof store_total_amount);
-
-            var discount_amount = $('#discount_amount').val();
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-            discount_amount = parseInt(discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-
-            if(discount_type == 'flat'){
-                var final_amount = store_total_amount - discount_amount;
-            }
-            else{
-                var per = (store_total_amount*discount_amount)/100;
-                var final_amount = store_total_amount - per;
-            }
-            console.log('final_amount= ' + final_amount);
-            console.log('final_amount= ' + typeof final_amount);
-
-            var paid_amount = $('#paid_amount').val();
-            console.log('paid_amount= ' + paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
-            paid_amount = parseInt(paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
-
-            var due_amount = final_amount - paid_amount;
-
-            $('#total_amount').val(final_amount);
-            $('#due_amount').val(due_amount);
-        }
         // onblur
         function vatAmount(){
             //  var sub_total = $('#sub_total').val();
@@ -379,10 +342,10 @@
 
 
 
-            var sub_total = $('#total_amount').val();
+            var sub_total = $('#store_total_amount').val();
             console.log('sub_total= ' + sub_total);
             console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseInt(sub_total);
+            sub_total = parseFloat(sub_total);
 
             var vat_amount = $('#vat_amount').val();
             console.log('vat_amount= ' + vat_amount);
@@ -393,7 +356,12 @@
             console.log('vat_subtraction= ' + vat_subtraction);
             console.log('vat_subtraction= ' + typeof vat_subtraction);
 
-            var grand_total =( sub_total + vat_subtraction);
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            var grand_total =( sub_total + vat_subtraction + transport);
             console.log('grand_total= ' + grand_total);
             console.log('grand_total= ' + typeof grand_total);
             grand_total = (grand_total);
@@ -402,23 +370,74 @@
             $('#store_total_amount').val(grand_total);
             $('#total_amount').val(grand_total);
             $('#due_amount').val(grand_total);
+
+
+
+        }
+        function transportCost(){
+
+            var sub_total = $('#store_total_amount').val();
+            console.log('sub_total= ' + sub_total);
+            console.log('sub_total= ' + typeof sub_total);
+            sub_total = parseFloat(sub_total);
+
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            var grand_total =( sub_total + transport);
+            console.log('grand_total= ' + grand_total);
+            console.log('grand_total= ' + typeof grand_total);
+            grand_total = parseFloat(grand_total);
+
+            $('#total_amount').val(grand_total);
+            $('#due_amount').val(grand_total);
+            // $('#store_total_amount').val(grand_total);
+
+
+
         }
         // onkeyup
-        function paidAmount(){
-            console.log('okk');
-            var total = $('#total_amount').val();
-            console.log('total= ' + total);
-            console.log('total= ' + typeof total);
+        function discountAmount(){
+            var discount_type = $('#discount_type').val();
 
-            var paid_amount = $('#paid_amount').val();
-            console.log('paid_amount= ' + paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
+            //var total = $('#total_amount').val();
+            //console.log('total= ' + total);
+            //console.log('total= ' + typeof total);
+            //total = parseInt(total);
+            //console.log('total= ' + typeof total);
 
-            var due = total - paid_amount;
-            console.log('due= ' + due);
-            console.log('due= ' + typeof due);
+            var store_total_amount = $('#store_total_amount').val();
+            console.log('store_total_amount= ' + store_total_amount);
+            console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            console.log('total= ' + typeof store_total_amount);
 
-            $('.backmoney').val(due);
+            var discount_amount = $('#discount_amount').val();
+            console.log('discount_amount= ' + discount_amount);
+            console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            console.log('discount_amount= ' + discount_amount);
+            console.log('discount_amount= ' + typeof discount_amount);
+
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            if(discount_type == 'flat'){
+                var final_amount = (store_total_amount+transport) - discount_amount ;
+            }
+            else{
+                var per = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = store_total_amount - per +transport ;
+            }
+            console.log('final_amount= ' + final_amount);
+            console.log('final_amount= ' + typeof final_amount);
+
+            $('#total_amount').val(final_amount);
+            $('#due_amount').val(final_amount);
         }
 
         $('.add').click(function () {
@@ -429,11 +448,11 @@
             var product = $('.product_id').html();
             var n = ($('.neworderbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
-                '<td width="15%"><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
+                '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
                 '<td  style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
-                '<td width="12%"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
+                '<td ><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                 '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                 '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
@@ -579,5 +598,9 @@
         // });
     </script>
 @endpush
+
+
+
+
 
 

@@ -13,12 +13,10 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Stock Details</h3>
-                <div class="col-md-12"></div>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-
                             <th width="5%">#Id</th>
                             <th width="10%">Store</th>
                             <th width="15%">date</th>
@@ -26,7 +24,6 @@
                             <th width="12%">Product</th>
                             <th width="12%">Current Stock</th>
                             <th width="12%"> Price</th>
-
 
 
                         </tr>
@@ -69,22 +66,28 @@
                                             //dd($total_price);
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
-                                <td>{{$stock->current_stock*$product_avrg_price}}</td>
+{{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
+                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>
 
                             </tr>
                         @endforeach
-                        <tr style="color: red">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>total</td>
-                            <td>{{$total_price}}</td>
-                        </tr>
+
                         </tbody>
+                        <div class="tile-footer">
+                            <tr style="color: red">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>total</td>
+{{--                                @dd($total_price);--}}
+{{--                                <td>{{$total_price}}</td>--}}
+                                <td>{{number_format($total_price,2,".",",")}}</td>
+                            </tr>
+                        </div>
                     </table>
-                    <div class="tile-footer">
-                    </div>
+
                 </div>
             </div>
 

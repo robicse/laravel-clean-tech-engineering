@@ -30,7 +30,7 @@
                 <div>&nbsp;</div>
 
                 <h3 class="tile-title">Product Sales Table</h3>
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped table-responsive">
 
                     <thead>
                     <tr>
@@ -38,7 +38,7 @@
                         <th>Sale User</th>
                         <th>Date</th>
                         <th>Invoice No</th>
-                        <th>Customer</th>
+                        <th width="5%">Customer</th>
                         <th>Sale Type</th>
                         <th>Total Amount</th>
                         <th>Paid Amount</th>
@@ -56,11 +56,16 @@
                     @if(!empty($productSales))
                     @foreach($productSales as $key => $productSale)
                         @php
-                            $sum_total_amount += $productSale->total_amount;
-                            $sum_paid_amount += $productSale->paid_amount;
+                            $sum_total_amount += ($productSale->total_amount);
+                            $sum_paid_amount += ( $productSale->paid_amount );
                             $sum_due_amount += $productSale->due_amount;
                         @endphp
+                        @php
+                            $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
+                            //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
+                            $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
 
+                        @endphp
                     <tr>
                         <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>

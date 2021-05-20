@@ -24,7 +24,7 @@ class PostingFormController extends Controller
 
     public function index()
     {
-        $postingForms = PostingForm::all();
+        $postingForms = PostingForm::latest()->get();
         return view('backend.postingform.index',compact('postingForms'));
     }
 

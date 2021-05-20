@@ -30,7 +30,7 @@
                     <h2>Clean Tech Engineering</h2>
                     <p style="margin: 0px">Corporate Office :Corporate Office :Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
                     <p style="margin: 0px"><b>Phone</b>:02-58052342, 01701-666 606, 01701-666 601, 01711-991 851 </p>
-                    <p style="margin: 0px"> <b>Email</b>: info@cleantech.com.bd</p>
+                    <p style="margin: 0px"> <b>Email</b>: Cleantechbd17@gmail.com</p>
                 </div>
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">

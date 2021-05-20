@@ -99,7 +99,7 @@ class LedgerController extends Controller
         $chartOfAccountGroup2s = DB::table('chart_of_accounts')->select('group_2')->groupBy('group_2')->get();
         //$chartOfAccountGroup3s = DB::table('chart_of_accounts')->select('group_3')->groupBy('group_3')->get();
 
-        return view('backend.new-account.general_ledger_form', compact('chartOfAccounts','ledgers','chartOfAccountGroup2s','chartOfAccountGroup3s'));
+        return view('backend.new-account.general_ledger_form', compact('chartOfAccounts','ledgers','chartOfAccountGroup2s'));
     }
 
     public function view_general_ledger(Request $request)

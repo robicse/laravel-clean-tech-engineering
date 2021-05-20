@@ -200,11 +200,11 @@ class StockController extends Controller
     }
 
     public function stockList(){
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.sale-list', compact('stores'));
     }
     public function stockPurchaseList(){
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.purchase-list', compact('stores'));
     }
     public function export()
@@ -221,12 +221,12 @@ class StockController extends Controller
     }
     public function stockSaleDetails($store_id){
         $stocks = Stock::where('store_id',$store_id)->where('stock_type','=','sale')->latest()->get();
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.sale-details', compact('stocks','stores'));
     }
 
     public function stockSummaryList(){
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.stock_summary', compact('stores'));
     }
     public function stockSummary($store_id){
@@ -245,7 +245,7 @@ class StockController extends Controller
         return view('backend.stock.stock_summary_details', compact('stocks'));
     }
     public function stockLowList(){
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.stock_low', compact('stores'));
     }
     public function stockLowListDEtails($store_id){
@@ -253,7 +253,7 @@ class StockController extends Controller
             ->whereIn('id', function($query) {
                 $query->from('stocks')->where('current_stock','<', 10)->groupBy('product_id')->selectRaw('MAX(id)');
             })->latest('id')->get();
-        $stores = Store::latest()->get();
+        $stores = Store::all();
         return view('backend.stock.stock_low_details', compact('stores','stocks'));
     }
 

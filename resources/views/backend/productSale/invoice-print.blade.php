@@ -177,13 +177,15 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$productSaleDetail->product->name}}</td>
                                 <td>{{$productSaleDetail->qty}}</td>
-                                <td>{{number_format($productSaleDetail->price, 2, '.', '')}}</td>
+                                <td>{{number_format($productSaleDetail->price,2,".",",")}}</td>
                                 <td>
                                     @php
                                         $sub_total=$productSaleDetail->qty*$productSaleDetail->price;
                                         $sum_sub_total += $sub_total;
+                                        $vatAmount = ($sum_sub_total*$productSale->vat_amount)/100;
+                                             $total_discount = (($sum_sub_total+$vatAmount+$productSale->transport_cost)*$productSale->discount_amount)/100;
                                     @endphp
-                                    {{number_format($sub_total, 2, '.', '')}}
+                                    {{number_format($sub_total,2,".",",")}}
                                 </td>
                             </tr>
                         @endforeach
@@ -195,12 +197,13 @@
                         <tr >
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Subtotal:</th>
-                            <td  style="border: none">{{number_format($sum_sub_total, 2, '.', '')}}</td>
+                            <td  style="border: none">{{number_format($sum_sub_total,2,".",",")}}</td>
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Vat :</th>
-                            <td  style="border: none">{{number_format($productSale->vat_amount, 2, '.', '')}}%</td>
+
+                            <td  style="border: none">{{number_format($vatAmount, 2, '.', '')}}</td>
                         </tr>
                         <tr>
                             <th colspan="3"  style="border: none">&nbsp;</th>
@@ -210,29 +213,34 @@
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right">Discount:</th>
+                            @if($productSale->discount_type == 'flat' )
                             <td style="border: none">-{{number_format($productSale->discount_amount, 2, '.', '')}}</td>
+                            @else
+                                <td style="border: none">-{{number_format($total_discount, 2, '.', '')}}</td>
+                            @endif
                         </tr>
                         @php
-                            $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
+                            $totalAmount =(($productSale->total_amount ));
                             //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
-                            $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
+                            $paid_amount =( $productSale->paid_amount );
+
 
                         @endphp
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right;font-size: 16px">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;font-size: 16px">{{number_format($totalAmount, 2, '.', '')}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;font-size: 16px">{{number_format($totalAmount,2,".",",")}}</th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border: none;text-align: right;font-size: 16px">Paid Amount:</th>
-                            <td style="border: none;font-size: 16px">{{number_format($paid_amount, 2, '.', '')}}</td>
+                            <td style="border: none;font-size: 16px">{{number_format($paid_amount,2,".",",")}}</td>
                         </tr>
 
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;text-align: right">Due Amount:</th>
-                            <td style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{number_format($productSale->due_amount, 2, '.', '')}}</td>
+                            <td style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{number_format($productSale->due_amount,2,".",",")}}</td>
                         </tr>
                         </tbody>
                     </table>

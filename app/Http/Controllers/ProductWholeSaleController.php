@@ -48,7 +48,7 @@ class ProductWholeSaleController extends Controller
         $productSubCategories = ProductSubCategory::all();
         $productBrands = ProductBrand::all();
         $productUnits = ProductUnit::all();
-        $products = Product::all();
+        $products = Product::latest()->get();
         $online_platforms = OnlinePlatForm::all();
         $freeProducts = FreeProduct::all();
         return view('backend.productSale.wholeSalecreate',compact('online_platforms','freeProducts','parties','stores','products','productCategories','productSubCategories','productBrands','productUnits'));
@@ -103,11 +103,13 @@ class ProductWholeSaleController extends Controller
         $productSale->discount_amount = $request->discount_amount;
         //$productSale->vat_type = $request->vat_type;
         $productSale->vat_amount = $request->vat_amount;
-        $productSale->total_amount = $total_amount +$vat_amount ;
+        $productSale->total_amount = $total_amount;
+        $productSale->total_amount = $request->total_amount;;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
+        //dd($productSale);
         $productSale->save();
         $insert_id = $productSale->id;
         if($insert_id)
@@ -315,7 +317,7 @@ class ProductWholeSaleController extends Controller
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
         //$productSale->vat_type = $request->vat_type;
-        $productSale->total_amount = $total_amount + $vat_amount;
+        $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;

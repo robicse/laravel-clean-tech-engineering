@@ -146,6 +146,9 @@
                                                         @php
                                                             $sub_total=$productSaleDetail->qty*$productSaleDetail->price;
                                                             $sum_sub_total += $sub_total;
+                                                            $vatAmount = ($sum_sub_total*$productSale->vat_amount)/100;
+                                                            $total_discount = (($sum_sub_total+$vatAmount+$productSale->transport_cost)*$productSale->discount_amount)/100;
+                                                            //dd($total_discount);
                                                         @endphp
                                                         {{$sub_total}}
                                                     </td>
@@ -164,7 +167,8 @@
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Vat :</th>
-                                                <td>{{$productSale->vat_amount}}</td>
+{{--                                                <td>{{$productSale->vat_amount}}</td>--}}
+                                                <td>{{$vatAmount}}</td>
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
@@ -174,27 +178,35 @@
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Discount:</th>
-                                                <th>-{{$productSale->discount_amount}}</th>
+{{--                                                @dd($productSale->discount_amount);--}}
+                                                @if($productSale->discount_type == 'flat' )
+
+                                                    <td style="border: none">- {{$productSale->discount_amount}}</td>
+                                                @else
+                                                    <td style="border: none">-{{number_format($total_discount, 2, '.', '')}}</td>
+                                                @endif
                                             </tr>
                                             @php
-                                                $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
+                                                $totalAmount =(($productSale->total_amount ));
                                                   //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
-                                                  $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
+                                                  $paid_amount =( $productSale->paid_amount );
                                             @endphp
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Total Amount</th>
-                                                <th>{{number_format($totalAmount, 2, '.', '')}}</th>
+{{--                                                <th>{{number_format($totalAmount,2,',',',')}}</th>--}}
+                                                <th>{{number_format($totalAmount,2,".",",")}}</th>
+
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Paid Amount:</th>
-                                                <th>{{number_format($paid_amount, 2, '.', '')}}</th>
+                                                <th>{{number_format($paid_amount,2,".",",")}}</th>
                                             </tr>
                                             <tr>
                                                 <th colspan="3">&nbsp;</th>
                                                 <th>Due Amount:</th>
-                                                <th>{{number_format($productSale->due_amount, 2, '.', '')}}</th>
+                                                <th>{{number_format($productSale->due_amount,2,".",",")}}</th>
                                             </tr>
                                             </tbody>
                                         </table>

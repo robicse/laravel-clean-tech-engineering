@@ -293,10 +293,10 @@
 
                                  $productSales =DB::table('product_sales')
                                             ->where('store_id',$store->id)
-                                            ->select('product_sales.total_amount')
+                                            ->select('product_sales.total_amount','product_sales.transport_cost')
                                             ->get();
                                  foreach ($productSales as $productSale)
-                                 $productSale_amount += $productSale->total_amount;
+                                 $productSale_amount += ($productSale->total_amount+$productSale->transport_cost);
 
                                 $productSalesReturns =DB::table('product_sale_returns')
                                             ->where('store_id',$store->id)
