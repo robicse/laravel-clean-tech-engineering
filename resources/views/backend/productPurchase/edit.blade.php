@@ -160,6 +160,10 @@
                                 <tfoot>
                                 <tr>
                                     <th >
+                                        Transport/Labour:
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" value="{{$productPurchase->transport_cost}}" placeholder="Transport Cost" onblur="transportCost('')" value="0">
+                                    </th>
+                                    <th >
                                         Type:
                                         <select name="discount_type" id="discount_type" class="form-control" >
                                             <option value="flat" {{'flat' == $productPurchase->discount_type ? 'selected' : ''}}>flat</option>
@@ -216,6 +220,30 @@
             $('#due_amount').val(t);
         }
 
+        function transportCost(){
+
+            var sub_total = $('#store_total_amount').val();
+            console.log('sub_total= ' + sub_total);
+            console.log('sub_total= ' + typeof sub_total);
+            sub_total = parseFloat(sub_total);
+
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            var grand_total =( sub_total + transport);
+            console.log('grand_total= ' + grand_total);
+            console.log('grand_total= ' + typeof grand_total);
+            grand_total = parseFloat(grand_total);
+
+            $('#total_amount').val(grand_total);
+            $('#due_amount').val(grand_total);
+            // $('#store_total_amount').val(grand_total);
+
+
+
+        }
         // onkeyup
         function discountAmount(){
             var discount_type = $('#discount_type').val();
@@ -238,12 +266,17 @@
             discount_amount = parseInt(discount_amount);
             console.log('discount_amount= ' + typeof discount_amount);
 
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
             if(discount_type == 'flat'){
-                var final_amount = store_total_amount - discount_amount;
+                var final_amount = (store_total_amount+transport) - discount_amount;
             }
             else{
-                var per = (store_total_amount*discount_amount)/100;
-                var final_amount = store_total_amount - per;
+                var per = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = store_total_amount - per +transport;
             }
             console.log('final_amount= ' + final_amount);
             console.log('final_amount= ' + typeof final_amount);

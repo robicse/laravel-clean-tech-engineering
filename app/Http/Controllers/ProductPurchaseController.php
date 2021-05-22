@@ -100,9 +100,10 @@ class ProductPurchaseController extends Controller
         $productPurchase ->note = $request->note;
         $productPurchase->discount_type = $request->discount_type;
         $productPurchase->discount_amount = $request->discount_amount;
-        $productPurchase->total_amount = $total_amount;
+        $productPurchase->total_amount = $request->total_amount;;
         $productPurchase->paid_amount = $request->paid_amount;
         $productPurchase->due_amount = $request->due_amount;
+        $productPurchase->transport_cost = $request->transport_cost;
         $productPurchase->save();
         $insert_id = $productPurchase->id;
         if($insert_id)
@@ -256,9 +257,10 @@ class ProductPurchaseController extends Controller
         $productPurchase->check_number = $request->check_number ? $request->check_number : '';
         $productPurchase->discount_type = $request->discount_type;
         $productPurchase->discount_amount = $request->discount_amount;
-        $productPurchase->total_amount = $total_amount;
+        $productPurchase->total_amount = $request->total_amount;;
         $productPurchase->paid_amount = $request->paid_amount;
         $productPurchase->due_amount = $request->due_amount;
+        $productPurchase->transport_cost = $request->transport_cost;
         $productPurchase->update();
 
         for($i=0; $i<$row_count;$i++)

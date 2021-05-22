@@ -30,12 +30,18 @@
                         <tbody>
                         @foreach($productPurchases as $key => $productPurches)
                         <tr>
+                            @php
+                                $totalAmount =(($productPurches->total_amount +$productPurches->transport_cost));
+                                //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
+                               // $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
+
+                            @endphp
                             <td>{{ $key+1 }}</td>
                             <td>{{ $productPurches->user->name}}</td>
                             <td>{{ $productPurches->party->name}}</td>
                             <td>{{ $productPurches->total_amount}}</td>
                             <td>{{ $productPurches->paid_amount}}</td>
-                            <td>{{ $productPurches->created_at}}</td>
+                            <td>{{ $productPurches->date}}</td>
                             <td>
                                 {{ $productPurches->due_amount}}
                                 @if($productPurches->total_amount != $productPurches->paid_amount)

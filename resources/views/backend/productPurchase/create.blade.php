@@ -106,7 +106,7 @@
                                 <tbody class="neworderbody">
                                 <tr>
                                     <td width="5%" class="no">1</td>
-                                    <td width="25%">
+                                    <td width="30%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
                                             <option value="">Select  Product</option>
                                             @foreach($products as $product)
@@ -124,7 +124,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td width="15%">
                                         <div id="product_brand_id_1">
                                             <select class="form-control product_brand_id select2" name="product_brand_id[]" required>
                                                 <option value="">Select  Brand</option>
@@ -134,7 +134,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%"  style="display: none">
+                                    <td style="display: none">
                                         <div id="product_unit_id_1">
                                             <select class="form-control product_unit_id select2" name="product_unit_id[]" required>
                                                 <option value="">Select  Unit</option>
@@ -144,16 +144,16 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="09%">
+                                    <td width="10%">
                                         <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="" required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <input type="text" min="1" max="" class="price form-control" name="price[]" id="price_1" value="" required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <input type="text" min="1" max="" class="form-control" name="mrp_price[]" value="" required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <input type="text" min="1" max="" class="form-control" name="wholeSale_price[]" value="" required >
                                     </td>
                                     <td width="10%">
@@ -166,7 +166,10 @@
                                 <tfoot>
                                 <tr>
                                     <th></th>
-
+                                    <th >
+                                        Transport/Labour:
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" placeholder="Transport Cost" onblur="transportCost('')" value="0">
+                                    </th>
                                     <th width="10%">
                                         Type:
                                         <select name="discount_type" id="discount_type" class="form-control" >
@@ -175,10 +178,10 @@
                                         </select>
                                     </th>
                                     <th>
-                                        Discount(Flat):
+                                        Discount:
                                         <input type="text" id="discount_amount" class="form-control" name="discount_amount" onkeyup="discountAmount('')" value="0">
                                     </th>
-                                    <th  colspan="2">
+                                    <th>
                                         Total:
                                         <input type="hidden" id="store_total_amount" class="form-control">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount">
@@ -291,6 +294,30 @@
             $('#due_amount').val(t);
         }
 
+        function transportCost(){
+
+            var sub_total = $('#store_total_amount').val();
+            console.log('sub_total= ' + sub_total);
+            console.log('sub_total= ' + typeof sub_total);
+            sub_total = parseFloat(sub_total);
+
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            var grand_total =( sub_total + transport);
+            console.log('grand_total= ' + grand_total);
+            console.log('grand_total= ' + typeof grand_total);
+            grand_total = parseFloat(grand_total);
+
+            $('#total_amount').val(grand_total);
+            $('#due_amount').val(grand_total);
+            // $('#store_total_amount').val(grand_total);
+
+
+
+        }
         // onkeyup
         function discountAmount(){
             var discount_type = $('#discount_type').val();
@@ -313,12 +340,17 @@
             discount_amount = parseInt(discount_amount);
             console.log('discount_amount= ' + typeof discount_amount);
 
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
             if(discount_type == 'flat'){
-                var final_amount = store_total_amount - discount_amount;
+                var final_amount = (store_total_amount+transport) - discount_amount;
             }
             else{
-                var per = (store_total_amount*discount_amount)/100;
-                var final_amount = store_total_amount - per;
+                var per = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = store_total_amount - per +transport;
             }
             console.log('final_amount= ' + final_amount);
             console.log('final_amount= ' + typeof final_amount);

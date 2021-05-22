@@ -145,6 +145,8 @@
                                                         @php
                                                             $sub_total=$productPurchaseDetail->qty*$productPurchaseDetail->price;
                                                             $sum_sub_total += $sub_total;
+                                                            $total_discount = (($sum_sub_total+$productPurchase->transport_cost)*$productPurchase->discount_amount)/100;
+                                                          //  dd($sum_sub_total);
                                                         @endphp
                                                         {{$sub_total}}
                                                     </td>
@@ -156,10 +158,22 @@
                                                 <th>Subtotal:</th>
                                                 <th>{{$sum_sub_total}}</th>
                                             </tr>
+
+
+                                            <tr>
+                                                <th colspan="4">&nbsp;</th>
+                                                <th>Transport/Labour :</th>
+                                                <th>{{$productPurchase->transport_cost}}</th>
+                                            </tr>
                                             <tr>
                                                 <th colspan="4">&nbsp;</th>
                                                 <th>Discount:</th>
-                                                <th>-{{$productPurchase->discount_amount}}</th>
+                                                @if($productPurchase->discount_type == 'flat' )
+
+                                                    <td style="border: none">- {{$productPurchase->discount_amount}}</td>
+                                                @else
+                                                    <td style="border: none">-{{number_format($total_discount, 2, '.', '')}}</td>
+                                                @endif
                                             </tr>
                                             <tr>
                                                 <th colspan="4">&nbsp;</th>

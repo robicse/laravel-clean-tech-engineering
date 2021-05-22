@@ -61,7 +61,7 @@
                             $sum_due_amount += $productSale->due_amount;
                         @endphp
                         @php
-                            $totalAmount =(intval($productSale->total_amount +$productSale->transport_cost));
+                            $totalAmount =(($productSale->total_amount +$productSale->transport_cost));
                             //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
                             $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
 

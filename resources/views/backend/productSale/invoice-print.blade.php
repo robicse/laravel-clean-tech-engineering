@@ -280,6 +280,7 @@
                                     <td style="text-align: left;font-size: 18px;">:{{$productSale->note}}</td>
 
                                 </tr>
+                                @if($productSale->sale_type == 'Retail Sale')
                                 <tr>
                                     <td style="font-size: 15px;"><b>Conditions</b>*</td>
                                     <td style="font-size: 15px;">One year electrical parts replacement warranty.</td>
@@ -304,6 +305,7 @@
                                     <td style="text-align: right;font-size: 18px;">*</td>
                                     <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
                                 </tr>
+                                @endif
                             </table>
 
 
