@@ -38,7 +38,7 @@ class   UserDashboardController extends Controller
         $productHistory = \App\ProductSale::where('party_id', Auth::User()->party_id)->latest()->get();
         //dd($productHistory);
 
-        return view('backend.user-dashboard.product-history', compact('product','productHistory','saleService'));
+        return view('backend.user-dashboard.product-history', compact('productHistory'));
     }
     public function productDetails($id)
     {

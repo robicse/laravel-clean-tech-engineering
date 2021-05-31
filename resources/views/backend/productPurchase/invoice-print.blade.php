@@ -131,13 +131,13 @@
                                         <td style="text-align: right;font-size: 16px;">{{$productPurchase->date}}{{$productPurchase->invoice_no}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;font-size: 16px;"><b>DateTime:</b></td>
+                                        <td style="text-align: right;font-size: 16px;"><b>Date:</b></td>
                                         <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
                                     </tr>
-                                    <tr>
-                                        <td style="text-align: right;font-size: 16px;"><b> Phone NO:</b> </td>
-                                        <td style="text-align: right;font-size: 16px;">{{$party->phone}}</td>
-                                    </tr>
+{{--                                    <tr>--}}
+{{--                                        <td style="text-align: right;font-size: 16px;"><b> Phone NO:</b> </td>--}}
+{{--                                        <td style="text-align: right;font-size: 16px;">{{$party->phone}}</td>--}}
+{{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
                                         <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
