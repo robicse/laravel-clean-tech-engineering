@@ -22,6 +22,7 @@ use App\SaleService;
 use App\SaleServiceDuration;
 use App\Service;
 use App\Stock;
+use App\StockTransfer;
 use App\Transaction;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -243,40 +244,29 @@ class ProductSaleController extends Controller
                 //dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
             }
+        }
+        $customer= DB::table('parties')
 
-//            $party_id = $request->party_id;
-//            //dd($account_id);
-//            $accounts = Account::where('party_id',$party_id)->first();
-////dd($accounts);
-//            $customer = new Posting();
-//            $customer ->voucher_type_id =1;
-//            $customer ->voucher_no =1;
-//            $customer->date = $request->date;
-//            $customer->account_id = $accounts->id;
-//            $customer->account_name = $accounts->HeadName;
-//            $customer->parent_account_name = $accounts->PHeadName;
-//            $customer->account_no = $accounts->HeadCode;
-//            $customer->account_type = $accounts->HeadType;
-//            $customer->debit = NULL;
-//            $customer->credit = $total_amount;
-//            $customer->transaction_description = $request->transaction_description;
-//            $customer->save();
-////dd($customer);
-//            $inventory = new Posting();
-//            $inventory ->voucher_type_id =1;
-//            $inventory ->voucher_no =1;
-//            $inventory->date = $request->date;
-//            $inventory->account_id = $accounts->id;
-//            $inventory->account_name = $accounts->HeadName;
-//            $inventory->parent_account_name = $accounts->PHeadName;
-//            $inventory->account_no = $accounts->HeadCode;
-//            $inventory->account_type = $accounts->HeadType;
-//            $inventory->debit =  $total_amount;
-//            $inventory->credit = NULL;
-//            $inventory->transaction_description = $request->transaction_description;
-//            $inventory->save();
-
-//dd($inventory);
+            ->where('id',$request->party_id)
+            ->select('parties.name','parties.phone','parties.id')
+            ->first();
+        //dd($customer);
+        if(!empty($customer)){
+            $customer_name = $customer->name;
+            $customer_phone = $customer->phone;
+            $customer_id = $customer->id;
+        }else{
+            $customer_name = '';
+            $customer_phone = '';
+            $customer_id = '';
+        }
+        //dd($invoice_no);
+        if($insert_id)
+        {
+            $text_for_customer = "Dear, $customer_name  Sir,Thank you for purchasing from CleanTech Engineering, Invoice Number is $invoice_no .Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000";
+            //dd($text_for_provider);
+            UserInfo::smsAPI("88".$customer_phone,$text_for_customer);
         }
 
 
@@ -627,6 +617,98 @@ class ProductSaleController extends Controller
 
         return redirect()->route('productSales.index');
     }
+//    public function productSaleRelationData(Request $request){
+//        $store_id = $request->store_id;
+//        $product_id = $request->current_product_id;
+//        $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
+//        $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+//            ->where('store_id',$store_id)->where('product_id',$product_id)
+//            ->max('product_purchase_details.mrp_price');
+//        //->pluck('product_purchase_details.mrp_price')
+//        //->first();
+//        //return response()->json(['success'=>true,'data'=>$mrp_price]);
+//        if($mrp_price == null){
+//            $mrp_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+//                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+//                ->max('stock_transfer_details.mrp_price');
+//        }
+//
+//        $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
+//        $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
+//        $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
+//        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
+//        $options = [
+//            'mrp_price' => $mrp_price,
+//            'current_stock' => $current_stock,
+//            'categoryOptions' => '',
+//            'subCategoryOptions' => '',
+//            'brandOptions' => '',
+//            'unitOptions' => '',
+//        ];
+//
+//
+//
+//        if($product_category_id){
+//            $categories = ProductCategory::where('id',$product_category_id)->get();
+//            if(count($categories) > 0){
+//                $options['categoryOptions'] = "<select class='form-control' name='product_category_id[]' readonly>";
+//                foreach($categories as $category){
+//                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
+//                }
+//                $options['categoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['categoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['categoryOptions'] .= "</select>";
+//        }
+//        if(!empty($product_sub_category_id)){
+//            $subCategories = ProductSubCategory::where('id',$product_sub_category_id)->get();
+//            if(count($subCategories) > 0){
+//                $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//                foreach($subCategories as $subCategory){
+//                    $options['subCategoryOptions'] .= "<option value='$subCategory->id'>$subCategory->name</option>";
+//                }
+//                $options['subCategoryOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
+//            $options['subCategoryOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['subCategoryOptions'] .= "</select>";
+//        }
+//        if($product_brand_id){
+//            $brands = ProductBrand::where('id',$product_brand_id)->get();
+//            if(count($brands) > 0){
+//                $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]'readonly>";
+//                foreach($brands as $brand){
+//                    $options['brandOptions'] .= "<option value='$brand->id'>$brand->name</option>";
+//                }
+//                $options['brandOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]' readonly>";
+//            $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['brandOptions'] .= "</select>";
+//        }
+//
+//        if($product_unit_id){
+//            $units = ProductUnit::where('id',$product_unit_id)->get();
+//            if(count($units) > 0){
+//                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+//                foreach($units as $unit){
+//                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
+//                }
+//                $options['unitOptions'] .= "</select>";
+//            }
+//        }else{
+//            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
+//            $options['unitOptions'] .= "<option value=''>No Data Found!</option>";
+//            $options['unitOptions'] .= "</select>";
+//        }
+//
+//        return response()->json(['success'=>true,'data'=>$options]);
+//    }
+
     public function productSaleRelationData(Request $request){
         $store_id = $request->store_id;
         $product_id = $request->current_product_id;
@@ -636,6 +718,12 @@ class ProductSaleController extends Controller
             ->max('product_purchase_details.mrp_price');
         //->pluck('product_purchase_details.mrp_price')
         //->first();
+        //return response()->json(['success'=>true,'data'=>$mrp_price]);
+        if($mrp_price == null){
+            $mrp_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+                ->max('stock_transfer_details.mrp_price');
+        }
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
@@ -712,6 +800,9 @@ class ProductSaleController extends Controller
 
         return response()->json(['success'=>true,'data'=>$options]);
     }
+
+
+
 //    public function productSaleRelationData(Request $request){
 //        $store_id = $request->store_id;
 //        $product_id = $request->current_product_id;

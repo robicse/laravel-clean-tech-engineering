@@ -139,10 +139,11 @@
                                                     <td>{{$stockTransferDetail->product->product_brand->name}}</td>
                                                     <td>{{$stockTransferDetail->price}}</td>
                                                     <td>
-{{--                                                        @php--}}
-{{--                                                            $sub_total=$productPurchaseDetail->qty*$productPurchaseDetail->price;--}}
-{{--                                                            $sum_sub_total += $sub_total;--}}
-{{--                                                        @endphp--}}
+                                                        @php
+                                                            $sub_total=$stockTransferDetail->qty*$stockTransferDetail->price;
+                                                            $sum_sub_total += $sub_total;
+
+                                                        @endphp
                                                         {{$stockTransferDetail->sub_total}}
                                                     </td>
                                                 </tr>
@@ -151,7 +152,7 @@
                                             <tr>
                                                 <th colspan="4">&nbsp;</th>
                                                 <th>Subtotal:</th>
-                                                <th> {{$stockTransferDetail->sub_total}}</th>
+                                                <th> {{$sum_sub_total}}</th>
                                             </tr>
 
                                             </tbody>
@@ -162,7 +163,7 @@
                                 </div>
                                 <!-- /.row -->
                                 <div class="write">
-                                    <p class="lead"><b>In Word : {{ucwords($digit->format($stockTransferDetail->sub_total))}} Only</b></p>
+                                    <p class="lead"><b>In Word : {{ucwords($digit->format($sum_sub_total))}} Only</b></p>
                                 </div>
 
                             </div>

@@ -127,6 +127,7 @@ class ProductPurchaseController extends Controller
                 $purchase_purchase_detail->wholeSale_price = $request->wholeSale_price[$i];
                 $purchase_purchase_detail->sub_total = $request->qty[$i]*$request->price[$i];
                 $purchase_purchase_detail->warranty = $warranty;
+               // dd($purchase_purchase_detail);
                 $purchase_purchase_detail->save();
 
                 $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id )->latest()->pluck('current_stock')->first();
@@ -213,7 +214,7 @@ class ProductPurchaseController extends Controller
         $transaction = Transaction::where('ref_id',$id)->first();
         $productPurchaseDetails = ProductPurchaseDetail::where('product_purchase_id',$id)->get();
         $stock_id = Stock::where('ref_id',$id)->where('stock_type','purchase')->pluck('id')->first();
-        //dd($transaction);
+        //dd($productPurchase);
         return view('backend.productPurchase.edit',compact('parties','stores','products','productPurchase','productPurchaseDetails','productCategories','productUnits','productBrands','transaction','stock_id'));
     }
 
@@ -312,7 +313,7 @@ class ProductPurchaseController extends Controller
         $due->user_id = Auth::id();
         $due->store_id = $request->store_id;
         $due->party_id = $request->party_id;
-        //$due->payment_type = $request->payment_type;
+        $due->payment_type = $request->payment_type;
         //$due->check_number = $request->check_number ? $request->check_number : '';
         $due->total_amount = $total_amount;
         $due->paid_amount = $request->paid_amount;

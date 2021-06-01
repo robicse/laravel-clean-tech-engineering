@@ -226,12 +226,7 @@ class ServiceController extends Controller
     }
     public function sendSMS(Request $request){
 
-       // dd($request->all());
-        //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
-       // $provider_id= $request->row_id;
-       // dd($request->service_id);
-        //$sale_service_id = $request->service_id;
-        //dd($sale_service_id);
+
         $sale_service = SaleService::find($request->row_id);
         $sale_service->provider_id =  $request->service_provider_id;
         //dd($sale_service);

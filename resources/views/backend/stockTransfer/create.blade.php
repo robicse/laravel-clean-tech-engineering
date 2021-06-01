@@ -94,12 +94,14 @@
                                 <tr>
                                     <th >ID</th>
                                     <th>Product <small class="requiredCustom">*</small></th>
-                                    <th>Category</th>
+{{--                                    <th>Category</th>--}}
                                     <th style="display: none">Sub Category</th>
                                     <th>Brand</th>
                                     <th>Stock Qty</th>
                                     <th>Qty <small class="requiredCustom">*</small></th>
                                     <th>Price <small class="requiredCustom">*</small></th>
+                                    <th>MRP Price <small class="requiredCustom">*</small></th>
+                                    <th>WholeSale Price <small class="requiredCustom">*</small></th>
                                     <th>Sub Total</th>
                                     <th>Action</th>
 
@@ -116,7 +118,7 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td width="15%">
+                                    <td style="display: none">
                                         <div id="product_category_id_1">
                                             <select class="form-control product_category_id select2" name="product_category_id[]"  required>
                                                 <option value="">Select  Category</option>
@@ -126,7 +128,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%"  style="display: none">
+                                    <td style="display: none">
                                         <div id="product_sub_category_id_1">
                                             <select class="form-control product_sub_category_id select2" name="product_sub_category_id[]">
                                                 <option value="">Select  Sub Category</option>
@@ -136,7 +138,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <div  id="product_brand_id_1">
                                             <select class="form-control product_brand_id select2" name="product_brand_id[]" required>
                                                 <option value="">Select  Brand</option>
@@ -152,10 +154,16 @@
                                     <td width="8%">
                                         <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="" required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <input type="number" id="price_1" min="1" max="" class="price form-control" name="price[]" value="" readonly required >
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
+                                        <input type="text" id="mrp_price_1" min="1" max="" class="form-control" name="mrp_price[]" value="" required >
+                                    </td>
+                                    <td width="10%">
+                                        <input type="text" id="wholeSale_price_1" min="1" max="" class="form-control" name="wholeSale_price[]" value="" required >
+                                    </td>
+                                    <td width="10%">
                                         <input type="text" class="amount form-control" name="sub_total[]">
                                     </td>
                                 </tr>
@@ -314,12 +322,14 @@
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
                     '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
-                    '<td><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
-                    '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
+                    '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
+                    // '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                     '<td><input type="number" id="stock_qty_'+n+'" class="stock_qty form-control" name="stock_qty[]"></td>' +
                     '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                     '<td><input type="text" id="price_'+n+'" min="1" max="" class="price form-control" name="price[]" value="" readonly required></td>' +
+                    '<td><input type="text" id="mrp_price_'+n+'" min="1" max="" class="form-control" name="mrp_price[]" value="" required></td>' +
+                    '<td><input type="text" id="wholeSale_price_'+n+'" min="1" max="" class="form-control" name="wholeSale_price[]" value="" required></td>' +
                     //'<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                     '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
@@ -395,7 +405,15 @@
                 //alert(sel.value);
                 var current_row = row;
                 var current_product_id = sel.value;
-
+                if(current_row > 1){
+                    var previous_row = current_row - 1;
+                    var previous_product_id = $('#product_id_'+previous_row).val();
+                    if(previous_product_id === current_product_id){
+                        $('#product_id_'+current_row).val('');
+                        alert('You selected same product, Please selected another product!');
+                        return false
+                    }
+                }
                 $.ajax({
                     url : "{{URL('product-Transfersale-relation-data')}}",
                     method : "get",
@@ -413,6 +431,8 @@
                         $("#product_unit_id_"+current_row).html(res.data.unitOptions);
                         $("#stock_qty_"+current_row).val(res.data.current_stock);
                         $("#price_"+current_row).val(res.data.price);
+                        $("#mrp_price_"+current_row).val(res.data.mrp_price);
+                        $("#wholeSale_price_"+current_row).val(res.data.wholeSale_price);
                     },
                     error : function (err){
                         console.log(err)

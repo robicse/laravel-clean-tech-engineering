@@ -161,29 +161,183 @@
                                         // sale
                                         if($start_date != '' && $end_date != ''){
                                             $productSaleDetails = DB::table('product_sale_details')
-                                                ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
+                                            ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                                ->select('product_sale_details.product_id','product_sale_details.product_category_id','product_sale_details.product_sub_category_id','product_sale_details.product_brand_id', DB::raw('SUM(product_sale_details.qty) as qty'), DB::raw('SUM(product_sale_details.price) as price'), DB::raw('SUM(product_sale_details.sub_total) as sub_total'))
+                                                ->where('product_sale_details.product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_sale_details.product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sale_details.product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_sale_details.product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->where('product_sale_details.created_at','>=',$custom_start_date)
+                                                ->where('product_sale_details.created_at','<=',$custom_end_date)
+                                                ->where('product_sales.store_id',$store->id)
+                                                ->groupBy('product_sale_details.product_id')
+                                                ->groupBy('product_sale_details.product_category_id')
+                                                ->groupBy('product_sale_details.product_sub_category_id')
+                                                ->groupBy('product_sale_details.product_brand_id')
+                                                ->first();
+                                        }else{
+                                            $productSaleDetails = DB::table('product_sale_details')
+                                            ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                                ->select('product_sale_details.product_id','product_sale_details.product_category_id','product_sale_details.product_sub_category_id','product_sale_details.product_brand_id', DB::raw('SUM(product_sale_details.qty) as qty'), DB::raw('SUM(product_sale_details.price) as price'), DB::raw('SUM(product_sale_details.sub_total) as sub_total'))
+                                                ->where('product_sale_details.product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_sale_details.product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sale_details.product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_sale_details.product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->where('product_sales.store_id',$store->id)
+                                                ->groupBy('product_sale_details.product_id')
+                                                ->groupBy('product_sale_details.product_category_id')
+                                                ->groupBy('product_sale_details.product_sub_category_id')
+                                                ->groupBy('product_sale_details.product_brand_id')
+                                                ->first();
+                                        }
+
+                                        if(!empty($productSaleDetails))
+                                        {
+                                            $sale_total_qty = $productSaleDetails->qty;
+                                            $sum_sale_price = $productSaleDetails->sub_total;
+                                            $sale_average_price = $productSaleDetails->sub_total/$productSaleDetails->qty;
+
+                                            if($sale_total_qty > 0){
+                                                $loss_or_profit = ($sale_average_price*$sale_total_qty) - ($purchase_average_price*$sale_total_qty);
+                                                $current_loss_or_profit += $loss_or_profit;
+                                                $sum_loss_or_profit += $loss_or_profit;
+                                                //dd($sum_loss_or_profit);
+
+                                            }
+                                        }
+
+
+
+                                        // sale return
+                                        if($start_date != '' && $end_date != ''){
+                                            $productSaleReturnDetails = DB::table('product_sale_return_details')
+                                                ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'))
                                                 ->where('product_id',$productPurchaseDetail->product_id)
                                                 ->where('product_category_id',$productPurchaseDetail->product_category_id)
                                                 ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
                                                 ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
-                                                ->where('product_sale_details.created_at','>=',$custom_start_date)
-                                                ->where('product_sale_details.created_at','<=',$custom_end_date)
+                                                ->where('created_at','>=',$custom_start_date)
+                                                ->where('created_at','<=',$custom_end_date)
                                                 ->groupBy('product_id')
                                                 ->groupBy('product_category_id')
                                                 ->groupBy('product_sub_category_id')
                                                 ->groupBy('product_brand_id')
                                                 ->first();
                                         }else{
+                                            $productSaleReturnDetails = DB::table('product_sale_return_details')
+                                            ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'))
+                                            ->where('product_id',$productPurchaseDetail->product_id)
+                                            ->where('product_category_id',$productPurchaseDetail->product_category_id)
+                                            ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                            ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
+                                            ->groupBy('product_id')
+                                            ->groupBy('product_category_id')
+                                            ->groupBy('product_sub_category_id')
+                                            ->groupBy('product_brand_id')
+                                            ->first();
+                                        }
+
+                                        if(!empty($productSaleReturnDetails))
+                                        {
+                                            $sale_return_total_qty = $productSaleReturnDetails->qty;
+                                            $sale_return_total_amount = $productSaleReturnDetails->price;
+                                            $sum_sale_return_price += $productSaleReturnDetails->price;
+                                            $sale_return_average_price = $sale_return_total_amount/$productSaleReturnDetails->qty;
+
+                                            if($sale_return_total_qty > 0){
+                                                $amount = $sale_return_average_price - ($purchase_average_price*$sale_return_total_qty);
+                                                if($amount > 0){
+                                                    $sum_loss_or_profit -= $amount;
+                                                }else{
+                                                    $sum_loss_or_profit += $amount;
+                                                }
+                                            }
+                                        }
+
+
+                                    }
+
+                                    // sale discount
+                                    if($start_date != '' && $end_date != ''){
+                                        $discount= DB::table('product_sales')
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->where('product_sales.created_at','>=',$custom_start_date)
+                                            ->where('product_sales.created_at','<=',$custom_end_date)
+                                            ->where('product_sales.store_id',$store->id)
+                                            ->first();
+                                    }else{
+                                        $discount= DB::table('product_sales')
+                                            ->where('product_sales.store_id',$store->id)
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->first();
+                                    }
+                                    if($discount){
+                                        $sum_loss_or_profit -=$discount->total_discount_amount ;
+                                    }
+                                }
+
+
+
+
+
+
+                                $productPurchaseDetailsArr = DB::table('product_purchase_details')
+                                    ->join('product_purchases','product_purchases.id','=','product_purchase_details.product_purchase_id')
+                                    ->where('product_purchases.store_id',$store->id)
+                                    ->groupBy('product_id')
+                                    ->groupBy('product_category_id')
+                                    ->groupBy('product_sub_category_id')
+                                    ->groupBy('product_brand_id')
+                                    ->pluck('product_id')
+                                    ->toArray();
+
+                            //dd($productPurchaseDetailsArr);
+
+                            $stockTransferDetails = DB::table('stock_transfer_details')
+                                    ->join('stock_transfers','stock_transfers.id','=','stock_transfer_details.stock_transfer_id')
+                                    ->select('stock_transfer_details.product_id','stock_transfer_details.product_category_id','stock_transfer_details.product_sub_category_id','stock_transfer_details.product_brand_id', DB::raw('SUM(stock_transfer_details.qty) as qty'), DB::raw('SUM(stock_transfer_details.price) as price'), DB::raw('SUM(stock_transfer_details.sub_total) as sub_total'))
+                                    ->where('stock_transfers.to_store_id',$store->id)
+                                    ->groupBy('stock_transfer_details.product_id')
+                                    ->groupBy('stock_transfer_details.product_category_id')
+                                    ->groupBy('stock_transfer_details.product_sub_category_id')
+                                    ->groupBy('stock_transfer_details.product_brand_id')
+                                    ->get();
+
+                            if(!empty($stockTransferDetails)){
+                                    foreach($stockTransferDetails as $key => $productPurchaseDetail){
+                                        $purchase_average_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
+                                        $sum_purchase_price += $productPurchaseDetail->sub_total;
+
+                                        // sale
+                                        if($start_date != '' && $end_date != ''){
                                             $productSaleDetails = DB::table('product_sale_details')
-                                                ->select('product_id','product_category_id','product_sub_category_id','product_brand_id', DB::raw('SUM(qty) as qty'), DB::raw('SUM(price) as price'), DB::raw('SUM(sub_total) as sub_total'))
-                                                ->where('product_id',$productPurchaseDetail->product_id)
-                                                ->where('product_category_id',$productPurchaseDetail->product_category_id)
-                                                ->where('product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
-                                                ->where('product_brand_id',$productPurchaseDetail->product_brand_id)
-                                                ->groupBy('product_id')
-                                                ->groupBy('product_category_id')
-                                                ->groupBy('product_sub_category_id')
-                                                ->groupBy('product_brand_id')
+                                            ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                                ->select('product_sale_details.product_id','product_sale_details.product_category_id','product_sale_details.product_sub_category_id','product_sale_details.product_brand_id', DB::raw('SUM(product_sale_details.qty) as qty'), DB::raw('SUM(product_sale_details.price) as price'), DB::raw('SUM(product_sale_details.sub_total) as sub_total'))
+                                                ->where('product_sale_details.product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_sale_details.product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sale_details.product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_sale_details.product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->where('product_sale_details.created_at','>=',$custom_start_date)
+                                                ->where('product_sale_details.created_at','<=',$custom_end_date)
+                                                ->where('product_sales.store_id',$store->id)
+                                                ->groupBy('product_sale_details.product_id')
+                                                ->groupBy('product_sale_details.product_category_id')
+                                                ->groupBy('product_sale_details.product_sub_category_id')
+                                                ->groupBy('product_sale_details.product_brand_id')
+                                                ->first();
+                                        }else{
+                                            $productSaleDetails = DB::table('product_sale_details')
+                                            ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                                ->select('product_sale_details.product_id','product_sale_details.product_category_id','product_sale_details.product_sub_category_id','product_sale_details.product_brand_id', DB::raw('SUM(product_sale_details.qty) as qty'), DB::raw('SUM(product_sale_details.price) as price'), DB::raw('SUM(product_sale_details.sub_total) as sub_total'))
+                                                ->where('product_sale_details.product_id',$productPurchaseDetail->product_id)
+                                                ->where('product_sale_details.product_category_id',$productPurchaseDetail->product_category_id)
+                                                ->where('product_sale_details.product_sub_category_id',$productPurchaseDetail->product_sub_category_id)
+                                                ->where('product_sale_details.product_brand_id',$productPurchaseDetail->product_brand_id)
+                                                ->where('product_sales.store_id',$store->id)
+                                                ->groupBy('product_sale_details.product_id')
+                                                ->groupBy('product_sale_details.product_category_id')
+                                                ->groupBy('product_sale_details.product_sub_category_id')
+                                                ->groupBy('product_sale_details.product_brand_id')
                                                 ->first();
                                         }
 

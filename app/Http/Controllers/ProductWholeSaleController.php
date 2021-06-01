@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Due;
 use App\FreeProduct;
 use App\FreeProductSaleDetails;
+use App\Helpers\UserInfo;
 use App\OnlinePlatForm;
 use App\Party;
 use App\Product;
@@ -16,12 +17,14 @@ use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockTransfer;
 use App\Store;
 use App\Transaction;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductWholeSaleController extends Controller
 {
@@ -198,39 +201,29 @@ class ProductWholeSaleController extends Controller
                 $freeProduct_sale_detail->save();
             }
 
-//            $party_id = $request->party_id;
-//            //dd($account_id);
-//            $accounts = Account::where('party_id',$party_id)->first();
-////dd($accounts);
-//            $customer = new Posting();
-//            $customer ->voucher_type_id =1;
-//            $customer ->voucher_no =1;
-//            $customer->date = $request->date;
-//            $customer->account_id = $accounts->id;
-//            $customer->account_name = $accounts->HeadName;
-//            $customer->parent_account_name = $accounts->PHeadName;
-//            $customer->account_no = $accounts->HeadCode;
-//            $customer->account_type = $accounts->HeadType;
-//            $customer->debit = NULL;
-//            $customer->credit = $total_amount;
-//            $customer->transaction_description = $request->transaction_description;
-//            $customer->save();
-////dd($customer);
-//            $inventory = new Posting();
-//            $inventory ->voucher_type_id =1;
-//            $inventory ->voucher_no =1;
-//            $inventory->date = $request->date;
-//            $inventory->account_id = $accounts->id;
-//            $inventory->account_name = $accounts->HeadName;
-//            $inventory->parent_account_name = $accounts->PHeadName;
-//            $inventory->account_no = $accounts->HeadCode;
-//            $inventory->account_type = $accounts->HeadType;
-//            $inventory->debit =  $total_amount;
-//            $inventory->credit = NULL;
-//            $inventory->transaction_description = $request->transaction_description;
-//            $inventory->save();
+        }
+        $customer= DB::table('parties')
 
-//dd($inventory);
+            ->where('id',$request->party_id)
+            ->select('parties.name','parties.phone','parties.id')
+            ->first();
+        //dd($customer);
+        if(!empty($customer)){
+            $customer_name = $customer->name;
+            $customer_phone = $customer->phone;
+            $customer_id = $customer->id;
+        }else{
+            $customer_name = '';
+            $customer_phone = '';
+            $customer_id = '';
+        }
+        //dd($customer_name);
+        if($insert_id)
+        {
+            $text_for_customer = "Dear, $customer_name  Sir,Thank you for purchasing from CleanTech Engineering, Invoice Number is $invoice_no .Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000";
+            //dd($text_for_provider);
+            UserInfo::smsAPI("88".$customer_phone,$text_for_customer);
         }
 
 
@@ -418,6 +411,11 @@ class ProductWholeSaleController extends Controller
             ->max('product_purchase_details.wholeSale_price');
         //->pluck('product_purchase_details.mrp_price')
         //->first();
+        if($wholeSale_price == null){
+            $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+                ->max('stock_transfer_details.wholeSale_price');
+        }
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
