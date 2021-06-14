@@ -199,7 +199,12 @@ class ProductPurchaseReturnController extends Controller
 
     public function show($id)
     {
-        //
+        $productPurchaseReturn = ProductPurchaseReturn::find($id);
+        //dd($productPurchaseReturn);
+        $productPurchaseReturnDetails = ProductPurchaseReturnDetail::where('product_purchase_return_id',$id)->get();
+        $transaction = Transaction::where('ref_id',$id)->first();
+
+        return view('backend.productPurchaseReturn.show', compact('productPurchaseReturn','productPurchaseReturnDetails','transaction'));
     }
 
     public function edit($id)

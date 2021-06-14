@@ -134,6 +134,10 @@
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
                                         <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
                                     </tr>
+                                    <tr>
+                                        <td style="text-align: right;font-size: 16px;"><b>Date:</b></td>
+                                        <td style="text-align: right;font-size: 16px;">{{$stockTransfer->receive_date}}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

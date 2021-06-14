@@ -52,11 +52,16 @@
                     <li><a href="#"> Dashboard</a></li>
                 </ul>
             </div>
-{{--            @php--}}
-{{--                echo '<pre>';--}}
-{{--    print_r(Auth::User()->getRoleNames()[0]);--}}
-{{--                echo '</pre>';--}}
-{{--            @endphp--}}
+
+            @php
+                echo '<pre>';
+    print_r(Auth::User()->getRoleNames()[0]);
+                echo '</pre>';
+            @endphp
+            @php
+                //if(Auth::User()->getRoleNames()[0] == "Admin"){
+                //if(Auth::User()->role=='1'){
+            @endphp
         </div><!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-2 -->
         <div class="container">
             <div class="c-layout-sidebar-menu c-theme ">

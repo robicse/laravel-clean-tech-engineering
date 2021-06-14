@@ -6,6 +6,7 @@
         background-color: gray;
     }
 </style>
+
 <aside class="app-sidebar" style="background: url({{asset('backend/sidebar4.png')}})">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{!! asset('backend/user.png') !!} "
                                         alt="User Image" width="60px">

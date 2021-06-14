@@ -122,6 +122,8 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
+
+                            <th>id</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Product Image</th>
@@ -136,6 +138,7 @@
                         <tbody>
                         @foreach($productSaleDetails as $productSaleDetail)
                             <tr>
+                                <td>{{$productSaleDetail->id}}</td>
                                 <td>{{$productSaleDetail->product->product_category->name}}</td>
                                 <td>{{$productSaleDetail->product->product_brand->name}}</td>
                                 <td>
@@ -146,7 +149,7 @@
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
                                 <td class="d-inline-flex">
-                                    <a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSale->id)}}"><i class="fa fa-plus"></i></a>
+                                    <a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSaleDetail->id)}}"><i class="fa fa-plus"></i></a>
 {{--                                    <a href="{{route('productSales-showServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-eye"></i></a>--}}
                                     <a href="{{route('productSales-editServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
                                 </td>

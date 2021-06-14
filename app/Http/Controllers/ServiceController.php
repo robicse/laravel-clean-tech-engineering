@@ -116,6 +116,7 @@ class ServiceController extends Controller
                 ->where('service_date','>=',$start_date)
                 ->where('service_date','<=',$end_date)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
+                ->Orderby('service_date', 'ASC')
                 ->get();
         }else{
 //            $saleServices = SaleService::orderBy('start_date','ASC')
@@ -130,6 +131,7 @@ class ServiceController extends Controller
                 ->where('service_date','>=',$custom_date_start)
                 ->where('service_date','<=',$custom_date_end)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
+                ->Orderby('service_date', 'ASC')
                 ->get();
         }
         // dd($saleServiceDurations);
@@ -198,6 +200,7 @@ class ServiceController extends Controller
                     ->where('service_date', '<=', $end_date)
                     ->where('sale_services.status', '=', 1)
                     ->select('sale_service_durations.service_date', 'sale_services.service_id', 'sale_services.id', 'sale_services.product_sale_detail_id', 'sale_services.provider_id', 'services.name')
+                    ->Orderby('service_date', 'ASC')
                     ->get();
             } else {
 //            $saleServices = SaleService::orderBy('start_date','ASC')
@@ -213,6 +216,7 @@ class ServiceController extends Controller
                     ->where('service_date', '<=', $custom_date_end)
                     ->where('sale_services.status', '=', 1)
                     ->select('sale_service_durations.service_date', 'sale_services.service_id', 'sale_services.id', 'sale_services.product_sale_detail_id', 'sale_services.provider_id', 'services.name')
+                    ->Orderby('service_date', 'ASC')
                     ->get();
             }
             //dd('hh');

@@ -96,37 +96,37 @@ For any queries call our support 09638-888 000..";
             $user = User::create($user_data);
 
             $user->assignRole('Customer');
-           // dd($user);
+          // dd($user);
         }
-        $account = DB::table('accounts')->where('HeadLevel',3)->where('HeadCode', 'like', '1010301%')->Orderby('created_at', 'desc')->limit(1)->first();
-        //dd($account);
-        if(!empty($account)){
-            $headcode=$account->HeadCode+1;
-            //$p_acc = $headcode ."-".$request->name;
-        }else{
-            $headcode="1010301";
-            //$p_acc = $headcode ."-".$request->name;
-        }
-        $p_acc = $request->name."-".$request->phone;
-
-        $PHeadName = 'Account Receivable';
-        $HeadLevel = 3;
-        $HeadType = 'A';
-
-
-        $account = new Account();
-        $account->party_id      = $insert_id;
-        $account->HeadCode      = $headcode;
-        $account->HeadName      = $p_acc;
-        $account->PHeadName     = $PHeadName;
-        $account->HeadLevel     = $HeadLevel;
-        $account->IsActive      = '1';
-        $account->IsTransaction = '1';
-        $account->IsGL          = '1';
-        $account->HeadType      = $HeadType;
-        $account->CreateBy      = Auth::User()->id;
-        $account->UpdateBy      = Auth::User()->id;
-        $account->save();
+//        $account = DB::table('accounts')->where('HeadLevel',3)->where('HeadCode', 'like', '1010301%')->Orderby('created_at', 'desc')->limit(1)->first();
+//        //dd($account);
+//        if(!empty($account)){
+//            $headcode=$account->HeadCode+1;
+//            //$p_acc = $headcode ."-".$request->name;
+//        }else{
+//            $headcode="1010301";
+//            //$p_acc = $headcode ."-".$request->name;
+//        }
+//        $p_acc = $request->name."-".$request->phone;
+//
+//        $PHeadName = 'Account Receivable';
+//        $HeadLevel = 3;
+//        $HeadType = 'A';
+//
+//
+//        $account = new Account();
+//        $account->party_id      = $insert_id;
+//        $account->HeadCode      = $headcode;
+//        $account->HeadName      = $p_acc;
+//        $account->PHeadName     = $PHeadName;
+//        $account->HeadLevel     = $HeadLevel;
+//        $account->IsActive      = '1';
+//        $account->IsTransaction = '1';
+//        $account->IsGL          = '1';
+//        $account->HeadType      = $HeadType;
+//        $account->CreateBy      = Auth::User()->id;
+//        $account->UpdateBy      = Auth::User()->id;
+//        $account->save();
 
 
         Toastr::success('Party Created Successfully', 'Success');
@@ -191,7 +191,7 @@ For any queries call our support 09638-888 000..";
             $user->email = $request->email;
             $user->password = Hash::make(123456);
             $user->update();
-             dd($user);
+             //dd($user);
         }
         Toastr::success('Party Updtaed Successfully', 'Success');
         return redirect()->route('party.index');

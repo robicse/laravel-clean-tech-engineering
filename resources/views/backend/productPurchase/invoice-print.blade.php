@@ -140,7 +140,7 @@
 {{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                        <td style="text-align: right;font-size: 16px;">{{$productPurchase->user->name}}</td>
                                     </tr>
                                 </table>
                             </div>

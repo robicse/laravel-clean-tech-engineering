@@ -100,7 +100,7 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Date <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
-                                <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
+                                <input type="date" name="date" class="form-control" value="{{$productSale->date}}">
                             </div>
                         </div>
                         <div class="form-group row">

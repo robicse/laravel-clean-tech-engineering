@@ -112,7 +112,23 @@ class ProductSaleController extends Controller
 
         ]);
 
+
+
         $row_count = count($request->product_id);
+        for($i=0; $i<$row_count;$i++)
+        {
+
+            $product_id = $request->product_id[$i];
+            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
+           //dd($check_previous_stock);
+            if(!empty($check_previous_stock)){
+                if($check_previous_stock == 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                        return redirect()->back();
+                }
+            }
+        }
         $row_count_free_product = count($request->free_product_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
@@ -254,11 +270,11 @@ class ProductSaleController extends Controller
         if(!empty($customer)){
             $customer_name = $customer->name;
             $customer_phone = $customer->phone;
-            $customer_id = $customer->id;
+            //$customer_id = $customer->id;
         }else{
             $customer_name = '';
             $customer_phone = '';
-            $customer_id = '';
+           // $customer_id = '';
         }
         //dd($invoice_no);
         if($insert_id)
@@ -286,6 +302,7 @@ For any queries call our support 09638-888 000";
 
         $productSale = ProductSale::find($id);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
+        //dd($productSaleDetails);
         $transactions = Transaction::where('ref_id',$id)->first();
 
         return view('backend.productSale.show', compact('productSale','productSaleDetails','transactions'));
@@ -469,9 +486,9 @@ For any queries call our support 09638-888 000";
     {
         //dd($id);
         // $productSale = ProductSale::find($id);
-        $productSaleDetail = ProductSaleDetail::where('product_sale_id',$id)->first();
+        $productSaleDetail = ProductSaleDetail::where('id',$id)->first();
         $product = Product::where('id',$id)->first();
-        //dd($product);
+        //dd($productSaleDetail);
         $services = Service::latest()->get();
         return view('backend.productSale.addServices',compact('productSaleDetail','services','product'));
     }
@@ -617,97 +634,6 @@ For any queries call our support 09638-888 000";
 
         return redirect()->route('productSales.index');
     }
-//    public function productSaleRelationData(Request $request){
-//        $store_id = $request->store_id;
-//        $product_id = $request->current_product_id;
-//        $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
-//        $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
-//            ->where('store_id',$store_id)->where('product_id',$product_id)
-//            ->max('product_purchase_details.mrp_price');
-//        //->pluck('product_purchase_details.mrp_price')
-//        //->first();
-//        //return response()->json(['success'=>true,'data'=>$mrp_price]);
-//        if($mrp_price == null){
-//            $mrp_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
-//                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
-//                ->max('stock_transfer_details.mrp_price');
-//        }
-//
-//        $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
-//        $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
-//        $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
-//        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
-//        $options = [
-//            'mrp_price' => $mrp_price,
-//            'current_stock' => $current_stock,
-//            'categoryOptions' => '',
-//            'subCategoryOptions' => '',
-//            'brandOptions' => '',
-//            'unitOptions' => '',
-//        ];
-//
-//
-//
-//        if($product_category_id){
-//            $categories = ProductCategory::where('id',$product_category_id)->get();
-//            if(count($categories) > 0){
-//                $options['categoryOptions'] = "<select class='form-control' name='product_category_id[]' readonly>";
-//                foreach($categories as $category){
-//                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
-//                }
-//                $options['categoryOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['categoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['categoryOptions'] .= "</select>";
-//        }
-//        if(!empty($product_sub_category_id)){
-//            $subCategories = ProductSubCategory::where('id',$product_sub_category_id)->get();
-//            if(count($subCategories) > 0){
-//                $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//                foreach($subCategories as $subCategory){
-//                    $options['subCategoryOptions'] .= "<option value='$subCategory->id'>$subCategory->name</option>";
-//                }
-//                $options['subCategoryOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//            $options['subCategoryOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['subCategoryOptions'] .= "</select>";
-//        }
-//        if($product_brand_id){
-//            $brands = ProductBrand::where('id',$product_brand_id)->get();
-//            if(count($brands) > 0){
-//                $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]'readonly>";
-//                foreach($brands as $brand){
-//                    $options['brandOptions'] .= "<option value='$brand->id'>$brand->name</option>";
-//                }
-//                $options['brandOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]' readonly>";
-//            $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['brandOptions'] .= "</select>";
-//        }
-//
-//        if($product_unit_id){
-//            $units = ProductUnit::where('id',$product_unit_id)->get();
-//            if(count($units) > 0){
-//                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
-//                foreach($units as $unit){
-//                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
-//                }
-//                $options['unitOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
-//            $options['unitOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['unitOptions'] .= "</select>";
-//        }
-//
-//        return response()->json(['success'=>true,'data'=>$options]);
-//    }
 
     public function productSaleRelationData(Request $request){
         $store_id = $request->store_id;
@@ -803,89 +729,7 @@ For any queries call our support 09638-888 000";
 
 
 
-//    public function productSaleRelationData(Request $request){
-//        $store_id = $request->store_id;
-//        $product_id = $request->current_product_id;
-//        $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
-//        $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
-//            ->where('store_id',$store_id)->where('product_id',$product_id)
-//            ->latest('product_purchase_details.id')
-//            ->pluck('product_purchase_details.price')
-//            ->first();
-//
-//        $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
-//        $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();
-//        $product_brand_id = Product::where('id',$product_id)->pluck('product_brand_id')->first();
-//        $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
-//        $options = [
-//            'price' => $mrp_price,
-//            'current_stock' => $current_stock,
-//            'categoryOptions' => '',
-//            'subCategoryOptions' => '',
-//            'brandOptions' => '',
-//            'unitOptions' => '',
-//        ];
-//
-//        if($product_category_id){
-//            $categories = ProductCategory::where('id',$product_category_id)->get();
-//            if(count($categories) > 0){
-//                $options['categoryOptions'] = "<select class='form-control' name='product_category_id[]' readonly>";
-//                foreach($categories as $category){
-//                    $options['categoryOptions'] .= "<option value='$category->id'>$category->name</option>";
-//                }
-//                $options['categoryOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['categoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//            $options['categoryOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['categoryOptions'] .= "</select>";
-//        }
-//        if(!empty($product_sub_category_id)){
-//            $subCategories = ProductSubCategory::where('id',$product_sub_category_id)->get();
-//            if(count($subCategories) > 0){
-//                $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//                foreach($subCategories as $subCategory){
-//                    $options['subCategoryOptions'] .= "<option value='$subCategory->id'>$subCategory->name</option>";
-//                }
-//                $options['subCategoryOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['subCategoryOptions'] = "<select class='form-control' name='product_sub_category_id[]' readonly>";
-//            $options['subCategoryOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['subCategoryOptions'] .= "</select>";
-//        }
-//        if($product_brand_id){
-//            $brands = ProductBrand::where('id',$product_brand_id)->get();
-//            if(count($brands) > 0){
-//                $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]'readonly>";
-//                foreach($brands as $brand){
-//                    $options['brandOptions'] .= "<option value='$brand->id'>$brand->name</option>";
-//                }
-//                $options['brandOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['brandOptions'] = "<select class='form-control' name='product_brand_id[]' readonly>";
-//            $options['brandOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['brandOptions'] .= "</select>";
-//        }
-//
-//        if($product_unit_id){
-//            $units = ProductUnit::where('id',$product_unit_id)->get();
-//            if(count($units) > 0){
-//                $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
-//                foreach($units as $unit){
-//                    $options['unitOptions'] .= "<option value='$unit->id'>$unit->name</option>";
-//                }
-//                $options['unitOptions'] .= "</select>";
-//            }
-//        }else{
-//            $options['unitOptions'] = "<select class='form-control' name='product_unit_id[]' readonly>";
-//            $options['unitOptions'] .= "<option value=''>No Data Found!</option>";
-//            $options['unitOptions'] .= "</select>";
-//        }
-//
-//        return response()->json(['success'=>true,'data'=>$options]);
-//    }
+
 
     public function invoice($id)
     {

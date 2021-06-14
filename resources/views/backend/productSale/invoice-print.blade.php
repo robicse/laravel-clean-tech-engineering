@@ -115,6 +115,8 @@
                             <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> INVOICE / BILL</h3>
                         </div>
                     </div>
+
+
                     <div class="row">
                         <div class="col-md-6" style="width: 50%; float: left;display: inline-block">
                             <strong>Customer ID:</strong>
@@ -149,7 +151,7 @@
 {{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Served By:</b></td>
-                                        <td style="text-align: right;font-size: 14px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->user->name}}</td>
                                     </tr>
                                 </table>
                             </div>

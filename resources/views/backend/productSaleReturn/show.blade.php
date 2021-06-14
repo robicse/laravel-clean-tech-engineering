@@ -91,9 +91,9 @@
                             <td>{{$productSaleReturnDetail->product->product_brand->name}}</td>
 {{--                            <td>{{$productSaleReturnDetail->return_type}}</td>--}}
                             <td>{{$productSaleReturnDetail->reason}}</td>
-                            <td>
-                                <img src="{{asset('uploads/product/'.$productSaleReturnDetail->product->image)}}" width="50" height="50" />
-                            </td>
+{{--                            <td>--}}
+{{--                                <img src="{{asset('uploads/product/'.$productSaleReturnDetail->product->image)}}" width="50" height="50" />--}}
+{{--                            </td>--}}
                             <td>{{$productSaleReturnDetail->product->name}}</td>
                             <td>{{$productSaleReturnDetail->qty}}</td>
                             <td>{{$productSaleReturnDetail->price}}</td>
