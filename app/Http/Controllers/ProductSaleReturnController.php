@@ -165,6 +165,7 @@ class ProductSaleReturnController extends Controller
         //dd($request->all());
         $row_count = count($request->return_qty);
         $productSale = ProductSale::where('id',$request->product_sale_id)->first();
+
         //dd($row_count);
 
         $total_amount = 0;

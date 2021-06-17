@@ -300,6 +300,7 @@ For any queries call our support 09638-888 000";
     public function show($id)
     {
 
+
         $productSale = ProductSale::find($id);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         //dd($productSaleDetails);
@@ -348,6 +349,22 @@ For any queries call our support 09638-888 000";
 
         $stock_id = $request->stock_id;
         $row_count = count($request->product_id);
+        for($i=0; $i<$row_count;$i++)
+        {
+
+            $product_id = $request->product_id[$i];
+            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
+            //dd($check_previous_stock);
+            if(!empty($check_previous_stock)){
+                if($check_previous_stock == 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                    return redirect()->back();
+                }
+            }
+        }
+
+
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {
@@ -370,7 +387,7 @@ For any queries call our support 09638-888 000";
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
-        $productSale->sale_type ="Retail Sale";
+        $productSale->sale_type ="Retail Sale edit";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
@@ -416,7 +433,7 @@ For any queries call our support 09638-888 000";
             $stock->date = $request->date;
             $stock->product_id = $request->product_id[$i];
             $stock->previous_stock = $previous_stock;
-            $stock->sale_type = "Retail Sale";
+            $stock->sale_type = "Retail Sale edit";
             $stock->stock_in = 0;
             $stock->stock_out = $request->qty[$i];
             $stock->current_stock = $previous_stock - $request->qty[$i];
