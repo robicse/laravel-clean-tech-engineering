@@ -203,6 +203,12 @@ class ProductSaleController extends Controller
                 }
                 // product stock
                 $stock = new Stock();
+
+                if ($previous_stock < 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                    return redirect()->back();
+                }
                 $stock->user_id = Auth::id();
                 $stock->ref_id = $insert_id;
                 $stock->store_id = $request->store_id;
@@ -403,6 +409,8 @@ For any queries call our support 09638-888 000";
 
         for($i=0; $i<$row_count;$i++)
         {
+
+
             // product purchase detail
             $product_sale_detail_id = $request->product_Sale_detail_id[$i];
             //dd($product_sale_detail_id);
@@ -418,26 +426,52 @@ For any queries call our support 09638-888 000";
             $purchase_sale_detail->sub_total = $request->qty[$i]*$request->price[$i];
             $purchase_sale_detail->update();
 
-
             $product_id = $request->product_id[$i];
-            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
-            if(!empty($check_previous_stock)){
-                $previous_stock = $check_previous_stock;
-            }else{
-                $previous_stock = 0;
-            }
+            $request_qty = $request->qty[$i];
+
+
             // product stock
-            $stock = Stock::where('ref_id',$id)->where('stock_type','sale')->first();
-            $stock->user_id = Auth::id();
-            $stock->store_id = $request->store_id;
-            $stock->date = $request->date;
-            $stock->product_id = $request->product_id[$i];
-            $stock->previous_stock = $previous_stock;
-            $stock->sale_type = "Retail Sale edit";
-            $stock->stock_in = 0;
-            $stock->stock_out = $request->qty[$i];
-            $stock->current_stock = $previous_stock - $request->qty[$i];
-            $stock->update();
+            $store_id=$productSale->store_id;
+            //$invoice_no=$productSale->invoice_no;
+            $stock_row = current_stock_row($store_id,'sale',$product_id);
+            $previous_stock = $stock_row->previous_stock;
+            $stock_out = $stock_row->stock_out;
+            //$current_stock = $stock_row->current_stock;
+
+
+            if($stock_out != $request_qty){
+                $stock_row->user_id = Auth::id();
+                $stock_row->store_id = $request->store_id;
+                $stock_row->product_id = $product_id;
+                $stock_row->previous_stock = $previous_stock;
+                $stock_row->stock_in = 0;
+                $stock_row->stock_out = $request_qty;
+                $new_stock_out = $previous_stock - $request_qty;
+                $stock_row->current_stock = $new_stock_out;
+                $stock_row->update();
+            }
+
+
+
+//            $product_id = $request->product_id[$i];
+//            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
+//            if(!empty($check_previous_stock)){
+//                $previous_stock = $check_previous_stock;
+//            }else{
+//                $previous_stock = 0;
+//            }
+//            // product stock
+//            $stock = Stock::where('ref_id',$id)->where('stock_type','sale')->first();
+//            $stock->user_id = Auth::id();
+//            $stock->store_id = $request->store_id;
+//            $stock->date = $request->date;
+//            $stock->product_id = $request->product_id[$i];
+//            $stock->previous_stock = $previous_stock;
+//            $stock->sale_type = "Retail Sale edit";
+//            $stock->stock_in = 0;
+//            $stock->stock_out = $request->qty[$i];
+//            $stock->current_stock = $previous_stock - $request->qty[$i];
+//            $stock->update();
         }
 
         // due

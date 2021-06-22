@@ -2,6 +2,23 @@
 
 use Illuminate\Support\Facades\DB;
 
+
+
+
+
+
+if (!function_exists('current_stock_row')) {
+    function current_stock_row($store_id,$stock_type,$product_id)
+    {
+        return $current_stock_row = \App\Stock::where('store_id',$store_id)
+            ->where('stock_type',$stock_type)
+           // ->where('stock_product_type',$stock_product_type)
+            ->where('product_id',$product_id)
+            ->latest()->first();
+    }
+}
+
+
 function sales_income_statement($date_from, $date_to){
 
     $gl_pre_valance_data = DB::table('posting_form_details')

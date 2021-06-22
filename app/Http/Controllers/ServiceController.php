@@ -115,6 +115,7 @@ class ServiceController extends Controller
                 ->join('services','sale_services.service_id','services.id')
                 ->where('service_date','>=',$start_date)
                 ->where('service_date','<=',$end_date)
+                ->where('sale_services.status', '=', 0)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
                 ->Orderby('service_date', 'ASC')
                 ->get();
@@ -130,6 +131,7 @@ class ServiceController extends Controller
                 ->join('services','sale_services.service_id','services.id')
                 ->where('service_date','>=',$custom_date_start)
                 ->where('service_date','<=',$custom_date_end)
+                ->where('sale_services.status', '=', 0)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
                 ->Orderby('service_date', 'ASC')
                 ->get();
