@@ -55,7 +55,7 @@ class TransactionController extends Controller
     }
 
     public function lossProfit(Request $request){
-        //dd($productPurchaseDetails);
+        //dd($request->all());
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
         $stores = Store::all();

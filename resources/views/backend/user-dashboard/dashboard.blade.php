@@ -11,6 +11,9 @@
         .row{
             border-radius: 14px;
         }
+        .btn-primary{
+            background: #f70313!important;
+        }
         .text-white{
             color: #FFFFFF!important;
         }
@@ -53,11 +56,11 @@
                 </ul>
             </div>
 
-            @php
-                echo '<pre>';
-    print_r(Auth::User()->getRoleNames()[0]);
-                echo '</pre>';
-            @endphp
+{{--            @php--}}
+{{--                echo '<pre>';--}}
+{{--    print_r(Auth::User()->getRoleNames()[0]);--}}
+{{--                echo '</pre>';--}}
+{{--            @endphp--}}
             @php
                 //if(Auth::User()->getRoleNames()[0] == "Admin"){
                 //if(Auth::User()->role=='1'){
@@ -180,7 +183,7 @@
                                                 <td>{{$saleService->date}}</td>
                                                 <td>   {{$customer_name}}</td>
                                                 <td>   {{$customer_phone}}</td>
-                                                <td>   {{$customer_name}}</td>
+                                                <td>   {{$customer_address}}</td>
                                                 <td>{{$saleService->service->name}}</td>
                                                 <td style="text-align: center">
                                                     <input onchange="status(this)" value="{{ $saleService->id }}" {{$saleService->status == 1 ? 'checked':''}} type="checkbox"  data-toggle="toggle">

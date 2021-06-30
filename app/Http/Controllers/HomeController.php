@@ -68,6 +68,7 @@ class HomeController extends Controller
             ->join('services','sale_services.service_id','services.id')
             ->where('service_date','>=',$custom_date_start)
             ->where('service_date','<=',$custom_date_end)
+            ->where('sale_services.status', '=', 0)
             ->get()
             ->count();;
 

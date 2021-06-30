@@ -278,8 +278,8 @@
                         <div class="col-md-6">
                             <table width="70%">
                                 <tr>
-                                    <td style="text-align: left;font-size: 18px;"><b>Notes</b></td>
-                                    <td style="text-align: left;font-size: 18px;">:{{$productSale->note}}</td>
+                                    <td style="text-align: left;font-size: 18px;"><b>Notes:</b></td>
+                                    <td style="text-align: left;font-size: 18px;">{{$productSale->note}}</td>
 
                                 </tr>
                                 @if($productSale->sale_type == 'Retail Sale')
