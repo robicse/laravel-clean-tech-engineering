@@ -70,7 +70,7 @@
                             @endphp
 {{--                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}--}}
                         </td>
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>      {{number_format($get_data['PreBalance'],2,'.',',')}}{{$get_data['preDebCre']}}
                             @php
                                 $income_sale +=$get_data['PreBalance'];
                             @endphp
@@ -84,7 +84,7 @@
                                 //dd($get_data);
 
                             @endphp</td>
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>      {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $income_service +=$get_data['PreBalance'];
                             @endphp</td>
@@ -93,7 +93,8 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td>  @php echo  $income =$income_service+$income_sale;
+                        <td>  @php   $income =$income_service+$income_sale;
+                              echo    number_format($income,2,'.',',');
                             @endphp</td>
 
                     </tr>
@@ -111,7 +112,7 @@
                                 //dd($get_data);
 
                             @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $inventory +=$get_data['PreBalance'];
                             @endphp
@@ -128,7 +129,7 @@
 
                             @endphp
                         <td>@if(!empty($get_data))
-                            {{$get_data->debit}}De
+                          {{number_format($get_data->debit,2,'.',',')}}De
                             @php
                                 $purchase_account +=$get_data->debit;
                             @endphp
@@ -146,7 +147,7 @@
                                 //dd($get_data);
 
                             @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $closing_inventory +=$get_data['PreBalance'];
                             @endphp
@@ -168,7 +169,8 @@
                         @endphp
                         <td>
                             @php
-                              echo  $closing =  $inventory_purchase - $closing_inventory;
+                                $closing =  $inventory_purchase - $closing_inventory;
+                                 echo  number_format($closing,2,'.',',');
                             @endphp
                         </td>
                         <td></td>
@@ -180,7 +182,7 @@
                             $get_data = purchase_installation_statement($date_from,$date_to);
 
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $purchase_installation +=$get_data['PreBalance'];
                             @endphp</td>
@@ -191,7 +193,7 @@
                         @php
                             $get_data = service_expense_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $service_expense +=$get_data['PreBalance'];
                             @endphp</td>
@@ -202,7 +204,7 @@
                         @php
                             $get_data = carrying_expense_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $carrying_expense +=$get_data['PreBalance'];
                             @endphp
@@ -214,7 +216,7 @@
                         @php
                             $get_data = godwon_storage_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $godwon_storage +=$get_data['PreBalance'];
                             @endphp</td>
@@ -225,7 +227,7 @@
                         @php
                             $get_data = miscellaneous_expense($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td> {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $miscellaneous_expense +=$get_data['PreBalance'];
                             @endphp</td>
@@ -233,16 +235,20 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>Total : @php echo  $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
+                        <td>Total : @php   $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
+
+                            echo number_format($expense,2,'.',',');
                             @endphp  </td>
-                        <td>@php echo  $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
+                        <td>@php   $expense =$closing+$purchase_installation+$service_expense+$carrying_expense+$godwon_storage+$miscellaneous_expense;
+                                   echo number_format($expense,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>Gross Profit</td>
-                        <td>@php echo  $gross_profit =$income-$expense;
+                        <td>@php   $gross_profit =$income-$expense;
+                                    echo number_format($gross_profit,2,'.',',');
                             @endphp</td>
                         <td></td>
                     </tr>
@@ -257,7 +263,7 @@
                         @php
                             $get_data = admin_expense_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>{{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $admin_expense +=$get_data['PreBalance'];
                             @endphp
@@ -270,7 +276,7 @@
                         @php
                             $get_data = selling_MKT_Expense1_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>{{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $selling_MKT_Expense1 +=$get_data['PreBalance'];
                             @endphp
@@ -283,7 +289,7 @@
                         @php
                             $get_data = selling_MKT_Expense_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>{{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $selling_MKT_Expense +=$get_data['PreBalance'];
                             @endphp
@@ -296,7 +302,7 @@
                         @php
                             $get_data = finance_charges_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>{{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $finance_charges +=$get_data['PreBalance'];
                             @endphp
@@ -308,7 +314,7 @@
                         @php
                             $get_data = finance_expense_statement($date_from,$date_to);
                         @endphp
-                        <td>{{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>{{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $finance_expense +=$get_data['PreBalance'];
                             @endphp
@@ -317,16 +323,19 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>Total : @php echo $indirecExpense = $admin_expense+$selling_MKT_Expense1+$selling_MKT_Expense+$finance_charges+$finance_expense;
+                        <td>Total : @php  $indirecExpense = $admin_expense+$selling_MKT_Expense1+$selling_MKT_Expense+$finance_charges+$finance_expense;
+                                           echo  number_format($indirecExpense,2,'.',',');
                             @endphp  </td>
-                        <td>@php echo  $indirecExpense =  $admin_expense+$selling_MKT_Expense1+$selling_MKT_Expense+$finance_charges+$finance_expense;
+                        <td>@php   $indirecExpense =  $admin_expense+$selling_MKT_Expense1+$selling_MKT_Expense+$finance_charges+$finance_expense;
+                              echo  number_format($indirecExpense,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>Net Profit</td>
-                        <td>@php echo  $net_profit =$gross_profit-$indirecExpense;
+                        <td>@php  $net_profit =$gross_profit-$indirecExpense;
+                                     echo  number_format($net_profit,2,'.',',');
                             @endphp</td>
                         <td></td>
                     </tr>

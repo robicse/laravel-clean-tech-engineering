@@ -73,7 +73,8 @@ class ProductSaleController extends Controller
             } else {
                 $productSales = ProductSale::where('user_id', $auth_user_id)->latest('id','desc')->get();
             }
-        }$serviceProviders = User::where('type','provider')->get();
+        }
+        $serviceProviders = User::where('type','provider')->get();
         return view('backend.productSale.index',compact('productSales','start_date','end_date','serviceProviders'));
     }
 

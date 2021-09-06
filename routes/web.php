@@ -183,6 +183,10 @@ Route::group(['middleware' => ['auth']], function() {
 //    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
 
 
+    Route::get('transaction-loss-profit-store','TransactionController@lossProfitStore')->name('transaction.lossProfit.store');
+    Route::get('transaction-loss-profit-dup/{store_id}','TransactionController@lossProfitdup')->name('transaction.lossProfit.dup');
+
+
     Route::get('transaction-loss-profit','TransactionController@lossProfit')->name('transaction.lossProfit');
     Route::get('delivery-list','TransactionController@deliveryList')->name('delivery.index');
     Route::post('party/new-party','ProductSaleController@newParty')->name('parties.store.new');
