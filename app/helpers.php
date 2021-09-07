@@ -3,8 +3,35 @@
 use Illuminate\Support\Facades\DB;
 
 
+if (!function_exists('check_sale_return_qty')) {
+    function check_sale_return_qty($store_id,$product_id,$sale_invoice_no)
+    {
+        $sale_return_qty = DB::table('product_sale_return_details')
+            ->join('product_sale_returns','product_sale_return_details.product_sale_return_id','product_sale_returns.id')
+            ->where('product_sale_returns.store_id',$store_id)
+            ->where('product_sale_returns.sale_invoice_no',$sale_invoice_no)
+            ->where('product_sale_return_details.product_id',$product_id)
+            ->select(DB::raw('sum(product_sale_return_details.qty) as total_sale_return_qty'))
+            ->first();
 
+        return $sale_return_qty->total_sale_return_qty;
 
+    }
+}
+if (!function_exists('check_purchase_return_qty')) {
+    function check_purchase_return_qty($store_id,$product_id,$purchase_invoice_no)
+    {
+        $purchase_return_qty = DB::table('product_purchase_return_details')
+            ->join('product_purchase_returns','product_purchase_return_details.product_purchase_return_id','product_purchase_returns.id')
+            ->where('product_purchase_returns.store_id',$store_id)
+            ->where('product_purchase_returns.purchase_invoice_no',$purchase_invoice_no)
+            ->where('product_purchase_return_details.product_id',$product_id)
+            ->select(DB::raw('sum(product_purchase_return_details.qty) as total_purchase_return_qty'))
+            ->first();
+
+        return $purchase_return_qty->total_purchase_return_qty;
+    }
+}
 
 
 if (!function_exists('current_stock_row')) {

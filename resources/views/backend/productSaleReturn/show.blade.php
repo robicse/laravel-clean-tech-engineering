@@ -75,7 +75,6 @@
                         <th>Brand</th>
 {{--                        <th>Return Condition</th>--}}
                         <th>Reason</th>
-                        <th>Product Image</th>
                         <th>Product</th>
                         <th>Qty</th>
                         <th>Price</th>

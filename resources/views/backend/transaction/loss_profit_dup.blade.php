@@ -322,7 +322,7 @@
                                     }
                                     if($discount){
                                         $sum_loss_or_profit -=$discount->total_discount_amount ;
-                                       // dd($sum_loss_or_profit);
+                                       //dd($sum_loss_or_profit);
                                     }
                                 }
 

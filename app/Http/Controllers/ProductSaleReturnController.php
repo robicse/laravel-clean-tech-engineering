@@ -116,12 +116,14 @@ class ProductSaleReturnController extends Controller
         return view('backend.productSaleReturn.returnable_sale_products',compact('parties','stores','productSales'));
     }
     public function getReturnableProduct($sale_id){
-        //$products = ProductSaleDetail::where('product_sale_id',$sale_id)->get();
+
+        $productSale = ProductSale::where('id',$sale_id)->first();
         $products = DB::table('product_sale_details')
             ->join('products','product_sale_details.product_id','=','products.id')
             ->where('product_sale_details.product_sale_id',$sale_id)
             ->select('product_sale_details.id','product_sale_details.product_id','product_sale_details.qty','product_sale_details.price','products.name')
             ->get();
+//dd($products);
 
         $html = "<table class=\"table table-striped tabel-penjualan\">
                         <thead>
@@ -129,6 +131,7 @@ class ProductSaleReturnController extends Controller
                                 <th width=\"30\">No</th>
                                 <th>Product Name</th>
                                 <th align=\"right\">Received Quantity</th>
+                                  <th>Already Return Quantity</th>
                                 <th>Return Quantity</th>
                                 <th>Amount</th>
                                 <th>Reason</th>
@@ -137,12 +140,14 @@ class ProductSaleReturnController extends Controller
                         <tbody>";
         if(count($products) > 0):
             foreach($products as $key => $item):
+                $check_sale_return_qty = check_sale_return_qty($productSale->store_id,$item->product_id,$productSale->invoice_no);
                 $key += 1;
                 $html .= "<tr>";
                 $html .= "<th width=\"30\">1</th>";
                 $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_id[]\" id=\"product_id_$key\" value=\"$item->product_id\" size=\"28\" /><input type=\"hidden\" class=\"form-control\" name=\"product_sale_detail_id[]\" id=\"product_sale_detail_id_$key\" value=\"$item->id\" size=\"28\" />$item->name</th>";
 //                $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_sale_id[]\" id=\"product_sale_id_$key\" value=\"$item->product_sale_id\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"qty[]\" id=\"qty_$key\" value=\"$item->qty\" size=\"28\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_sale_return_qty[]\" id=\"check_sale_return_qty_$key\" value=\"$check_sale_return_qty\" readonly /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_qty[]\" id=\"return_qty_$key\" onkeyup=\"return_qty($key,this);\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\" readonly value=\"$item->price\" size=\"28\" /></th>";
                 $html .= "<th><textarea type=\"text\" class=\"form-control\" name=\"reason[]\" id=\"reason_$key\"  size=\"28\" ></textarea> </th>";

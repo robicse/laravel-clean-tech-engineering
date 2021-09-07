@@ -186,7 +186,7 @@
                                                 <td>   {{$customer_address}}</td>
                                                 <td>{{$saleService->service->name}}</td>
                                                 <td style="text-align: center">
-                                                    <input onchange="status(this)" value="{{ $saleService->id }}" {{$saleService->status == 1 ? 'checked':''}} type="checkbox"  data-toggle="toggle">
+                                                    <input onchange="status(this)" value="{{ $saleService->id }}" {{$saleService->status == 0 ? 'checked':''}} type="checkbox"  data-toggle="toggle">
                                                 </td>
 
                                         @empty
@@ -216,10 +216,10 @@
         //today's deals Ajax
         function status(el){
             if(el.checked){
-                var status = 1;
+                var status = 0;
             }
             else{
-                var status = 0;
+                var status = 1;
             }
             $.post('{{ route('status') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
                 if(data == 1){

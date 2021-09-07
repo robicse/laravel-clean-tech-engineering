@@ -53,7 +53,7 @@ class ProductPurchaseReturnController extends Controller
         return view('backend.productPurchaseReturn.returnable_purchase_products',compact('parties','stores','productPurchases'));
     }
     public function getReturnablePurchaseProduct($purchase_id){
-
+        $productPurchase = ProductPurchase::where('id',$purchase_id)->first();
         $products = DB::table('product_purchase_details')
             ->join('products','product_purchase_details.product_id','=','products.id')
             ->where('product_purchase_details.product_purchase_id',$purchase_id)
@@ -66,6 +66,7 @@ class ProductPurchaseReturnController extends Controller
                                 <th width=\"30\">No</th>
                                 <th>Product Name</th>
                                 <th align=\"right\">Received Quantity</th>
+                                <th>Already Return Quantity</th>
                                 <th>Return Quantity</th>
                                 <th>Amount</th>
                                 <th>Reason</th>
@@ -74,11 +75,13 @@ class ProductPurchaseReturnController extends Controller
                         <tbody>";
         if(count($products) > 0):
             foreach($products as $key => $item):
+                $check_purchase_return_qty = check_purchase_return_qty($productPurchase->store_id,$item->product_id,$productPurchase->invoice_no);
                 $key += 1;
                 $html .= "<tr>";
                 $html .= "<th width=\"30\">1</th>";
                 $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_id[]\" id=\"product_id_$key\" value=\"$item->product_id\" size=\"28\" /><input type=\"hidden\" class=\"form-control\" name=\"product_purchase_detail_id[]\" id=\"product_sale_detail_id_$key\" value=\"$item->id\" size=\"28\" />$item->name</th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"qty[]\" id=\"qty_$key\" value=\"$item->qty\" size=\"28\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_purchase_return_qty[]\" id=\"check_purchase_return_qty_$key\" value=\"$check_purchase_return_qty\" readonly /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_qty[]\" id=\"return_qty_$key\" onkeyup=\"return_qty($key,this);\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\"  value=\"$item->price\" size=\"28\" /></th>";
                 $html .= "<th><textarea type=\"text\" class=\"form-control\" name=\"reason[]\" id=\"reason_$key\"  size=\"28\" ></textarea> </th>";
