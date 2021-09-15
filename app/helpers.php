@@ -3,7 +3,13 @@
 use Illuminate\Support\Facades\DB;
 
 
-if (!function_exists('check_sale_return_qty')) {
+
+
+
+
+
+
+if(!function_exists('check_sale_return_qty')) {
     function check_sale_return_qty($store_id,$product_id,$sale_invoice_no)
     {
         $sale_return_qty = DB::table('product_sale_return_details')

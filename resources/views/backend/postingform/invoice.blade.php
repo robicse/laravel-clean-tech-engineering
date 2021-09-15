@@ -148,7 +148,7 @@
                                                     <th>{{$transaction_info->group_3}}.{{$transaction_info->group_4}}</th>
                                                     <th>{{$transaction_info->ledger_name}}</th>
                                                     <th>{{$transaction_info->debit ? number_format( $transaction_info->debit,2,'.',',') : ''}}</th>
-                                                    <th>{{$transaction_info->credit ? number_format( $transaction_info->decreditbit,2,'.',',')  : ''}}</th>
+                                                    <th>{{$transaction_info->credit ? number_format( $transaction_info->credit,2,'.',',')  : ''}}</th>
                                                 </tr>
                                             @endforeach
                                         @endif

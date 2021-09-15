@@ -134,6 +134,7 @@ class ProductSaleReturnController extends Controller
                                   <th>Already Return Quantity</th>
                                 <th>Return Quantity</th>
                                 <th>Amount</th>
+                                <th>Return Amount</th>
                                 <th>Reason</th>
                             </tr>
                         </thead>
@@ -150,6 +151,7 @@ class ProductSaleReturnController extends Controller
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_sale_return_qty[]\" id=\"check_sale_return_qty_$key\" value=\"$check_sale_return_qty\" readonly /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_qty[]\" id=\"return_qty_$key\" onkeyup=\"return_qty($key,this);\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\" readonly value=\"$item->price\" size=\"28\" /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_amount[]\" id=\"return_amount_$key\"  size=\"28\" /></th>";
                 $html .= "<th><textarea type=\"text\" class=\"form-control\" name=\"reason[]\" id=\"reason_$key\"  size=\"28\" ></textarea> </th>";
                 $html .= "</tr>";
             endforeach;
@@ -173,10 +175,12 @@ class ProductSaleReturnController extends Controller
 
         //dd($row_count);
 
+        $total_return_amount = 0;
         $total_amount = 0;
         for ($i = 0; $i < $row_count; $i++) {
             if ($request->return_qty[$i] != null) {
-                $total_amount += $request->total_amount[$i];
+                $total_return_amount += $request->return_amount[$i]*$request->return_qty[$i];
+                $total_amount += $request->total_amount[$i]*$request->return_qty[$i];
             }
         }
         $product_sale_return = new ProductSaleReturn();
@@ -190,6 +194,7 @@ class ProductSaleReturnController extends Controller
         $product_sale_return->discount_type = $productSale->discount_type;
         $product_sale_return->discount_amount = 0;
         $product_sale_return->total_amount = $total_amount;
+        $product_sale_return->total_return_amount = $total_return_amount;
         $product_sale_return->save();
 
         $insert_id = $product_sale_return->id;
@@ -208,6 +213,7 @@ class ProductSaleReturnController extends Controller
                     $product_sale_return_detail->product_id = $productSaleDetail->product_id;
                     $product_sale_return_detail->qty = $request->return_qty[$i];
                     $product_sale_return_detail->price = $request->total_amount[$i];
+                    $product_sale_return_detail->return_price = $request->return_amount[$i];
                     $product_sale_return_detail->reason = $request->reason[$i];
                     $product_sale_return_detail->save();
 
@@ -248,7 +254,7 @@ class ProductSaleReturnController extends Controller
             $transaction->transaction_type = 'sale return';
             $transaction->payment_type = $request->payment_type;
             $transaction->date = date('Y-m-d');
-            $transaction->amount = $total_amount;
+            $transaction->amount = $total_return_amount;
             $transaction->save();
         }
 
