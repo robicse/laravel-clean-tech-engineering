@@ -131,9 +131,10 @@ class ProductSaleReturnController extends Controller
                                 <th width=\"30\">No</th>
                                 <th>Product Name</th>
                                 <th align=\"right\">Received Quantity</th>
-                                  <th>Already Return Quantity</th>
+                                 <th>Total Amount</th>
+                                 <th>Already Return Quantity</th>
+                                 <th>Already Return Amount</th>
                                 <th>Return Quantity</th>
-                                <th>Amount</th>
                                 <th>Return Amount</th>
                                 <th>Reason</th>
                             </tr>
@@ -142,16 +143,18 @@ class ProductSaleReturnController extends Controller
         if(count($products) > 0):
             foreach($products as $key => $item):
                 $check_sale_return_qty = check_sale_return_qty($productSale->store_id,$item->product_id,$productSale->invoice_no);
+                $check_sale_return_price = check_sale_return_price($productSale->store_id,$item->product_id,$productSale->invoice_no);
                 $key += 1;
                 $html .= "<tr>";
                 $html .= "<th width=\"30\">1</th>";
                 $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_id[]\" id=\"product_id_$key\" value=\"$item->product_id\" size=\"28\" /><input type=\"hidden\" class=\"form-control\" name=\"product_sale_detail_id[]\" id=\"product_sale_detail_id_$key\" value=\"$item->id\" size=\"28\" />$item->name</th>";
-//                $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_sale_id[]\" id=\"product_sale_id_$key\" value=\"$item->product_sale_id\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"qty[]\" id=\"qty_$key\" value=\"$item->qty\" size=\"28\" readonly /></th>";
-                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_sale_return_qty[]\" id=\"check_sale_return_qty_$key\" value=\"$check_sale_return_qty\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\"  value=\"$item->price\" size=\"28\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_sale_return_qty[]\" id=\"check_sale_return_qty_$key\" value=\"$check_sale_return_qty\"  readonly/></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_return_amount[]\" id=\"total_return_amount_$key\" readonly value=\"$check_sale_return_price\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_qty[]\" id=\"return_qty_$key\" onkeyup=\"return_qty($key,this);\" size=\"28\" /></th>";
-                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\" readonly value=\"$item->price\" size=\"28\" /></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_amount[]\" id=\"return_amount_$key\"  size=\"28\" /></th>";
+
                 $html .= "<th><textarea type=\"text\" class=\"form-control\" name=\"reason[]\" id=\"reason_$key\"  size=\"28\" ></textarea> </th>";
                 $html .= "</tr>";
             endforeach;

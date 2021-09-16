@@ -46,6 +46,7 @@
                             @php
                                 $custom_start_date = $start_date.' 00:00:00';
                                 $custom_end_date = $end_date.' 00:00:00';
+
                                 $sum_purchase_price = 0;
                                 $sum_sale_price = 0;
                                 $sum_sale_return_price = 0;
@@ -68,7 +69,7 @@
                                         $sum_purchase_price += $productPurchaseDetail->sub_total;
 
                                         // sale
-                                        if($custom_start_date != '' && $custom_end_date != ''){
+                                        if($start_date != '' && $end_date != ''){
                                             $productSaleDetails = DB::table('product_sale_details')
                                             ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
                                                 ->select('product_sale_details.product_id','product_sale_details.product_category_id','product_sale_details.product_sub_category_id','product_sale_details.product_brand_id', DB::raw('SUM(product_sale_details.qty) as qty'), DB::raw('SUM(product_sale_details.price) as price'), DB::raw('SUM(product_sale_details.sub_total) as sub_total'))
@@ -84,7 +85,6 @@
                                                 ->groupBy('product_sale_details.product_sub_category_id')
                                                 ->groupBy('product_sale_details.product_brand_id')
                                                 ->first();
-                                           dd($productSaleDetails);
                                         }else{
                                             $productSaleDetails = DB::table('product_sale_details')
                                             ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
@@ -99,7 +99,6 @@
                                                 ->groupBy('product_sale_details.product_sub_category_id')
                                                 ->groupBy('product_sale_details.product_brand_id')
                                                 ->first();
-                                              //dd($productSaleDetails);
                                         }
 
                                         if(!empty($productSaleDetails))
@@ -164,6 +163,23 @@
                                         }
                                     }
 
+                                    // sale discount
+                                    if($start_date != '' && $end_date != ''){
+                                        $discount= DB::table('product_sales')
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->where('product_sales.created_at','>=',$custom_start_date)
+                                            ->where('product_sales.created_at','<=',$custom_end_date)
+                                            ->where('product_sales.store_id',$store->id)
+                                            ->first();
+                                    }else{
+                                        $discount= DB::table('product_sales')
+                                            ->where('product_sales.store_id',$store->id)
+                                            ->select( DB::raw('SUM(discount_amount) as total_discount_amount'))
+                                            ->first();
+                                    }
+                                    if($discount){
+                                        $sum_loss_or_profit -=$discount->total_discount_amount ;
+                                    }
                                 }
 
                                 $productPurchaseDetailsArr = DB::table('product_purchase_details')
@@ -306,7 +322,7 @@
                                     }
                                     if($discount){
                                         $sum_loss_or_profit -=$discount->total_discount_amount ;
-                                       dd($sum_loss_or_profit);
+                                       //dd($sum_loss_or_profit);
                                     }
                                 }
 

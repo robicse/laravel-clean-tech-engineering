@@ -3,7 +3,32 @@
 use Illuminate\Support\Facades\DB;
 
 
+if (!function_exists('product_sale_return_discount')) {
+    function product_sale_return_discount($store_id,$start_date= null, $end_date=null)
+    {
+        if($start_date != null && $end_date != null){
+            $productSaleReturnDiscount = DB::table('product_sale_returns')
+                ->where('store_id',$store_id)
+                ->where('created_at','>=',$start_date.' 00:00:00')
+                ->where('created_at','<=',$end_date.' 23:59:59')
+                ->select( DB::raw('SUM(discount_amount) as total_discount'))
+                ->first();
+        }else{
+            $productSaleReturnDiscount = DB::table('product_sale_returns')
+                ->select( DB::raw('SUM(discount_amount) as total_discount'))
+                ->where('store_id',$store_id)
+                ->first();
+        }
 
+
+        $sum_total_return_discount = 0;
+        if($productSaleReturnDiscount){
+            $sum_total_return_discount = $productSaleReturnDiscount->total_discount;
+        }
+
+        return $sum_total_return_discount;
+    }
+}
 
 
 
@@ -24,6 +49,21 @@ if(!function_exists('check_sale_return_qty')) {
 
     }
 }
+if(!function_exists('check_sale_return_price')) {
+    function check_sale_return_price($store_id,$product_id,$sale_invoice_no)
+    {
+        $sale_return_price = DB::table('product_sale_return_details')
+            ->join('product_sale_returns','product_sale_return_details.product_sale_return_id','product_sale_returns.id')
+            ->where('product_sale_returns.store_id',$store_id)
+            ->where('product_sale_returns.sale_invoice_no',$sale_invoice_no)
+            ->where('product_sale_return_details.product_id',$product_id)
+            ->select(DB::raw('sum(product_sale_return_details.return_price) as total_sale_return_price'))
+            ->first();
+
+        return $sale_return_price->total_sale_return_price;
+
+    }
+}
 if (!function_exists('check_purchase_return_qty')) {
     function check_purchase_return_qty($store_id,$product_id,$purchase_invoice_no)
     {
@@ -36,6 +76,20 @@ if (!function_exists('check_purchase_return_qty')) {
             ->first();
 
         return $purchase_return_qty->total_purchase_return_qty;
+    }
+}
+if (!function_exists('check_purchase_return_price')) {
+    function check_purchase_return_price($store_id,$product_id,$purchase_invoice_no)
+    {
+        $purchase_return_price = DB::table('product_purchase_return_details')
+            ->join('product_purchase_returns','product_purchase_return_details.product_purchase_return_id','product_purchase_returns.id')
+            ->where('product_purchase_returns.store_id',$store_id)
+            ->where('product_purchase_returns.purchase_invoice_no',$purchase_invoice_no)
+            ->where('product_purchase_return_details.product_id',$product_id)
+            ->select(DB::raw('sum(product_purchase_return_details.return_price) as total_purchase_return_price'))
+            ->first();
+
+        return $purchase_return_price->total_purchase_return_price;
     }
 }
 
