@@ -84,7 +84,7 @@
                                                 ->groupBy('product_sale_details.product_sub_category_id')
                                                 ->groupBy('product_sale_details.product_brand_id')
                                                 ->first();
-                                           dd($productSaleDetails);
+                                           //dd($productSaleDetails);
                                         }else{
                                             $productSaleDetails = DB::table('product_sale_details')
                                             ->join('product_sales','product_sale_details.product_sale_id','product_sales.id')
@@ -306,7 +306,7 @@
                                     }
                                     if($discount){
                                         $sum_loss_or_profit -=$discount->total_discount_amount ;
-                                       dd($sum_loss_or_profit);
+                                      // dd($sum_loss_or_profit);
                                     }
                                 }
 

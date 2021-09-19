@@ -333,7 +333,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td>Net Profit</td>
+                        <td>Net Profit/Loss</td>
                         <td>@php  $net_profit =$gross_profit-$indirecExpense;
                                      echo  number_format($net_profit,2,'.',',');
                             @endphp</td>
