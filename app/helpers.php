@@ -3,6 +3,111 @@
 use Illuminate\Support\Facades\DB;
 
 
+
+
+if (!function_exists('product_sale_return')) {
+    function product_sale_return($store_id,$start_date= null, $end_date= null)
+    {
+        if($start_date != null && $end_date != null){
+            $productSaleReturn = DB::table('product_sale_returns')
+                ->select( DB::raw('SUM(total_return_amount) as total_return'))
+                ->where('store_id',$store_id)
+                ->where('created_at','>=',$start_date.' 00:00:00')
+                ->where('created_at','<=',$end_date.' 23:59:59')
+                ->first();
+        }else{
+            $productSaleReturn = DB::table('product_sale_returns')
+                ->select( DB::raw('SUM(total_return_amount) as total_return'))
+                ->where('store_id',$store_id)
+                ->first();
+        }
+
+        $sum_total_sale_return = 0;
+        if($productSaleReturn){
+            $sum_total_sale_return = $productSaleReturn->total_return;
+        }
+//dd($sum_total_sale_return);
+        return $sum_total_sale_return;
+    }
+}
+if (!function_exists('product_sale')) {
+    function product_sale($store_id,$start_date= null, $end_date= null)
+    {
+        if($start_date != null && $end_date != null){
+            $productSale = DB::table('product_sales')
+                ->select( DB::raw('SUM(total_amount) as total'))
+                ->where('store_id',$store_id)
+                ->where('created_at','>=',$start_date.' 00:00:00')
+                ->where('created_at','<=',$end_date.' 23:59:59')
+                ->first();
+        }else{
+            $productSale = DB::table('product_sales')
+                ->select( DB::raw('SUM(total_amount) as total'))
+                ->where('store_id',$store_id)
+                ->first();
+        }
+
+        $sum_total_sale = 0;
+        if($productSale){
+            $sum_total_sale = $productSale->total;
+        }
+//dd($sum_total_sale);
+        return $sum_total_sale;
+    }
+}
+if (!function_exists('product_purchase')) {
+    function product_purchase($store_id,$start_date= null, $end_date= null)
+    {
+        if($start_date != null && $end_date != null){
+            $productPurchase = DB::table('product_purchases')
+                ->select( DB::raw('SUM(total_amount) as total'))
+                ->where('store_id',$store_id)
+                ->where('created_at','>=',$start_date.' 00:00:00')
+                ->where('created_at','<=',$end_date.' 23:59:59')
+                ->first();
+        }else{
+            $productPurchase = DB::table('product_purchases')
+                ->select( DB::raw('SUM(total_amount) as total'))
+                ->where('store_id',$store_id)
+                ->first();
+        }
+
+        $sum_total_purchase = 0;
+        if($productPurchase){
+            $sum_total_purchase = $productPurchase->total;
+        }
+//dd($sum_total_purchase);
+        return $sum_total_purchase;
+    }
+}
+
+if (!function_exists('product_purchase_return')) {
+    function product_purchase_return($store_id,$start_date= null, $end_date= null)
+    {
+        if($start_date != null && $end_date != null){
+            $productPurchaseReturn = DB::table('product_purchase_returns')
+                ->select( DB::raw('SUM(total_return_amount) as total_amount'))
+                ->where('store_id',$store_id)
+                ->where('created_at','>=',$start_date.' 00:00:00')
+                ->where('created_at','<=',$end_date.' 23:59:59')
+                ->first();
+        }else{
+            $productPurchaseReturn = DB::table('product_purchase_returns')
+                ->select( DB::raw('SUM(total_return_amount) as total_amount'))
+                ->where('store_id',$store_id)
+                ->first();
+        }
+
+        $sum_total_purchase_return = 0;
+        if($productPurchaseReturn){
+            $sum_total_purchase_return = $productPurchaseReturn->total_amount;
+        }
+//dd($sum_total_purchase_return);
+        return $sum_total_purchase_return;
+    }
+}
+
+
 if (!function_exists('product_sale_return_discount')) {
     function product_sale_return_discount($store_id,$start_date= null, $end_date=null)
     {
