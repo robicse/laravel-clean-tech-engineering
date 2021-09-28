@@ -131,7 +131,7 @@ class ProductSaleReturnController extends Controller
                                 <th width=\"30\">No</th>
                                 <th>Product Name</th>
                                 <th align=\"right\">Received Quantity</th>
-                                 <th>Total Amount</th>
+                                 <th>Unit Price</th>
                                  <th>Already Return Quantity</th>
                                  <th>Already Return Amount</th>
                                 <th>Return Quantity</th>
