@@ -126,6 +126,7 @@ class ProductWholeSaleController extends Controller
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
+        $productSale->conditions = $request->conditions;
         //dd($productSale);
         $productSale->save();
         $insert_id = $productSale->id;
@@ -342,6 +343,7 @@ For any queries call our support 09638-888 000";
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
+        $productSale->conditions = $request->conditions;
         //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;

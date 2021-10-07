@@ -107,6 +107,12 @@
                                 <input type="text" name="note" class="form-control" placeholder="Note">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Descriptions</label>
+                            <div class="col-md-8">
+                                <textarea name="conditions" id="conditions" class="form-control"  rows="3"></textarea>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
                             <table id="example1" class="table table-bordered table-striped">
@@ -359,7 +365,10 @@
 @endsection
 
 @push('js')
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+
     <script>
+        CKEDITOR.replace( 'conditions' );
 
         function totalAmount(){
             var t = 0;

@@ -17,6 +17,7 @@
                     <thead>
                     <tr>
                         <th width="5%">SL NO</th>
+                        <th width="5%">Complain Id</th>
                         <th width="7%">Date</th>
                         <th width="10%">Name</th>
                         <th width="8%">Phone</th>
@@ -30,6 +31,7 @@
                     @foreach($customer_complains as $key => $customer_complain)
                     <tr>
                         <td>{{ $key+1 }}</td>
+                        <td>COMP{{ $customer_complain->id }}</td>
                         <td>{{ $customer_complain->date}}</td>
                         <td>{{ $customer_complain->name}}</td>
                         <td>{{ $customer_complain->phone}}</td>

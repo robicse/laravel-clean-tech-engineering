@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomerComplain;
+use App\Helpers\UserInfo;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -41,9 +42,18 @@ class CustomerComplainController extends Controller
         $customer_complains->description = $request->description;
 
         $customer_complains->save();
+        $insert_id = $customer_complains->id;
 
-        Toastr::success('Customer Complain Created Successfully');
-        return redirect()->route('customer_complain.index');
+        if($insert_id) {
+            $text_for_customer = "Dear  $customer_complains->name ,
+Your service request has been received under Complain ID- COMP$insert_id.
+For more info contact 09638-888 000";
+
+            UserInfo::smsAPI("88" . $customer_complains->phone, $text_for_customer);
+
+            Toastr::success('Customer Complain Created Successfully');
+            return redirect()->route('customer_complain.index');
+            }
     }
 
     public function show($id)
@@ -74,8 +84,16 @@ class CustomerComplainController extends Controller
 
         $customer_complains->save();
 
-        Toastr::success('Customer Complain Edited Successfully');
-        return redirect()->route('customer_complain.index');
+        $insert_id = $customer_complains->id;
+
+        if($insert_id) {
+            $text_for_customer = "প্রিয় গ্রাহক, আশা করি আপনার সাম্প্রতিক রিপোর্টকৃত  সমস্যাটির  সমাধান হয়েছে। যেকোনো প্রয়োজনে কল করুন ০৯৬৩৮-৮৮৮ ০০০ অথবা ভিসিট করুন www.cleantech.com.bd।";
+
+            UserInfo::smsAPI("88" . $customer_complains->phone, $text_for_customer);
+
+            Toastr::success('Customer Complain Updated Successfully');
+            return redirect()->route('customer_complain.index');
+        }
     }
 
     public function destroy($id)

@@ -113,12 +113,9 @@ class ProductSaleController extends Controller
 
         ]);
 
-
-
         $row_count = count($request->product_id);
         for($i=0; $i<$row_count;$i++)
         {
-
             $product_id = $request->product_id[$i];
             $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
            //dd($check_previous_stock);
@@ -173,6 +170,7 @@ class ProductSaleController extends Controller
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
+        $productSale->conditions = $request->conditions;
         //dd($productSale);
         $productSale->save();
         $insert_id = $productSale->id;
@@ -406,6 +404,7 @@ For any queries call our support 09638-888 000";
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
+        $productSale->conditions = $request->conditions;
         $productSale->update();
 
         for($i=0; $i<$row_count;$i++)
@@ -786,6 +785,7 @@ For any queries call our support 09638-888 000";
     public function invoice($id)
     {
         $productSale = ProductSale::find($id);
+
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->first();
@@ -816,6 +816,7 @@ For any queries call our support 09638-888 000";
     {
         // dd($id);
         $productSale = ProductSale::find($id);
+       // dd($productSale);
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();

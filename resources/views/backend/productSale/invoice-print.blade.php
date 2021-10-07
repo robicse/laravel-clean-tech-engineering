@@ -282,35 +282,37 @@
                                     <td style="text-align: left;font-size: 18px;">{{$productSale->note}}</td>
 
                                 </tr>
-                                @if($productSale->sale_type == 'Retail Sale')
-                                <tr>
-                                    <td style="font-size: 15px;"><b>Conditions</b>*</td>
-                                    <td style="font-size: 15px;">One year electrical parts replacement warranty.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
-                                </tr>
-                                @endif
+
+{{--                                    <tr>--}}
+{{--                                        <td style="font-size: 15px;"><b>Conditions</b></td>--}}
+{{--                                        <td style="font-size: 15px;margin-top: -30px">{!! $productSale->conditions !!} </td>--}}
+{{--                                    </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>--}}
+{{--                                </tr>--}}
+
                             </table>
 
-
+{{--                            @if($productSale->sale_type == 'Retail Sale' or $productSale->sale_type == 'Retail Sale edit')--}}
+                             {!! $productSale->conditions !!}
+{{--                            @endif--}}
                         </div>
                         <!-- /.col -->
                     </div>
