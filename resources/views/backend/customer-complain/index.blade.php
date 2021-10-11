@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title"> Customer Support</h3>
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped table-responsive">
                     <thead>
                     <tr>
                         <th width="5%">SL NO</th>
@@ -40,6 +40,7 @@
                         <td>{{ $customer_complain->status}}</td>
                         <td>
                             <a href="{{ route('customer_complain.edit',$customer_complain->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
+                            <a href="{{ route('customer_complain.complete',$customer_complain->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px">complete</a>
                             <form method="post" action="{{ route('customer_complain.destroy',$customer_complain->id) }}" >
                                @method('DELETE')
                                 @csrf
@@ -50,8 +51,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="tile-footer">
-                </div>
+
             </div>
 
         </div>

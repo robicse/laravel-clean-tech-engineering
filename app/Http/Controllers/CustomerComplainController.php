@@ -81,7 +81,20 @@ For more info contact 09638-888 000";
         $customer_complains->date = $request->date;
         $customer_complains->status = $request->status;
         $customer_complains->description = $request->description;
+        $customer_complains->save();
 
+        Toastr::success('Customer Complain Updated Successfully');
+        return redirect()->route('customer_complain.index');
+    }
+    public function complainDone($id){
+        $customer_complains = CustomerComplain::find($id);
+        return view('backend.customer-complain.done', compact('customer_complains'));
+    }
+
+    public function complainComplete(Request $request, $id){
+        $customer_complains =  CustomerComplain::find($id);
+        $customer_complains->phone = $request->phone;
+        $customer_complains->status = $request->status;
         $customer_complains->save();
 
         $insert_id = $customer_complains->id;

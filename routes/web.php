@@ -101,6 +101,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('deliveryService','DeliveryServiceController');
     Route::resource('stockTransfers','StockTransferController');
 
+    Route::get('customer_complain_complete/{id}','CustomerComplainController@complainDone')->name('customer_complain.complete');
+    Route::post('customer_complain_complete/{id}','CustomerComplainController@complainComplete')->name('customer_complain_complete');
 
     Route::get('stock-transfer-invoice/{id}','StockTransferController@invoice')->name('stock.transfer.invoice');
     Route::get('stock-transfer-invoice-print/{id}','StockTransferController@invoicePrint')->name('stock.transfer.invoice.print');
