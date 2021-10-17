@@ -153,7 +153,7 @@
 {{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Served By:</b></td>
-                                        <td style="text-align: right;font-size: 14px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->user->name}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -165,11 +165,11 @@
                     <table class="invoice">
                         <thead>
                         <tr style="background-color: #dddddd">
-                            <th style="font-size: 18px">SL NO.</th>
-                            <th style="font-size: 18px">Product Information</th>
-                            <th style="font-size: 18px">Qty</th>
-                            <th style="font-size: 18px">Unit Price BDT</th>
-                            <th style="font-size: 18px">Amount BDT</th>
+                            <th>SL NO.</th>
+                            <th>Product Information</th>
+                            <th>Qty</th>
+                            <th>Unit Price BDT</th>
+                            <th>Amount BDT</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -178,9 +178,9 @@
                         @endphp
                         @foreach($productSaleDetails as $key => $productSaleDetail)
                             <tr>
-                                <td style="font-size: 16px">{{$key+1}}</td>
-                                <td style="font-size: 16px">{{$productSaleDetail->product->name}}</td>
-                                <td style="font-size: 16px">{{$productSaleDetail->qty}}</td>
+                                <td>{{$key+1}}</td>
+                                <td >{{$productSaleDetail->product->name}}</td>
+                                <td>{{$productSaleDetail->qty}}</td>
                                 <td></td>
                                 <td>
 
@@ -260,37 +260,41 @@
                         <div class="col-md-6">
                             <table width="70%">
                                 <tr>
-                                    <td style="text-align: left;font-size: 18px;"><b>Notes</b></td>
-                                    <td style="text-align: left;font-size: 18px;">:{{$productSale->note}}</td>
+                                    <td style="text-align: left;font-size: 18px;"><b>Notes:</b></td>
+                                    <td style="text-align: left;font-size: 18px;">{{$productSale->note}}</td>
 
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 15px;"><b>Conditions</b>*</td>
-                                    <td style="font-size: 15px;">One year electrical parts replacement warranty.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
-                                </tr>
+{{--                                @if($productSale->sale_type == 'Retail Sale')--}}
+{{--                                <tr>--}}
+{{--                                    <td style="font-size: 15px;"><b>Conditions</b>*</td>--}}
+{{--                                    <td style="font-size: 15px;">{{$productSale->conditions}}</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>--}}
+{{--                                </tr>--}}
+{{--                                @endif--}}
                             </table>
 
-
+                            @if($productSale->sale_type == 'Retail Sale' or $productSale->sale_type == 'Retail Sale edit')
+                                {!! $productSale->conditions !!}
+                            @endif
                         </div>
                         <!-- /.col -->
                     </div>

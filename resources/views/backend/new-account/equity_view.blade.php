@@ -64,7 +64,7 @@
                                 //dd($get_data);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                         @php
                             $opening_capital +=$get_data['PreBalance'];
                         @endphp
@@ -80,7 +80,7 @@
                                 //dd($get_data);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $additional_capital +=$get_data['PreBalance'];
                             @endphp
@@ -94,8 +94,9 @@
                             @php
                                 $total_capital = $additional_capital+$opening_capital;
                             @endphp
-                            {{$total_capital}}</td>
-                        <td>{{$total_capital}}</td>
+                               {{number_format($total_capital,2,'.',',')}}
+                        </td>
+                        <td>  {{number_format($total_capital,2,'.',',')}}</td>
                         <td></td>
                     </tr>
                     <tr style="display: none">
@@ -106,7 +107,7 @@
                               // dd($get_data);
 
                             @endphp
-                            {{$get_data['from_data']}}
+                             {{number_format($get_data['from_data'],2,'.',',')}}
                             @php
                                 $opening_profit +=$get_data['from_data'];
                             @endphp
@@ -139,7 +140,8 @@
                         <td> Opening Retained Earning:</td>
                         <td>@php
 
-                              echo  $opening_retained_earning;
+                                $opening_retained_earning;
+                                echo number_format($opening_retained_earning,2,'.',',');
 
                             @endphp
 
@@ -155,7 +157,7 @@
                                 //dd($get_data);
 
                             @endphp
-                            {{$get_data['get_data']}}
+                            {{number_format($get_data['get_data'],2,'.',',')}}
                             @php
                                 $net_profit +=$get_data['get_data'];
                             @endphp
@@ -171,7 +173,7 @@
                                 //dd($get_data);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                         {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $drowing_adjustment +=$get_data['PreBalance'];
                             @endphp
@@ -185,8 +187,8 @@
                     @endphp
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td>Retained Earning: </td>
-                        <td>{{$total_profit}}</td>
-                        <td>{{$total_profit}}</td>
+                        <td>{{number_format($total_profit,2,'.',',')}}</td>
+                        <td>{{number_format($total_profit,2,'.',',')}}</td>
                         <td></td>
                     </tr>
                     @php
@@ -195,7 +197,7 @@
                     <tr style="color: black;font-size: 20px;font-style: italic" >
                         <td> </td>
                         <td><b>Total Equity:</b></td>
-                        <td>{{$total_equity}}</td>
+                            <td> {{number_format($total_equity,2,'.',',')}}</td>
                         <td></td>
                     </tr>
                     </tbody>

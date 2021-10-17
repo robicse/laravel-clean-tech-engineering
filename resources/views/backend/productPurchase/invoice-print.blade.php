@@ -140,7 +140,7 @@
 {{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                        <td style="text-align: right;font-size: 16px;">{{$productPurchase->user->name}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -154,11 +154,11 @@
                     <table class="invoice">
                         <thead>
                         <tr style="background-color: #dddddd">
-                            <th style="font-size: 18px">SL NO.</th>
-                            <th style="font-size: 18px">Product Information</th>
-                            <th style="font-size: 18px">Qty</th>
-                            <th style="font-size: 18px">Unit Price BDT</th>
-                            <th style="font-size: 18px">Amount BDT</th>
+                            <th >SL NO.</th>
+                            <th>Product Information</th>
+                            <th>Qty</th>
+                            <th>Unit Price BDT</th>
+                            <th>Amount BDT</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -167,10 +167,10 @@
                         @endphp
                         @foreach($productPurchaseDetails as $key => $productPurchaseDetail)
                             <tr>
-                                <td style="font-size: 16px">{{$key+1}}</td>
-                                <td style="font-size: 16px">{{$productPurchaseDetail->product->name}}</td>
-                                <td style="font-size: 16px">{{$productPurchaseDetail->qty}}</td>
-                                <td>{{$productPurchaseDetail->price}}</td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$productPurchaseDetail->product->name}}</td>
+                                <td>{{$productPurchaseDetail->qty}}</td>
+                                <td> {{number_format($productPurchaseDetail->price,2,".",",")}}</td>
                                 <td>
                                     @php
                                         $sub_total=$productPurchaseDetail->qty*$productPurchaseDetail->price;
@@ -178,7 +178,7 @@
                                         $total_discount = (($sum_sub_total+$productPurchase->transport_cost)*$productPurchase->discount_amount)/100;
                                           // dd($sum_sub_total);
                                     @endphp
-                                    {{$sub_total}}
+                                    {{number_format($sub_total,2,".",",")}}
                                 </td>
                             </tr>
                         @endforeach
@@ -190,11 +190,11 @@
                         <tr >
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right;font-size: 16px">Subtotal:</th>
-                            <th  style="border: none">{{$sum_sub_total}}</th>
+                            <th  style="border: none">{{number_format($sum_sub_total,2,".",",")}} </th>
                         </tr> <tr >
                             <th colspan="3"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right;font-size: 16px">Transport/Labour ::</th>
-                            <th  style="border: none">{{$productPurchase->transport_cost}}</th>
+                            <th  style="border: none"> {{number_format($productPurchase->transport_cost,2,".",",")}}</th>
                         </tr>
 
                         <tr>
@@ -211,18 +211,18 @@
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;;text-align: right;font-size: 16px">Total Amount</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$productPurchase->total_amount}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{number_format($productPurchase->total_amount,2,".",",")}}</th>
                         </tr>
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border: none;text-align: right">Paid Amount:</th>
-                            <th style="border: none">{{$productPurchase->paid_amount}}</th>
+                            <th style="border: none">{{number_format($productPurchase->paid_amount,2,".",",")}}</th>
                         </tr>
 
                         <tr>
                             <th colspan="3" style="border: none">&nbsp;</th>
                             <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;text-align: right;font-size: 16px">Due Amount:</th>
-                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;">{{$productPurchase->due_amount}}</th>
+                            <th style="border-top: 2px solid black;border-bottom:none;border-left: none;border-right: none;"> {{number_format($productPurchase->due_amount,2,".",",")}}</th>
                         </tr>
                         </tbody>
                     </table>
@@ -287,10 +287,10 @@
                                     <td style="font-size: 18px;">*{{$productPurchase->note}}</td>
                                     <td style="font-size: 16px;"></td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 18px;"></td>
-                                    <td style="font-size: 16px;"> </td>
-                                </tr>
+{{--                                <tr>--}}
+{{--                                    <td style="font-size: 18px;"></td>--}}
+{{--                                    <td style="font-size: 16px;"> </td>--}}
+{{--                                </tr>--}}
 
 
                             </table>

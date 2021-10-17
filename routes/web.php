@@ -101,6 +101,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('deliveryService','DeliveryServiceController');
     Route::resource('stockTransfers','StockTransferController');
 
+    Route::get('customer_complain_complete/{id}','CustomerComplainController@complainDone')->name('customer_complain.complete');
+    Route::post('customer_complain_complete/{id}','CustomerComplainController@complainComplete')->name('customer_complain_complete');
 
     Route::get('stock-transfer-invoice/{id}','StockTransferController@invoice')->name('stock.transfer.invoice');
     Route::get('stock-transfer-invoice-print/{id}','StockTransferController@invoicePrint')->name('stock.transfer.invoice.print');
@@ -181,6 +183,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('transaction-list/{store_id}','TransactionController@transactionList')->name('transaction.index');
 
 //    Route::get('transaction-list','TransactionController@transactionList')->name('transaction.index');
+
+
+    Route::get('transaction-loss-profit-store','TransactionController@lossProfitStore')->name('transaction.lossProfit.store');
+    Route::get('transaction-loss-profit-dup/{store_id}','TransactionController@lossProfitdup')->name('transaction.lossProfit.dup');
 
 
     Route::get('transaction-loss-profit','TransactionController@lossProfit')->name('transaction.lossProfit');

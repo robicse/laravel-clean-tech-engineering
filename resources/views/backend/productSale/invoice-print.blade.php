@@ -115,6 +115,8 @@
                             <h3 style="text-align: center;padding: 12px;width: 96%;background-color: #d2d2d2;border-width:1px; border-style:dotted"> INVOICE / BILL</h3>
                         </div>
                     </div>
+
+
                     <div class="row">
                         <div class="col-md-6" style="width: 50%; float: left;display: inline-block">
                             <strong>Customer ID:</strong>
@@ -149,7 +151,7 @@
 {{--                                    </tr>--}}
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Served By:</b></td>
-                                        <td style="text-align: right;font-size: 14px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->user->name}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -276,39 +278,41 @@
                         <div class="col-md-6">
                             <table width="70%">
                                 <tr>
-                                    <td style="text-align: left;font-size: 18px;"><b>Notes</b></td>
-                                    <td style="text-align: left;font-size: 18px;">:{{$productSale->note}}</td>
+                                    <td style="text-align: left;font-size: 18px;"><b>Notes:</b></td>
+                                    <td style="text-align: left;font-size: 18px;">{{$productSale->note}}</td>
 
                                 </tr>
-                                @if($productSale->sale_type == 'Retail Sale')
-                                <tr>
-                                    <td style="font-size: 15px;"><b>Conditions</b>*</td>
-                                    <td style="font-size: 15px;">One year electrical parts replacement warranty.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right;font-size: 18px;">*</td>
-                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>
-                                </tr>
-                                @endif
+
+{{--                                    <tr>--}}
+{{--                                        <td style="font-size: 15px;"><b>Conditions</b></td>--}}
+{{--                                        <td style="font-size: 15px;margin-top: -30px">{!! $productSale->conditions !!} </td>--}}
+{{--                                    </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine used over the capacity.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">No warranty for filter cartidge,faucet,Tank,UV lamp. </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will not applicable in case of electrical equipment are operated at fluctuating voltage.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">We do not provide any electrical or plumbing work.</td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td style="text-align: right;font-size: 18px;">*</td>--}}
+{{--                                    <td style="text-align: left;font-size: 15px;">Warranty will void if the machine is not installed or serviced by CleanTech.</td>--}}
+{{--                                </tr>--}}
+
                             </table>
 
-
+{{--                            @if($productSale->sale_type == 'Retail Sale' or $productSale->sale_type == 'Retail Sale edit')--}}
+                             {!! $productSale->conditions !!}
+{{--                            @endif--}}
                         </div>
                         <!-- /.col -->
                     </div>

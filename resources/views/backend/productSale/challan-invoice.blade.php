@@ -109,11 +109,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Sale Date:</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
+                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->date}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Served By:</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
+                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->user->name}}</td>
                                                 </tr>
                                             </table>
                                         </div>

@@ -26,22 +26,22 @@
                         <div class="row">
                             <label class="control-label">Date <span style="color: red">*</span></label>
                             <div class="col-md-5">
-                                <input class="form-control datepicker" type="text" placeholder="Date" name="date">
+                                <input class="form-control " type="date" placeholder="Date" name="date">
                             </div>
                             <label class="control-label ">Name <span style="color: red">*</span></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" placeholder="Name" name="name">
+                                <input class="form-control" type="text" placeholder="Name" name="name" required>
                             </div>
 
                         </div>
                         <div class="row" style="margin-top: 22px">
-                            <label class="control-label">Phone</label>
+                            <label class="control-label">Phone<span style="color: red">*</span></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" placeholder="Phone" name="phone">
+                                <input class="form-control" type="text" placeholder="Phone" name="phone" required>
                             </div>
                             <label class="control-label">Address <span style="color: red">*</span></label>
                             <div class="col-md-5">
-                                <input class="form-control" type="text" placeholder="Address" name="address">
+                                <input class="form-control" type="text" placeholder="Address" name="address" required>
 
                             </div>
                         </div>

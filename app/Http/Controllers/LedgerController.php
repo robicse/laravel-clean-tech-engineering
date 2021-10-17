@@ -406,7 +406,7 @@ class LedgerController extends Controller
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
         $group_3 = $request->group_3;
-        //dd($group_3);
+        //dd($general_ledger);
         $date_from = $request->date_from;
         $date_to = $request->date_to;
 
@@ -416,36 +416,40 @@ class LedgerController extends Controller
         {
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->select('ledger_name','ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('posting_date', '<',$date_from)
                 ->where('ledger_id',$general_ledger)
                 ->groupBy('ledger_id')
+                ->groupBy('ledger_name')
                 ->first();
         }
         elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->select('ledger_name','group_3', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('posting_date', '<',$date_from)
                 ->where('group_3',$group_3)
                 ->groupBy('group_3')
+                ->groupBy('ledger_name')
                 ->first();
         }
         elseif((!empty($group_2)) && (!empty($date_from)) && (!empty($date_to)) ){
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('group_2', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->select('ledger_name','group_2', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('posting_date', '<',$date_from)
                 ->where('group_2',$group_2)
                 ->groupBy('group_2')
+                ->groupBy('ledger_name')
                 ->first();
         }
         else{
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->select('ledger_name','ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
                 ->where('posting_date', '<',$date_from)
                 ->groupBy('ledger_id')
+                ->groupBy('ledger_name')
                 ->first();
         }
         //dd($gl_pre_valance_data);
@@ -507,7 +511,7 @@ class LedgerController extends Controller
 
         //dd($general_ledger_infos);
 
-        return view('backend.new-account.bankbook_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3'));
+        return view('backend.new-account.bankbook_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3','gl_pre_valance_data'));
     }
     public function receiptPayment_form()
     {

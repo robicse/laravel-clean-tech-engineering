@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Due;
 use App\FreeProduct;
 use App\FreeProductSaleDetails;
+use App\Helpers\UserInfo;
 use App\OnlinePlatForm;
 use App\Party;
 use App\Product;
@@ -16,12 +17,14 @@ use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockTransfer;
 use App\Store;
 use App\Transaction;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductWholeSaleController extends Controller
 {
@@ -65,6 +68,20 @@ class ProductWholeSaleController extends Controller
         ]);
 
         $row_count = count($request->product_id);
+        for($i=0; $i<$row_count;$i++)
+        {
+
+            $product_id = $request->product_id[$i];
+            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
+            //dd($check_previous_stock);
+            if(!empty($check_previous_stock)){
+                if($check_previous_stock == 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                    return redirect()->back();
+                }
+            }
+        }
         $row_count_free_product = count($request->free_product_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
@@ -109,6 +126,7 @@ class ProductWholeSaleController extends Controller
         $productSale->due_amount = $request->due_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
+        $productSale->conditions = $request->conditions;
         //dd($productSale);
         $productSale->save();
         $insert_id = $productSale->id;
@@ -140,6 +158,11 @@ class ProductWholeSaleController extends Controller
                 }
                 // product stock
                 $stock = new Stock();
+                if ($previous_stock < 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                    return redirect()->back();
+                }
                 $stock->user_id = Auth::id();
                 $stock->ref_id = $insert_id;
                 $stock->store_id = $request->store_id;
@@ -198,39 +221,29 @@ class ProductWholeSaleController extends Controller
                 $freeProduct_sale_detail->save();
             }
 
-//            $party_id = $request->party_id;
-//            //dd($account_id);
-//            $accounts = Account::where('party_id',$party_id)->first();
-////dd($accounts);
-//            $customer = new Posting();
-//            $customer ->voucher_type_id =1;
-//            $customer ->voucher_no =1;
-//            $customer->date = $request->date;
-//            $customer->account_id = $accounts->id;
-//            $customer->account_name = $accounts->HeadName;
-//            $customer->parent_account_name = $accounts->PHeadName;
-//            $customer->account_no = $accounts->HeadCode;
-//            $customer->account_type = $accounts->HeadType;
-//            $customer->debit = NULL;
-//            $customer->credit = $total_amount;
-//            $customer->transaction_description = $request->transaction_description;
-//            $customer->save();
-////dd($customer);
-//            $inventory = new Posting();
-//            $inventory ->voucher_type_id =1;
-//            $inventory ->voucher_no =1;
-//            $inventory->date = $request->date;
-//            $inventory->account_id = $accounts->id;
-//            $inventory->account_name = $accounts->HeadName;
-//            $inventory->parent_account_name = $accounts->PHeadName;
-//            $inventory->account_no = $accounts->HeadCode;
-//            $inventory->account_type = $accounts->HeadType;
-//            $inventory->debit =  $total_amount;
-//            $inventory->credit = NULL;
-//            $inventory->transaction_description = $request->transaction_description;
-//            $inventory->save();
+        }
+        $customer= DB::table('parties')
 
-//dd($inventory);
+            ->where('id',$request->party_id)
+            ->select('parties.name','parties.phone','parties.id')
+            ->first();
+        //dd($customer);
+        if(!empty($customer)){
+            $customer_name = $customer->name;
+            $customer_phone = $customer->phone;
+            $customer_id = $customer->id;
+        }else{
+            $customer_name = '';
+            $customer_phone = '';
+            $customer_id = '';
+        }
+        //dd($customer_name);
+        if($insert_id)
+        {
+            $text_for_customer = "Dear, $customer_name  Sir,Thank you for purchasing from CleanTech Engineering, Invoice Number is $invoice_no .Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
+For any queries call our support 09638-888 000";
+            //dd($text_for_provider);
+            UserInfo::smsAPI("88".$customer_phone,$text_for_customer);
         }
 
 
@@ -288,6 +301,20 @@ class ProductWholeSaleController extends Controller
 
         $stock_id = $request->stock_id;
         $row_count = count($request->product_id);
+        for($i=0; $i<$row_count;$i++)
+        {
+
+            $product_id = $request->product_id[$i];
+            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
+            //dd($check_previous_stock);
+            if(!empty($check_previous_stock)){
+                if($check_previous_stock == 0)
+                {
+                    Toastr::success('Product Stock Not Available', 'warning');
+                    return redirect()->back();
+                }
+            }
+        }
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {
@@ -310,12 +337,13 @@ class ProductWholeSaleController extends Controller
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
-        $productSale->sale_type ="Whole Sale";
+        $productSale->sale_type ="Whole Sale edit";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->discount_amount = $request->discount_amount;
+        $productSale->conditions = $request->conditions;
         //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;
@@ -341,26 +369,52 @@ class ProductWholeSaleController extends Controller
             $purchase_sale_detail->sub_total = $request->qty[$i]*$request->price[$i];
             $purchase_sale_detail->update();
 
-
             $product_id = $request->product_id[$i];
-            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
-            if(!empty($check_previous_stock)){
-                $previous_stock = $check_previous_stock;
-            }else{
-                $previous_stock = 0;
-            }
+            $request_qty = $request->qty[$i];
+
+
             // product stock
-            $stock = Stock::where('ref_id',$id)->where('stock_type','sale')->first();
-            $stock->user_id = Auth::id();
-            $stock->store_id = $request->store_id;
-            $stock->date = $request->date;
-            $stock->sale_type ="Whole Sale";
-            $stock->product_id = $request->product_id[$i];
-            $stock->previous_stock = $previous_stock;
-            $stock->stock_in = 0;
-            $stock->stock_out = $request->qty[$i];
-            $stock->current_stock = $previous_stock - $request->qty[$i];
-            $stock->update();
+            $store_id=$productSale->store_id;
+            //$invoice_no=$productSale->invoice_no;
+            $stock_row = current_stock_row($store_id,'sale',$product_id);
+            $previous_stock = $stock_row->previous_stock;
+            $stock_out = $stock_row->stock_out;
+            //$current_stock = $stock_row->current_stock;
+
+
+            if($stock_out != $request_qty){
+                $stock_row->user_id = Auth::id();
+                $stock_row->store_id = $request->store_id;
+                $stock_row->product_id = $product_id;
+                $stock_row->previous_stock = $previous_stock;
+                $stock_row->stock_in = 0;
+                $stock_row->stock_out = $request_qty;
+                $new_stock_out = $previous_stock - $request_qty;
+                $stock_row->current_stock = $new_stock_out;
+                $stock_row->update();
+            }
+
+
+
+//            $product_id = $request->product_id[$i];
+//            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
+//            if(!empty($check_previous_stock)){
+//                $previous_stock = $check_previous_stock;
+//            }else{
+//                $previous_stock = 0;
+//            }
+//            // product stock
+//            $stock = Stock::where('ref_id',$id)->where('stock_type','sale')->first();
+//            $stock->user_id = Auth::id();
+//            $stock->store_id = $request->store_id;
+//            $stock->date = $request->date;
+//            $stock->sale_type ="Whole Sale edit";
+//            $stock->product_id = $request->product_id[$i];
+//            $stock->previous_stock = $previous_stock;
+//            $stock->stock_in = 0;
+//            $stock->stock_out = $request->qty[$i];
+//            $stock->current_stock = $previous_stock - $request->qty[$i];
+//            $stock->update();
         }
 
         // due
@@ -381,7 +435,7 @@ class ProductWholeSaleController extends Controller
         $transaction->store_id = $request->store_id;
         $transaction->party_id = $request->party_id;
         $transaction->date = $request->date;
-        $transaction->sale_type = "Whole Sale";
+        $transaction->sale_type = "Whole Sale edit";
         $transaction->payment_type = $request->payment_type;
         $transaction->check_number = $request->check_number ? $request->check_number : '';
         $transaction->check_date = $request->check_date ? $request->check_date : '';
@@ -418,6 +472,11 @@ class ProductWholeSaleController extends Controller
             ->max('product_purchase_details.wholeSale_price');
         //->pluck('product_purchase_details.mrp_price')
         //->first();
+        if($wholeSale_price == null){
+            $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+                ->max('stock_transfer_details.wholeSale_price');
+        }
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();

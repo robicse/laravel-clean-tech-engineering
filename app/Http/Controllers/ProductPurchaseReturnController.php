@@ -53,7 +53,7 @@ class ProductPurchaseReturnController extends Controller
         return view('backend.productPurchaseReturn.returnable_purchase_products',compact('parties','stores','productPurchases'));
     }
     public function getReturnablePurchaseProduct($purchase_id){
-
+        $productPurchase = ProductPurchase::where('id',$purchase_id)->first();
         $products = DB::table('product_purchase_details')
             ->join('products','product_purchase_details.product_id','=','products.id')
             ->where('product_purchase_details.product_purchase_id',$purchase_id)
@@ -63,24 +63,35 @@ class ProductPurchaseReturnController extends Controller
         $html = "<table class=\"table table-striped tabel-penjualan\">
                         <thead>
                             <tr>
-                                <th width=\"30\">No</th>
+                                 <th width=\"30\">No</th>
                                 <th>Product Name</th>
                                 <th align=\"right\">Received Quantity</th>
+                                 <th>Unit Price</th>
+                                 <th>Already Return Quantity</th>
+                                 <th>Already Return Amount</th>
                                 <th>Return Quantity</th>
-                                <th>Amount</th>
+                                <th>Return Amount</th>
                                 <th>Reason</th>
                             </tr>
                         </thead>
                         <tbody>";
         if(count($products) > 0):
             foreach($products as $key => $item):
+                $check_purchase_return_qty = check_purchase_return_qty($productPurchase->store_id,$item->product_id,$productPurchase->invoice_no);
+                $check_purchase_return_price = check_purchase_return_price($productPurchase->store_id,$item->product_id,$productPurchase->invoice_no);
                 $key += 1;
                 $html .= "<tr>";
                 $html .= "<th width=\"30\">1</th>";
                 $html .= "<th><input type=\"hidden\" class=\"form-control\" name=\"product_id[]\" id=\"product_id_$key\" value=\"$item->product_id\" size=\"28\" /><input type=\"hidden\" class=\"form-control\" name=\"product_purchase_detail_id[]\" id=\"product_sale_detail_id_$key\" value=\"$item->id\" size=\"28\" />$item->name</th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"qty[]\" id=\"qty_$key\" value=\"$item->qty\" size=\"28\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\"  value=\"$item->price\" size=\"28\" readonly/></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"check_purchase_return_qty[]\" id=\"check_purchase_return_qty_$key\" value=\"$check_purchase_return_qty\" readonly /></th>";
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_return_amount[]\" id=\"total_return_amount_$key\"  value=\"$check_purchase_return_price\" size=\"28\" readonly/></th>";
                 $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_qty[]\" id=\"return_qty_$key\" onkeyup=\"return_qty($key,this);\" size=\"28\" /></th>";
-                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"total_amount[]\" id=\"total_amount_$key\"  value=\"$item->price\" size=\"28\" /></th>";
+
+
+                $html .= "<th><input type=\"text\" class=\"form-control\" name=\"return_amount[]\" id=\"return_amount_$key\"  size=\"28\" /></th>";
+
                 $html .= "<th><textarea type=\"text\" class=\"form-control\" name=\"reason[]\" id=\"reason_$key\"  size=\"28\" ></textarea> </th>";
                 $html .= "</tr>";
             endforeach;
@@ -103,10 +114,12 @@ class ProductPurchaseReturnController extends Controller
         $productPurchase = ProductPurchase::where('id',$request->product_purchase_id)->first();
        // dd($row_count);
 
+        $total_return_amount = 0;
         $total_amount = 0;
         for ($i = 0; $i < $row_count; $i++) {
             if ($request->return_qty[$i] != null) {
-                $total_amount += $request->total_amount[$i];
+                $total_return_amount += $request->return_amount[$i]*$request->return_qty[$i];
+                $total_amount += $request->total_amount[$i]*$request->return_qty[$i];
             }
         }
         $product_purchase_return = new ProductPurchaseReturn();
@@ -120,6 +133,7 @@ class ProductPurchaseReturnController extends Controller
         $product_purchase_return->discount_type = $productPurchase->discount_type;
         $product_purchase_return->discount_amount = 0;
         $product_purchase_return->total_amount = $total_amount;
+        $product_purchase_return->total_return_amount = $total_return_amount;
         $product_purchase_return->save();
 
         $insert_id = $product_purchase_return->id;
@@ -138,6 +152,7 @@ class ProductPurchaseReturnController extends Controller
                     $product_purchase_return_detail->product_id = $productPurchaseDetail->product_id;
                     $product_purchase_return_detail->qty = $request->return_qty[$i];
                     $product_purchase_return_detail->price = $request->total_amount[$i];
+                    $product_purchase_return_detail->return_price = $request->return_amount[$i];
                     $product_purchase_return_detail->reason = $request->reason[$i];
                     $product_purchase_return_detail->save();
 
@@ -184,7 +199,7 @@ class ProductPurchaseReturnController extends Controller
             $transaction->transaction_type = 'purchase return';
             $transaction->payment_type = $request->payment_type;
             $transaction->date = date('Y-m-d');
-            $transaction->amount = $total_amount;
+            $transaction->amount = $total_return_amount;
             $transaction->save();
         }
 
@@ -199,7 +214,12 @@ class ProductPurchaseReturnController extends Controller
 
     public function show($id)
     {
-        //
+        $productPurchaseReturn = ProductPurchaseReturn::find($id);
+        //dd($productPurchaseReturn);
+        $productPurchaseReturnDetails = ProductPurchaseReturnDetail::where('product_purchase_return_id',$id)->get();
+        $transaction = Transaction::where('ref_id',$id)->first();
+
+        return view('backend.productPurchaseReturn.show', compact('productPurchaseReturn','productPurchaseReturnDetails','transaction'));
     }
 
     public function edit($id)

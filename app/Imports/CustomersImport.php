@@ -15,6 +15,7 @@ class CustomersImport implements ToModel
      */
     public function model(array $row)
     {
+        //dd($row);
         return new Party([
             'type'     => $row[0],
             'name'     => $row[1],

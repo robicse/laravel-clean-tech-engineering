@@ -6,6 +6,7 @@
         background-color: gray;
     }
 </style>
+
 <aside class="app-sidebar" style="background: url({{asset('backend/sidebar4.png')}})">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{!! asset('backend/user.png') !!} "
                                         alt="User Image" width="60px">
@@ -91,7 +92,7 @@
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.store') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">Transaction Store</span></a></li>
 {{--                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.index') }}"><i class="app-menu__icon fa fa-circle"></i> <span class="app-menu__label">Transaction List</span></a></li>--}}
-                <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.lossProfit') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Loss/Profit</span></a></li>
+                <li class="custom_li_bg" style="display: none"><a class="app-menu__item custom_li_a_position" href="{{ route('transaction.lossProfit.store') }}"><i class="app-menu__icon fas fa fa-circle"></i> <span class="app-menu__label">Loss/Profit</span></a></li>
             </ul>
         </li>
         <li class="treeview{{Request::is('deliveryService*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Delivery Service </span><i class="treeview-indicator fa fa-angle-right"></i></a>

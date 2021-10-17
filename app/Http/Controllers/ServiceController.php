@@ -115,7 +115,9 @@ class ServiceController extends Controller
                 ->join('services','sale_services.service_id','services.id')
                 ->where('service_date','>=',$start_date)
                 ->where('service_date','<=',$end_date)
+                ->where('sale_services.status', '=', 0)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
+                ->Orderby('service_date', 'ASC')
                 ->get();
         }else{
 //            $saleServices = SaleService::orderBy('start_date','ASC')
@@ -129,7 +131,9 @@ class ServiceController extends Controller
                 ->join('services','sale_services.service_id','services.id')
                 ->where('service_date','>=',$custom_date_start)
                 ->where('service_date','<=',$custom_date_end)
+                ->where('sale_services.status', '=', 0)
                 ->select('sale_service_durations.service_date','sale_services.service_id','sale_services.id','sale_services.product_sale_detail_id','sale_services.provider_id','services.name')
+                ->Orderby('service_date', 'ASC')
                 ->get();
         }
         // dd($saleServiceDurations);
@@ -198,6 +202,7 @@ class ServiceController extends Controller
                     ->where('service_date', '<=', $end_date)
                     ->where('sale_services.status', '=', 1)
                     ->select('sale_service_durations.service_date', 'sale_services.service_id', 'sale_services.id', 'sale_services.product_sale_detail_id', 'sale_services.provider_id', 'services.name')
+                    ->Orderby('service_date', 'ASC')
                     ->get();
             } else {
 //            $saleServices = SaleService::orderBy('start_date','ASC')
@@ -213,6 +218,7 @@ class ServiceController extends Controller
                     ->where('service_date', '<=', $custom_date_end)
                     ->where('sale_services.status', '=', 1)
                     ->select('sale_service_durations.service_date', 'sale_services.service_id', 'sale_services.id', 'sale_services.product_sale_detail_id', 'sale_services.provider_id', 'services.name')
+                    ->Orderby('service_date', 'ASC')
                     ->get();
             }
             //dd('hh');
@@ -226,12 +232,7 @@ class ServiceController extends Controller
     }
     public function sendSMS(Request $request){
 
-       // dd($request->all());
-        //$text = "Dear ".$user->name.", Your Prevent Care OTP is ".$verCode->code;
-       // $provider_id= $request->row_id;
-       // dd($request->service_id);
-        //$sale_service_id = $request->service_id;
-        //dd($sale_service_id);
+
         $sale_service = SaleService::find($request->row_id);
         $sale_service->provider_id =  $request->service_provider_id;
         //dd($sale_service);

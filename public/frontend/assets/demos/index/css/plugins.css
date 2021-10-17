@@ -84,7 +84,7 @@ label.control-label {
   font-weight: 300;
   color: #2e353a; }
 
-.checkbox label,
+.icheckbox label,
 .radio label,
 .c-checkbox label,
 .c-radio label {

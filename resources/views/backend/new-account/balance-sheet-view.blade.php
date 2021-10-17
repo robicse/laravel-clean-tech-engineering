@@ -90,7 +90,7 @@
                                 $get_data = tangible_assets_plant_and_machinery($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $tangible_assets_plant_and_machinery +=$get_data['PreBalance'];
                             @endphp
@@ -104,7 +104,7 @@
                                 $get_data = tangible_assets_furniture_and_fixture($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}</td>
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}</td>
                         @php
                             $tangible_assets_furniture_and_fixture +=$get_data['PreBalance'];
                         @endphp
@@ -120,7 +120,7 @@
 
                             @endphp
                         <td>
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $tangible_assets_vehicle +=$get_data['PreBalance'];
                             @endphp
@@ -134,7 +134,7 @@
                             $get_data = tangible_assets($date_from);
   //dd($get_data);
                         @endphp
-                        <td> {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>   {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
 
                             @php
                                 $tangible_assets +=$get_data['PreBalance'];
@@ -148,7 +148,7 @@
                             $get_data = intangible_assets($date_from);
   //dd($get_data);
                         @endphp
-                        <td> {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        <td>  {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
 
                             @php
                                 $intangible_assets +=$get_data['PreBalance'];
@@ -158,10 +158,13 @@
                     </tr>
                     <tr style="color: black;font-size: 17px">
                         <td> Total Fixed Assets</td>
-                        <td> @php echo  $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                        <td> @php   $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                                     echo  number_format($fixed_assets,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php echo  $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+                        <td> @php   $fixed_assets =$intangible_assets+$tangible_assets+$tangible_assets_vehicle+$tangible_assets_furniture_and_fixture+$tangible_assets_plant_and_machinery;
+
+                                    echo  number_format($fixed_assets,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
@@ -178,7 +181,7 @@
                                 $get_data = cash_in_hands_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $cash_in_hands_assets +=$get_data['PreBalance'];
                             @endphp
@@ -193,7 +196,7 @@
                                 $get_data = cash_at_bank_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $cash_at_bank_assets +=$get_data['PreBalance'];
                             @endphp
@@ -208,7 +211,7 @@
                                 $get_data = cash_at_bank_FDR_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $cash_at_bank_FDR_assets +=$get_data['PreBalance'];
                             @endphp
@@ -223,7 +226,7 @@
                                 $get_data = account_receivable_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $account_receivable_assets +=$get_data['PreBalance'];
                             @endphp
@@ -238,7 +241,7 @@
                                 $get_data = inventory_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $inventory_assets +=$get_data['PreBalance'];
                             @endphp
@@ -253,7 +256,7 @@
                                 $get_data = loan_and_advances_AOR_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_AOR_assets +=$get_data['PreBalance'];
                             @endphp
@@ -268,7 +271,7 @@
                                 $get_data = loan_and_advances_AAP_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_AAP_assets +=$get_data['PreBalance'];
                             @endphp
@@ -283,7 +286,7 @@
                                 $get_data = loan_and_advances_AAS_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_AAS_assets +=$get_data['PreBalance'];
                             @endphp
@@ -298,7 +301,7 @@
                                 $get_data = loan_and_advances_assets($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_assets +=$get_data['PreBalance'];
                             @endphp
@@ -308,19 +311,24 @@
                     </tr>
                     <tr style="color: black;font-size: 17px">
                         <td> Total Current Assets:</td>
-                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
+                        <td> @php   $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
+
+                             echo  number_format($current_assets,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php echo  $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
+                        <td> @php   $current_assets =$loan_and_advances_assets+$loan_and_advances_AAS_assets+$loan_and_advances_AAP_assets+$loan_and_advances_AOR_assets+$cash_at_bank_FDR_assets+$cash_at_bank_assets+$cash_in_hands_assets+$account_receivable_assets+$inventory_assets;
+                             echo  number_format($current_assets,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
                     <tr style="color: black;font-size: 17px">
                         <td><b> Total Assets:</b></td>
-                        <td> @php echo  $total_assets =$current_assets+$fixed_assets;
+                        <td> @php  $total_assets =$current_assets+$fixed_assets;
+                                    echo  number_format($total_assets,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php echo $total_assets =$current_assets+$fixed_assets;
+                        <td> @php $total_assets =$current_assets+$fixed_assets;
+                                    echo  number_format($total_assets,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
@@ -344,7 +352,7 @@
 //dd($get_data);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $opening_capital +=$get_data['PreBalance'];
                             @endphp
@@ -360,7 +368,7 @@
                               // dd($get_data);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}{{$get_data['preDebCre']}}
                             @php
                                 $additional_capital +=$get_data['PreBalance'];
 //dd($additional_capital);
@@ -377,7 +385,7 @@
                                 $total_capital =$additional_capital;
 
                             @endphp
-                            {{$total_capital}}</td>
+                            {{ number_format($total_capital,2,'.',',')}}  </td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -389,7 +397,7 @@
                                //dd($get_data);
 
                             @endphp
-                            {{$get_data['from_data']}}
+                       {{ number_format($get_data['from_data'],2,'.',',')}}
                             @php
                                 $opening_profit +=$get_data['from_data'];
 
@@ -407,7 +415,7 @@
                                 //dd($get_data);
 
                             @endphp
-                            {{$get_data['get_data']}}
+                            {{ number_format($get_data['get_data'],2,'.',',')}}
                             @php
                                 $net_profit +=$get_data['get_data'];
                             @endphp
@@ -422,7 +430,7 @@
                     @endphp
                     <tr>
                         <td>Retained Earning: </td>
-                        <td>{{$total_profit}}</td>
+                        <td>     {{ number_format($total_profit,2,'.',',')}}</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -431,8 +439,8 @@
                     @endphp
                     <tr style="color: black;font-size: 17px">
                         <td><b>Total Equity:</b></td>
-                        <td>{{$total_equity}}</td>
-                        <td>{{$total_equity}}</td>
+                        <td>  {{ number_format($total_equity,2,'.',',')}}</td>
+                        <td>{{ number_format($total_equity,2,'.',',')}}</td>
                         <td></td>
 
                     </tr>
@@ -449,7 +457,7 @@
                                 $get_data = account_payable($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $account_payable +=$get_data['PreBalance'];
                             @endphp
@@ -464,7 +472,7 @@
                                 $get_data = loan_from_owner($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_from_owner +=$get_data['PreBalance'];
                             @endphp
@@ -479,7 +487,7 @@
                                 $get_data = loan_from_other($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_from_other +=$get_data['PreBalance'];
                             @endphp
@@ -494,7 +502,7 @@
                                 $get_data = advanced_receive_against_sale($date_from);
                                 //dd($get_data);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $advanced_receive_against_sale +=$get_data['PreBalance'];
                             @endphp
@@ -504,19 +512,24 @@
                     </tr>
                     <tr  style="color: black;font-size: 17px">
                         <td> <b>Total Liabilities</b></td>
-                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                                    echo  number_format($liabilities,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php echo  $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                                    echo  number_format($liabilities,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>
                     <tr  style="color: black;font-size: 17px">
                         <td> <b>Total Equity & Liabilities</b></td>
-                        <td> @php echo  $totalEquityAndLiabilities=$liabilities+$total_equity;
+                        <td> @php   $totalEquityAndLiabilities=$liabilities+$total_equity;
+                                      echo number_format($totalEquityAndLiabilities,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php echo $totalEquityAndLiabilities=$liabilities+$total_equity;
+                        <td> @php  $totalEquityAndLiabilities=$liabilities+$total_equity;
+
+                                   echo  number_format($totalEquityAndLiabilities,2,'.',',');
                             @endphp </td>
                         <td></td>
                     </tr>

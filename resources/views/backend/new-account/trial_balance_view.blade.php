@@ -92,15 +92,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $oResultAsset->ledger_name }}</td>
-                                <td>{{ $oResultAsset->debit }}</td>
-                                <td>{{ $oResultAsset->credit }}</td>
+                                <td>{{ number_format($oResultAsset->debit ,2,'.',',')}}  </td>
+                                <td>{{number_format( $oResultAsset->credit  ,2,'.',',')}}</td>
                                 <td>
                                     @php
                                         if($oResultAssetDebit > $oResultAssetCredit){
-                                            echo $oResultAssetDebit - $oResultAssetCredit;
+                                            echo number_format($oResultAssetDebit - $oResultAssetCredit  ,2,'.',',') ;
                                             echo 'De';
                                         }else{
-                                            echo $oResultAssetCredit - $oResultAssetDebit;
+                                            echo number_format($oResultAssetCredit - $oResultAssetDebit,2,'.',',') ;
                                             echo 'Cr';
                                         }
                                     @endphp
@@ -109,15 +109,15 @@
                         @endforeach
                         <tr class="table-secondary">
                             <th>Total:</th>
-                            <th>Debit: {{ $sum_assets_debit }}</th>
-                            <th>Credit: {{ $sum_assets_credit }}</th>
+                            <th>Debit: {{   number_format($sum_assets_debit,2,'.',',') }}</th>
+                            <th>Credit: {{   number_format($sum_assets_credit,2,'.',',') }}</th>
                             <th>
                                 @php
                                     if($sum_assets_debit > $sum_assets_credit){
-                                        echo $sum_assets_debit - $sum_assets_credit;
+                                        echo  number_format($sum_assets_debit - $sum_assets_credit,2,'.',',');
                                         echo 'De';
                                     }else{
-                                        echo $sum_assets_credit - $sum_assets_debit;
+                                        echo  number_format( $sum_assets_credit - $sum_assets_debit,2,'.',',');
                                         echo 'Cr';
                                     }
                                 @endphp
@@ -145,15 +145,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $oResultIncome->ledger_name}}</td>
-                                <td>{{ $oResultIncome->debit }}</td>
-                                <td>{{ $oResultIncome->credit }}</td>
+                                <td>{{ number_format($oResultIncome->debit,2,'.',',') }} </td>
+                                <td>{{ number_format($oResultIncome->credit,2,'.',',') }} </td>
                                 <td>
                                     @php
                                         if($oResultIncomeDebit > $oResultIncomeCredit){
-                                            echo $oResultIncomeDebit - $oResultIncomeCredit;
+                                            echo  number_format($oResultIncomeDebit - $oResultIncomeCredit,2,'.',',');
                                             echo 'De';
                                         }else{
-                                            echo $oResultIncomeCredit - $oResultIncomeDebit;
+                                            echo  number_format($oResultIncomeCredit - $oResultIncomeDebit,2,'.',',');
                                             echo 'Cr';
                                         }
                                     @endphp
@@ -162,15 +162,15 @@
                         @endforeach
                         <tr class="table-secondary">
                             <th>Total:</th>
-                            <th>Debit: {{ $sum_income_debit }}</th>
-                            <th>Credit: {{ $sum_income_credit }}</th>
+                            <th>Debit: {{ number_format($sum_income_debit,2,'.',',') }}  </th>
+                            <th>Credit: {{ number_format($sum_income_credit,2,'.',',') }}  </th>
                             <th>
                                 @php
                                     if($sum_income_debit > $sum_income_credit){
-                                        echo $sum_income_debit - $sum_income_credit;
+                                        echo  number_format($sum_income_debit - $sum_income_credit,2,'.',',');
                                         echo 'De';
                                     }else{
-                                        echo $sum_income_credit - $sum_income_debit;
+                                        echo  number_format($sum_income_credit - $sum_income_debit,2,'.',',');
                                         echo 'Cr';
                                     }
                                 @endphp
@@ -198,15 +198,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $oResultExpense->ledger_name }}</td>
-                                <td>{{ $oResultExpense->debit }}</td>
-                                <td>{{ $oResultExpense->credit }}</td>
+                                <td>{{ number_format($oResultExpense->debit,2,'.',',') }}</td>
+                                <td>{{ number_format($oResultExpense->credit,2,'.',',') }}  </td>
                                 <td>
                                     @php
                                         if($oResultExpenseDebit > $oResultExpenseCredit){
-                                            echo $oResultExpenseDebit - $oResultExpenseCredit;
+                                            echo  number_format($oResultExpenseDebit - $oResultExpenseCredit,2,'.',',');
                                             echo 'De';
                                         }else{
-                                            echo $oResultExpenseCredit - $oResultExpenseDebit;
+                                            echo  number_format($oResultExpenseCredit - $oResultExpenseDebit,2,'.',',');
                                             echo 'Cr';
                                         }
                                     @endphp
@@ -215,15 +215,15 @@
                         @endforeach
                         <tr class="table-secondary">
                             <th>Total:</th>
-                            <th>Debit: {{ $sum_expense_debit }}</th>
-                            <th>Credit: {{ $sum_expense_credit }}</th>
+                            <th>Debit: {{ number_format($sum_expense_debit,2,'.',',') }}</th>
+                            <th>Credit: {{ number_format($sum_expense_credit,2,'.',',') }}</th>
                             <th>
                                 @php
                                     if($sum_expense_debit > $sum_expense_credit){
-                                        echo $sum_expense_debit - $sum_expense_credit;
+                                        echo  number_format($sum_expense_debit - $sum_expense_credit,2,'.',','); ;
                                         echo 'De';
                                     }else{
-                                        echo $sum_expense_credit - $sum_expense_debit;
+                                        echo  number_format( $sum_expense_credit - $sum_expense_debit,2,'.',',');;
                                         echo 'Cr';
                                     }
                                 @endphp
@@ -251,15 +251,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $oResultEquity->ledger_name }}</td>
-                                <td>{{ $oResultEquity->debit }}</td>
-                                <td>{{ $oResultEquity->credit }}</td>
+                                <td>{{ number_format($oResultEquity->debit,2,'.',',') }}</td>
+                                <td>{{ number_format($oResultEquity->credit,2,'.',',') }}</td>
                                 <td>
                                     @php
                                         if($oResultEquityDebit > $oResultEquityCredit){
-                                            echo $oResultEquityDebit - $oResultEquityCredit;
+                                            echo  number_format( $oResultEquityDebit - $oResultEquityCredit,2,'.',',');;
                                             echo 'De';
                                         }else{
-                                            echo $oResultEquityCredit - $oResultEquityDebit;
+                                            echo  number_format($oResultEquityCredit - $oResultEquityDebit,2,'.',','); ;
                                             echo 'Cr';
                                         }
                                     @endphp
@@ -268,15 +268,15 @@
                         @endforeach
                         <tr  class="table-secondary">
                             <th>Total:</th>
-                            <th>Debit: {{ $sum_equity_debit }}</th>
-                            <th>Credit: {{ $sum_equity_credit }}</th>
+                            <th>Debit: {{ number_format($sum_equity_debit,2,'.',',') }}</th>
+                            <th>Credit: {{ number_format($sum_equity_credit,2,'.',',') }}</th>
                             <th>
                                 @php
                                     if($sum_equity_debit > $sum_equity_credit){
-                                        echo $sum_equity_debit - $sum_equity_credit;
+                                        echo  number_format($sum_equity_debit - $sum_equity_credit,2,'.',',');
                                         echo 'De';
                                     }else{
-                                        echo $sum_equity_credit - $sum_equity_debit;
+                                        echo  number_format($sum_equity_credit - $sum_equity_debit,2,'.',',');
                                         echo 'Cr';
                                     }
                                 @endphp
@@ -304,15 +304,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $oResultLiabilitie->ledger_name }}</td>
-                                <td>{{ $oResultLiabilitie->debit }}</td>
-                                <td>{{ $oResultLiabilitie->credit }}</td>
+                                <td>{{ number_format($oResultLiabilitie->debit,2,'.',',') }}  </td>
+                                <td>{{  number_format($oResultLiabilitie->credit,2,'.',',') }} </td>
                                 <td>
                                     @php
                                         if($oResultLiabilitieDebit > $oResultLiabilitieCredit){
-                                            echo $oResultLiabilitieDebit - $oResultLiabilitieCredit;
+                                            echo  number_format($oResultLiabilitieDebit - $oResultLiabilitieCredit,2,'.',',');
                                             echo 'De';
                                         }else{
-                                            echo $oResultLiabilitieCredit - $oResultLiabilitieDebit;
+                                            echo  number_format($oResultLiabilitieCredit - $oResultLiabilitieDebit,2,'.',',');
                                             echo 'Cr';
                                         }
                                     @endphp
@@ -321,15 +321,15 @@
                         @endforeach
                         <tr  class="table-secondary" >
                             <th>Total:</th>
-                            <th>Debit: {{ $sum_liability_debit }}</th>
-                            <th>Credit: {{ $sum_liability_credit }}</th>
+                            <th>Debit: {{  number_format($sum_liability_debit,2,'.',',') }} </th>
+                            <th>Credit: {{  number_format($sum_liability_credit,2,'.',',') }} </th>
                             <th>
                                 @php
                                     if($sum_liability_debit > $sum_liability_credit){
-                                        echo $sum_liability_debit - $sum_liability_credit;
+                                        echo  number_format($sum_liability_debit - $sum_liability_credit,2,'.',',');
                                         echo 'De';
                                     }else{
-                                        echo $sum_liability_credit - $sum_liability_debit;
+                                        echo  number_format($sum_liability_credit - $sum_liability_debit,2,'.',',');
                                         echo 'Cr';
                                     }
                                 @endphp
@@ -359,15 +359,15 @@
                         @endphp
                         <tr>
                             <td>{{ $particulars }}</td>
-                            <td>{{ $final_sum_credit > $final_sum_debit ? $number_format_balance : '' }}</td>
-                            <td>{{ $final_sum_debit > $final_sum_credit ? $number_format_balance : '' }}</td>
+                            <td>{{ $final_sum_credit > $final_sum_debit ? $number_format_balance : '' }}  </td>
+                            <td>{{ $final_sum_debit > $final_sum_credit ? $number_format_balance : '' }}  </td>
                             <td>&nbsp;</td>
                         </tr>
                     @endif
                     <tr  class="table-secondary" >
                         <th>Final Total:</th>
-                        <th>Debit: {{ $sum_debit }}</th>
-                        <th>Credit: {{ $sum_credit }}</th>
+                        <th>Debit: {{ number_format($sum_debit,2,'.',',') }} </th>
+                        <th>Credit: {{ number_format($sum_credit,2,'.',',')}} </th>
                         <th>&nbsp;</th>
                     </tr>
                 </table>

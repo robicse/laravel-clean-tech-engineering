@@ -134,6 +134,10 @@
                                         <td style="text-align: right;font-size: 16px;"><b>Served By:</b></td>
                                         <td style="text-align: right;font-size: 16px;">{{\Illuminate\Support\Facades\Auth::user()->name}}</td>
                                     </tr>
+                                    <tr>
+                                        <td style="text-align: right;font-size: 16px;"><b>Date:</b></td>
+                                        <td style="text-align: right;font-size: 16px;">{{$stockTransfer->receive_date}}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -164,11 +168,17 @@
                                 <td>{{$stockTransferDetail->product->product_brand->name}}</td>
                                 <td>{{$stockTransferDetail->price}}</td>
                                 <td>
+                                    @php
+                                        $sub_total=$stockTransferDetail->qty*$stockTransferDetail->price;
+                                        $sum_sub_total += $sub_total;
+
+                                    @endphp
                                     {{$stockTransferDetail->sub_total}}
                                 </td>
                             </tr>
                             </tr>
                         @endforeach
+
                         <tr >
                             <td colspan="3" style="border: none">&nbsp;</td>
                             <td style="border: none">&nbsp;</td>
@@ -177,13 +187,13 @@
                         <tr >
                             <th colspan="4"  style="border: none">&nbsp;</th>
                             <th  style="border: none;text-align: right;font-size: 16px">Subtotal:</th>
-                            <th  style="border: none"> {{$stockTransferDetail->sub_total}}</th>
+                            <th  style="border: none"> {{$sum_sub_total}}</th>
                         </tr>
 
                         </tbody>
                     </table>
                     <div class="write">
-                        <p class="lead"><b>In Word : {{ucwords($digit->format( $stockTransferDetail->sub_total))}} Only </b></p>
+                        <p class="lead"><b>In Word : {{ucwords($digit->format($sum_sub_total))}} Only </b></p>
                     </div>
                     <div class="row" style="margin-top: 150px">
                         <!-- accepted payments column -->

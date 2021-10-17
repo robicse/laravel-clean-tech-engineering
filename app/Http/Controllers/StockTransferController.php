@@ -116,13 +116,14 @@ class StockTransferController extends Controller
         $stock_transfer->delivery_service_charge = $request->delivery_service_charge;
         $stock_transfer->discount_type = $request->discount_type;
         $stock_transfer->discount_amount = $request->discount_amount;
-        $stock_transfer->total_amount = $total_amount;
+        $stock_transfer->total_amount =$request->total_amount;
         $stock_transfer->paid_amount = $request->paid_amount;
         $stock_transfer->due_amount = $request->due_amount;
         $stock_transfer->receive_user_id = Auth::id();
         $stock_transfer->receive_date = $date;
         $stock_transfer->receive_remarks = $request->remarks;
         $stock_transfer->receive_status = 'received';
+        //dd($stock_transfer);
         $stock_transfer->save();
         $insert_id = $stock_transfer->id;
         if($insert_id)
@@ -133,12 +134,15 @@ class StockTransferController extends Controller
                 $stock_transfer_detail = new StockTransferDetail();
                 $stock_transfer_detail->stock_transfer_id = $insert_id;
                 $stock_transfer_detail->product_category_id = $request->product_category_id[$i];
-                $stock_transfer_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
+//                $stock_transfer_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
                 $stock_transfer_detail->product_brand_id = $request->product_brand_id[$i];
                 $stock_transfer_detail->product_id = $request->product_id[$i];
                 $stock_transfer_detail->qty = $request->qty[$i];
                 $stock_transfer_detail->price = $request->price[$i];
+                $stock_transfer_detail->wholeSale_price = $request->wholeSale_price[$i];
+                $stock_transfer_detail->mrp_price = $request->mrp_price[$i];
                 $stock_transfer_detail->sub_total = $request->qty[$i]*$request->price[$i];
+                //dd($stock_transfer_detail);
                 $stock_transfer_detail->save();
 
                 $product_id = $request->product_id[$i];
@@ -228,6 +232,14 @@ class StockTransferController extends Controller
         $price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
             ->where('store_id',$store_id)->where('product_id',$product_id)
             ->max('product_purchase_details.price');
+
+        $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+            ->where('store_id',$store_id)->where('product_id',$product_id)
+            ->max('product_purchase_details.mrp_price');
+
+        $wholeSale_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+            ->where('store_id',$store_id)->where('product_id',$product_id)
+            ->max('product_purchase_details.wholeSale_price');
         //->pluck('product_purchase_details.mrp_price')
         //->first();
 
@@ -237,6 +249,8 @@ class StockTransferController extends Controller
         $product_unit_id = Product::where('id',$product_id)->pluck('product_unit_id')->first();
         $options = [
             'price' => $price,
+            'mrp_price' => $mrp_price,
+            'wholeSale_price' => $wholeSale_price,
             'current_stock' => $current_stock,
             'categoryOptions' => '',
             'subCategoryOptions' => '',

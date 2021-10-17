@@ -98,10 +98,15 @@
             var current_sale_qty = $('#qty_'+current_row).val();
             //console.log('current_sale_qty = ' + current_sale_qty);
             //console.log('current_sale_qty= ' + typeof current_sale_qty);
+
+            var check_purchase_return_qty = $('#check_purchase_return_qty_'+current_row).val();
             current_return_qty = parseInt(current_return_qty);
             //console.log('current_return_qty= ' + typeof current_return_qty);
             current_sale_qty = parseInt(current_sale_qty);
             //console.log('current_sale_qty= ' + typeof current_sale_qty);
+            if(check_purchase_return_qty > 0){
+                current_sale_qty -= check_purchase_return_qty
+            }
             if(current_return_qty > current_sale_qty){
                 alert('You have limit cross of stock qty!');
                 $('#return_qty_'+current_row).val(0);

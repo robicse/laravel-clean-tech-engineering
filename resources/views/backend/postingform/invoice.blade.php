@@ -147,8 +147,8 @@
 {{--                                                    <th>{{$transaction_info->group_1}}</th>--}}
                                                     <th>{{$transaction_info->group_3}}.{{$transaction_info->group_4}}</th>
                                                     <th>{{$transaction_info->ledger_name}}</th>
-                                                    <th>{{$transaction_info->debit ? $transaction_info->debit : ''}}</th>
-                                                    <th>{{$transaction_info->credit ? $transaction_info->credit : ''}}</th>
+                                                    <th>{{$transaction_info->debit ? number_format( $transaction_info->debit,2,'.',',') : ''}}</th>
+                                                    <th>{{$transaction_info->credit ? number_format( $transaction_info->credit,2,'.',',')  : ''}}</th>
                                                 </tr>
                                             @endforeach
                                         @endif
@@ -156,7 +156,7 @@
                                             <th colspan="2">{{$postingFormsId->description}}</th>
 
                                             <th></th>
-                                            <th>Total Amount: {{$sum_credit}}</th>
+                                            <th>Total Amount: {{number_format($sum_credit,2,'.',',')}}</th>
                                         </tr>
                                     </table>
                                 </div>

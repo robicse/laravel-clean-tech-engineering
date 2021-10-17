@@ -47,12 +47,12 @@
                             <td>{{ $productPurchaseReturn->created_at}}</td>
                             <td class="d-inline-flex">
                                 <a href="{{ route('productPurchaseReturns.show',$productPurchaseReturn->id) }}" class="btn btn-sm btn-info float-left" style="margin-left: 5px">Show</a>
-                                <a href="{{ route('productPurchaseReturns.edit',$productPurchaseReturn->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                <form method="post" action="{{ route('productPurchaseReturns.destroy',$productPurchaseReturn->id) }}" >
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>
-                                </form>
+{{--                                <a href="{{ route('productPurchaseReturns.edit',$productPurchaseReturn->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>--}}
+{{--                                <form method="post" action="{{ route('productPurchaseReturns.destroy',$productPurchaseReturn->id) }}" >--}}
+{{--                                    @method('DELETE')--}}
+{{--                                    @csrf--}}
+{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
+{{--                                </form>--}}
                             </td>
                         </tr>
                             @endforeach

@@ -23,6 +23,7 @@
                             <th width="12%">Brand</th>
                             <th width="12%">Product</th>
                             <th width="12%">Current Stock</th>
+                            <th width="12%"> Individual Price</th>
                             <th width="12%"> Price</th>
 
 
@@ -67,6 +68,7 @@
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
 {{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
+                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>
                                 <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>
 
                             </tr>
@@ -75,6 +77,7 @@
                         </tbody>
                         <div class="tile-footer">
                             <tr style="color: red">
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

@@ -54,12 +54,31 @@ class TransactionController extends Controller
         return view('backend.transaction.index', compact('stores','store_id','transactions','start_date','end_date'));
     }
 
-    public function lossProfit(Request $request){
-        //dd($productPurchaseDetails);
+    public function lossProfitStore(Request $request){
+
+        $stores = Store::all();
+        return view('backend.transaction.transaction_loss_profit_store', compact('stores'));
+    }
+    public function lossProfitdup(Request $request){
+        //dd($request->all());
+        $store_id = $request->store_id ? $request->store_id : '' ;
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
+
+        return view('backend.transaction.loss_profit_dup', compact('start_date','end_date','store_id'));
+    }
+
+    public function lossProfit(Request $request){
+        //dd($request->all());
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
+        if($start_date && $end_date) {
+            $transactions = Transaction::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+        } else {
+            $transactions = Transaction::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+        }
         $stores = Store::all();
-        return view('backend.transaction.loss_profit', compact('stores','start_date','end_date'));
+        return view('backend.transaction.loss_profit', compact('stores','start_date','end_date','transactions'));
     }
 
     public function deliveryList(){

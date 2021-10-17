@@ -68,7 +68,7 @@
                         <td> @php
                                 $get_data = sales_income_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $sales_income_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -83,7 +83,7 @@
                         <td> @php
                                 $get_data = account_receivable_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $account_receivable_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -95,7 +95,8 @@
                     <tr>
                         <td>Recipt Against Sale</td>
                         <td> @php
-                               echo $total_receipt =  $sales_income_for_cashFlow_statement - $account_receivable_for_cashFlow_statement;
+                                $total_receipt =  $sales_income_for_cashFlow_statement - $account_receivable_for_cashFlow_statement;
+                                  echo  number_format($total_receipt,2,'.',',')
                             @endphp
                         </td>
                         <td></td>
@@ -108,7 +109,7 @@
                                 $get_data = service_income_for_cashFlow_statement($date_from,$date_to);
 
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                        {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $service_income_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -121,7 +122,7 @@
                         <td> @php
                                 $get_data = advancedReceivedAgaintsSales_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                           {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $advancedReceivedAgaintsSales_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -134,12 +135,17 @@
                     <tr class="table-secondary" style="font-size: 20px;font-style: italic" >
                         <td>Cash Received From Customer</td>
                         <td>
-                            @php echo
+                            @php
                             $cash_receive_from_customer =  $total_receipt+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
+                               echo number_format($cash_receive_from_customer,2,'.',',');
                             @endphp
                           </td>
-                        <td> @php echo
+                        <td> @php
                             $cash_receive_from_customer =  $total_receipt+$service_income_for_cashFlow_statement+$advancedReceivedAgaintsSales_for_cashFlow_statement;
+
+                            echo number_format($cash_receive_from_customer,2,'.',',');
+
+
                             @endphp</td>
                         <td></td>
                     </tr>
@@ -148,7 +154,7 @@
                         <td>@php
                                 $get_data = loan_and_advances_AOR_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                                {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_AOR_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -162,7 +168,7 @@
                         <td>@php
                                 $get_data = loan_and_advances_AAP_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $loan_and_advances_AAP_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -178,7 +184,7 @@
                                 $get_data = purchase_account_for_cashFlow_statement($date_from,$date_to);
                             @endphp
                             @if(!empty($get_data))
-                                {{$get_data->debit}}De
+                               {{number_format($get_data->debit,2,'.',',')}} De
                                 @php
                                     $purchase_account_for_cashFlow_statement +=$get_data->debit;
                                 @endphp
@@ -198,7 +204,7 @@
                         <td>@php
                                 $get_data = account_payable_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $account_payable_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -211,8 +217,8 @@
                         <td>Paid Against Purchase</td>
                         <td>
                         @php
-                       echo $total_paid_against_purchase =$purchase_account_for_cashFlow_statement - $account_payable_for_cashFlow_statement;
-
+                        $total_paid_against_purchase =$purchase_account_for_cashFlow_statement - $account_payable_for_cashFlow_statement;
+                            echo number_format($total_paid_against_purchase,2,'.',',');
                             @endphp
 
                         </td>
@@ -224,7 +230,7 @@
                         <td>@php
                                 $get_data = purchase_installation_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $purchase_installation_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -238,7 +244,7 @@
                         <td>@php
                                 $get_data = service_expense_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $service_expense_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -252,7 +258,7 @@
                         <td>@php
                                 $get_data = carrying_expense_statement_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $carrying_expense_statement_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -265,7 +271,7 @@
                         <td>@php
                                 $get_data = godwon_storage_statement_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $godwon_storage_statement_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -277,20 +283,20 @@
                         <td>Cash Paid To Supplier</td>
                         <td>
                             @php
-                            echo
+
                             - $total_cash_paid_to_supplier =
                              $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
                         $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
-
+                            echo    number_format(- $total_cash_paid_to_supplier,2,'.',',');
                             @endphp
 
                           </td>
                         <td> @php
-                                echo
+
                                - $total_cash_paid_to_supplier =
                                  $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
                             $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
-
+                             echo    number_format(- $total_cash_paid_to_supplier,2,'.',',');
                             @endphp</td>
                         <td></td>
                     </tr>
@@ -317,7 +323,7 @@
                         <td>@php
                                 $get_data = admin_expense_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $admin_expense_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -331,7 +337,7 @@
                         <td>@php
                                 $get_data = selling_MKT_Expense1_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $selling_MKT_Expense1_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -344,7 +350,7 @@
                         <td>@php
                                 $get_data = selling_MKT_Expense_for_cashFlow_statement($date_from,$date_to);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
                             @php
                                 $selling_MKT_Expense_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -357,17 +363,16 @@
                         <td>Cash Paid For Others Operating Expenses</td>
                         <td>
                             @php
-                                echo
+
                                - $total_cash_paid_for_expense =
                                   $admin_expense_for_cashFlow_statement + $selling_MKT_Expense1_for_cashFlow_statement + $selling_MKT_Expense_for_cashFlow_statement;
-
+                                     echo    number_format(- $total_cash_paid_for_expense,2,'.',',');
                             @endphp
                           </td>
                         <td> @php
-                                echo
                                - $total_cash_paid_for_expense =
                                   $admin_expense_for_cashFlow_statement + $selling_MKT_Expense1_for_cashFlow_statement + $selling_MKT_Expense_for_cashFlow_statement;
-
+                                echo    number_format(- $total_cash_paid_for_expense,2,'.',',');
                             @endphp</td>
                         <td></td>
                     </tr>
@@ -375,16 +380,16 @@
                         <td><b>Cashflow from  Operating Activities: </b></td>
                         <td>
                             @php
-                            echo
-                            $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
 
+                            $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
+                            echo    number_format( $cashflow_from_operating,2,'.',',');
                             @endphp
                             </td>
                         <td>
                             @php
-                                echo
-                                $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
 
+                                $cashflow_from_operating = $total_cash - $total_cash_paid_for_expense;
+                            echo    number_format( $cashflow_from_operating,2,'.',',');
                             @endphp
                         </td>
                         <td></td>
@@ -414,7 +419,7 @@
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
 
                                 //$tangible_assets_plant_and_machinery_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -448,7 +453,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
 
                                 //$tangible_assets_furniture_and_fixture_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -481,7 +486,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
                                 //$tangible_assets_vehicle_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
@@ -514,7 +519,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
                                 //$tangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
@@ -546,7 +551,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
                                 //$intangible_assets_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
 
@@ -556,8 +561,13 @@ $cash_paid_on_plus_minus = "";
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Investment Activities: </b></td>
-                        <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
-                        <td>@php echo $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on @endphp</td>
+                        <td>@php  $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on;
+                            echo number_format( $cash_from_invest,2,'.',',');
+                            @endphp
+                        </td>
+                        <td>@php  $cash_from_invest= $cash_paid_on_plus_minus.$sum_cash_paid_on;
+                            echo number_format( $cash_from_invest,2,'.',',');
+                            @endphp</td>
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_cash_paid_on}}</td>--}}
                         <td></td>
                     </tr>
@@ -586,7 +596,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
                             @endphp
 
                         </td>
@@ -617,7 +627,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign .number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre'];
                             @endphp
 
                         </td>
@@ -648,7 +658,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
                             @endphp
 
                         </td>
@@ -679,7 +689,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
                             @endphp
 
                         </td>
@@ -710,7 +720,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
                             @endphp
 
                         </td>
@@ -741,7 +751,7 @@ $cash_paid_on_plus_minus = "";
                                 }else{
                                 $sign = '';
                                 }
-                                echo $sign . $get_data['PreBalance']." ".$get_data['preDebCre'];
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
                             @endphp
 
                         </td>
@@ -750,8 +760,12 @@ $cash_paid_on_plus_minus = "";
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Financing Activities: </b></td>
-                        <td>@php echo $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on @endphp</td>
-                        <td>@php echo $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on @endphp</td>
+                        <td>@php  $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                                   echo number_format($cash_from_finance,2,'.',',');
+                            @endphp</td>
+                        <td>@php  $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                             echo number_format($cash_from_finance,2,'.',',');
+                             @endphp</td>
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
                         <td></td>
@@ -760,9 +774,9 @@ $cash_paid_on_plus_minus = "";
                         <td><b>Net Cash Increase/Decrease : </b></td>
                         <td></td>
                         <td>@php
-                            echo
-                              $net_cash = $cashflow_from_operating+$cash_from_invest+$cash_from_finance;
 
+                              $net_cash = $cashflow_from_operating+$cash_from_invest+$cash_from_finance;
+                              echo number_format($net_cash,2,'.',',');
                             @endphp
                         </td>
                         <td></td>
@@ -777,7 +791,7 @@ $cash_paid_on_plus_minus = "";
                         <td>@php
                                 $get_data = cash_in_hands_for_cashFlow_statement($date_from);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $cash_in_hands_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -791,7 +805,7 @@ $cash_paid_on_plus_minus = "";
                         <td>@php
                                 $get_data = cash_at_bank_for_cashFlow_statement($date_from);
                             @endphp
-                            {{$get_data['PreBalance']}} {{$get_data['preDebCre']}}
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}   {{$get_data['preDebCre']}}
                             @php
                                 $cash_at_bank_for_cashFlow_statement +=$get_data['PreBalance'];
                             @endphp
@@ -803,25 +817,29 @@ $cash_paid_on_plus_minus = "";
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Beginning Cash And Cash Equivalent: </b></td>
                         <td>    @php
-                            echo
+
                                 $closing =$cash_in_hands_for_cashFlow_statement+$cash_at_bank_for_cashFlow_statement;
+                                echo   number_format($closing,2,'.',',');
                             @endphp</td>
                         <td>    @php
                             echo
                                 $closing =$cash_in_hands_for_cashFlow_statement+$cash_at_bank_for_cashFlow_statement;
+                            echo   number_format($closing,2,'.',',');
                             @endphp</td>
                         <td></td>
                     </tr>
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Closing Cash And Cash Equivalent: </b></td>
                         <td>    @php
-                            echo
+
                                 $finalClosing =$closing+$net_cash;
+                             echo   number_format($finalClosing,2,'.',',');
                             @endphp</td>
                         <td>
                             @php
-                            echo
+
                                 $finalClosing =$closing+$net_cash;
+                             echo   number_format($finalClosing,2,'.',',');
                             @endphp
                         </td>
                         <td></td>

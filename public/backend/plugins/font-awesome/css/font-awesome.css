@@ -1665,11 +1665,14 @@
   content: "\f203";
 }
 .fa-toggle-off:before {
-  content: "\f204";
-}
-.fa-toggle-on:before {
   content: "\f205";
 }
+.fa-toggle-on:before {
+  content: "\f204";
+}
+/*.fa-toggle-on:before {*/
+/*  content: "\f205";*/
+/*}*/
 .fa-bicycle:before {
   content: "\f206";
 }

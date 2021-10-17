@@ -100,13 +100,19 @@
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Date <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
-                                <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
+                                <input type="date" name="date" class="form-control" value="{{$productSale->date}}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Note</label>
                             <div class="col-md-8">
                                 <input type="text" name="note" class="form-control" value="{{$productSale->note}}" placeholder="Note">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Descriptions</label>
+                            <div class="col-md-8">
+                                <textarea name="conditions" id="conditions" class="form-control"  rows="3">{!! $productSale->conditions!!}</textarea>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -307,8 +313,10 @@
 @endsection
 
 @push('js')
-    <script>
+    <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
 
+    <script>
+        CKEDITOR.replace( 'conditions' );
         function totalAmount(){
             var t = 0;
             $('.amount').each(function(i,e){

@@ -18,4 +18,8 @@ class ProductPurchaseReturn extends Model
     {
         return $this->belongsTo('App\Party');
     }
+    public function product()
+    {
+        return $this->belongsTo('App\Product');
+    }
 }
