@@ -20,11 +20,11 @@
             </ul>
 
         </div>
-        @php
-            echo '<pre>';
-        print_r(Auth::User()->getRoleNames()[0]);
-            echo '</pre>';
-        @endphp
+{{--        @php--}}
+{{--            echo '<pre>';--}}
+{{--             print_r(Auth::User()->getRoleNames()[0]);--}}
+{{--            echo '</pre>';--}}
+{{--        @endphp--}}
         <div class="row">
             <div class="col-md-12">
                 <h1 class="text-center">Quick Create</h1>

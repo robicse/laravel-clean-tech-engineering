@@ -64,6 +64,7 @@
                     @endphp
 {{--                    <tr style="display: none">--}}
                     <tr>
+
                         <td>Received Against Sale</td>
                         <td> @php
                                 $get_data = sales_income_for_cashFlow_statement($date_from,$date_to);
@@ -112,7 +113,9 @@
                         {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
                             @php
                                 $service_income_for_cashFlow_statement +=$get_data['PreBalance'];
+
                             @endphp
+
                         </td>
                         <td></td>
                         <td></td>
@@ -666,6 +669,37 @@ $cash_paid_on_plus_minus = "";
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Loan From Owner(L-t)</td>
+                        <td>@php
+                                $get_data = loan_from_owner_lt_for_cashFlow_statement($date_from,$date_to);
+                                $cash_paid_on_plus_minus = "";
+                                if($get_data['preDebCre'] == "De"){
+                                    $sign = "-";
+                                    $sum_financing_paid_on -= $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }elseif($get_data['preDebCre'] == "Cr"){
+                                    $sign = "+";
+                                    $sum_financing_paid_on += $get_data['PreBalance'];
+                                    if($sum_financing_paid_on < 0){
+                                        $cash_paid_on_plus_minus = "-";
+                                    }else{
+                                        $cash_paid_on_plus_minus = "+";
+                                    }
+                                }else{
+                                $sign = '';
+                                }
+                                echo $sign . number_format( $get_data['PreBalance'],2,'.',',')." ".$get_data['preDebCre']
+                            @endphp
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td>Loan From Other</td>
                         <td>@php
                                 $get_data = loan_from_other_for_cashFlow_statement($date_from,$date_to);
@@ -758,26 +792,36 @@ $cash_paid_on_plus_minus = "";
                         <td></td>
                         <td></td>
                     </tr>
+
                     <tr class="table-secondary" style="color: black;font-size: 20px;font-style: italic" >
                         <td><b>Cashflow from Financing Activities: </b></td>
-                        <td>@php  $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                        <td>@php  //$cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                                    $cash_from_finance= $sum_financing_paid_on;
+
                                    echo number_format($cash_from_finance,2,'.',',');
                             @endphp</td>
-                        <td>@php  $cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                        <td>@php  //$cash_from_finance= $cash_paid_on_plus_minus.$sum_financing_paid_on;
+                                    $cash_from_finance= $sum_financing_paid_on;
                              echo number_format($cash_from_finance,2,'.',',');
                              @endphp</td>
+
+
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
 {{--                        <td>{{$cash_paid_on_plus_minus}}{{$sum_financing_paid_on}}</td>--}}
                         <td></td>
                     </tr>
+
                     <tr class="table-secondary" style="color: black;font-size: 22px;" >
                         <td><b>Net Cash Increase/Decrease : </b></td>
                         <td></td>
-                        <td>@php
+                        <td>
+                            @php
 
                               $net_cash = $cashflow_from_operating+$cash_from_invest+$cash_from_finance;
                               echo number_format($net_cash,2,'.',',');
+
                             @endphp
+
                         </td>
                         <td></td>
                     </tr>

@@ -59,6 +59,7 @@
 
 
                     $loan_from_owner = 0;
+                    $loan_from_owner_lt = 0;
                     $account_payable = 0;
                     $loan_from_other = 0;
                     $advanced_receive_against_sale = 0;
@@ -481,6 +482,21 @@
                         <td></td>
                     </tr>
                     <tr>
+                        <td>Loan From Owners(L-T)</td>
+                        <td>
+                            @php
+                                $get_data = loan_from_owner_lt($date_from);
+                                //dd($get_data);
+                            @endphp
+                            {{number_format($get_data['PreBalance'],2,'.',',')}} {{$get_data['preDebCre']}}
+                            @php
+                                $loan_from_owner_lt +=$get_data['PreBalance'];
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
                         <td>Loan From Other</td>
                         <td>
                             @php
@@ -512,11 +528,11 @@
                     </tr>
                     <tr  style="color: black;font-size: 17px">
                         <td> <b>Total Liabilities</b></td>
-                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$loan_from_owner_lt+$account_payable;
                                     echo  number_format($liabilities,2,'.',',');
                             @endphp
                         </td>
-                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$account_payable;
+                        <td> @php   $liabilities=$advanced_receive_against_sale+$loan_from_other+$loan_from_owner+$loan_from_owner_lt+$account_payable;
                                     echo  number_format($liabilities,2,'.',',');
                             @endphp </td>
                         <td></td>

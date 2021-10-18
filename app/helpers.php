@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\DB;
 
-
-
-
 if (!function_exists('product_sale_return')) {
     function product_sale_return($store_id,$start_date= null, $end_date= null)
     {
@@ -134,9 +131,6 @@ if (!function_exists('product_sale_return_discount')) {
         return $sum_total_return_discount;
     }
 }
-
-
-
 
 
 if(!function_exists('check_sale_return_qty')) {
@@ -341,8 +335,6 @@ function service_income_statement($date_from, $date_to){
         'preDebCre' => 'De/Cr'
     ];
 
-//    $PreBalance=0;
-//    $preDebCre = 'De/Cr';
 
     if(!empty($gl_pre_valance_data))
     {

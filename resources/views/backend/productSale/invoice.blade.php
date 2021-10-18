@@ -148,7 +148,7 @@
                                                         @php
                                                             $sub_total=$productSaleDetail->qty*$productSaleDetail->price;
                                                             $sum_sub_total += $sub_total;
-                                                            $vatAmount = ($sum_sub_total*$productSale->vat_amount)/100;
+                                                            $vatAmount = (round($sum_sub_total*$productSale->vat_amount)/100);
                                                             $total_discount = (($sum_sub_total+$vatAmount+$productSale->transport_cost)*$productSale->discount_amount)/100;
                                                             //dd($total_discount);
                                                         @endphp
