@@ -180,7 +180,7 @@
                                                 @endphp
                                             <tr>
                                                 <td>{{$key + 1}}</td>
-                                                <td>{{$saleService->date}}</td>
+                                                <td>{{$saleService->start_date}}</td>
                                                 <td>   {{$customer_name}}</td>
                                                 <td>   {{$customer_phone}}</td>
                                                 <td>   {{$customer_address}}</td>

@@ -59,12 +59,11 @@
                         $service_expense_for_cashFlow_statement = 0;
                         $carrying_expense_statement_for_cashFlow_statement = 0;
                         $godwon_storage_statement_for_cashFlow_statement = 0;
+                        $loans_and_advances_statement_for_cashFlow_statement = 0;
 
 
                     @endphp
-{{--                    <tr style="display: none">--}}
-                    <tr>
-
+                    <tr style="display: none">
                         <td>Received Against Sale</td>
                         <td> @php
                                 $get_data = sales_income_for_cashFlow_statement($date_from,$date_to);
@@ -78,8 +77,7 @@
                         <td></td>
 
                     </tr>
-{{--                    <tr style="display: none">--}}
-                    <tr>
+                    <tr style="display: none">
                         <td>Accounts Receivale</td>
                         <td> @php
                                 $get_data = account_receivable_for_cashFlow_statement($date_from,$date_to);
@@ -180,8 +178,8 @@
                         <td></td>
                         <td></td>
                     </tr>
-{{--                    <tr style="display: none">--}}
-                    <tr>
+                    <tr style="display: none">
+
                         <td>Purchase Account</td>
                         <td>@php
                                 $get_data = purchase_account_for_cashFlow_statement($date_from,$date_to);
@@ -201,8 +199,8 @@
                         <td></td>
                         <td></td>
                     </tr>
-{{--                    <tr style="display: none">--}}
-                    <tr>
+
+                    <tr style="display: none">
                         <td> Accounts Payable</td>
                         <td>@php
                                 $get_data = account_payable_for_cashFlow_statement($date_from,$date_to);
@@ -216,7 +214,7 @@
                         <td></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr >
                         <td>Paid Against Purchase</td>
                         <td>
                         @php
@@ -282,6 +280,20 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>Loans & Advances(AAS)</td>
+                        <td>@php
+                                $get_data = loans_and_advances_statement_for_cashFlow_statement($date_from,$date_to);
+                            @endphp
+                            {{number_format($get_data['PreBalance'],2,'.',',')}}  {{$get_data['preDebCre']}}
+                            @php
+                                $loans_and_advances_statement_for_cashFlow_statement +=$get_data['PreBalance'];
+
+                            @endphp
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     <tr class="table-secondary" style="color: black;font-size: 17px;" >
                         <td>Cash Paid To Supplier</td>
                         <td>
@@ -289,7 +301,7 @@
 
                             - $total_cash_paid_to_supplier =
                              $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
-                        $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
+                        $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement+$loans_and_advances_statement_for_cashFlow_statement;
                             echo    number_format(- $total_cash_paid_to_supplier,2,'.',',');
                             @endphp
 
@@ -298,7 +310,7 @@
 
                                - $total_cash_paid_to_supplier =
                                  $loan_and_advances_AOR_for_cashFlow_statement + $loan_and_advances_AAP_for_cashFlow_statement +$total_paid_against_purchase +$purchase_installation_for_cashFlow_statement +
-                            $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement;
+                            $service_expense_for_cashFlow_statement + $carrying_expense_statement_for_cashFlow_statement +$godwon_storage_statement_for_cashFlow_statement+$loans_and_advances_statement_for_cashFlow_statement;
                              echo    number_format(- $total_cash_paid_to_supplier,2,'.',',');
                             @endphp</td>
                         <td></td>

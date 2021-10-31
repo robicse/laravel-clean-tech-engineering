@@ -120,9 +120,9 @@
                                 <tr>
                                     <th >ID</th>
                                     <th>Product <small class="requiredCustom">*</small></th>
-                                    <th style="display: none">Category</th>
+                                    <th >Category</th>
                                     <th style="display: none">Sub Category</th>
-                                    <th>Brand</th>
+                                    <th style="display: none">Brand</th>
                                     <th style="display: none">Unit</th>
                                     <th>Return</th>
                                     <th>Stock Qty</th>
@@ -136,7 +136,7 @@
                                 <tbody class="neworderbody">
                                 <tr>
                                     <td width="5%" class="no">1</td>
-                                    <td width="20%">
+                                    <td width="30%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
                                             <option value="">Select  Product</option>
                                             @foreach($products as $product)
@@ -144,7 +144,7 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td width="12%" style="display: none">
+                                    <td  width="5%">
                                         <div id="product_category_id_1">
                                             <select class="form-control product_category_id select2" name="product_category_id[]"  required>
                                                 <option value="">Select  Category</option>
@@ -154,7 +154,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%" style="display: none">
+                                    <td style="display: none">
                                         <div id="product_sub_category_id_1">
                                             <select class="form-control product_sub_category_id select2" name="product_sub_category_id[]">
                                                 <option value="">Select  Sub Category</option>
@@ -164,7 +164,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td style="display:none;">
                                         <div id="product_brand_id_1">
                                             <select class="form-control product_brand_id select2" name="product_brand_id[]" required>
                                                 <option value="">Select  Brand</option>
@@ -184,7 +184,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td width="12%">
+                                    <td width="10%">
                                         <select name="return_type[]" id="return_type_id_1" class="form-control" >
                                             <option value="returnable" selected>returnable</option>
                                             <option value="not returnable">not returnable</option>
@@ -209,7 +209,7 @@
                                 <tr>
                                     <th></th>
 
-                                    <th>
+                                    <th width="12%">
                                         Vat(Percentage):
                                         <input type="text" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')">
                                     </th>
@@ -551,10 +551,10 @@
                 var product = $('.product_id').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
-                    '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
+                    '<td width="30%"><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
+                    '<td><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                     '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
-                    '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
+                    '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                     '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                     '<td><select name="return_type[]" id="return_type_id_'+n+'" class="form-control" ><option value="returnable" selected>returnable</option><option value="not returnable">not returnable</option></select></td>' +
                     '<td><input type="number" id="stock_qty_'+n+'" class="stock_qty form-control" name="stock_qty[]" readonly></td>' +
