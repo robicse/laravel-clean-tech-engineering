@@ -55,8 +55,11 @@
                     @endphp
                     @if(!empty($productSales))
                     @foreach($productSales as $key => $productSale)
-
-
+                        @php
+                            $sum_total_amount += ($productSale->total_amount);
+                            $sum_paid_amount += ( $productSale->paid_amount );
+                            $sum_due_amount += $productSale->due_amount;
+                        @endphp
                         @php
                             $totalAmount =(($productSale->total_amount +$productSale->transport_cost));
                             //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);

@@ -109,7 +109,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Sale Date:</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->date}}</td>
+                                                    <td style="text-align: right;font-size: 16px;">{{$party->created_at->format('d/m/Y')}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Served By:</td>

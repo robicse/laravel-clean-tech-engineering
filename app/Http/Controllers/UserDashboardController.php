@@ -25,9 +25,9 @@ class   UserDashboardController extends Controller
         $category = SaleService::findOrFail($request->id);
         $category->status = $request->status;
         if($category->save()){
-            return 1;
+            return 0;
         }
-        return 0;
+        return 1;
     }
     public function editProfile(){
        return view('backend.user-dashboard.profile');
