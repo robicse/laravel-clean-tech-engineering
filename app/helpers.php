@@ -1,5 +1,7 @@
 <?php
 
+use App\StockMinusLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('product_sale_return')) {
@@ -2253,4 +2255,23 @@ function opening_statement($date_from, $date_to){
     //return $data['PreBalance'];
     return $data;
 }
+
+ function stock_minus_logs(){
+    $accessLog = new StockMinusLog();
+    $accessLog->user_id=Auth::user()->id;
+    $accessLog->action_module='Brand';
+    $accessLog->action_done='Create';
+    $accessLog->action_remarks='Brand ID: ';
+    $accessLog->action_date=date('Y-m-d');
+    $accessLog->save();
+    $insert_id = $accessLog->id;
+    if($insert_id){
+        return 1;
+    }else{
+        return 0;
+    }
+
+}
+
+
 ?>
