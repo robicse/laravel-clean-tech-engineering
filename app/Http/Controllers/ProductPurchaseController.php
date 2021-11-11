@@ -33,12 +33,19 @@ class ProductPurchaseController extends Controller
         $this->middleware('permission:product-purchase-delete', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
        // $productPurchases = ProductPurchase::where('purchase_product_type','Finish Goods')->latest()->get();
-        $productPurchases = ProductPurchase::latest()->get();
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
+        if($start_date && $end_date){
+            $productPurchases = ProductPurchase::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest()->get();
+        }else{
+            $productPurchases = ProductPurchase::latest()->get();
+        }
+
         //dd($productPurchases);
-        return view('backend.productPurchase.index',compact('productPurchases'));
+        return view('backend.productPurchase.index',compact('productPurchases','start_date','end_date'));
     }
 
 

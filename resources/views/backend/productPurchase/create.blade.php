@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <input type="button" class="btn btn-primary add " style="margin-left: 804px;" value="Add More Product">
+                            <input type="button" class="btn btn-primary add " style="margin-left: 804px; margin-bottom: 10px;" value="Add More Product">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
@@ -106,7 +106,7 @@
                                 <tbody class="neworderbody">
                                 <tr>
                                     <td width="5%" class="no">1</td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
                                             <option value="">Select  Product</option>
                                             @foreach($products as $product)
@@ -190,7 +190,7 @@
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                     </th>
-                                    <th>
+                                    <th width="15%">
                                         Due Amount:
                                         <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
                                     </th>

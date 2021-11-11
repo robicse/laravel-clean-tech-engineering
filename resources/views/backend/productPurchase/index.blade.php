@@ -12,6 +12,22 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
+                <form class="form-inline" action="{{ route('productPurchases.index') }}">
+                    @csrf
+                    <div class="form-group col-md-4">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" class=" form-control" value="{{$start_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" class=" form-control" value="{{$end_date}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        <a href="{!! route('productPurchases.index') !!}" class="btn btn-primary" type="button">Reset</a>
+                    </div>
+                </form>
+                <div>&nbsp;</div>
                 <h3 class="tile-title">Product Purchases Table</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">

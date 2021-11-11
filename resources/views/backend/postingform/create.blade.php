@@ -83,7 +83,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td id="ledger_id_1">
+                                <td width="20%" id="ledger_id_1">
                                     <select class="form-control ledger_id select2" name="ledger_id[]"  required>
                                         <option value="">Select Ledger Name</option>
                                         @foreach($ledgers as $ledger)
@@ -222,6 +222,7 @@
                     console.log(res.data)
                     //console.log(res.data.price)
                     $("#ledger_id_"+current_row).html(res.data.ledgerOptions);
+                    $('.select2').select2();
 
                 },
                 error : function (err){
@@ -249,6 +250,7 @@
                     console.log(err)
                 }
             })
+
         });
 
     </script>

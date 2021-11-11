@@ -23,7 +23,7 @@
                         <input type="date" name="end_date" class=" form-control" value="{{$end_date}}">
                     </div>
                     <div class="form-group col-md-4">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
                         <a href="{!! route('productSales.index') !!}" class="btn btn-primary" type="button">Reset</a>
                     </div>
                 </form>

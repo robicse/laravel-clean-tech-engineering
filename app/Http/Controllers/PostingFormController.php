@@ -248,7 +248,7 @@ class PostingFormController extends Controller
         if($ledgers){
             //$ledgers = Ledger::where('id',$ledger_id)->get();
             if(count($ledgers) > 0){
-                $options['ledgerOptions'] = "<select class='form-control' name='ledger_id[]'>";
+                $options['ledgerOptions'] = "<select class='form-control select2' name='ledger_id[]'>";
                 $options['ledgerOptions'] .= "<option value=''>Select One</option>";
                 foreach($ledgers as $ledger){
                     $options['ledgerOptions'] .= "<option value='$ledger->id'>$ledger->name</option>";
@@ -256,7 +256,7 @@ class PostingFormController extends Controller
                 $options['ledgerOptions'] .= "</select>";
             }
         }else{
-            $options['ledgerOptions'] = "<select class='form-control' name='ledger_id[]' readonly>";
+            $options['ledgerOptions'] = "<select class='form-control select2' name='ledger_id[]' readonly>";
             $options['ledgerOptions'] .= "<option value=''>No Data Found!</option>";
             $options['ledgerOptions'] .= "</select>";
         }
