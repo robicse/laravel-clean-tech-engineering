@@ -136,7 +136,7 @@
                                 <tbody class="neworderbody">
                                 <tr>
                                     <td width="5%" class="no">1</td>
-                                    <td width="30%">
+                                    <td width="15%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
                                             <option value="">Select  Product</option>
                                             @foreach($products as $product)
@@ -234,11 +234,11 @@
                                         <input type="hidden" id="store_total_amount" class="form-control">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount">
                                     </th>
-                                    <th>
+                                    <th width="15%">
                                         Paid Amount:
                                         <input type="text" id="paid_amount" class="getmoney form-control" onkeyup="paidAmount('')" name="paid_amount" value="0">
                                     </th>
-                                    <th>
+                                    <th width="15%">
                                         Due Amount:
                                         <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
                                     </th>
