@@ -12,6 +12,7 @@ use App\ProductPurchaseDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockMinusLog;
 use App\StockTransfer;
 use App\StockTransferDetail;
 use App\Store;
@@ -34,6 +35,12 @@ class StockTransferController extends Controller
 
     public function index()
     {
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
         if($auth_user == "Admin"){
@@ -170,6 +177,17 @@ class StockTransferController extends Controller
                 $stock->date = $date;
                 $stock->save();
 
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Stock Transfer Out';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Stock Transfer Out ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
+
                 // to stock / stock in
                 $check_previous_stock = Stock::where('store_id',$request->to_store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
                 if(!empty($check_previous_stock)){
@@ -190,6 +208,17 @@ class StockTransferController extends Controller
                 $stock->current_stock = $previous_stock + $request->qty[$i];
                 $stock->date = $date;
                 $stock->save();
+
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Stock Transfer In';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Stock Transfer In ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
         }
 

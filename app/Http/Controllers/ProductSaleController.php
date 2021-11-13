@@ -22,6 +22,7 @@ use App\SaleService;
 use App\SaleServiceDuration;
 use App\Service;
 use App\Stock;
+use App\StockMinusLog;
 use App\StockTransfer;
 use App\Transaction;
 use App\User;
@@ -56,6 +57,12 @@ class ProductSaleController extends Controller
 //        }else{
 //            $productSales = ProductSale::where('user_id',$auth_user_id)->latest()->get();
 //        }
+
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
 
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
@@ -220,6 +227,18 @@ class ProductSaleController extends Controller
                 $stock->stock_out = $request->qty[$i];
                 $stock->current_stock = $previous_stock - $request->qty[$i];
                 $stock->save();
+
+                //$cur_stock = -2;
+                if($stock->current_stock < 0){
+                //if($cur_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Sale';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Sale ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
             // due
@@ -397,7 +416,6 @@ For any queries call our support 09638-888 000";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
-        $productSale->discount_amount = $request->discount_amount;
         //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;
@@ -449,6 +467,18 @@ For any queries call our support 09638-888 000";
                 $new_stock_out = $previous_stock - $request_qty;
                 $stock_row->current_stock = $new_stock_out;
                 $stock_row->update();
+
+                //$cur_stock = -2;
+                if($stock_row->current_stock < 0){
+                    //if($cur_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Sale';
+                    $stock_minus_log->action_done='Update';
+                    $stock_minus_log->action_remarks='Sale ID: '.$id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
 

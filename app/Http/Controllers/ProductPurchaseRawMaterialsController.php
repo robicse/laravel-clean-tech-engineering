@@ -10,6 +10,7 @@ use App\ProductPurchase;
 use App\ProductPurchaseDetail;
 use App\ProductSubCategory;
 use App\Stock;
+use App\StockMinusLog;
 use App\Transaction;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
@@ -30,6 +31,12 @@ class ProductPurchaseRawMaterialsController extends Controller
 
     public function index()
     {
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
         $productPurchases = ProductPurchase::where('purchase_product_type','Raw Materials')->latest()->get();
         return view('backend.productPurchaseRawMaterial.index',compact('productPurchases'));
     }
@@ -119,6 +126,17 @@ class ProductPurchaseRawMaterialsController extends Controller
                 $stock->stock_out = 0;
                 $stock->current_stock = $previous_stock + $request->qty[$i];
                 $stock->save();
+
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Purchase Raw Materials';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Product Purchase Raw Material ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
             // transaction
@@ -258,6 +276,17 @@ class ProductPurchaseRawMaterialsController extends Controller
                 $stock_row->stock_in = $update_stock_in;
                 $stock_row->current_stock = $update_current_stock;
                 $stock_row->update();
+
+                // stock minus log
+                if($stock_row->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Purchase Raw Materials';
+                    $stock_minus_log->action_done='Update';
+                    $stock_minus_log->action_remarks='Product Purchase Raw Material ID: '.$id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
         }
 

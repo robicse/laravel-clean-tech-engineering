@@ -12,6 +12,7 @@ use App\ProductPurchaseDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockMinusLog;
 use App\Transaction;
 use Illuminate\Support\Facades\Auth;
 use App\Store;
@@ -35,7 +36,13 @@ class ProductPurchaseController extends Controller
 
     public function index(Request $request)
     {
-       // $productPurchases = ProductPurchase::where('purchase_product_type','Finish Goods')->latest()->get();
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
+        // $productPurchases = ProductPurchase::where('purchase_product_type','Finish Goods')->latest()->get();
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
         if($start_date && $end_date){
@@ -157,6 +164,17 @@ class ProductPurchaseController extends Controller
                 $stock->stock_out = 0;
                 $stock->current_stock = $previous_stock + $request->qty[$i];
                 $stock->save();
+
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Purchase';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Purchase ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
             // due
             $due = new Due();
@@ -313,6 +331,17 @@ class ProductPurchaseController extends Controller
                 $stock_row->stock_in = $update_stock_in;
                 $stock_row->current_stock = $update_current_stock;
                 $stock_row->update();
+
+                // stock minus log
+                if($stock_row->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Purchase';
+                    $stock_minus_log->action_done='Update';
+                    $stock_minus_log->action_remarks='Product Purchase ID: '.$id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
         }
         // due

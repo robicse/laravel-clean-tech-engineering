@@ -13,6 +13,7 @@ use App\ProductSaleReplacementDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockMinusLog;
 use App\Store;
 use App\Transaction;
 use Brian2694\Toastr\Facades\Toastr;
@@ -144,6 +145,17 @@ class ProductSaleReplacementController extends Controller
                     $stock->stock_out = $request->replace_qty[$i];
                     $stock->current_stock = $previous_stock - $request->replace_qty[$i];
                     $stock->save();
+
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Sale Replacement';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Sale Replacement ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
             }
         }
@@ -217,6 +229,17 @@ class ProductSaleReplacementController extends Controller
                     $stock_row->stock_out = $update_stock_out;
                     $stock_row->current_stock = $update_current_stock;
                     $stock_row->update();
+
+                    // stock minus log
+                    if($stock_row->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Sale Replacement';
+                        $stock_minus_log->action_done='Update';
+                        $stock_minus_log->action_remarks='Product Sale Replacement ID: '.$id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
 
 

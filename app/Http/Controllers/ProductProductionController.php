@@ -14,6 +14,7 @@ use App\ProductProductionDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockMinusLog;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,12 @@ class ProductProductionController extends Controller
 
     public function index()
     {
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
         $auth_user_id = Auth::user()->id;
         $auth_user = Auth::user()->roles[0]->name;
         if($auth_user == "Admin"){
@@ -144,6 +151,17 @@ class ProductProductionController extends Controller
                     $stock->stock_out = $request->qty[$i];
                     $stock->current_stock = $previous_stock - $request->qty[$i];
                     $stock->save();
+
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Production';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Production ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
 
                 // transaction
@@ -218,6 +236,17 @@ class ProductProductionController extends Controller
                     $stock->stock_out = 0;
                     $stock->current_stock = $previous_stock + $request->existing_qty;
                     $stock->save();
+
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Production';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Production ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
 
 
                     // transaction
@@ -309,6 +338,17 @@ class ProductProductionController extends Controller
                     $stock->stock_out = $request->qty[$i];
                     $stock->current_stock = $previous_stock - $request->qty[$i];
                     $stock->save();
+
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Production';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Production ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
 
                 // transaction
@@ -416,6 +456,17 @@ class ProductProductionController extends Controller
                         $stock->stock_out = 0;
                         $stock->current_stock = $previous_stock + $request->new_qty;
                         $stock->save();
+
+                        // stock minus log
+                        if($stock->current_stock < 0){
+                            $stock_minus_log = new StockMinusLog();
+                            $stock_minus_log->user_id=Auth::user()->id;
+                            $stock_minus_log->action_module='Product Production';
+                            $stock_minus_log->action_done='Store';
+                            $stock_minus_log->action_remarks='Product Production ID: '.$insert_id;
+                            $stock_minus_log->action_date=date('Y-m-d');
+                            $stock_minus_log->save();
+                        }
 
 
                         // transaction
@@ -559,6 +610,17 @@ class ProductProductionController extends Controller
                     $stock_row->stock_out = $update_stock_out;
                     $stock_row->current_stock = $update_current_stock;
                     $stock_row->update();
+
+                    // stock minus log
+                    if($stock_row->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Production';
+                        $stock_minus_log->action_done='Update';
+                        $stock_minus_log->action_remarks='Product Production ID: '.$id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
             }
 
@@ -622,6 +684,17 @@ class ProductProductionController extends Controller
                 $stock_row->stock_in = $update_stock_in;
                 $stock_row->current_stock = $update_current_stock;
                 $stock_row->update();
+
+                // stock minus log
+                if($stock_row->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Production';
+                    $stock_minus_log->action_done='Update';
+                    $stock_minus_log->action_remarks='Product Production ID: '.$id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
 

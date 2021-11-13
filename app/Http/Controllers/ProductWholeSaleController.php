@@ -17,6 +17,7 @@ use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\ProductUnit;
 use App\Stock;
+use App\StockMinusLog;
 use App\StockTransfer;
 use App\Store;
 use App\Transaction;
@@ -175,6 +176,17 @@ class ProductWholeSaleController extends Controller
                 $stock->stock_out = $request->qty[$i];
                 $stock->current_stock = $previous_stock - $request->qty[$i];
                 $stock->save();
+
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Whole Sale';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Sale ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
             // due
@@ -342,7 +354,6 @@ For any queries call our support 09638-888 000";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
-        $productSale->discount_amount = $request->discount_amount;
         $productSale->conditions = $request->conditions;
         //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount =$request->total_amount;
@@ -392,6 +403,17 @@ For any queries call our support 09638-888 000";
                 $new_stock_out = $previous_stock - $request_qty;
                 $stock_row->current_stock = $new_stock_out;
                 $stock_row->update();
+
+                // stock minus log
+                if($stock_row->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product Whole Sale';
+                    $stock_minus_log->action_done='Update';
+                    $stock_minus_log->action_remarks='Sale ID: '.$id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
 

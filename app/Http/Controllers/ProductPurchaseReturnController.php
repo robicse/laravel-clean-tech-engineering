@@ -8,6 +8,7 @@ use App\ProductPurchaseDetail;
 use App\ProductPurchaseReturn;
 use App\ProductPurchaseReturnDetail;
 use App\Stock;
+use App\StockMinusLog;
 use App\Store;
 use App\Transaction;
 use Brian2694\Toastr\Facades\Toastr;
@@ -27,6 +28,12 @@ class ProductPurchaseReturnController extends Controller
 
     public function index()
     {
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
         $productPurchaseReturns = ProductPurchaseReturn::all();
        // dd($productPurchaseReturns);
         return view('backend.productPurchaseReturn.index',compact('productPurchaseReturns'));
@@ -179,6 +186,17 @@ class ProductPurchaseReturnController extends Controller
                     $stock->current_stock = $previous_stock - $request->return_qty[$i];
                     $stock->date = date('Y-m-d');
                     $stock->save();
+
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Purchase Return';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Purchase Return ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
 
 //                    $current_stock_update = Stock::where('product_id',$product_id)->first();
 //                    $exists_current_stock = $current_stock_update->current_stock;

@@ -2256,7 +2256,7 @@ function opening_statement($date_from, $date_to){
     return $data;
 }
 
- function stock_minus_logs(){
+function stock_minus_logs(){
     $accessLog = new StockMinusLog();
     $accessLog->user_id=Auth::user()->id;
     $accessLog->action_module='Brand';
@@ -2270,8 +2270,11 @@ function opening_statement($date_from, $date_to){
     }else{
         return 0;
     }
-
 }
 
+
+function check_stock_minus_logs_exists(){
+    return StockMinusLog::get()->count();
+}
 
 ?>

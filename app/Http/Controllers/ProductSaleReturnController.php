@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Party;
 use App\ProductPurchase;
 use App\ProductPurchaseDetail;
+use App\StockMinusLog;
 use App\Store;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -244,6 +245,16 @@ class ProductSaleReturnController extends Controller
                     $stock->date = date('Y-m-d');
                     $stock->save();
 
+                    // stock minus log
+                    if($stock->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Sale Return';
+                        $stock_minus_log->action_done='Store';
+                        $stock_minus_log->action_remarks='Product Sale Return ID: '.$insert_id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
             }
 

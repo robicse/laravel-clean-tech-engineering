@@ -12,6 +12,7 @@ use App\ProductSale;
 use App\ProductSaleDetail;
 use App\ProductSubCategory;
 use App\Stock;
+use App\StockMinusLog;
 use App\Store;
 use App\Transaction;
 use Brian2694\Toastr\Facades\Toastr;
@@ -26,6 +27,12 @@ class ProductPosSaleController extends Controller
 {
     public function index()
     {
+        // just check where goes stock minus
+        if(check_stock_minus_logs_exists() > 0){
+            Toastr::warning('Stock went to minus, Please contact with administrator!', 'warning');
+            return redirect()->route('home');
+        }
+
         //Session::put('product_sale_id',14);
         Session::forget('product_sale_id');
 
@@ -320,6 +327,17 @@ class ProductPosSaleController extends Controller
                 $stock->stock_out = $content->qty;
                 $stock->current_stock = $previous_stock - $content->qty;
                 $stock->save();
+
+                // stock minus log
+                if($stock->current_stock < 0){
+                    $stock_minus_log = new StockMinusLog();
+                    $stock_minus_log->user_id=Auth::user()->id;
+                    $stock_minus_log->action_module='Product POOS Sale';
+                    $stock_minus_log->action_done='Store';
+                    $stock_minus_log->action_remarks='Sale ID: '.$insert_id;
+                    $stock_minus_log->action_date=date('Y-m-d');
+                    $stock_minus_log->save();
+                }
             }
 
             // due
