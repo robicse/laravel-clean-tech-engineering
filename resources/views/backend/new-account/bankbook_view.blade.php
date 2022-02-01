@@ -35,7 +35,7 @@
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h1>Bank Book</h1>
-                    <h4>{{$gl_pre_valance_data->ledger_name}}</h4>
+                    <h4>@if(!empty($gl_pre_valance_data)) {{$gl_pre_valance_data->ledger_name}} @endif</h4>
                     <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
