@@ -101,15 +101,19 @@
                                             <table>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Invoice No :</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->date}}{{$productSale->invoice_no}}</td>
+                                                    <td style="text-align: right;font-size: 16px; font-weight: bold">{{$productSale->invoice_no}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Sale Date:</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$productSale->date}}</td>
+                                                    <td style="text-align: right;font-size: 14px;">{{$productSale->date}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Served By:</td>
                                                         <td style="text-align: right;font-size: 16px;">{{$productSale->user->name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: right;font-size: 14px;"><b>Reference:</b></td>
+                                                    <td style="text-align: right;font-size: 14px;">{{$productSale->reference_name}}</td>
                                                 </tr>
                                             </table>
                                         </div>

@@ -101,13 +101,16 @@
 {{--                        <div class="page-header col-md-4" style="text-align: left">--}}
 {{--                            <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">--}}
 {{--                        </div>--}}
-                        <div class="col-md-12" style="text-align: left;">
+                        <div class="col-9" style="text-align: left;">
                             <h2 style="font-size:20px" >{{$store->name}}</h2>
                             <p style="margin: 0px;font-size: 16px">Corporate Office :{{$store->address}}</p>
                             <p style="margin: 0px;font-size: 16px"><b>Phone</b>: {{$store->phone}} </p>
                             <p style="margin: 0px;font-size: 16px"> <b>Email</b>: {{$store->email}}</p>
                             <p style="margin: 0px;font-size: 16px"> <b>Website</b>:{{$store->website}}</p>
                             <p style="margin: 0px;font-size: 16px"> Find us on {{$store->page}}</p>
+                        </div>
+                        <div class="col-2" >
+                            <b>Serial No: {{$productSale->invoice_count}}</b>
                         </div>
                     </div>
                     <div>&nbsp;
@@ -137,13 +140,12 @@
                                 <table>
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Invoice:</b></td>
-                                        <td style="text-align: right;font-size: 14px;">{{$productSale->date}}{{$productSale->invoice_no}}</td>
+                                        <td style="text-align: right;font-size: 16px; font-weight: bold">{{$productSale->invoice_no}}</td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Date:</b></td>
-                                        <td style="text-align: right;font-size: 16px;">{{$productSale->date}}</td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->date}}</td>
                                     </tr>
-
 
 {{--                                    <tr>--}}
 {{--                                        <td style="text-align: right;font-size: 14px;"><b> Phone:</b> </td>--}}
@@ -152,6 +154,10 @@
                                     <tr>
                                         <td style="text-align: right;font-size: 14px;"><b>Served By:</b></td>
                                         <td style="text-align: right;font-size: 14px;">{{$productSale->user->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;font-size: 14px;"><b>Reference:</b></td>
+                                        <td style="text-align: right;font-size: 14px;">{{$productSale->reference_name}}</td>
                                     </tr>
                                 </table>
                             </div>

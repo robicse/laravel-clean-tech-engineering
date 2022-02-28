@@ -108,6 +108,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Reference Name</label>
+                            <div class="col-md-8">
+                                <input type="text" name="reference_name" class="form-control" placeholder="Reference Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right">Descriptions</label>
                             <div class="col-md-8">
                                 <textarea name="conditions" id="conditions" class="form-control"  rows="3"></textarea>

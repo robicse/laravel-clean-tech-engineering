@@ -68,13 +68,56 @@ class ProductSaleController extends Controller
         $auth_user = Auth::user()->roles[0]->name;
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
-        if($start_date && $end_date) {
+        $reference_name = $request->reference_name ? $request->reference_name : '';
+        $sale_type = $request->sale_type == 'Select' ? null : $request->sale_type;
+
+        if ($reference_name && $start_date && $end_date && $sale_type){
             if ($auth_user == "Admin") {
-                $productSales = ProductSale::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
             } else {
-                $productSales = ProductSale::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
             }
-        }else{
+        }
+        elseif($start_date && $end_date && $reference_name && empty($sale_type)) {
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        elseif($start_date && $end_date && $sale_type && empty($reference_name)) {
+
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        elseif ($reference_name && $sale_type){
+
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('reference_name',$reference_name)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('reference_name',$reference_name)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        elseif ($reference_name){
+
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('reference_name',$reference_name)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('reference_name',$reference_name)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        elseif ($sale_type){
+
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
+        else{
             if ($auth_user == "Admin") {
                 $productSales = ProductSale::latest('id','desc')->get();
             } else {
@@ -82,7 +125,7 @@ class ProductSaleController extends Controller
             }
         }
         $serviceProviders = User::where('type','provider')->get();
-        return view('backend.productSale.index',compact('productSales','start_date','end_date','serviceProviders'));
+        return view('backend.productSale.index',compact('productSales','start_date','end_date','serviceProviders','reference_name','sale_type'));
     }
 
 
@@ -125,12 +168,12 @@ class ProductSaleController extends Controller
         {
             $product_id = $request->product_id[$i];
             $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
-           //dd($check_previous_stock);
+            //dd($check_previous_stock);
             if(!empty($check_previous_stock)){
                 if($check_previous_stock == 0)
                 {
                     Toastr::success('Product Stock Not Available', 'warning');
-                        return redirect()->back();
+                    return redirect()->back();
                 }
             }
         }
@@ -166,6 +209,7 @@ class ProductSaleController extends Controller
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->reference_name = $request->reference_name;
         $productSale->sale_type ="Retail Sale";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
@@ -230,7 +274,7 @@ class ProductSaleController extends Controller
 
                 //$cur_stock = -2;
                 if($stock->current_stock < 0){
-                //if($cur_stock < 0){
+                    //if($cur_stock < 0){
                     $stock_minus_log = new StockMinusLog();
                     $stock_minus_log->user_id=Auth::user()->id;
                     $stock_minus_log->action_module='Product Sale';
@@ -298,7 +342,7 @@ class ProductSaleController extends Controller
         }else{
             $customer_name = '';
             $customer_phone = '';
-           // $customer_id = '';
+            // $customer_id = '';
         }
         //dd($invoice_no);
         if($insert_id)
@@ -411,6 +455,7 @@ For any queries call our support 09638-888 000";
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->reference_name = $request->reference_name;
         $productSale->sale_type ="Retail Sale edit";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
@@ -575,7 +620,7 @@ For any queries call our support 09638-888 000";
     }
 
     public function Storeservice(Request $request ){
-         //dd($request->all());
+        //dd($request->all());
 
         $this->validate($request, [
             'service_id'=> 'required',
@@ -844,9 +889,10 @@ For any queries call our support 09638-888 000";
     }
     public function invoicePrint($id)
     {
-        // dd($id);
         $productSale = ProductSale::find($id);
-       // dd($productSale);
+        $productSale->invoice_count += 1;
+        $productSale->save();
+
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
@@ -1001,7 +1047,7 @@ Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.
 For any queries call our support 09638-888 000..";
         UserInfo::smsAPI("88".$parties->phone,$text_for_customer);
         if ($insert_id){
-           // $sdata['id'] = $insert_id;
+            // $sdata['id'] = $insert_id;
             $sdata['name'] = $parties->name;
             $sdata['email'] = $parties->email;
             $sdata['phone'] = $parties->phone;

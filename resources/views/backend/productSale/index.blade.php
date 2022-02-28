@@ -14,15 +14,28 @@
             <div class="tile">
                 <form class="form-inline" action="{{ route('productSales.index') }}">
                     @csrf
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="start_date">Start Date:</label>
                         <input type="date" name="start_date" class=" form-control" value="{{$start_date}}">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="end_date">End Date:</label>
                         <input type="date" name="end_date" class=" form-control" value="{{$end_date}}">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
+                        <label for="sale_type">Sale Type:</label>
+                        <select name="sale_type" class="form-control" style="width: 180px;">
+                            <option>Select</option>
+                            <option value="Retail Sale" {{ $sale_type == 'Retail Sale'? 'selected':''}}>Retail Sale</option>
+                            <option value="Whole Sale" {{ $sale_type == 'Whole Sale'? 'selected':''}}>Whole Sale</option>
+                        </select>
+{{--                        <input type="text" name="reference_name" class=" form-control" value="{{$reference_name}}">--}}
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="reference_name">Reference Name:</label>
+                        <input type="text" name="reference_name" class=" form-control" value="{{$reference_name}}">
+                    </div>
+                    <div class="form-group col-md-12 text-center" style="margin-left: 385px; margin-top: 25px;">
                         <button type="submit" class="btn btn-success mr-2">Submit</button>
                         <a href="{!! route('productSales.index') !!}" class="btn btn-primary" type="button">Reset</a>
                     </div>
@@ -43,6 +56,7 @@
                         <th>Total Amount</th>
                         <th>Paid Amount</th>
                         <th>Due Amount</th>
+                        <th>Reference Name</th>
                         <th>Provider</th>
                         <th>Action</th>
                     </tr>
@@ -85,6 +99,7 @@
                                 <a href="" class="btn btn-warning btn-sm mx-1" data-toggle="modal" data-target="#exampleModal-<?= $productSale->id;?>"> Pay Due</a>
                             @endif
                         </td>
+                        <td>{{ $productSale->reference_name}}</td>
                         @if(!empty($productSale->provider->name))
                         <td>{{ $productSale->provider->name}}</td>
                         @else

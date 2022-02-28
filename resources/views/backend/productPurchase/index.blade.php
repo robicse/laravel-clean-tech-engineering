@@ -36,6 +36,7 @@
                             <th width="5%">SL NO</th>
                             <th>Purchase User</th>
                             <th>Supplier</th>
+                            <th>Invoice Number</th>
                             <th>Total Amount</th>
                             <th>Paid Amount</th>
                             <th>Date</th>
@@ -55,6 +56,7 @@
                             <td>{{ $key+1 }}</td>
                             <td>{{ $productPurches->user->name}}</td>
                             <td>{{ $productPurches->party->name}}</td>
+                            <td>{{ $productPurches->invoice_no}}</td>
                             <td>{{ $productPurches->total_amount}}</td>
                             <td>{{ $productPurches->paid_amount}}</td>
                             <td>{{ $productPurches->date}}</td>

@@ -115,6 +115,7 @@ class ProductWholeSaleController extends Controller
         $productSale->store_id = $request->store_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->reference_name = $request->reference_name;
         $productSale->sale_type ="Whole Sale";
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';
         $productSale->discount_type = $request->discount_type;
@@ -229,7 +230,6 @@ class ProductWholeSaleController extends Controller
                 $freeProduct_sale_detail = new FreeProductSaleDetails();
                 $freeProduct_sale_detail->product_sale_id = $insert_id;
                 $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-                //dd($freeProduct_sale_detail);
                 $freeProduct_sale_detail->save();
             }
 
@@ -239,7 +239,6 @@ class ProductWholeSaleController extends Controller
             ->where('id',$request->party_id)
             ->select('parties.name','parties.phone','parties.id')
             ->first();
-        //dd($customer);
         if(!empty($customer)){
             $customer_name = $customer->name;
             $customer_phone = $customer->phone;
@@ -249,7 +248,7 @@ class ProductWholeSaleController extends Controller
             $customer_phone = '';
             $customer_id = '';
         }
-        //dd($customer_name);
+
         if($insert_id)
         {
             $text_for_customer = "Dear, $customer_name  Sir,Thank you for purchasing from CleanTech Engineering, Invoice Number is $invoice_no .Rate us on www.facebook.com/cleantechbd and order online from www.cleantech.com.bd
@@ -349,6 +348,7 @@ For any queries call our support 09638-888 000";
         $productSale->provider_id = $request->provider_id;
         $productSale->date = $request->date;
         $productSale->note = $request->note;
+        $productSale->reference_name = $request->reference_name;
         $productSale->sale_type ="Whole Sale edit";
         $productSale->online_platform_id = $request->online_platform_id;
         $productSale->online_platform_invoice_no = $request->online_platform_invoice_no ? $request->online_platform_invoice_no : '';

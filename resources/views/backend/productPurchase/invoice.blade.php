@@ -98,7 +98,7 @@
                                             <table>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Invoice No :</td>
-                                                    <td style="text-align: right;font-size: 16px;">{{$productPurchase->date}}{{$productPurchase->invoice_no}}</td>
+                                                    <td style="text-align: right;font-size: 16px;">{{$productPurchase->invoice_no}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="text-align: right;font-size: 16px;">Sale Date:</td>
@@ -112,7 +112,6 @@
                                         </div>
                                     </div>
                                     <!-- /.col -->
-
                                 </div>
                                 <!-- /.row -->
 
