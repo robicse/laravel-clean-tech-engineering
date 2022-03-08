@@ -229,20 +229,22 @@ class StockController extends Controller
         $stores = Store::all();
         return view('backend.stock.stock_summary', compact('stores'));
     }
-    public function stockSummary($store_id){
-//        $stocks = Stock::where('store_id',$store_id)
-//            ->whereIn('id', function($query) {
-//                $query->from('stocks')->groupBy('product_id')->selectRaw('MAX(id)');
-//            })->latest('id')->get();
-
+    public function stockSummary(Request $request,$store_id){
+        $start_date = $request->start_date ? $request->start_date : '';
+        $end_date = $request->end_date ? $request->end_date : '';
         $stock_id = DB::table('stocks')->where('store_id',$store_id)->groupBy('product_id')->selectRaw('MAX(id)');
-        $stock_qyery = Stock::where('store_id',$store_id);
-        $stock_qyery->whereIn('id',$stock_id);
-        $stock_qyery->latest('id');
-        $stocks = $stock_qyery->get();
-        //dd($stocks);
 
-        return view('backend.stock.stock_summary_details', compact('stocks'));
+        if($start_date && $end_date){
+            $stocks = Stock::where('store_id',$store_id)->whereIn('id',$stock_id)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id')->get();
+        }else{
+            $stocks = Stock::where('store_id',$store_id)->whereIn('id',$stock_id)->latest('id')->get();
+        }
+
+        return view('backend.stock.stock_summary_details', compact('stocks','store_id','start_date','end_date'));
+    }
+    public function stockSummaryInvoice($id){
+        $stock = Stock::find($id);
+        return view('backend.stock.stock_summary_invoice',compact('stock'));
     }
     public function stockLowList(){
         $stores = Store::all();

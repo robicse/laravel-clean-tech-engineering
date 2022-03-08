@@ -69,7 +69,7 @@ class ProductSaleController extends Controller
         $start_date = $request->start_date ? $request->start_date : '';
         $end_date = $request->end_date ? $request->end_date : '';
         $reference_name = $request->reference_name ? $request->reference_name : '';
-        $sale_type = $request->sale_type == 'Select' ? null : $request->sale_type;
+        $sale_type = $request->sale_type == 'All' ? null : $request->sale_type;
 
         if ($reference_name && $start_date && $end_date && $sale_type){
             if ($auth_user == "Admin") {

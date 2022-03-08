@@ -25,7 +25,7 @@
                     <div class="form-group col-md-3">
                         <label for="sale_type">Sale Type:</label>
                         <select name="sale_type" class="form-control" style="width: 180px;">
-                            <option>Select</option>
+                            <option>All</option>
                             <option value="Retail Sale" {{ $sale_type == 'Retail Sale'? 'selected':''}}>Retail Sale</option>
                             <option value="Whole Sale" {{ $sale_type == 'Whole Sale'? 'selected':''}}>Whole Sale</option>
                         </select>

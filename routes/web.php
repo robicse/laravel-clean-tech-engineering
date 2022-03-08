@@ -170,6 +170,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('stock_sync','StockController@stock_sync')->name('stock_sync');
 
     Route::get('stock-summary/{store_id}','StockController@stockSummary');
+    Route::get('stock-summary-invoice/{store_id}','StockController@stockSummaryInvoice')->name('stock-summary-invoice');
 
     Route::get('stock-low-list','StockController@stockLowList')->name('stock.low.list');
     Route::get('stock-low-list-details/{store_id}','StockController@stockLowListDEtails')->name('stock.low.list.details');

@@ -12,7 +12,23 @@
         </div>
         <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Stock Details</h3>
+                <form class="form-inline" action="{{ url('stock-summary/'.$store_id) }}">
+                    @csrf
+                    <div class="form-group col-md-3">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date" class=" form-control" value="{{$start_date}}">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date" class=" form-control" value="{{$end_date}}">
+                    </div>
+
+                    <div class="form-group col-md-3 text-center">
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        <a href="{{ url('stock-summary/'.$store_id) }}" class="btn btn-primary" type="button">Reset</a>
+                    </div>
+                </form>
+                <h3 class="tile-title mt-4">Stock Detail</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -25,6 +41,7 @@
                             <th width="12%">Current Stock</th>
                             <th width="12%"> Individual Price</th>
                             <th width="12%"> Price</th>
+                            <th width="12%"> Action</th>
 
 
                         </tr>
@@ -51,25 +68,23 @@
                                                     ->groupBy('product_sub_category_id')
                                                     ->groupBy('product_brand_id')
                                                     ->get();
-                                     //dd($productPurchaseDetails);
+
                                         if(!empty($productPurchaseDetails)){
                                             foreach($productPurchaseDetails as $key => $productPurchaseDetail){
-                                              // $purchase_average_price = $productPurchaseDetail->sub_total*$productPurchaseDetail->qty;
-                                                //dd($productPurchaseDetail);
-                                                //$sum_purchase_price += $productPurchaseDetail->sub_total;
+
                                                 $product_avrg_price = $productPurchaseDetail->sub_total/$productPurchaseDetail->qty;
                                                 $sum_price = $stock->current_stock*$product_avrg_price;
-                                                //dd($sum_price);
-
                                         }
                                             }
                                          $total_price += $sum_price;
-                                            //dd($total_price);
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
 {{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
                                 <td>{{number_format($product_avrg_price,2,".",",")}}</td>
                                 <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>
+                                <td>
+                                    <a href="{!! route('stock-summary-invoice',$stock->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
+                                </td>
 
                             </tr>
                         @endforeach
