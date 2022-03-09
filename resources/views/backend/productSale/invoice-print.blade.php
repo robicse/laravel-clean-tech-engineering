@@ -98,9 +98,9 @@
                 </style>
                 <div class="panel-body">
                     <div class="row  header-border" >
-{{--                        <div class="page-header col-md-4" style="text-align: left">--}}
-{{--                            <img src="{{ asset('uploads/invoice.png') }}" width="180px" height="150px" alt="header img">--}}
-{{--                        </div>--}}
+                        <div class="page-header col-md-4" style="float: right">
+                            <b>Copy No: {{$productSale->invoice_count}}</b>
+                        </div>
                         <div class="col-9" style="text-align: left;">
                             <h2 style="font-size:20px" >{{$store->name}}</h2>
                             <p style="margin: 0px;font-size: 16px">Corporate Office :{{$store->address}}</p>
@@ -108,9 +108,6 @@
                             <p style="margin: 0px;font-size: 16px"> <b>Email</b>: {{$store->email}}</p>
                             <p style="margin: 0px;font-size: 16px"> <b>Website</b>:{{$store->website}}</p>
                             <p style="margin: 0px;font-size: 16px"> Find us on {{$store->page}}</p>
-                        </div>
-                        <div class="col-2" >
-                            <b>Serial No: {{$productSale->invoice_count}}</b>
                         </div>
                     </div>
                     <div>&nbsp;

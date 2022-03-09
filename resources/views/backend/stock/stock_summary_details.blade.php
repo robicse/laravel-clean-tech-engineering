@@ -27,6 +27,9 @@
                         <button type="submit" class="btn btn-success mr-2">Submit</button>
                         <a href="{{ url('stock-summary/'.$store_id) }}" class="btn btn-primary" type="button">Reset</a>
                     </div>
+                    <div class="form-group col-md-3">
+                        <a href="{!! route('stock-summary-invoice',$store_id) !!}" target="__blank" class="btn btn-sm btn-warning" type="button">Invoice Print</a><br>
+                    </div>
                 </form>
                 <h3 class="tile-title mt-4">Stock Detail</h3>
                 <div class="table-responsive">
@@ -39,11 +42,8 @@
                             <th width="12%">Brand</th>
                             <th width="12%">Product</th>
                             <th width="12%">Current Stock</th>
-                            <th width="12%"> Individual Price</th>
-                            <th width="12%"> Price</th>
-                            <th width="12%"> Action</th>
-
-
+{{--                            <th width="12%"> Individual Price</th>--}}
+{{--                            <th width="12%"> Price</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -80,20 +80,14 @@
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
 {{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
-                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>
-                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>
-                                <td>
-                                    <a href="{!! route('stock-summary-invoice',$stock->id) !!}" target="__blank" class="btn btn-sm btn-warning" style="margin-left: 5px" type="button">Invoice Print</a><br>
-                                </td>
-
+{{--                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>--}}
+{{--                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>--}}
                             </tr>
                         @endforeach
 
                         </tbody>
                         <div class="tile-footer">
                             <tr style="color: red">
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

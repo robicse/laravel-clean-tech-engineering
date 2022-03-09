@@ -73,7 +73,6 @@ For more info contact 09638-888 000";
         $this->validate($request, [
             'name' => 'required'
         ]);
-
         $customer_complains =  CustomerComplain::find($id);
         $customer_complains->name = $request->name;
         $customer_complains->phone = $request->phone;

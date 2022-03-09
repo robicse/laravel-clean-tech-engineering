@@ -10,16 +10,6 @@
                 <li class="breadcrumb-item"> <a href="{!! route('party.create') !!}" class="btn btn-sm btn-primary" type="button">Add Customers</a></li>
             </ul>
         </div>
-{{--        <div class="card-body">--}}
-{{--            <form action="{{ route('customer.import') }}" method="POST" enctype="multipart/form-data">--}}
-{{--                @csrf--}}
-{{--                <input type="file" name="file" class="form-control">--}}
-{{--                <br>--}}
-{{--                <button class="btn btn-success" id="submit" onclick="sendMessage(); clearInput();">Import data</button>--}}
-{{--                <a class="btn btn-warning" href="{{ route('customer.export') }}">Export Data</a>--}}
-{{--                <a  class=" btn btn-info btn-sm" onclick="modal_customer()" data-toggle="modal">Sample Import</a>--}}
-{{--            </form>--}}
-{{--        </div>--}}
         <div class="col-md-12">
             <div class="tile">
                 <h3 class="tile-title">Whole Customers Table</h3>
@@ -39,18 +29,12 @@
                         @foreach($parties as $key => $party)
                         <tr>
                             <td>CTE0{{ $party->id }}</td>
-{{--                            <td>{{ $party->type}} </td>--}}
                             <td>Whole sale </td>
                             <td>{{ $party->name}}</td>
                             <td>{{ $party->phone}}</td>
                             <td>{{ $party->email}}</td>
                             <td>
                                 <a href="{{ route('party.edit',$party->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-{{--                                <form method="post" action="{{ route('party.destroy',$party->id) }}" >--}}
-{{--                                   @method('DELETE')--}}
-{{--                                    @csrf--}}
-{{--                                    <button class="btn btn-sm btn-danger" style="margin-left: 5px" type="submit" onclick="return confirm('You Are Sure This Delete !')"><i class="fa fa-trash"></i></button>--}}
-{{--                                </form>--}}
                             </td>
                         </tr>
                             @endforeach

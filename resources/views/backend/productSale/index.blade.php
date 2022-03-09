@@ -1,17 +1,14 @@
 @extends('backend._partial.dashboard')
 
 @section('content')
-    <main class="app-content">
+    <main class="app-content" >
         <div class="app-title">
             <div>
                 <h1><i class=""></i> All Product Sale</h1>
             </div>
-{{--            <ul class="app-breadcrumb breadcrumb">--}}
-{{--                <li class="breadcrumb-item"> <a href="{!! route('productSales.create') !!}" class="btn btn-sm btn-primary" type="button">Add Product Sales</a></li>--}}
-{{--            </ul>--}}
         </div>
-        <div class="col-md-12">
-            <div class="tile">
+
+            <div class="tile" >
                 <form class="form-inline" action="{{ route('productSales.index') }}">
                     @csrf
                     <div class="form-group col-md-3">
@@ -40,7 +37,6 @@
                         <a href="{!! route('productSales.index') !!}" class="btn btn-primary" type="button">Reset</a>
                     </div>
                 </form>
-                <div>&nbsp;</div>
 
                 <h3 class="tile-title">Product Sales Table</h3>
                 <table id="example1" class="table table-bordered table-striped table-responsive">
@@ -78,13 +74,19 @@
                             $totalAmount =(($productSale->total_amount +$productSale->transport_cost));
                             //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
                             $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
+                            $return = \App\ProductSaleReturn::where('sale_invoice_no',$productSale->invoice_no)->first()
 
                         @endphp
                     <tr>
                         <td>{{ ($key+1 )}}</td>
                         <td>{{ $productSale->user->name}}</td>
                         <td>{{ $productSale->date}}</td>
-                        <td>{{ $productSale->invoice_no}}</td>
+                        <td>
+                            {{ $productSale->invoice_no}}
+                            @if($return)
+                                <span class="badge badge-danger"> Returned </span>
+                            @endif
+                        </td>
                         @if(!empty($productSale->party->name))
                         <td>{{ $productSale->party->name}}.{{ $productSale->party->phone}}</td>
                         @else
@@ -186,10 +188,9 @@
                     <h3><strong><span style="margin-right: 50px;">Paid Amount: {{$sum_paid_amount}}</span></strong></h3>
                     <h3><strong><span style="margin-right: 50px;">Due Amount: {{$sum_due_amount}}</span></strong></h3>
                 </div>
-{{--                {{ $parties->links() }}--}}
             </div>
 
-        </div>
+
     </main>
 @endsection
 

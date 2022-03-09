@@ -315,7 +315,7 @@
                                             <div class="form-group row">
                                                 <label class="control-label col-md-3 text-right">Name <small class="requiredCustom">*</small></label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control" type="hidden" name="type" value="customer">
+                                                    <input class="form-control" type="hidden" name="type" value="own">
                                                     <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" placeholder="Customer Name" name="name" required>
                                                 </div>
                                             </div>

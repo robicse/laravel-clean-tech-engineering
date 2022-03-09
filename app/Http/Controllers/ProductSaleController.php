@@ -767,9 +767,10 @@ For any queries call our support 09638-888 000";
         $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
         $mrp_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
             ->where('store_id',$store_id)->where('product_id',$product_id)
-            ->max('product_purchase_details.mrp_price');
-        //->pluck('product_purchase_details.mrp_price')
-        //->first();
+//            ->max('product_purchase_details.mrp_price');
+            ->orderBy('product_purchase_details.id','DESC')
+        ->pluck('product_purchase_details.mrp_price')
+        ->first();
         //return response()->json(['success'=>true,'data'=>$mrp_price]);
         if($mrp_price == null){
             $mrp_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
@@ -1025,12 +1026,9 @@ For any queries call our support 09638-888 000";
     }
 
     public function newParty(Request $request){
-        //dd($request->all());
+
         $this->validate($request, [
             'name' => 'required',
-            //'email'=> '',
-            //'address'=> '',
-            //'phone'=> '',
         ]);
         $parties = new Party();
         $parties->type = $request->type;

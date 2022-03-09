@@ -243,8 +243,9 @@ class StockController extends Controller
         return view('backend.stock.stock_summary_details', compact('stocks','store_id','start_date','end_date'));
     }
     public function stockSummaryInvoice($id){
-        $stock = Stock::find($id);
-        return view('backend.stock.stock_summary_invoice',compact('stock'));
+        $store = Store::find($id);
+        $stocks = Stock::where('store_id',$id)->get();
+        return view('backend.stock.stock_summary_invoice',compact('store','stocks'));
     }
     public function stockLowList(){
         $stores = Store::all();
