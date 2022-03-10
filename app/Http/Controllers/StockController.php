@@ -244,7 +244,8 @@ class StockController extends Controller
     }
     public function stockSummaryInvoice($id){
         $store = Store::find($id);
-        $stocks = Stock::where('store_id',$id)->get();
+        $stock_id = DB::table('stocks')->where('store_id',$id)->groupBy('product_id')->selectRaw('MAX(id)');
+        $stocks = Stock::where('store_id',$id)->whereIn('id',$stock_id)->latest('id')->get();
         return view('backend.stock.stock_summary_invoice',compact('store','stocks'));
     }
     public function stockLowList(){

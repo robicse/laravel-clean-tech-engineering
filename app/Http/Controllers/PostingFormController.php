@@ -28,7 +28,6 @@ class PostingFormController extends Controller
         return view('backend.postingform.index',compact('postingForms'));
     }
 
-
     public function create()
     {
         $voucherTypes=VoucherType::all();
@@ -41,20 +40,14 @@ class PostingFormController extends Controller
 
     public function store(Request $request)
     {
-       //dd($request->all());
-//        $this->validate($request, [
-//            'chart_of_account_id'=> 'required',
-//        ]);
 
         $check_voucher_no_exists = PostingForm::where('voucher_no',$request->voucher_no)->where('voucher_type_id',$request->voucher_type_id)->latest()->pluck('voucher_no')->first();
-        //dd($check_voucher_no_exists);
         if($check_voucher_no_exists){
             Toastr::warning('Voucher NO Already Exists!', 'Warning');
             return redirect()->route('postingForm.create');
         }
 
         $row_count = count($request->account_id);
-       // dd($row_count);
         $total_amount = 0;
         $sum_debit = 0;
         $sum_credit = 0;
@@ -132,7 +125,6 @@ class PostingFormController extends Controller
                         Toastr::success('You give Wrong Entry', 'Success');
                         return back();
                     }
-                  //  dd($postingFormDetails);
                     $postingFormDetails->save();
                 }
             }
@@ -143,21 +135,18 @@ class PostingFormController extends Controller
 
     public function show($id)
     {
-        //
+
     }
 
 
     public function postingEdit( $voucher_type_id, $voucher_no)
     {
-        //dd($voucher_no);
         $voucherTypes=VoucherType::all();
         $ledgers = Ledger::all();
         $chartOfAccounts = ChartOfAccount::all();
         $postingForms= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
         $postingFormsId= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->first();
-        //dd($postingForms->id);
         $postingFormsDetails= PostingFormDetails::where('posting_form_id',$postingFormsId->id)->get();
-        //dd($postingFormsDetails);
         return view('backend.postingform.edit',compact('chartOfAccounts','voucherTypes','ledgers','postingForms','postingFormsDetails'));
     }
 
@@ -165,25 +154,13 @@ class PostingFormController extends Controller
     public function postingUpdate(Request $request, $voucher_type_id, $voucher_no)
     {
 
-        //dd($request->all());
-
-        //$check_voucher_no_exists = PostingForm::where('voucher_no',$request->voucher_no)->where('voucher_type_id',$request->voucher_type_id)->latest()->pluck('voucher_no')->first();
-        //dd($check_voucher_no_exists);
-//        if($check_voucher_no_exists){
-//            Toastr::warning('Voucher NO Already Exists!', 'Warning');
-//            return redirect()->route('postingForm.create');
-//        }
-
         $row_count = count($request->account_id);
-        // dd($row_count);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
         {
             $total_amount += $request->amount[$i];
         }
             $postingForms_id = $request->posting_form_id;
-
-          // dd($postingForms_id);
             $postingForms =  PostingForm::find($postingForms_id);
             $postingForms ->user_id = Auth::id();
             $postingForms->voucher_type_id = $request->voucher_type_id;
@@ -211,14 +188,10 @@ class PostingFormController extends Controller
                     $postingFormDetails->ledger_id = $request->ledger_id[$i];
                     $postingFormDetails->debit = $debit;
                     $postingFormDetails->credit = $credit;
-                   // dd($postingFormDetails);
                     $postingFormDetails->update();
                 }
             }
 
-
-
-//        }
         Toastr::success('Posting Updated Successfully', 'Success');
         return redirect()->route('postingForm.index');
     }
@@ -240,13 +213,11 @@ class PostingFormController extends Controller
     public function ledgerRelationData(Request $request){
         $chartOfAccount_id = $request->current_chart_of_account_id;
         $ledgers = Ledger::where('chart_of_account_id',$chartOfAccount_id)->get();
-        //dd($ledger_id);
         $options = [
             'ledgerOptions' => '',
 
         ];
         if($ledgers){
-            //$ledgers = Ledger::where('id',$ledger_id)->get();
             if(count($ledgers) > 0){
                 $options['ledgerOptions'] = "<select class='form-control select2' name='ledger_id[]'>";
                 $options['ledgerOptions'] .= "<option value=''>Select One</option>";
@@ -267,13 +238,11 @@ class PostingFormController extends Controller
     public function group2RelationData(Request $request){
         $current_chart_of_group_2 = $request->current_chart_of_group_2;
         $currentChartOfGroup3s = ChartOfAccount::where('group_2',$current_chart_of_group_2)->select('group_3')->groupBy('group_3')->get();
-        //dd($ledger_id);
         $options = [
             'group3Options' => '',
 
         ];
         if($currentChartOfGroup3s){
-            //$ledgers = Ledger::where('id',$ledger_id)->get();
             if(count($currentChartOfGroup3s) > 0){
                 $options['group3Options'] = "<select class='form-control' name='ledger_id[]'>";
                 $options['group3Options'] .= "<option value=''>Select One</option>";
@@ -299,7 +268,6 @@ class PostingFormController extends Controller
             ->latest()
             ->pluck('voucher_no')
             ->first();
-        // dd($current_voucher_no);
         if(!empty($current_voucher_no)){
             $voucher_no = $current_voucher_no + 1;
         }else{
@@ -320,9 +288,7 @@ class PostingFormController extends Controller
         $chartOfAccounts = ChartOfAccount::all();
         $postingForms= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->get();
         $postingFormsId= PostingForm::where('voucher_type_id',$voucher_type_id)->where('voucher_no',$voucher_no)->first();
-        //dd($postingForms->id);
         $postingFormsDetails= PostingFormDetails::where('posting_form_id',$postingFormsId->id)->get();
-//dd($transaction_infos);
         return view('backend.postingform.invoice', compact('postingForms','postingFormsId','postingFormsDetails'));
     }
 }
