@@ -81,13 +81,13 @@
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-primary float-left" data-toggle="modal" data-target="#exampleModal">Price</a>
+                                    <a href="#" class="btn btn-sm btn-primary float-left" data-toggle="modal" data-target="#exampleModal_{{$stock->id}}">Price</a>
                                 </td>
                                 {{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
                                 {{--                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>--}}
                                 {{--                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>--}}
                             </tr>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal_{{$stock->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
