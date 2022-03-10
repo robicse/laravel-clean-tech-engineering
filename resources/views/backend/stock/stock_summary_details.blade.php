@@ -42,8 +42,9 @@
                             <th width="12%">Brand</th>
                             <th width="12%">Product</th>
                             <th width="12%">Current Stock</th>
-{{--                            <th width="12%"> Individual Price</th>--}}
-{{--                            <th width="12%"> Price</th>--}}
+                            {{--                            <th width="12%"> Individual Price</th>--}}
+                            {{--                            <th width="12%"> Price</th>--}}
+                            <th width="12%">Price</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -79,10 +80,37 @@
                                          $total_price += $sum_price;
                                 @endphp
                                 <td>{{ $stock->current_stock}}</td>
-{{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
-{{--                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>--}}
-{{--                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>--}}
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary float-left" data-toggle="modal" data-target="#exampleModal">Price</a>
+                                </td>
+                                {{--                                <td>{{$stock->current_stock*$product_avrg_price}}</td>--}}
+                                {{--                                <td>{{number_format($product_avrg_price,2,".",",")}}</td>--}}
+                                {{--                                <td>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</td>--}}
                             </tr>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Price</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div >
+                                                <ul>
+                                                    <li>Product Name: <b>{{ $stock->product->name}}</b></li>
+                                                    <li>Individual Price: <b>{{number_format($product_avrg_price,2,".",",")}}</b></li>
+                                                    <li>Price: <b>{{number_format($stock->current_stock*$product_avrg_price,2,".",",")}}</b></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
 
                         </tbody>
@@ -92,9 +120,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>total</td>
-{{--                                @dd($total_price);--}}
-{{--                                <td>{{$total_price}}</td>--}}
+                                {{--                                @dd($total_price);--}}
+                                {{--                                <td>{{$total_price}}</td>--}}
                                 <td>{{number_format($total_price,2,".",",")}}</td>
                             </tr>
                         </div>
