@@ -78,6 +78,13 @@ class ProductSaleController extends Controller
                 $productSales = ProductSale::where('sale_type','LIKE', '%'. $sale_type. '%')->where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
             }
         }
+        elseif($start_date && $end_date && empty($reference_name) && empty($sale_type)) {
+            if ($auth_user == "Admin") {
+                $productSales = ProductSale::where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
+            } else {
+                $productSales = ProductSale::where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('user_id', $auth_user_id)->latest('id','desc')->get();
+            }
+        }
         elseif($start_date && $end_date && $reference_name && empty($sale_type)) {
             if ($auth_user == "Admin") {
                 $productSales = ProductSale::where('reference_name',$reference_name)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->latest('id','desc')->get();
