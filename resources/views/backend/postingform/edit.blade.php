@@ -77,7 +77,7 @@
                             @foreach($postingFormsDetails as $key => $postingFormsDetail)
                             <tr>
                                 <td width="5%" class="no">{{$key+1}}</td>
-                                <td>
+                                <td width="30%">
                                     <input type="hidden" class="form-control" name="posting_form_details_id[]" value="{{$postingFormsDetail->id}}" >
                                     <select class="form-control account_id select2" name="account_id[]" id="account_id_{{$key+1}}" onchange="getval({{$key+1}},this);" required>
                                         <option value="">Select Account Name</option>
@@ -86,7 +86,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td id="ledger_id_{{$key+1}}">
+                                <td id="ledger_id_{{$key+1}}"  width="30%">
                                     <select class="form-control ledger_id select2" name="ledger_id[]"  required>
                                         <option value="">Select Legder Name</option>
                                         @foreach($ledgers as $ledger)
