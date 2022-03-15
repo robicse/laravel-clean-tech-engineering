@@ -491,9 +491,10 @@ For any queries call our support 09638-888 000";
         $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
         $wholeSale_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
             ->where('store_id',$store_id)->where('product_id',$product_id)
-            ->max('product_purchase_details.wholeSale_price');
-        //->pluck('product_purchase_details.mrp_price')
-        //->first();
+//            ->max('product_purchase_details.wholeSale_price');
+        ->orderBy('product_purchase_details.id','DESC')
+            ->pluck('product_purchase_details.wholeSale_price')
+        ->first();
         if($wholeSale_price == null){
             $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
                 ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
