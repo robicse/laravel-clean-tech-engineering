@@ -87,9 +87,12 @@
                                     </select>
                                 </td>
                                 <td id="ledger_id_{{$key+1}}"  width="30%">
-                                    <select class="form-control ledger_id select2" name="ledger_id[]"  required>
+                                    <select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_{{$key+1}}" onchange="getLedgerListByAccountName({{$key+1}},this);"  required>
                                         <option value="">Select Legder Name</option>
-                                        @foreach($ledgers as $ledger)
+                                        @php
+                                            $edited_ledgers = \App\Ledger::where('chart_of_account_id',$postingFormsDetail->chart_of_account_id)->get();
+                                        @endphp
+                                        @foreach($edited_ledgers as $ledger)
                                             <option value="{{$ledger->id}}" {{ $postingFormsDetail->ledger_id == $ledger->id ? 'selected' : ''}}>{{$ledger->name}}</option>
                                         @endforeach
                                     </select>
@@ -155,7 +158,7 @@
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
                     '<td width="20%"><select class="form-control account_id select2" name="account_id[]" id="account_id_'+n+'" onchange="getval('+n+',this);" required>' + service + '</select></td>' +
-                    '<td  width="20%"><select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_'+n+'" required>' + ledger + '</select></td>' +
+                    '<td  width="20%"><select class="form-control ledger_id select2" name="ledger_id[]" id="ledger_id_'+n+'" onchange="getLedgerListByAccountName('+n+',this);" required>' + ledger + '</select></td>' +
                     '<td><select class="form-control debit_or_credit select2" name="debit_or_credit[]" id="debit_or_credit_'+n+'"  required>' + debit_or_credit + '</select></td>' +
                     '<td><input type="text" min="1" max="" class="price form-control" name="amount[]" value="" required></td>' +
                     // '<td><textarea type="text" class="form-control" rows="3" name="transaction_description[]" required></textarea></td>' +
@@ -232,6 +235,32 @@
                 }
             });
         });
+
+        // ajax
+        function getLedgerListByAccountName(row,sel)
+        {
+            alert(row);
+            //alert(sel.value);
+            {{--var current_row = row;--}}
+            {{--var current_chart_of_account_id = sel.value;--}}
+
+            {{--$.ajax({--}}
+            {{--    url : "{{URL('ledger-data')}}",--}}
+            {{--    method : "get",--}}
+            {{--    data : {--}}
+            {{--        current_chart_of_account_id : current_chart_of_account_id--}}
+            {{--    },--}}
+            {{--    success : function (res){--}}
+            {{--        //console.log(res)--}}
+            {{--        console.log(res.data)--}}
+            {{--        $("#ledger_id_"+current_row).html(res.data.ledgerOptions);--}}
+
+            {{--    },--}}
+            {{--    error : function (err){--}}
+            {{--        console.log(err)--}}
+            {{--    }--}}
+            {{--})--}}
+        }
     </script>
 @endpush
 

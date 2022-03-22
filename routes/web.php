@@ -148,6 +148,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('productSales-invoice/{id}','ProductSaleController@invoice')->name('productSales-invoice');
     Route::get('productSales-Challaninvoice/{id}','ProductSaleController@Challaninvoice')->name('productSales-Challaninvoice');
     Route::get('productSales-invoice-print/{id}','ProductSaleController@invoicePrint')->name('productSales-invoice-print');
+    Route::get('productSales-invoice-print-count-number','ProductSaleController@invoicePrintCountNumber')->name('productSales-invoice-print-count-number');
     Route::get('productSales-challan-invoice-print/{id}','ProductSaleController@ChallanPrint')->name('productSales-challan-invoice-print');
     Route::get('productSales-invoice-edit/{id}','ProductSaleController@invoiceEdit')->name('productSales-invoice-edit');
     Route::post('productSales-invoice-update/{id}','ProductSaleController@updateInvoice')->name('productSales.invoiceUpdate');

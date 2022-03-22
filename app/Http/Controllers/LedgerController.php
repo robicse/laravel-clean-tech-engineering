@@ -39,7 +39,22 @@ class LedgerController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+
         $row_count = count($request->chart_of_account_id);
+        // check duplicate name
+        for($i = 0; $i < $row_count; $i++) {
+            $chart_of_account_id = $request->chart_of_account_id[$i];
+            $name = $request->name[$i];
+
+            $check_ledger = Ledger::where('chart_of_account_id',$chart_of_account_id)
+                ->where('name',$name)
+                ->first();
+            if(!empty($check_ledger)){
+                Toastr::warning('Ledger Already Exists, Please Try Another Name.', 'Warning');
+                return redirect()->route('Ledger.index');
+            }
+        }
+        // check duplicate name
         //dd($row_count);
         for($i = 0; $i < $row_count; $i++) {
 
@@ -47,7 +62,7 @@ class LedgerController extends Controller
             //$accounts = ChartOfAccount::where('id',$account_id)->first();
             $ledgers = new Ledger();
             $ledgers->chart_of_account_id = $request->chart_of_account_id[$i];
-            $ledgers->name = $request->name[$i];;
+            $ledgers->name = $request->name[$i];
       //dd($ledgers->chart_of_account_id);
             $ledgers->save();
         }

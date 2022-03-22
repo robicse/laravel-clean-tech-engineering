@@ -331,6 +331,7 @@
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
+                                <input type="hidden" id="product_sale_id" name="product_sale_id" value="{{$productSale->id}}">
                                 <span>Print Date: {{$productSale->created_at}} Computer Generated Invoice</span>
                             </div>
                         </div>
@@ -371,6 +372,26 @@
 
 <script type="text/javascript">
     window.addEventListener("load", window.print());
+
+    // count increment after print invoice
+    window.onafterprint = function(){
+        console.log("Come Printing Here");
+        var product_sale_id = $('#product_sale_id').val();
+        $.ajax({
+            url : "{{URL('productSales-invoice-print-count-number')}}",
+            method : 'get',
+            data : {
+                product_sale_id : product_sale_id
+            },
+            success : function(res){
+                console.log(res);
+            },
+            error : function (err){
+                console.log(err);
+            }
+        })
+    }
+    // count increment after print invoice
 </script>
 
 

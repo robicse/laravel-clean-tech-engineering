@@ -898,9 +898,6 @@ For any queries call our support 09638-888 000";
     public function invoicePrint($id)
     {
         $productSale = ProductSale::find($id);
-        $productSale->invoice_count += 1;
-        $productSale->save();
-
         $free_products = FreeProductSaleDetails::where('product_sale_id',$id)->get();
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->get();
@@ -924,7 +921,17 @@ For any queries call our support 09638-888 000";
         $party = Party::find($party_id);
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         return view('backend.productSale.challan-invoice-print', compact('free_products','productSale','productSaleDetails','transactions','store','party','digit'));
+    }
 
+    public function invoicePrintCountNumber(Request $request){
+        $productSale = ProductSale::find($request->product_sale_id);
+        $productSale->invoice_count += 1;
+        $affected_row = $productSale->save();
+        if($affected_row){
+            return $productSale->invoice_count;
+        }else{
+            return false;
+        }
     }
 
     public function invoiceEdit($id)
