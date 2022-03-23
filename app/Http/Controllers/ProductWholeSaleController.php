@@ -486,20 +486,52 @@ For any queries call our support 09638-888 000";
         //
     }
     public function productWholeSaleRelationData(Request $request){
+        $party_id = $request->party_id;
         $store_id = $request->store_id;
         $product_id = $request->current_product_id;
         $current_stock = Stock::where('store_id',$store_id)->where('product_id',$product_id)->latest()->pluck('current_stock')->first();
-        $wholeSale_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
-            ->where('store_id',$store_id)->where('product_id',$product_id)
-//            ->max('product_purchase_details.wholeSale_price');
-        ->orderBy('product_purchase_details.id','DESC')
+
+
+        $check_party_previous_product_sale_price = ProductSale::join('product_sale_details','product_sales.id','product_sale_details.product_sale_id')
+            ->where('product_sales.party_id',$party_id)
+            ->where('product_sales.store_id',$store_id)
+            ->where('product_sale_details.product_id',$product_id)
+            ->orderBy('product_purchase_details.id','DESC')
             ->pluck('product_purchase_details.wholeSale_price')
-        ->first();
-        if($wholeSale_price == null){
-            $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
-                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
-                ->max('stock_transfer_details.wholeSale_price');
+            ->first();
+
+        if(!empty($check_party_previous_product_sale_price)){
+            $wholeSale_price = $check_party_previous_product_sale_price;
+        }else{
+            $wholeSale_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+                ->where('store_id',$store_id)->where('product_id',$product_id)
+                ->orderBy('product_purchase_details.id','DESC')
+                ->pluck('product_purchase_details.wholeSale_price')
+                ->first();
+
+            if($wholeSale_price == null){
+                $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+                    ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+                    ->max('stock_transfer_details.wholeSale_price');
+            }
         }
+
+//        $wholeSale_price = ProductPurchaseDetail::join('product_purchases', 'product_purchase_details.product_purchase_id', '=', 'product_purchases.id')
+//            ->where('store_id',$store_id)->where('product_id',$product_id)
+////            ->max('product_purchase_details.wholeSale_price');
+//            ->orderBy('product_purchase_details.id','DESC')
+//            ->pluck('product_purchase_details.wholeSale_price')
+//            ->first();
+//
+//        if($wholeSale_price == null){
+//            $wholeSale_price = StockTransfer::join('stock_transfer_details', 'stock_transfer_details.stock_transfer_id', '=', 'stock_transfers.id')
+//                ->where('stock_transfers.to_store_id',$store_id)->where('product_id',$product_id)
+//                ->max('stock_transfer_details.wholeSale_price');
+//        }
+
+
+
+
 
         $product_category_id = Product::where('id',$product_id)->pluck('product_category_id')->first();
         $product_sub_category_id = Product::where('id',$product_id)->pluck('product_sub_category_id')->first();

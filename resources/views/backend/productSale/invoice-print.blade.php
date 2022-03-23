@@ -328,7 +328,7 @@
                                 <strong style="border-top: solid 1px #000;font-size: 16px">Authorize Signature</strong><br>
                             </div>
                         </div>
-                        <hr style="border-top:1px dotted black;width: 100%;height:1px;">
+{{--                        <hr style="border-top:1px dotted black;width: 100%;height:1px;">--}}
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
                                 <input type="hidden" id="product_sale_id" name="product_sale_id" value="{{$productSale->id}}">

@@ -658,6 +658,11 @@
         // ajax
         function getval(row,sel)
         {
+            var party_id = $('#customer').val();
+            if(!party_id){
+                alert('Please select first Party!');
+                location.reload();
+            }
             var store_id = $('#store_id').val();
             if(store_id){
                 //console.log(store_id)
@@ -681,6 +686,7 @@
                     data : {
                         store_id : store_id,
                         current_product_id : current_product_id,
+                        party_id : party_id
                     },
                     success : function (res){
                         //console.log(res)
