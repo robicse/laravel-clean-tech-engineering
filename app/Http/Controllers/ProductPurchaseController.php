@@ -316,33 +316,36 @@ class ProductPurchaseController extends Controller
             // product stock
             $stock_row = Stock::where('ref_id',$id)->where('stock_type','purchase')->where('product_id',$product_id)->where('store_id',$request->store_id)->first();
             //dd($stock_row);
-            if($stock_row->stock_in != $request->qty[$i]){
-                if($request->qty[$i] > $stock_row->stock_in){
-                    $add_or_minus_stock_in = $request->qty[$i] - $stock_row->stock_in;
-                    $update_stock_in = $stock_row->stock_in + $add_or_minus_stock_in;
-                    $update_current_stock = $stock_row->current_stock + $add_or_minus_stock_in;
-                }else{
-                    $add_or_minus_stock_in =  $stock_row->stock_in - $request->qty[$i];
-                    $update_stock_in = $stock_row->stock_in - $add_or_minus_stock_in;
-                    $update_current_stock = $stock_row->current_stock - $add_or_minus_stock_in;
-                }
+            if(!empty($stock_row)){
+                if($stock_row->stock_in != $request->qty[$i]){
+                    if($request->qty[$i] > $stock_row->stock_in){
+                        $add_or_minus_stock_in = $request->qty[$i] - $stock_row->stock_in;
+                        $update_stock_in = $stock_row->stock_in + $add_or_minus_stock_in;
+                        $update_current_stock = $stock_row->current_stock + $add_or_minus_stock_in;
+                    }else{
+                        $add_or_minus_stock_in =  $stock_row->stock_in - $request->qty[$i];
+                        $update_stock_in = $stock_row->stock_in - $add_or_minus_stock_in;
+                        $update_current_stock = $stock_row->current_stock - $add_or_minus_stock_in;
+                    }
 
-                $stock_row->user_id = Auth::user()->id;
-                $stock_row->stock_in = $update_stock_in;
-                $stock_row->current_stock = $update_current_stock;
-                $stock_row->update();
+                    $stock_row->user_id = Auth::user()->id;
+                    $stock_row->stock_in = $update_stock_in;
+                    $stock_row->current_stock = $update_current_stock;
+                    $stock_row->update();
 
-                // stock minus log
-                if($stock_row->current_stock < 0){
-                    $stock_minus_log = new StockMinusLog();
-                    $stock_minus_log->user_id=Auth::user()->id;
-                    $stock_minus_log->action_module='Product Purchase';
-                    $stock_minus_log->action_done='Update';
-                    $stock_minus_log->action_remarks='Product Purchase ID: '.$id;
-                    $stock_minus_log->action_date=date('Y-m-d');
-                    $stock_minus_log->save();
+                    // stock minus log
+                    if($stock_row->current_stock < 0){
+                        $stock_minus_log = new StockMinusLog();
+                        $stock_minus_log->user_id=Auth::user()->id;
+                        $stock_minus_log->action_module='Product Purchase';
+                        $stock_minus_log->action_done='Update';
+                        $stock_minus_log->action_remarks='Product Purchase ID: '.$id;
+                        $stock_minus_log->action_date=date('Y-m-d');
+                        $stock_minus_log->save();
+                    }
                 }
             }
+
         }
         // due
         $due = Due::where('ref_id',$id)->first();;

@@ -48,11 +48,11 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="control-label ">Description <small class="requiredCustom">*</small></label>
-                                            <textarea type="text" min="1" max="" rows="3" class="form-control" name="description"> </textarea>
+                                            <textarea type="text" min="1" max="" rows="3" class="form-control" name="description" required> </textarea>
                                         </div>
                                         <div class="col-md-3">
                                             <label class="control-label text-right">Date  <small class="requiredCustom">*</small></label>
-                                            <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}">
+                                            <input type="text" name="date" class="datepicker form-control" value="{{date('Y-m-d')}}" required>
                                         </div>
                                     </div>
                                 </th>
