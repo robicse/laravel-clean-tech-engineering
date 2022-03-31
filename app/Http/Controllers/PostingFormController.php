@@ -165,7 +165,7 @@ class PostingFormController extends Controller
 
     public function postingUpdate(Request $request, $voucher_type_id, $voucher_no)
     {
-        dd($request->all());
+        //dd($request->all());
         $row_count = count($request->account_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
@@ -285,6 +285,34 @@ class PostingFormController extends Controller
             $voucher_no = 1;
         }
 
+        return response()->json(['success'=>true,'data'=>$voucher_no]);
+    }
+    public function getVoucherNumberEdit(Request $request){
+
+        $current_voucher_type_id = $request->current_voucher_type_id;
+        //$current_voucher_no = $request->current_voucher_no;
+        $current_posting_form_id = $request->current_posting_form_id;
+        
+        $posting_form = DB::table('posting_forms')
+            ->where('id',$current_posting_form_id)
+            ->first();
+            
+        if($posting_form->voucher_type_id == $current_voucher_type_id){
+            $voucher_no = $posting_form->voucher_no;
+        }else{
+            $current_voucher_no = DB::table('posting_forms')
+                ->where('voucher_type_id',$current_voucher_type_id)
+                ->latest()
+                ->pluck('voucher_no')
+                ->first();
+            if(!empty($current_voucher_no)){
+                $voucher_no = $current_voucher_no + 1;
+            }else{
+                $voucher_no = 1;
+            }
+        }
+        
+        
         return response()->json(['success'=>true,'data'=>$voucher_no]);
     }
     public function voucher_invoice($voucher_type_id,$voucher_no)

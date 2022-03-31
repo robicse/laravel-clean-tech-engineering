@@ -313,6 +313,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('get-voucher-no','PostingController@getVoucherNo');
     Route::get('get-voucher-number','PostingFormController@getVoucherNumber');
+    Route::get('get-voucher-number-edit','PostingFormController@getVoucherNumberEdit');
 
 
 

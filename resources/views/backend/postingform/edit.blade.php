@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label class="control-label text-right">Voucher No <small class="requiredCustom">*</small></label>
-                                            <input type="number" name="voucher_no" id="voucher_no" class="form-control" value="{{$postingForms[0] ->voucher_no}}" disabled>
+                                            <input type="number" name="voucher_no" id="voucher_no" class="form-control" value="{{$postingForms[0] ->voucher_no}}" readonly>
                                         </div>
                                         <div class="col-md-3">
                                             <label class="control-label ">Description <small class="requiredCustom">*</small></label>
@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label class="control-label text-right">Date  <small class="requiredCustom">*</small></label>
-                                            <input type="hidden" name="posting_form_id" value="{{$postingForms[0]->id}}" class="datepicker form-control">
+                                            <input type="hidden" name="posting_form_id" id="posting_form_id" value="{{$postingForms[0]->id}}" class="datepicker form-control">
                                             <input type="text" name="date" class="datepicker form-control" value="{{$postingForms[0]->posting_date}}">
                                         </div>
                                     </div>
@@ -265,11 +265,17 @@
         $('#voucher_type_id').on('change',function (){
             // alert();
             var current_voucher_type_id = $('#voucher_type_id').val();
+            //var current_voucher_no = $('#voucher_no').val();
+            var current_posting_form_id = $('#posting_form_id').val();
+            
+            
             $.ajax({
-                url : "{{URL('get-voucher-number')}}",
+                url : "{{URL('get-voucher-number-edit')}}",
                 method : "get",
                 data : {
                     current_voucher_type_id : current_voucher_type_id,
+                    //current_voucher_no : current_voucher_no,
+                    current_posting_form_id : current_posting_form_id,
                 },
                 success : function (res){
                     //console.log(res)
