@@ -40,7 +40,15 @@ class PostingFormController extends Controller
 
     public function store(Request $request)
     {
-
+        $this->validate($request, [
+            'voucher_no'=> 'required',
+            'voucher_type_id'=> 'required',
+            'account_id'=> 'required',
+            'amount'=> 'required',
+            'debit_or_credit'=> 'required',
+            'description'=> 'required',
+            'date'=> 'required',
+        ]);
         $check_voucher_no_exists = PostingForm::where('voucher_no',$request->voucher_no)->where('voucher_type_id',$request->voucher_type_id)->latest()->pluck('voucher_no')->first();
         if($check_voucher_no_exists){
             Toastr::warning('Voucher NO Already Exists!', 'Warning');
@@ -79,6 +87,8 @@ class PostingFormController extends Controller
             $postingForms->voucher_no = $request->voucher_no ;
             $postingForms->description = $request->description;
             $postingForms->posting_date = $request->date;
+            $postingForms->created_at = $request->date.' '.date('H:i:s');
+            $postingForms->updated_at = $request->date.' '.date('H:i:s');
             $postingForms->save();
             $insert_id= $postingForms->id;
             if($insert_id)
@@ -120,6 +130,8 @@ class PostingFormController extends Controller
                     $postingFormDetails->ledger_name = $ledger_name;
                     $postingFormDetails->debit = $debit;
                     $postingFormDetails->credit = $credit;
+                    $postingFormDetails->created_at = $request->date.' '.date('H:i:s');
+                    $postingFormDetails->updated_at = $request->date.' '.date('H:i:s');
 
                     if ($debit == $credit){
                         Toastr::success('You give Wrong Entry', 'Success');
@@ -153,7 +165,7 @@ class PostingFormController extends Controller
 
     public function postingUpdate(Request $request, $voucher_type_id, $voucher_no)
     {
-
+        dd($request->all());
         $row_count = count($request->account_id);
         $total_amount = 0;
         for($i=0; $i<$row_count;$i++)
@@ -167,9 +179,8 @@ class PostingFormController extends Controller
             $postingForms->voucher_no = $request->voucher_no ;
             $postingForms->description = $request->description;
             $postingForms->posting_date = $request->date;
-            $postingForms->update();
-            $insert_id= $postingForms->id;
-            if($insert_id)
+            $affected_row = $postingForms->update();
+            if($affected_row)
             {
                 for($i=0; $i<$row_count;$i++) {
                     $debit = NULL;
@@ -183,7 +194,7 @@ class PostingFormController extends Controller
                     }
                     $postingFormDetails_id = $request->posting_form_details_id[$i];
                     $postingFormDetails = PostingFormDetails::find($postingFormDetails_id);
-                    $postingFormDetails->posting_form_id = $insert_id;
+                    $postingFormDetails->posting_form_id = $postingForms_id;
                     $postingFormDetails->chart_of_account_id = $request->account_id[$i];
                     $postingFormDetails->ledger_id = $request->ledger_id[$i];
                     $postingFormDetails->debit = $debit;

@@ -261,6 +261,27 @@
             {{--    }--}}
             {{--})--}}
         }
+
+        $('#voucher_type_id').on('change',function (){
+            // alert();
+            var current_voucher_type_id = $('#voucher_type_id').val();
+            $.ajax({
+                url : "{{URL('get-voucher-number')}}",
+                method : "get",
+                data : {
+                    current_voucher_type_id : current_voucher_type_id,
+                },
+                success : function (res){
+                    //console.log(res)
+                    console.log(res.data)
+                    $("#voucher_no").val(res.data);
+                },
+                error : function (err){
+                    console.log(err)
+                }
+            })
+
+        });
     </script>
 @endpush
 

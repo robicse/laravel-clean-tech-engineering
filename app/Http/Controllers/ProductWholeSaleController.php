@@ -496,8 +496,8 @@ For any queries call our support 09638-888 000";
             ->where('product_sales.party_id',$party_id)
             ->where('product_sales.store_id',$store_id)
             ->where('product_sale_details.product_id',$product_id)
-            ->orderBy('product_purchase_details.id','DESC')
-            ->pluck('product_purchase_details.wholeSale_price')
+            ->orderBy('product_sale_details.id','DESC')
+            ->pluck('product_sale_details.price')
             ->first();
 
         if(!empty($check_party_previous_product_sale_price)){
