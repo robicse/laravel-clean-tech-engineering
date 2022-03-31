@@ -52,7 +52,7 @@
                     }
 
                     .footer_div {
-                        position:sticky;
+                        /*position:sticky;*/
                         bottom: 0 !important;
                         /*border-top: 1px solid #000000;*/
                         width:100%;
