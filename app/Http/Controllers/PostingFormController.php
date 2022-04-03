@@ -24,7 +24,7 @@ class PostingFormController extends Controller
 
     public function index()
     {
-        $postingForms = PostingForm::latest()->get();
+        $postingForms = PostingForm::latest('id')->get();
         return view('backend.postingform.index',compact('postingForms'));
     }
 
@@ -276,7 +276,7 @@ class PostingFormController extends Controller
         $current_voucher_type_id = $request->current_voucher_type_id;
         $current_voucher_no = DB::table('posting_forms')
             ->where('voucher_type_id',$current_voucher_type_id)
-            ->latest()
+            ->latest('id')
             ->pluck('voucher_no')
             ->first();
         if(!empty($current_voucher_no)){
@@ -292,17 +292,17 @@ class PostingFormController extends Controller
         $current_voucher_type_id = $request->current_voucher_type_id;
         //$current_voucher_no = $request->current_voucher_no;
         $current_posting_form_id = $request->current_posting_form_id;
-        
+
         $posting_form = DB::table('posting_forms')
             ->where('id',$current_posting_form_id)
             ->first();
-            
+
         if($posting_form->voucher_type_id == $current_voucher_type_id){
             $voucher_no = $posting_form->voucher_no;
         }else{
             $current_voucher_no = DB::table('posting_forms')
                 ->where('voucher_type_id',$current_voucher_type_id)
-                ->latest()
+                ->latest('id')
                 ->pluck('voucher_no')
                 ->first();
             if(!empty($current_voucher_no)){
@@ -311,8 +311,8 @@ class PostingFormController extends Controller
                 $voucher_no = 1;
             }
         }
-        
-        
+
+
         return response()->json(['success'=>true,'data'=>$voucher_no]);
     }
     public function voucher_invoice($voucher_type_id,$voucher_no)
