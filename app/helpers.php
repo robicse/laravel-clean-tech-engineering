@@ -1,5 +1,6 @@
 <?php
 
+use App\Stock;
 use App\StockMinusLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -203,6 +204,66 @@ if (!function_exists('current_stock_row')) {
            // ->where('stock_product_type',$stock_product_type)
             ->where('product_id',$product_id)
             ->latest()->first();
+    }
+}
+
+if (!function_exists('get_product_name_by_product_id')) {
+    function get_product_name_by_product_id($product_id)
+    {
+        return \App\Product::where('id',$product_id)->pluck('name')->first();
+    }
+}
+
+if (!function_exists('update_stock_for_edit_sale_stock')) {
+    function update_stock_for_edit_sale_stock($id,$store_id,$new_request_qty,$invoice_sale_qty,$previous_stock,$product_id)
+    {
+        if($new_request_qty > $invoice_sale_qty){
+            $stock_in = 0;
+            $stock_out = $new_request_qty - $invoice_sale_qty;
+            $current_stock = $previous_stock - $stock_out;
+            $sale_type = 'Sale Qty Increased For Edit Stock';
+        }else{
+            $stock_in =  $invoice_sale_qty - $new_request_qty;
+            $stock_out = 0;
+            $current_stock = $previous_stock + $stock_in;
+            $sale_type = 'Sale Qty Decreased For Edit Stock';
+        }
+
+        $stock_row = new Stock();
+        $stock_row->ref_id = $id;
+        $stock_row->user_id = Auth::id();
+        $stock_row->store_id = $store_id;
+        $stock_row->product_id = $product_id;
+        $stock_row->sale_type = $sale_type;
+        $stock_row->previous_stock = $previous_stock;
+        $stock_row->stock_in = $stock_in;
+        $stock_row->stock_out = $stock_out;
+        $stock_row->current_stock = $current_stock;
+        $stock_row->date = date('Y-m-d');
+        if($stock_row->save()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}
+
+if (!function_exists('stock_minus_log')) {
+    function stock_minus_log($action_module,$action_done,$action_remarks)
+    {
+        $stock_minus_log = new StockMinusLog();
+        $stock_minus_log->user_id=Auth::user()->id;
+        $stock_minus_log->action_module=$action_module;
+        $stock_minus_log->action_done=$action_done;
+        $stock_minus_log->action_remarks=$action_remarks;
+        $stock_minus_log->action_date=date('Y-m-d');
+        if($stock_minus_log->save()){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
 
