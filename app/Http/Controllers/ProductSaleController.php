@@ -418,13 +418,13 @@ For any queries call our support 09638-888 000";
         {
             $total_amount += $request->sub_total[$i];
         }
-        $discount_type = $request->discount_type;
-        if($discount_type == 'flat')
-        {
-            $total_amount -= $request->discount_amount;
-        }else{
-            $total_amount = ($total_amount*$request->discount_amount)/100;
-        }
+//        $discount_type = $request->discount_type;
+//        if($discount_type == 'flat')
+//        {
+//            $total_amount -= $request->discount_amount;
+//        }else{
+//            $total_amount = ($total_amount*$request->discount_amount)/100;
+//        }
 
         $productSale = ProductSale::find($id);
         $productSale->user_id = Auth::id();
@@ -466,17 +466,17 @@ For any queries call our support 09638-888 000";
             $new_request_qty = $request->qty[$i];
 
             $stock_row = current_stock_row($store_id,'sale',$product_id);
-            $previous_stock = $stock_row->previous_stock;
+            $previous_current_stock = $stock_row->current_stock;
 
             if($invoice_sale_qty != $new_request_qty){
                 if($new_request_qty > $invoice_sale_qty){
-                    $update = update_stock_for_edit_sale_stock($id,$store_id,$new_request_qty,$invoice_sale_qty,$previous_stock,$product_id);
+                    $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
                     if($update && ($stock_row->current_stock < 0)){
                         $action_remarks = 'Sale ID: '.$id;
                         stock_minus_log('Product Sale','Update',$action_remarks);
                     }
                 }else{
-                    $update = update_stock_for_edit_sale_stock($id,$store_id,$new_request_qty,$invoice_sale_qty,$previous_stock,$product_id);
+                    $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
                     if($update && ($stock_row->current_stock < 0)){
                         $action_remarks = 'Sale ID: '.$id;
                         stock_minus_log('Product Sale','Update',$action_remarks);

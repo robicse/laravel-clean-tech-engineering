@@ -207,6 +207,7 @@
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >
                                         </td>
                                         <td width="10%">
+                                            <input type="text" class="store_qty form-control" name="store_qty[]" value="{{$productSaleDetail->qty}}" >
                                             <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="{{$productSaleDetail->qty}}" required >
                                         </td>
                                         <td width="12%">
@@ -242,7 +243,7 @@
                                     </th>
                                     <th>
                                         Total:
-                                        <input type="hidden" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
+                                        <input type="text" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
                                         <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}">
                                     </th>
                                     <th>
@@ -328,8 +329,50 @@
                 t += amt;
             });
             $('#store_total_amount').val(t);
-            $('#total_amount').val(t);
-            $('#due_amount').val(t);
+
+
+
+            var discount_type = $('#discount_type').val();
+            var store_total_amount = $('#store_total_amount').val();
+            console.log('store_total_amount= ' + store_total_amount);
+            console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            console.log('total= ' + typeof store_total_amount);
+
+            var discount_amount = $('#discount_amount').val();
+            console.log('discount_amount= ' + discount_amount);
+            console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            console.log('discount_amount= ' + discount_amount);
+            console.log('discount_amount= ' + typeof discount_amount);
+
+            var transport = $('#transport').val();
+            console.log('transport= ' + transport);
+            console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+
+            if(discount_type == 'flat'){
+                var final_amount = (store_total_amount+transport) - discount_amount ;
+            }
+            else{
+                var per = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = store_total_amount - per +transport ;
+            }
+            console.log('final_amount= ' + final_amount);
+            console.log('final_amount= ' + typeof final_amount);
+
+            $('#total_amount').val(final_amount);
+
+            var paid_amount = $('#paid_amount').val();
+            console.log('paid_amount= ' + paid_amount);
+            console.log('paid_amount= ' + typeof paid_amount);
+
+            $('#due_amount').val(final_amount - paid_amount);
+
+
+
+            //$('#total_amount').val(t);
+            //$('#due_amount').val(t);
         }
 
 
@@ -451,7 +494,30 @@
             console.log('final_amount= ' + typeof final_amount);
 
             $('#total_amount').val(final_amount);
-            $('#due_amount').val(final_amount);
+
+            var paid_amount = $('#paid_amount').val();
+            console.log('paid_amount= ' + paid_amount);
+            console.log('paid_amount= ' + typeof paid_amount);
+
+            $('#due_amount').val(final_amount - paid_amount);
+        }
+
+        // onkeyup
+        function paidAmount(){
+            console.log('okk');
+            var total = $('#total_amount').val();
+            console.log('total= ' + total);
+            console.log('total= ' + typeof total);
+
+            var paid_amount = $('#paid_amount').val();
+            console.log('paid_amount= ' + paid_amount);
+            console.log('paid_amount= ' + typeof paid_amount);
+
+            var due = total - paid_amount;
+            console.log('due= ' + due);
+            console.log('due= ' + typeof due);
+
+            $('.backmoney').val(due);
         }
 
         $('.add').click(function () {
@@ -467,7 +533,7 @@
                 '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                 '<td ><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
-                '<td><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
+                '<td><input type="number" class="store_qty form-control" name="store_qty[]"><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                 '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                 '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
@@ -510,20 +576,22 @@
                 tr.find('.qty').val('')
                 return false;
             }
+            var store_qty = tr.find('.store_qty').val() - 0;
             var qty = tr.find('.qty').val() - 0;
             var stock_qty = tr.find('.stock_qty').val() - 0;
-            if(qty > stock_qty){
-                alert('You have limit cross of stock qty!');
+            var exists_qty = store_qty + stock_qty;
+            if( (store_qty !== qty) && (qty > exists_qty)){
+                alert('You have limit cross of ' + exists_qty + ' stock qty!');
                 tr.find('.qty').val(0)
             }
 
             //var dis = tr.find('.dis').val() - 0;
             var price = tr.find('.price').val() - 0;
 
-            //var total = (qty * price) - ((qty * price)/100);
-            //var total = (qty * price) - ((qty * price * dis)/100);
-            //var total = price - ((price * dis)/100);
-            //var total = price - dis;
+            // var total = (qty * price) - ((qty * price)/100);
+            // var total = (qty * price) - ((qty * price * dis)/100);
+            // var total = price - ((price * dis)/100);
+            // var total = price - dis;
             var total = (qty * price);
 
             tr.find('.amount').val(total);
@@ -534,7 +602,9 @@
             var final_total = gr_tot;
             console.log(final_total);
             var discount = $("#discount_amount").val();
+            console.log('discount',discount);
             var final_total     = gr_tot - discount;
+            console.log('final_total',final_total)
             //$("#total_amount").val(final_total.toFixed(2,2));
             $("#total_amount").val(final_total);
             var t = $("#total_amount").val(),

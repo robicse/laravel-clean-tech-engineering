@@ -215,17 +215,17 @@ if (!function_exists('get_product_name_by_product_id')) {
 }
 
 if (!function_exists('update_stock_for_edit_sale_stock')) {
-    function update_stock_for_edit_sale_stock($id,$store_id,$new_request_qty,$invoice_sale_qty,$previous_stock,$product_id)
+    function update_stock_for_edit_sale_stock($id,$store_id,$stock_type,$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id)
     {
         if($new_request_qty > $invoice_sale_qty){
             $stock_in = 0;
             $stock_out = $new_request_qty - $invoice_sale_qty;
-            $current_stock = $previous_stock - $stock_out;
+            $current_stock = $previous_current_stock - $stock_out;
             $sale_type = 'Sale Qty Increased For Edit Stock';
         }else{
             $stock_in =  $invoice_sale_qty - $new_request_qty;
             $stock_out = 0;
-            $current_stock = $previous_stock + $stock_in;
+            $current_stock = $previous_current_stock + $stock_in;
             $sale_type = 'Sale Qty Decreased For Edit Stock';
         }
 
@@ -235,7 +235,8 @@ if (!function_exists('update_stock_for_edit_sale_stock')) {
         $stock_row->store_id = $store_id;
         $stock_row->product_id = $product_id;
         $stock_row->sale_type = $sale_type;
-        $stock_row->previous_stock = $previous_stock;
+        $stock_row->stock_type = $stock_type;
+        $stock_row->previous_stock = $previous_current_stock;
         $stock_row->stock_in = $stock_in;
         $stock_row->stock_out = $stock_out;
         $stock_row->current_stock = $current_stock;
