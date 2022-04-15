@@ -442,6 +442,7 @@ For any queries call our support 09638-888 000";
         $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
+        $productSale->vat_amount = $request->vat_amount;
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
         $productSale->conditions = $request->conditions;

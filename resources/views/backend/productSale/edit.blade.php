@@ -28,7 +28,7 @@
                         <div class="form-group row" @if(Auth::user()->roles[0]->name == 'User') style="display: none" @endif>
                             <label class="control-label col-md-3 text-right">Store  <small class="requiredCustom">*</small></label>
                             <div class="col-md-8">
-                                <select name="store_id" id="store_id" class="form-control" >
+                                <select name="store_id" id="store_id" class="form-control" readonly>
                                     <option value="">Select One</option>
                                     @foreach($stores as $store)
                                         <option value="{{$store->id}}" {{$store->id == $productSale->store_id ? 'selected' : ''}}>{{$store->name}} </option>
@@ -138,15 +138,17 @@
                                     <th>Sub Total</th>
                                 </tr>
                                 </thead>
+                                @php
+                                    $store_total_amount = 0;
+                                @endphp
                                 <tbody class="neworderbody">
                                 @foreach($productSaleDetails as $key => $productSaleDetail)
                                     @php
                                         $current_stock = \App\Stock::where('product_id',$productSaleDetail->product_id)->latest()->pluck('current_stock')->first();
+                                        $current_row = $key+1;
+                                        $store_total_amount += $productSaleDetail->qty*$productSaleDetail->price;
                                     @endphp
-                                    <tr >
-                                        @php
-                                            $current_row = $key+1;
-                                        @endphp
+                                    <tr>
                                         <td width="30%">
                                             <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
                                                 <option value="">Select  Product</option>
@@ -207,7 +209,7 @@
                                             <input type="number" id="stock_qty_1" class="stock_qty form-control" name="stock_qty[]" value="{{$current_stock}}" readonly >
                                         </td>
                                         <td width="10%">
-                                            <input type="text" class="store_qty form-control" name="store_qty[]" value="{{$productSaleDetail->qty}}" >
+                                            <input type="hidden" class="store_qty form-control" value="{{$productSaleDetail->qty}}" readonly>
                                             <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="{{$productSaleDetail->qty}}" required >
                                         </td>
                                         <td width="12%">
@@ -220,31 +222,58 @@
                                 @endforeach
                                 </tbody>
                                 <tfoot>
+                                @php
+                                    $vat = ($store_total_amount*$productSale->vat_amount)/100;
+                                    $after_vat_amount = $store_total_amount + $vat;
+                                    $after_transport = $after_vat_amount + $productSale->transport_cost;
+                                    if($productSale->discount_type == 'flat'){
+                                        $discount = $productSale->discount_amount;
+                                    }else{
+                                        $discount = ($after_transport*$productSale->discount_amount)/100;
+                                    }
+                                    $after_discount_amount = $after_transport - $discount;
+                                @endphp
                                 <tr>
-
+                                    <th>
+                                        Sub Total Amount:
+                                        <input type="text" id="store_total_amount" class="form-control" value="{{$store_total_amount}}" readonly>
+                                    </th>
+                                    <th>
+                                        After Vat Amount:
+                                        <input type="number" class="form-control" id="after_vat_amount" value="{{$after_vat_amount}}"readonly>
+                                    </th>
+                                    <th>
+                                        After Trans:
+                                        <input type="text" id="after_transport" class="form-control"  value="{{$after_transport}}" readonly>
+                                    </th>
+                                    <th>
+                                        After Dis:
+                                        <input type="text" id="after_discount_amount" class="form-control" value="{{$after_discount_amount}}" readonly>
+                                    </th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <tr>
                                     <th>
                                         Vat(Percentage):
-                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onblur="vatAmount('')" value="{{$productSale->vat_amount}}">
+                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onkeyup="priceCalculation('')" value="{{$productSale->vat_amount}}">
                                     </th>
                                     <th >
                                         Transport/Labour:
-                                        <input type="text" id="transport" name="transport_cost" class="form-control" placeholder="Transport Cost" onblur="transportCost('')" value="{{$productSale->transport_cost}}">
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" placeholder="Transport Cost" onkeyup="priceCalculation('')" value="{{$productSale->transport_cost}}">
                                     </th>
                                     <th>
                                         Type:
-                                        <select name="discount_type" id="discount_type" class="form-control" >
+                                        <select name="discount_type" id="discount_type" class="form-control" onchange="priceCalculation('')">
                                             <option value="flat" {{'flat' == $productSale->discount_type ? 'selected' : ''}}>flat</option>
                                             <option value="percentage" {{'percentage' == $productSale->discount_type ? 'selected' : ''}}>percentage</option>
                                         </select>
-                                    </th>
-                                    <th>
                                         Discount:
-                                        <input type="text" id="discount_amount" class="discount_amount form-control" name="discount_amount" onkeyup="discountAmount('')" value="{{$productSale->discount_amount}}">
+                                        <input type="text" id="discount_amount" class="discount_amount form-control" name="discount_amount" onkeyup="priceCalculation('')" value="{{$productSale->discount_amount}}">
                                     </th>
                                     <th>
                                         Total:
-                                        <input type="text" id="store_total_amount" class="form-control" value="{{$productSale->total_amount}}">
-                                        <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}">
+                                        <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productSale->total_amount}}" readonly>
                                     </th>
                                     <th>
                                         Paid Amount:
@@ -252,7 +281,7 @@
                                     </th>
                                     <th>
                                         Due Amount:
-                                        <input type="text" id="due_amount" class="backmoney form-control" name="due_amount" value="{{$productSale->due_amount}}">
+                                        <input type="text" id="due_amount" class="backmoney form-control" name="due_amount" value="{{$productSale->due_amount}}" readonly>
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -330,174 +359,112 @@
             });
             $('#store_total_amount').val(t);
 
+            var vat_amount = $('#vat_amount').val();
+            //console.log('vat_amount= ' + vat_amount);
+            //console.log('vat_amount= ' + typeof vat_amount);
+            vat_amount = (vat_amount);
+            var vat_subtraction = (t*vat_amount)/100;
+            //console.log('vat_subtraction= ' + vat_subtraction);
+            //console.log('vat_subtraction= ' + typeof vat_subtraction);
+            var after_vat_amount = t+vat_subtraction
+            $('#after_vat_amount').val(after_vat_amount);
 
+            var transport = $('#transport').val();
+            //console.log('transport= ' + transport);
+            //console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
 
             var discount_type = $('#discount_type').val();
             var store_total_amount = $('#store_total_amount').val();
-            console.log('store_total_amount= ' + store_total_amount);
-            console.log('store_total_amount= ' + typeof store_total_amount);
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
             store_total_amount = parseFloat(store_total_amount);
-            console.log('total= ' + typeof store_total_amount);
-
+            //console.log('total= ' + typeof store_total_amount);
             var discount_amount = $('#discount_amount').val();
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
             discount_amount = parseFloat(discount_amount);
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-
-            var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
-            transport = parseFloat(transport);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
 
             if(discount_type == 'flat'){
-                var final_amount = (store_total_amount+transport) - discount_amount ;
+                var discount = (store_total_amount+transport) - discount_amount ;
+                var final_amount = discount ;
             }
             else{
-                var per = ((store_total_amount+transport)*discount_amount)/100;
-                var final_amount = store_total_amount - per +transport ;
+                var discount = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
             }
-            console.log('final_amount= ' + final_amount);
-            console.log('final_amount= ' + typeof final_amount);
+            //console.log('final_amount= ' + final_amount);
+            //console.log('final_amount= ' + typeof final_amount);
+            var after_discount_amount = after_transport - discount;
+            $('#after_discount_amount').val(after_discount_amount);
 
             $('#total_amount').val(final_amount);
 
             var paid_amount = $('#paid_amount').val();
-            console.log('paid_amount= ' + paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
 
             $('#due_amount').val(final_amount - paid_amount);
 
-
-
-            //$('#total_amount').val(t);
-            //$('#due_amount').val(t);
         }
 
 
-        // onblur
-        function vatAmount(){
-            //  var sub_total = $('#sub_total').val();
-            //  console.log('sub_total= ' + sub_total);
-            //  console.log('sub_total= ' + typeof sub_total);
-            //  var vat_amount = parseInt($('#vat_amount').val()).toFixed(2);
-            //  console.log('vat_amount= ' + vat_amount);
-            //  console.log('vat_amount= ' + typeof vat_amount);
-            //  var vat_subtraction = parseInt((sub_total*vat_amount)/100);
-            //  console.log('vat_subtraction= ' + vat_subtraction);
-            //  console.log('vat_subtraction= ' + typeof vat_subtraction);
-            //  var grand_total = (sub_total + vat_subtraction);
-            //  // console.log(grand_total);
-            // // var vat_subtraction = parseFloat(vat_subtraction).toFixed(2);
-            //  var grand_total = parseInt(grand_total).toFixed(2);
-            //  //$('#vat_amount').val(vat_subtraction);
-            //  //$('#discount_amount').val(discount_amount);
-            //  $('#grand_total').val(grand_total);
-            //  $('#total_amount').val(grand_total);
-            //  $('#due_amount').val(grand_total);
-
-
-
-            var sub_total = $('#store_total_amount').val();
-            console.log('sub_total= ' + sub_total);
-            console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseFloat(sub_total);
-
-            var vat_amount = $('#vat_amount').val();
-            console.log('vat_amount= ' + vat_amount);
-            console.log('vat_amount= ' + typeof vat_amount);
-            vat_amount = (vat_amount);
-
-            var vat_subtraction = (sub_total*vat_amount)/100;
-            console.log('vat_subtraction= ' + vat_subtraction);
-            console.log('vat_subtraction= ' + typeof vat_subtraction);
-
-            var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
-            transport = parseFloat(transport);
-
-            var grand_total =( sub_total + vat_subtraction + transport);
-            console.log('grand_total= ' + grand_total);
-            console.log('grand_total= ' + typeof grand_total);
-            grand_total = (grand_total);
-
-            $('#show_vat_amount').val(vat_subtraction);
-            $('#store_total_amount').val(grand_total);
-            $('#total_amount').val(grand_total);
-            $('#due_amount').val(grand_total);
-
-
-
-        }
-        function transportCost(){
-
-            var sub_total = $('#store_total_amount').val();
-            console.log('sub_total= ' + sub_total);
-            console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseFloat(sub_total);
-
-            var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
-            transport = parseFloat(transport);
-
-            var grand_total =( sub_total + transport);
-            console.log('grand_total= ' + grand_total);
-            console.log('grand_total= ' + typeof grand_total);
-            grand_total = parseFloat(grand_total);
-
-            $('#total_amount').val(grand_total);
-            $('#due_amount').val(grand_total);
-            // $('#store_total_amount').val(grand_total);
-
-
-
-        }
-        // onkeyup
-        function discountAmount(){
+        //onkeyup
+        function priceCalculation(){
             var discount_type = $('#discount_type').val();
 
-            //var total = $('#total_amount').val();
-            //console.log('total= ' + total);
-            //console.log('total= ' + typeof total);
-            //total = parseInt(total);
-            //console.log('total= ' + typeof total);
-
             var store_total_amount = $('#store_total_amount').val();
-            console.log('store_total_amount= ' + store_total_amount);
-            console.log('store_total_amount= ' + typeof store_total_amount);
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
             store_total_amount = parseFloat(store_total_amount);
-            console.log('total= ' + typeof store_total_amount);
+            //console.log('total= ' + typeof store_total_amount);
 
-            var discount_amount = $('#discount_amount').val();
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-            discount_amount = parseFloat(discount_amount);
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
+            var vat_amount = $('#vat_amount').val();
+            //console.log('vat_amount= ' + vat_amount);
+            //console.log('vat_amount= ' + typeof vat_amount);
+            vat_amount = (vat_amount);
+            var vat_subtraction = (store_total_amount*vat_amount)/100;
+            //console.log('vat_subtraction= ' + vat_subtraction);
+            //console.log('vat_subtraction= ' + typeof vat_subtraction);
+            var after_vat_amount = store_total_amount+vat_subtraction
+            $('#after_vat_amount').val(after_vat_amount);
 
             var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
+            //console.log('transport= ' + transport);
+            //console.log('transport= ' + typeof transport);
             transport = parseFloat(transport);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
+
+            var discount_amount = $('#discount_amount').val();
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
 
             if(discount_type == 'flat'){
-                var final_amount = (store_total_amount+transport) - discount_amount ;
+                var discount = (store_total_amount+vat_subtraction+transport) - discount_amount ;
+                var final_amount = discount ;
             }
             else{
-                var per = ((store_total_amount+transport)*discount_amount)/100;
-                var final_amount = store_total_amount - per +transport ;
+                var discount = ((store_total_amount+vat_subtraction+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
             }
-            console.log('final_amount= ' + final_amount);
-            console.log('final_amount= ' + typeof final_amount);
+            //console.log('final_amount= ' + final_amount);
+            //console.log('final_amount= ' + typeof final_amount);
+            var after_discount_amount = after_transport - discount;
+            $('#after_discount_amount').val(after_discount_amount);
 
             $('#total_amount').val(final_amount);
 
             var paid_amount = $('#paid_amount').val();
-            console.log('paid_amount= ' + paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
 
             $('#due_amount').val(final_amount - paid_amount);
         }
@@ -533,7 +500,7 @@
                 '<td style="display: none"><div id="product_sub_category_id_'+n+'"><select class="form-control product_sub_category_id select2" name="product_sub_category_id[]" required>' + productSubCategory + '</select></div></td>' +
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                 '<td ><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
-                '<td><input type="number" class="store_qty form-control" name="store_qty[]"><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
+                '<td><input type="hidden" class="store_qty form-control" name="store_qty[]"><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
                 '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                 '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
