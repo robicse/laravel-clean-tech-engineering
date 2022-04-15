@@ -214,6 +214,13 @@ if (!function_exists('get_product_name_by_product_id')) {
     }
 }
 
+if (!function_exists('get_store_name_by_store_id')) {
+    function get_store_name_by_store_id($store_id)
+    {
+        return \App\Store::where('id',$store_id)->pluck('name')->first();
+    }
+}
+
 if (!function_exists('update_stock_for_edit_sale_stock')) {
     function update_stock_for_edit_sale_stock($id,$store_id,$stock_type,$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id)
     {
@@ -250,6 +257,43 @@ if (!function_exists('update_stock_for_edit_sale_stock')) {
     }
 }
 
+if (!function_exists('delete_stock_and_sync_for_edit_sale_stock')) {
+    function delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id,$new_store_id,$stock_type,$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id)
+    {
+        $stock = Stock::where('ref_id',$id)
+            ->where('store_id',$previous_store_id)
+            ->where('product_id',$product_id)
+            ->where('stock_type','sale')
+            ->first();
+        if(!empty($stock)){
+            product_store_stock_sync_after_delete_stock($product_id, $previous_store_id,$stock->id);
+            $stock->delete();
+        }
+
+        $current_stock = $previous_current_stock - $new_request_qty;
+        $sale_type = 'Sale Stock Qty Updated For Store Changed';
+
+        $stock_row = new Stock();
+        $stock_row->ref_id = $id;
+        $stock_row->user_id = Auth::id();
+        $stock_row->store_id = $new_store_id;
+        $stock_row->product_id = $product_id;
+        $stock_row->sale_type = $sale_type;
+        $stock_row->stock_type = $stock_type;
+        $stock_row->previous_stock = $previous_current_stock;
+        $stock_row->stock_in = 0;
+        $stock_row->stock_out = $new_request_qty;
+        $stock_row->current_stock = $current_stock;
+        $stock_row->date = date('Y-m-d');
+        if($stock_row->save()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}
+
 if (!function_exists('stock_minus_log')) {
     function stock_minus_log($action_module,$action_done,$action_remarks)
     {
@@ -265,6 +309,238 @@ if (!function_exists('stock_minus_log')) {
             return false;
         }
 
+    }
+}
+
+if (!function_exists('product_store_stock_sync')) {
+    function product_store_stock_sync($product_id, $store_id)
+    {
+        $stock_data = Stock::where('product_id', $product_id)->where('store_id', $store_id)->get();
+        $row_count = count($stock_data);
+        if ($row_count > 0) {
+            $store_previous_row_current_stock = null;
+            $stock_in_flag = 0;
+            $stock_out_flag = 0;
+
+            foreach ($stock_data as $key => $data) {
+
+                $id = $data->id;
+                $previous_stock = $data->previous_stock;
+                $stock_in = $data->stock_in;
+                $stock_out = $data->stock_out;
+                $current_stock = $data->current_stock;
+
+                if ($key == 0) {
+//                    echo 'row_id =>'.$id.'<br/>';
+//                    echo 'product_id =>'.$product_id.'<br/>';
+//                    echo 'store_id =>'.$store_id.'<br/>';
+//
+//                    echo 'store_previous_row_current_stock '.$store_previous_row_current_stock.'<br/>';
+//                    echo 'this_row_current_stock =>'.$current_stock.'<br/>';
+//                    echo '<br/>';
+
+
+                    $stock = Stock::find($id);
+                    $stock->previous_stock = 0;
+                    $stock->current_stock = $stock_in;
+                    $affectedRow = $stock->update();
+                    if ($affectedRow) {
+//                        echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                        echo '<br/>';
+                        $current_stock = $stock->current_stock;
+                    }
+
+                } else {
+//                    echo 'row_id =>'.$id.'<br/>';
+//                    echo 'product_id =>'.$product_id.'<br/>';
+//                    echo 'store_id =>'.$store_id.'<br/>';
+//
+//                    echo 'store_previous_row_current_stock '.$store_previous_row_current_stock.'<br/>';
+//                    echo 'this_row_current_stock =>'.$current_stock.'<br/>';
+//                    echo '<br/>';
+
+                    // update part
+                    if ($stock_in > 0) {
+                        if ($stock_in_flag == 1) {
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock + $stock_in;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else if ($previous_stock != $store_previous_row_current_stock) {
+                            $stock_in_flag = 1;
+
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock + $stock_in;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else {
+//                            echo 'this_row_current_stock => nothing => '.$stock_in.'<br/>';
+//                            echo '<br/>';
+                        }
+                    } else if ($stock_out > 0) {
+                        if ($stock_out_flag == 1) {
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock - $stock_out;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'This Row('.$id.') Current Stock => updated => ' . $stock_out . '<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else if ($previous_stock != $store_previous_row_current_stock) {
+                            $stock_out_flag = 1;
+
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock - $stock_out;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'This Row('.$id.') Current Stock => updated =>' . $stock_out . '<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else {
+//                            echo 'this_row_current_stock => nothing => '.$stock_out.'<br/>';
+//                            echo '<br/>';
+                        }
+                    } else {
+//                        echo 'this_row_current_stock => nothing<br/>';
+//                        echo '<br/>';
+                    }
+//                    echo '<br/>';
+                }
+                $store_previous_row_current_stock = $current_stock;
+            }
+        } else {
+//            echo 'no found!'.'<br/>';
+        }
+    }
+}
+
+if (!function_exists('product_store_stock_sync_after_delete_stock')) {
+    function product_store_stock_sync_after_delete_stock($product_id, $store_id,$stock_id)
+    {
+        $stock_data = Stock::where('product_id', $product_id)->where('store_id', $store_id)->where('id', '>',$stock_id)->get();
+        $row_count = count($stock_data);
+        if ($row_count > 0) {
+            $store_previous_row_current_stock = null;
+            $stock_in_flag = 0;
+            $stock_out_flag = 0;
+
+            foreach ($stock_data as $key => $data) {
+
+                $id = $data->id;
+                $previous_stock = $data->previous_stock;
+                $stock_in = $data->stock_in;
+                $stock_out = $data->stock_out;
+                $current_stock = $data->current_stock;
+
+                if ($key == 0) {
+//                    echo 'row_id =>'.$id.'<br/>';
+//                    echo 'product_id =>'.$product_id.'<br/>';
+//                    echo 'store_id =>'.$store_id.'<br/>';
+//
+//                    echo 'store_previous_row_current_stock '.$store_previous_row_current_stock.'<br/>';
+//                    echo 'this_row_current_stock =>'.$current_stock.'<br/>';
+//                    echo '<br/>';
+
+
+                    $stock = Stock::find($id);
+                    $stock->previous_stock = 0;
+                    $stock->current_stock = $stock_in;
+                    $affectedRow = $stock->update();
+                    if ($affectedRow) {
+//                        echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                        echo '<br/>';
+                        $current_stock = $stock->current_stock;
+                    }
+
+                } else {
+//                    echo 'row_id =>'.$id.'<br/>';
+//                    echo 'product_id =>'.$product_id.'<br/>';
+//                    echo 'store_id =>'.$store_id.'<br/>';
+//
+//                    echo 'store_previous_row_current_stock '.$store_previous_row_current_stock.'<br/>';
+//                    echo 'this_row_current_stock =>'.$current_stock.'<br/>';
+//                    echo '<br/>';
+
+                    // update part
+                    if ($stock_in > 0) {
+                        if ($stock_in_flag == 1) {
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock + $stock_in;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else if ($previous_stock != $store_previous_row_current_stock) {
+                            $stock_in_flag = 1;
+
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock + $stock_in;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'this_row_current_stock => updated => '.$stock_in.'<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else {
+//                            echo 'this_row_current_stock => nothing => '.$stock_in.'<br/>';
+//                            echo '<br/>';
+                        }
+                    } else if ($stock_out > 0) {
+                        if ($stock_out_flag == 1) {
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock - $stock_out;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'This Row('.$id.') Current Stock => updated => ' . $stock_out . '<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else if ($previous_stock != $store_previous_row_current_stock) {
+                            $stock_out_flag = 1;
+
+                            $stock = Stock::find($id);
+                            $stock->previous_stock = $store_previous_row_current_stock;
+                            $stock->current_stock = $store_previous_row_current_stock - $stock_out;
+                            $affectedRow = $stock->update();
+                            if ($affectedRow) {
+//                                echo 'This Row('.$id.') Current Stock => updated =>' . $stock_out . '<br/>';
+//                                echo '<br/>';
+                                $current_stock = $stock->current_stock;
+                            }
+                        } else {
+//                            echo 'this_row_current_stock => nothing => '.$stock_out.'<br/>';
+//                            echo '<br/>';
+                        }
+                    } else {
+//                        echo 'this_row_current_stock => nothing<br/>';
+//                        echo '<br/>';
+                    }
+//                    echo '<br/>';
+                }
+                $store_previous_row_current_stock = $current_stock;
+            }
+        } else {
+//            echo 'no found!'.'<br/>';
+        }
     }
 }
 
