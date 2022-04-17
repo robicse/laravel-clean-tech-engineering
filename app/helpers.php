@@ -257,8 +257,44 @@ if (!function_exists('update_stock_for_edit_sale_stock')) {
     }
 }
 
+if (!function_exists('update_stock_for_edit_purchase_stock')) {
+    function update_stock_for_edit_purchase_stock($id,$store_id,$stock_type,$new_request_qty,$invoice_purchase_qty,$previous_current_stock,$product_id)
+    {
+        if($new_request_qty > $invoice_purchase_qty){
+            $stock_in = $new_request_qty - $invoice_purchase_qty;
+            $stock_out = 0;
+            $current_stock = $previous_current_stock + $stock_in;
+            $sale_type = 'Purchase Qty Increased For Edit Stock';
+        }else{
+            $stock_in =  0;
+            $stock_out = $invoice_purchase_qty - $new_request_qty;
+            $current_stock = $previous_current_stock - $stock_out;
+            $sale_type = 'Purchase Qty Decreased For Edit Stock';
+        }
+
+        $stock_row = new Stock();
+        $stock_row->ref_id = $id;
+        $stock_row->user_id = Auth::id();
+        $stock_row->store_id = $store_id;
+        $stock_row->product_id = $product_id;
+        $stock_row->sale_type = $sale_type;
+        $stock_row->stock_type = $stock_type;
+        $stock_row->previous_stock = $previous_current_stock;
+        $stock_row->stock_in = $stock_in;
+        $stock_row->stock_out = $stock_out;
+        $stock_row->current_stock = $current_stock;
+        $stock_row->date = date('Y-m-d');
+        if($stock_row->save()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}
+
 if (!function_exists('delete_stock_and_sync_for_edit_sale_stock')) {
-    function delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id,$new_store_id,$stock_type,$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id)
+    function delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id,$new_store_id,$stock_type,$new_request_qty,$previous_current_stock,$product_id)
     {
         $stock = Stock::where('ref_id',$id)
             ->where('store_id',$previous_store_id)
@@ -283,6 +319,43 @@ if (!function_exists('delete_stock_and_sync_for_edit_sale_stock')) {
         $stock_row->previous_stock = $previous_current_stock;
         $stock_row->stock_in = 0;
         $stock_row->stock_out = $new_request_qty;
+        $stock_row->current_stock = $current_stock;
+        $stock_row->date = date('Y-m-d');
+        if($stock_row->save()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}
+
+if (!function_exists('delete_stock_and_sync_for_edit_purchase_stock')) {
+    function delete_stock_and_sync_for_edit_purchase_stock($id,$previous_store_id,$new_store_id,$stock_type,$new_request_qty,$previous_current_stock,$product_id)
+    {
+        $stock = Stock::where('ref_id',$id)
+            ->where('store_id',$previous_store_id)
+            ->where('product_id',$product_id)
+            ->where('stock_type','purchase')
+            ->first();
+        if(!empty($stock)){
+            product_store_stock_sync_after_delete_stock($product_id, $previous_store_id,$stock->id);
+            $stock->delete();
+        }
+
+        $current_stock = $previous_current_stock + $new_request_qty;
+        $sale_type = 'Purchase Stock Qty Updated For Store Changed';
+
+        $stock_row = new Stock();
+        $stock_row->ref_id = $id;
+        $stock_row->user_id = Auth::id();
+        $stock_row->store_id = $new_store_id;
+        $stock_row->product_id = $product_id;
+        $stock_row->sale_type = $sale_type;
+        $stock_row->stock_type = $stock_type;
+        $stock_row->previous_stock = $previous_current_stock;
+        $stock_row->stock_in = $new_request_qty;
+        $stock_row->stock_out = 0;
         $stock_row->current_stock = $current_stock;
         $stock_row->date = date('Y-m-d');
         if($stock_row->save()){

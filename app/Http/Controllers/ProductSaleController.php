@@ -466,25 +466,17 @@ For any queries call our support 09638-888 000";
             }
 
             if($store_id != $previous_store_id){
-                $update = delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id, $store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                $update = delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id, $store_id,'sale',$new_request_qty,$previous_current_stock,$product_id);
                 if($update && ($previous_current_stock < 0)){
                     $action_remarks = 'Sale ID: '.$id;
                     stock_minus_log('Product Sale','Update',$action_remarks);
                 }
             }else{
                 if($invoice_sale_qty != $new_request_qty){
-                    if($new_request_qty > $invoice_sale_qty){
-                        $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
-                        if($update && ($previous_current_stock < 0)){
-                            $action_remarks = 'Sale ID: '.$id;
-                            stock_minus_log('Product Sale','Update',$action_remarks);
-                        }
-                    }else{
-                        $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
-                        if($update && ($previous_current_stock < 0)){
-                            $action_remarks = 'Sale ID: '.$id;
-                            stock_minus_log('Product Sale','Update',$action_remarks);
-                        }
+                    $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                    if($update && ($previous_current_stock < 0)){
+                        $action_remarks = 'Sale ID: '.$id;
+                        stock_minus_log('Product Sale','Update',$action_remarks);
                     }
                 }
             }
@@ -494,26 +486,30 @@ For any queries call our support 09638-888 000";
         $productSale->update();
 
         // due
-        $due = Due::where('ref_id',$id)->first();;
-        $due->user_id = Auth::id();
-        $due->store_id = $request->store_id;
-        $due->party_id = $request->party_id;
-        $due->total_amount = $total_amount;
-        $due->paid_amount = $request->paid_amount;
-        $due->due_amount = $request->due_amount;
-        $due->update();
+        $due = Due::where('ref_id',$id)->where('invoice_no',$productSale->invoice_no)->first();
+        if(!empty($due)){
+            $due->user_id = Auth::id();
+            $due->store_id = $request->store_id;
+            $due->party_id = $request->party_id;
+            $due->total_amount = $total_amount;
+            $due->paid_amount = $request->paid_amount;
+            $due->due_amount = $request->due_amount;
+            $due->update();
+        }
 
         $transaction = Transaction::where('ref_id',$id)->where('transaction_type','sale')->first();
-        $transaction->user_id = Auth::id();
-        $transaction->store_id = $request->store_id;
-        $transaction->party_id = $request->party_id;
-        $transaction->date = $request->date;
-        $transaction->sale_type = "Retail Sale";
-        $transaction->payment_type = $request->payment_type;
-        $transaction->check_number = $request->check_number ? $request->check_number : '';
-        $transaction->check_date = $request->check_date ? $request->check_date : '';
-        $transaction->amount = $total_amount;
-        $transaction->update();
+        if(!empty($transaction)){
+            $transaction->user_id = Auth::id();
+            $transaction->store_id = $request->store_id;
+            $transaction->party_id = $request->party_id;
+            $transaction->date = $request->date;
+            $transaction->sale_type = "Retail Sale";
+            $transaction->payment_type = $request->payment_type;
+            $transaction->check_number = $request->check_number ? $request->check_number : '';
+            $transaction->check_date = $request->check_date ? $request->check_date : '';
+            $transaction->amount = $total_amount;
+            $transaction->update();
+        }
 
         $row_count_product_sale = count($request->free_product_id);
         {
@@ -521,11 +517,13 @@ For any queries call our support 09638-888 000";
             {
                 $free_product_sale_detail_id = $request->free_product_detail_id[$i];
                 $freeProduct_sale_detail = FreeProductSaleDetails::where('id',$free_product_sale_detail_id)->first();
-                $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-                $freeProduct_sale_detail->save();
-
+                if(!empty($freeProduct_sale_detail)){
+                    $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
+                    $freeProduct_sale_detail->save();
+                }
             }
         }
+
         Toastr::success('Product Sale Updated Successfully', 'Success');
         return redirect()->route('productSales.index');
     }

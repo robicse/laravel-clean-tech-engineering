@@ -94,10 +94,14 @@
                                 </tr>
                                 </thead>
                                 <tbody class="neworderbody">
+                                @php
+                                    $store_total_amount = 0;
+                                @endphp
                                 @foreach($productPurchaseDetails as $key => $productPurchaseDetail)
                                     <tr>
                                         @php
                                             $current_row = $key+1;
+                                            $store_total_amount += $productPurchaseDetail->qty*$productPurchaseDetail->price;
                                         @endphp
                                         <td width="28%">
                                             <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
@@ -158,25 +162,50 @@
                                     @endforeach
                                 </tbody>
                                 <tfoot>
+                                @php
+                                    $after_transport = $store_total_amount + $productPurchase->transport_cost;
+                                    if($productPurchase->discount_type == 'flat'){
+                                        $discount = $productPurchase->discount_amount;
+                                    }else{
+                                        $discount = ($after_transport*$productPurchase->discount_amount)/100;
+                                    }
+                                    $after_discount_amount = $after_transport - $discount;
+                                @endphp
+                                <tr>
+                                    <th>
+                                        Sub Total Amount:
+                                        <input type="text" id="store_total_amount" class="form-control" value="{{$store_total_amount}}" readonly>
+                                    </th>
+                                    <th>
+                                        After Trans:
+                                        <input type="text" id="after_transport" class="form-control"  value="{{$after_transport}}" readonly>
+                                    </th>
+                                    <th>
+                                        After Dis:
+                                        <input type="text" id="after_discount_amount" class="form-control" value="{{$after_discount_amount}}" readonly>
+                                    </th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
                                 <tr>
                                     <th >
                                         Transport/Labour:
-                                        <input type="text" id="transport" name="transport_cost" class="form-control" value="{{$productPurchase->transport_cost}}" placeholder="Transport Cost" onblur="transportCost('')" value="0">
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" value="{{$productPurchase->transport_cost}}" placeholder="Transport Cost" onkeyup="priceCalculation('')" value="0">
                                     </th>
                                     <th >
                                         Type:
-                                        <select name="discount_type" id="discount_type" class="form-control" >
+                                        <select name="discount_type" id="discount_type" class="form-control" onchange="priceCalculation('')">
                                             <option value="flat" {{'flat' == $productPurchase->discount_type ? 'selected' : ''}}>flat</option>
                                             <option value="percentage" {{'percentage' == $productPurchase->discount_type ? 'selected' : ''}}>percentage</option>
                                         </select>
                                     </th>
                                     <th>
                                         Discount:
-                                        <input type="text" id="discount_amount" class="discount_amount form-control" name="discount_amount" onkeyup="discountAmount('')" value="{{$productPurchase->discount_amount}}">
+                                        <input type="text" id="discount_amount" class="discount_amount form-control" name="discount_amount" onkeyup="priceCalculation('')" value="{{$productPurchase->discount_amount}}">
                                     </th>
                                     <th>
                                         Total:
-                                        <input type="hidden" id="store_total_amount" class="form-control" value="{{$productPurchase->total_amount}}">
+{{--                                        <input type="hidden" id="store_total_amount" class="form-control" value="{{$productPurchase->total_amount}}">--}}
                                         <input type="text" id="total_amount" class="form-control" name="total_amount" value="{{$productPurchase->total_amount}}">
                                     </th>
                                     <th colspan="2">
@@ -209,6 +238,90 @@
 @push('js')
     <script>
 
+        // function totalAmount(){
+        //     var t = 0;
+        //     $('.amount').each(function(i,e){
+        //         var amt = $(this).val()-0;
+        //         t += amt;
+        //     });
+        //     $('#store_total_amount').val(t);
+        //     $('#total_amount').val(t);
+        //     $('#due_amount').val(t);
+        // }
+        //
+        // function transportCost(){
+        //
+        //     var sub_total = $('#store_total_amount').val();
+        //     console.log('sub_total= ' + sub_total);
+        //     console.log('sub_total= ' + typeof sub_total);
+        //     sub_total = parseFloat(sub_total);
+        //
+        //     var transport = $('#transport').val();
+        //     console.log('transport= ' + transport);
+        //     console.log('transport= ' + typeof transport);
+        //     transport = parseFloat(transport);
+        //
+        //     var grand_total =( sub_total + transport);
+        //     console.log('grand_total= ' + grand_total);
+        //     console.log('grand_total= ' + typeof grand_total);
+        //     grand_total = parseFloat(grand_total);
+        //
+        //     $('#total_amount').val(grand_total);
+        //     $('#due_amount').val(grand_total);
+        //     // $('#store_total_amount').val(grand_total);
+        //
+        //
+        //
+        // }
+        // // onkeyup
+        // function discountAmount(){
+        //     var discount_type = $('#discount_type').val();
+        //
+        //     //var total = $('#total_amount').val();
+        //     //console.log('total= ' + total);
+        //     //console.log('total= ' + typeof total);
+        //     //total = parseInt(total);
+        //     //console.log('total= ' + typeof total);
+        //
+        //     var store_total_amount = $('#store_total_amount').val();
+        //     console.log('store_total_amount= ' + store_total_amount);
+        //     console.log('store_total_amount= ' + typeof store_total_amount);
+        //     store_total_amount = parseInt(store_total_amount);
+        //     console.log('total= ' + typeof store_total_amount);
+        //
+        //     var discount_amount = $('#discount_amount').val();
+        //     console.log('discount_amount= ' + discount_amount);
+        //     console.log('discount_amount= ' + typeof discount_amount);
+        //     discount_amount = parseInt(discount_amount);
+        //     console.log('discount_amount= ' + typeof discount_amount);
+        //
+        //     var transport = $('#transport').val();
+        //     console.log('transport= ' + transport);
+        //     console.log('transport= ' + typeof transport);
+        //     transport = parseFloat(transport);
+        //
+        //     if(discount_type == 'flat'){
+        //         var final_amount = (store_total_amount+transport) - discount_amount;
+        //     }
+        //     else{
+        //         var per = ((store_total_amount+transport)*discount_amount)/100;
+        //         var final_amount = store_total_amount - per +transport;
+        //     }
+        //     console.log('final_amount= ' + final_amount);
+        //     console.log('final_amount= ' + typeof final_amount);
+        //
+        //     var paid_amount = $('#paid_amount').val();
+        //     console.log('paid_amount= ' + paid_amount);
+        //     console.log('paid_amount= ' + typeof paid_amount);
+        //     paid_amount = parseInt(paid_amount);
+        //     console.log('paid_amount= ' + typeof paid_amount);
+        //
+        //     var due_amount = final_amount - paid_amount;
+        //
+        //     $('#total_amount').val(final_amount);
+        //     $('#due_amount').val(due_amount);
+        // }
+
         function totalAmount(){
             var t = 0;
             $('.amount').each(function(i,e){
@@ -216,81 +329,95 @@
                 t += amt;
             });
             $('#store_total_amount').val(t);
-            $('#total_amount').val(t);
-            $('#due_amount').val(t);
-        }
-
-        function transportCost(){
-
-            var sub_total = $('#store_total_amount').val();
-            console.log('sub_total= ' + sub_total);
-            console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseFloat(sub_total);
 
             var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
+            //console.log('transport= ' + transport);
+            //console.log('transport= ' + typeof transport);
             transport = parseFloat(transport);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
 
-            var grand_total =( sub_total + transport);
-            console.log('grand_total= ' + grand_total);
-            console.log('grand_total= ' + typeof grand_total);
-            grand_total = parseFloat(grand_total);
-
-            $('#total_amount').val(grand_total);
-            $('#due_amount').val(grand_total);
-            // $('#store_total_amount').val(grand_total);
-
-
-
-        }
-        // onkeyup
-        function discountAmount(){
             var discount_type = $('#discount_type').val();
-
-            //var total = $('#total_amount').val();
-            //console.log('total= ' + total);
-            //console.log('total= ' + typeof total);
-            //total = parseInt(total);
-            //console.log('total= ' + typeof total);
-
             var store_total_amount = $('#store_total_amount').val();
-            console.log('store_total_amount= ' + store_total_amount);
-            console.log('store_total_amount= ' + typeof store_total_amount);
-            store_total_amount = parseInt(store_total_amount);
-            console.log('total= ' + typeof store_total_amount);
-
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            //console.log('total= ' + typeof store_total_amount);
             var discount_amount = $('#discount_amount').val();
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-            discount_amount = parseInt(discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
-
-            var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
-            transport = parseFloat(transport);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
 
             if(discount_type == 'flat'){
-                var final_amount = (store_total_amount+transport) - discount_amount;
+                var discount = (store_total_amount+transport) - discount_amount ;
+                var final_amount = discount ;
             }
             else{
-                var per = ((store_total_amount+transport)*discount_amount)/100;
-                var final_amount = store_total_amount - per +transport;
+                var discount = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
             }
-            console.log('final_amount= ' + final_amount);
-            console.log('final_amount= ' + typeof final_amount);
-
-            var paid_amount = $('#paid_amount').val();
-            console.log('paid_amount= ' + paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
-            paid_amount = parseInt(paid_amount);
-            console.log('paid_amount= ' + typeof paid_amount);
-
-            var due_amount = final_amount - paid_amount;
+            //console.log('final_amount= ' + final_amount);
+            //console.log('final_amount= ' + typeof final_amount);
+            var after_discount_amount = after_transport - discount;
+            $('#after_discount_amount').val(after_discount_amount);
 
             $('#total_amount').val(final_amount);
-            $('#due_amount').val(due_amount);
+
+            var paid_amount = $('#paid_amount').val();
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
+
+            $('#due_amount').val(final_amount - paid_amount);
+
+        }
+
+
+        //onkeyup
+        function priceCalculation(){
+            var discount_type = $('#discount_type').val();
+
+            var store_total_amount = $('#store_total_amount').val();
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            //console.log('total= ' + typeof store_total_amount);
+
+            var transport = $('#transport').val();
+            //console.log('transport= ' + transport);
+            //console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
+
+            var discount_amount = $('#discount_amount').val();
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
+
+            if(discount_type == 'flat'){
+                var discount = (store_total_amount+vat_subtraction+transport) - discount_amount ;
+                var final_amount = discount ;
+            }
+            else{
+                var discount = ((store_total_amount+vat_subtraction+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
+            }
+            //console.log('final_amount= ' + final_amount);
+            //console.log('final_amount= ' + typeof final_amount);
+            var after_discount_amount = after_transport - discount;
+            $('#after_discount_amount').val(after_discount_amount);
+
+            $('#total_amount').val(final_amount);
+
+            var paid_amount = $('#paid_amount').val();
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
+
+            $('#due_amount').val(final_amount - paid_amount);
         }
 
         // onkeyup
