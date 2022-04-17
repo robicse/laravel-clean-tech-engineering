@@ -467,18 +467,26 @@ For any queries call our support 09638-888 000";
 
             if($store_id != $previous_store_id){
                 $update = delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id, $store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                if($update && ($previous_current_stock < 0)){
+                    $action_remarks = 'Sale ID: '.$id;
+                    stock_minus_log('Product Sale','Update',$action_remarks);
+                }
             }else{
                 if($invoice_sale_qty != $new_request_qty){
                     if($new_request_qty > $invoice_sale_qty){
                         $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                        if($update && ($previous_current_stock < 0)){
+                            $action_remarks = 'Sale ID: '.$id;
+                            stock_minus_log('Product Sale','Update',$action_remarks);
+                        }
                     }else{
                         $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                        if($update && ($previous_current_stock < 0)){
+                            $action_remarks = 'Sale ID: '.$id;
+                            stock_minus_log('Product Sale','Update',$action_remarks);
+                        }
                     }
                 }
-            }
-            if($update && ($previous_current_stock < 0)){
-                $action_remarks = 'Sale ID: '.$id;
-                stock_minus_log('Product Sale','Update',$action_remarks);
             }
         }
 
