@@ -213,7 +213,7 @@
                                             <input type="text" min="1" max="" class="qty form-control" name="qty[]" value="{{$productSaleDetail->qty}}" required >
                                         </td>
                                         <td width="12%">
-                                            <input type="text" min="1" max="" class="price form-control" name="price[]" value="{{$productSaleDetail->price}}" required >
+                                            <input type="text" min="0" max="" class="price form-control" name="price[]" value="{{$productSaleDetail->price}}" required >
                                         </td>
                                         <td width="12%">
                                             <input type="text" class="amount form-control" name="sub_total[]" value="{{$productSaleDetail->sub_total}}">
@@ -501,7 +501,7 @@
                 '<td style="display: none"><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                 '<td ><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" id="product_unit_id_'+n+'" required>' + productUnit + '</select></div></td>' +
                 '<td><input type="hidden" class="store_qty form-control" name="store_qty[]"><input type="number" min="1" max="" class="qty form-control" name="qty[]" required></td>' +
-                '<td><input type="text" min="1" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
+                '<td><input type="text" min="0" max="" class="price form-control" name="price[]" id="price_" value="" required></td>' +
                 '<td><input type="number" min="0" value="0" max="100" class="dis form-control" name="discount[]" required></td>' +
                 '<td><input type="text" class="amount form-control" name="sub_total[]" required></td>' +
                 '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
