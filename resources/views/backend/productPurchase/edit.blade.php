@@ -104,13 +104,14 @@
                                             $store_total_amount += $productPurchaseDetail->qty*$productPurchaseDetail->price;
                                         @endphp
                                         <td width="28%">
-                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>
-                                                <option value="">Select  Product</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{$product->id}}" {{$product->id == $productPurchaseDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>
-                                                @endforeach
-                                            </select>
-{{--                                            <input type="text" name="product_id[]" id="product_id" class="form-control" value="{{$productPurchaseDetail->product->id}}" readonly>--}}
+{{--                                            <select class="form-control product_id select2" name="product_id[]" onchange="getval({{$current_row}},this);" required>--}}
+{{--                                                <option value="">Select  Product</option>--}}
+{{--                                                @foreach($products as $product)--}}
+{{--                                                    <option value="{{$product->id}}" {{$product->id == $productPurchaseDetail->product_id ? 'selected' : ''}}>{{$product->name}}</option>--}}
+{{--                                                @endforeach--}}
+{{--                                            </select>--}}
+                                            <input type="text" class="form-control" value="{{$productPurchaseDetail->product->name}}" readonly>
+                                            <input type="hidden" name="product_id[]" id="product_id" class="form-control" value="{{$productPurchaseDetail->product->id}}">
                                             <input type="hidden" class="form-control" name="product_purchase_detail_id[]" value="{{$productPurchaseDetail->id}}" >
                                         </td>
                                         <td style="display: none">
@@ -360,12 +361,17 @@
             }
             //console.log('final_amount= ' + final_amount);
             //console.log('final_amount= ' + typeof final_amount);
-            var after_discount_amount = after_transport - discount;
+            if(discount_amount == 0){
+                var after_discount_amount = after_transport;
+            }else{
+                var after_discount_amount = after_transport - discount;
+            }
             $('#after_discount_amount').val(after_discount_amount);
 
             $('#total_amount').val(final_amount);
 
             var paid_amount = $('#paid_amount').val();
+            paid_amount = parseFloat(paid_amount);
             //console.log('paid_amount= ' + paid_amount);
             //console.log('paid_amount= ' + typeof paid_amount);
 
@@ -408,12 +414,14 @@
             }
             //console.log('final_amount= ' + final_amount);
             //console.log('final_amount= ' + typeof final_amount);
+
             var after_discount_amount = after_transport - discount;
-            $('#after_discount_amount').val(after_discount_amount);
+            $('#after_discount_amount').val(final_amount);
 
             $('#total_amount').val(final_amount);
 
             var paid_amount = $('#paid_amount').val();
+            paid_amount = parseFloat(paid_amount);
             //console.log('paid_amount= ' + paid_amount);
             //console.log('paid_amount= ' + typeof paid_amount);
 

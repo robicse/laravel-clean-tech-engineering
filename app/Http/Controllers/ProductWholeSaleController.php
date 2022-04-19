@@ -303,25 +303,29 @@ For any queries call our support 09638-888 000";
 
     public function update(Request $request, $id)
     {
-        //dd($request->all());
         $this->validate($request, [
             'party_id'=> 'required',
             'store_id'=> 'required',
-
         ]);
 
-        $stock_id = $request->stock_id;
         $row_count = count($request->product_id);
+        $store_id = $request->store_id;
+        // product purchase
+        $productSale = ProductSale::find($id);
+        $previous_store_id = $productSale->store_id;
         for($i=0; $i<$row_count;$i++)
         {
-
             $product_id = $request->product_id[$i];
-            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->latest()->pluck('current_stock')->first();
-            //dd($check_previous_stock);
-            if(!empty($check_previous_stock)){
-                if($check_previous_stock == 0)
-                {
-                    Toastr::success('Product Stock Not Available', 'warning');
+            $new_request_qty = $request->qty[$i];
+            $product_sale_detail_id = $request->product_Sale_detail_id[$i];
+            $purchase_sale_detail = ProductsaleDetail::findOrFail($product_sale_detail_id);
+            $invoice_sale_qty = $purchase_sale_detail->qty;
+            if( ($store_id != $previous_store_id) || (($invoice_sale_qty != $new_request_qty) && ($new_request_qty > $invoice_sale_qty)) ){
+                $stock_row = current_stock_row($store_id,'sale',$product_id);
+                if((empty($stock_row)) || (!empty($stock_row) && ($stock_row->previous_stock == 0)) ){
+                    $product_name = get_product_name_by_product_id($product_id);
+                    $store_name = get_store_name_by_store_id($store_id);
+                    Toastr::warning('Product Stock Not Available For product '.$product_name.' For Store '.$store_name, 'warning');
                     return redirect()->back();
                 }
             }
@@ -331,17 +335,7 @@ For any queries call our support 09638-888 000";
         {
             $total_amount += $request->sub_total[$i];
         }
-        $vat_amount =($total_amount*$request->vat_amount)/100;
-        $discount_type = $request->discount_type;
-        if($discount_type == 'flat')
-        {
-            $total_amount -= $request->discount_amount;
-        }else{
-            $total_amount = ($total_amount*$request->discount_amount)/100;
-        }
 
-        // product purchase
-        $productSale = ProductSale::find($id);
         $productSale->user_id = Auth::id();
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
@@ -355,7 +349,6 @@ For any queries call our support 09638-888 000";
         $productSale->discount_type = $request->discount_type;
         $productSale->discount_amount = $request->discount_amount;
         $productSale->conditions = $request->conditions;
-        //$productSale->vat_type = $request->vat_type;
         $productSale->total_amount =$request->total_amount;
         $productSale->paid_amount = $request->paid_amount;
         $productSale->due_amount = $request->due_amount;
@@ -367,9 +360,8 @@ For any queries call our support 09638-888 000";
         {
             // product purchase detail
             $product_sale_detail_id = $request->product_Sale_detail_id[$i];
-            //dd($product_sale_detail_id);
             $purchase_sale_detail = ProductsaleDetail::findOrFail($product_sale_detail_id);
-            //dd($purchase_sale_detail);
+            $invoice_sale_qty = $purchase_sale_detail->qty;
             $purchase_sale_detail->return_type = $request->return_type[$i];
             $purchase_sale_detail->product_category_id = $request->product_category_id[$i];
             $purchase_sale_detail->product_sub_category_id = $request->product_sub_category_id[$i] ? $request->product_sub_category_id[$i] : NULL;
@@ -381,88 +373,87 @@ For any queries call our support 09638-888 000";
             $purchase_sale_detail->update();
 
             $product_id = $request->product_id[$i];
-            $request_qty = $request->qty[$i];
+            $new_request_qty = $request->qty[$i];
 
-
-            // product stock
-            $store_id=$productSale->store_id;
-            //$invoice_no=$productSale->invoice_no;
             $stock_row = current_stock_row($store_id,'sale',$product_id);
-            $previous_stock = $stock_row->previous_stock;
-            $stock_out = $stock_row->stock_out;
-            //$current_stock = $stock_row->current_stock;
+            if(!empty($stock_row)){
+                $previous_current_stock = $stock_row->current_stock;
+            }else{
+                $previous_current_stock = 0;
+            }
 
-
-            if($stock_out != $request_qty){
-                $stock_row->user_id = Auth::id();
-                $stock_row->store_id = $request->store_id;
-                $stock_row->product_id = $product_id;
-                $stock_row->previous_stock = $previous_stock;
-                $stock_row->stock_in = 0;
-                $stock_row->stock_out = $request_qty;
-                $new_stock_out = $previous_stock - $request_qty;
-                $stock_row->current_stock = $new_stock_out;
-                $stock_row->update();
-
-                // stock minus log
-                if($stock_row->current_stock < 0){
-                    $stock_minus_log = new StockMinusLog();
-                    $stock_minus_log->user_id=Auth::user()->id;
-                    $stock_minus_log->action_module='Product Whole Sale';
-                    $stock_minus_log->action_done='Update';
-                    $stock_minus_log->action_remarks='Sale ID: '.$id;
-                    $stock_minus_log->action_date=date('Y-m-d');
-                    $stock_minus_log->save();
+            if($store_id != $previous_store_id){
+                $update = delete_stock_and_sync_for_edit_sale_stock($id,$previous_store_id, $store_id,'sale',$new_request_qty,$previous_current_stock,$product_id);
+                if($update && ($previous_current_stock < 0)){
+                    $action_remarks = 'Sale ID: '.$id;
+                    stock_minus_log('Product Whole Sale','Update',$action_remarks);
+                }
+            }else{
+                if($invoice_sale_qty != $new_request_qty){
+                    $update = update_stock_for_edit_sale_stock($id,$store_id,'sale',$new_request_qty,$invoice_sale_qty,$previous_current_stock,$product_id);
+                    if($update && ($previous_current_stock < 0)){
+                        $action_remarks = 'Sale ID: '.$id;
+                        stock_minus_log('Product Whole Sale','Update',$action_remarks);
+                    }
                 }
             }
 
-
-
-//            $product_id = $request->product_id[$i];
-//            $check_previous_stock = Stock::where('product_id',$product_id)->where('store_id',$request->store_id)->where('id','!=',$stock_id)->latest()->pluck('current_stock')->first();
-//            if(!empty($check_previous_stock)){
-//                $previous_stock = $check_previous_stock;
-//            }else{
-//                $previous_stock = 0;
+            // product stock
+//            $store_id=$productSale->store_id;
+//            $stock_row = current_stock_row($store_id,'sale',$product_id);
+//            $previous_stock = $stock_row->previous_stock;
+//            $stock_out = $stock_row->stock_out;
+//
+//            if($stock_out != $request_qty){
+//                $stock_row->user_id = Auth::id();
+//                $stock_row->store_id = $request->store_id;
+//                $stock_row->product_id = $product_id;
+//                $stock_row->previous_stock = $previous_stock;
+//                $stock_row->stock_in = 0;
+//                $stock_row->stock_out = $request_qty;
+//                $new_stock_out = $previous_stock - $request_qty;
+//                $stock_row->current_stock = $new_stock_out;
+//                $stock_row->update();
+//
+//                // stock minus log
+//                if($stock_row->current_stock < 0){
+//                    $stock_minus_log = new StockMinusLog();
+//                    $stock_minus_log->user_id=Auth::user()->id;
+//                    $stock_minus_log->action_module='Product Whole Sale';
+//                    $stock_minus_log->action_done='Update';
+//                    $stock_minus_log->action_remarks='Sale ID: '.$id;
+//                    $stock_minus_log->action_date=date('Y-m-d');
+//                    $stock_minus_log->save();
+//                }
 //            }
-//            // product stock
-//            $stock = Stock::where('ref_id',$id)->where('stock_type','sale')->first();
-//            $stock->user_id = Auth::id();
-//            $stock->store_id = $request->store_id;
-//            $stock->date = $request->date;
-//            $stock->sale_type ="Whole Sale edit";
-//            $stock->product_id = $request->product_id[$i];
-//            $stock->previous_stock = $previous_stock;
-//            $stock->stock_in = 0;
-//            $stock->stock_out = $request->qty[$i];
-//            $stock->current_stock = $previous_stock - $request->qty[$i];
-//            $stock->update();
         }
 
         // due
-        $due = Due::where('ref_id',$id)->first();;
-        $due->user_id = Auth::id();
-        $due->store_id = $request->store_id;
-        $due->party_id = $request->party_id;
-        //$due->payment_type = $request->payment_type;
-        //$due->check_number = $request->check_number ? $request->check_number : '';
-        $due->total_amount = $total_amount;
-        $due->paid_amount = $request->paid_amount;
-        $due->due_amount = $request->due_amount;
-        $due->update();
+        $due = Due::where('ref_id',$id)->where('invoice_no',$productSale->invoice_no)->first();
+        if(!empty($due)){
+            $due->user_id = Auth::id();
+            $due->store_id = $request->store_id;
+            $due->party_id = $request->party_id;
+            $due->total_amount = $total_amount;
+            $due->paid_amount = $request->paid_amount;
+            $due->due_amount = $request->due_amount;
+            $due->update();
+        }
 
         // transaction
         $transaction = Transaction::where('ref_id',$id)->where('transaction_type','sale')->first();
-        $transaction->user_id = Auth::id();
-        $transaction->store_id = $request->store_id;
-        $transaction->party_id = $request->party_id;
-        $transaction->date = $request->date;
-        $transaction->sale_type = "Whole Sale edit";
-        $transaction->payment_type = $request->payment_type;
-        $transaction->check_number = $request->check_number ? $request->check_number : '';
-        $transaction->check_date = $request->check_date ? $request->check_date : '';
-        $transaction->amount = $total_amount;
-        $transaction->update();
+        if(!empty($transaction)) {
+            $transaction->user_id = Auth::id();
+            $transaction->store_id = $request->store_id;
+            $transaction->party_id = $request->party_id;
+            $transaction->date = $request->date;
+            $transaction->sale_type = "Whole Sale edit";
+            $transaction->payment_type = $request->payment_type;
+            $transaction->check_number = $request->check_number ? $request->check_number : '';
+            $transaction->check_date = $request->check_date ? $request->check_date : '';
+            $transaction->amount = $total_amount;
+            $transaction->update();
+        }
 
         $row_count_product_sale = count($request->free_product_id);
         {
@@ -471,10 +462,10 @@ For any queries call our support 09638-888 000";
                 // free product sale details
                 $free_product_sale_detail_id = $request->free_product_detail_id[$i];
                 $freeProduct_sale_detail = FreeProductSaleDetails::where('id',$free_product_sale_detail_id)->first();
-                $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
-                // dd($freeProduct_sale_detail);
-                $freeProduct_sale_detail->save();
-
+                if(!empty($freeProduct_sale_detail)) {
+                    $freeProduct_sale_detail->free_product_id = $request->free_product_id[$i];
+                    $freeProduct_sale_detail->save();
+                }
             }
         }
         Toastr::success('Product Sale Updated Successfully', 'Success');

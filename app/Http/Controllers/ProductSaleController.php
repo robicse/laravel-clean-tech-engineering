@@ -386,6 +386,7 @@ For any queries call our support 09638-888 000";
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         $this->validate($request, [
             'party_id'=> 'required',
             'store_id'=> 'required',
