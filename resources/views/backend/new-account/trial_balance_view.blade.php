@@ -91,18 +91,41 @@
                                 $oResultAssetCredit = $oResultAsset->credit;
                             @endphp
                             <tr>
+                                <td>
+                                    @php
+                                        $opening_balance_for_trial_balance = opening_balance_for_trial_balance($oResultAsset->ledger_id,null,null,$date_from, $date_to);
+                                        $OpeningPreBalance = $opening_balance_for_trial_balance['PreBalance'] ? $opening_balance_for_trial_balance['PreBalance'] : 0;
+                                        $OpeningPreDebCre = $opening_balance_for_trial_balance['preDebCre'];
+                                    @endphp
+{{--                                    <h6>Previous Balance ({{$oResultAsset->ledger_name}}) : {{$OpeningPreBalance}} {{$OpeningPreDebCre}}</h6>--}}
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>{{ $oResultAsset->ledger_name }}</td>
                                 <td>{{ number_format($oResultAsset->debit ,2,'.',',')}}  </td>
                                 <td>{{number_format( $oResultAsset->credit  ,2,'.',',')}}</td>
                                 <td>
                                     @php
                                         if($oResultAssetDebit > $oResultAssetCredit){
-                                            echo number_format($oResultAssetDebit - $oResultAssetCredit  ,2,'.',',') ;
+                                            $cal = $oResultAssetDebit - $oResultAssetCredit;
+                                            if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'De') ){
+                                                $cal += $OpeningPreBalance;
+                                            }else{
+                                                $cal -= $OpeningPreBalance;
+                                            }
+                                            echo number_format(abs($cal)  ,2,'.',',') ;
                                             echo 'De';
                                         }else{
-                                            echo number_format($oResultAssetCredit - $oResultAssetDebit,2,'.',',') ;
+                                            $cal = $oResultAssetCredit - $oResultAssetDebit;
+                                            if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'Cr') ){
+                                                $cal += $OpeningPreBalance;
+                                            }else{
+                                                $cal -= $OpeningPreBalance;
+                                            }
+                                            echo number_format(abs($cal),2,'.',',') ;
                                             echo 'Cr';
                                         }
+                                        $OpeningPreBalance = 0;
                                     @endphp
                                 </td>
                             </tr>
