@@ -108,20 +108,20 @@
                                     @php
                                         if($oResultAssetDebit > $oResultAssetCredit){
                                             $cal = $oResultAssetDebit - $oResultAssetCredit;
-                                            if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'De') ){
-                                                $cal += $OpeningPreBalance;
-                                            }else{
-                                                $cal -= $OpeningPreBalance;
-                                            }
+                                            //if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'De') ){
+                                            //    $cal += $OpeningPreBalance;
+                                            //}else{
+                                            //    $cal -= $OpeningPreBalance;
+                                            //}
                                             echo number_format(abs($cal)  ,2,'.',',') ;
                                             echo 'De';
                                         }else{
                                             $cal = $oResultAssetCredit - $oResultAssetDebit;
-                                            if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'Cr') ){
-                                                $cal += $OpeningPreBalance;
-                                            }else{
-                                                $cal -= $OpeningPreBalance;
-                                            }
+                                            //if( ($OpeningPreBalance > 0) && ($OpeningPreDebCre == 'Cr') ){
+                                            //    $cal += $OpeningPreBalance;
+                                            //}else{
+                                            //    $cal -= $OpeningPreBalance;
+                                            //}
                                             echo number_format(abs($cal),2,'.',',') ;
                                             echo 'Cr';
                                         }
