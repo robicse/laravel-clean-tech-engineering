@@ -132,6 +132,7 @@
                                                 <th>SL NO.</th>
                                                 <th>Product Information</th>
                                                 <th>Qty</th>
+                                                <th>Unit</th>
                                                 <th>Unit Price BDT</th>
                                                 <th>Amount BDT</th>
                                             </tr>
@@ -145,6 +146,7 @@
                                                     <td>{{$key+1}}</td>
                                                     <td>{{$productSaleDetail->product->name}}</td>
                                                     <td>{{$productSaleDetail->qty}}</td>
+                                                    <td>{{$productSaleDetail->product_unit->name}}</td>
                                                     <td>{{$productSaleDetail->price}}</td>
                                                     <td>
                                                         @php

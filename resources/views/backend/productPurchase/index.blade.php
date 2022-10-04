@@ -51,12 +51,17 @@
                                 $totalAmount =(($productPurches->total_amount +$productPurches->transport_cost));
                                 //$DueAmount =( $productSale->due_amount +$productSale->transport_cost);
                                // $paid_amount =( $productSale->paid_amount +$productSale->transport_cost);
-
+                               $return = \App\ProductPurchaseReturn::where('purchase_invoice_no',$productPurches->invoice_no)->first();
                             @endphp
                             <td>{{ $key+1 }}</td>
                             <td>{{ $productPurches->user->name}}</td>
                             <td>{{ $productPurches->party->name}}</td>
-                            <td>{{ $productPurches->invoice_no}}</td>
+                            <td>
+                                {{ $productPurches->invoice_no}}
+                                @if($return)
+                                    <span class="badge badge-danger"> Returned </span>
+                                @endif
+                            </td>
                             <td>{{ $productPurches->total_amount}}</td>
                             <td>{{ $productPurches->paid_amount}}</td>
                             <td>{{ $productPurches->date}}</td>
