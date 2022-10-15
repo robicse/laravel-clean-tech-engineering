@@ -30,9 +30,19 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th>User</th>
+                            <th>Created By User</th>
                             <td>{{$productSale->user->name}}</td>
                         </tr>
+                        @if($productSale->updated_by_user_id)
+                            <tr>
+                                <th>Updated By User</th>
+                                <td>{{user_name($productSale->updated_by_user_id)}}</td>
+                            </tr>
+                            <tr>
+                                <th>Updated Date Time</th>
+                                <td>{{$productSale->updated_at}}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Store</th>
                             <td>{{$productSale->store->name}}</td>
@@ -43,7 +53,7 @@
                         </tr>
 
                         <tr>
-                            <th>Date</th>
+                            <th>Created Date</th>
                             <td>{{$productSale->date}}</td>
                         </tr>
                         <tr>

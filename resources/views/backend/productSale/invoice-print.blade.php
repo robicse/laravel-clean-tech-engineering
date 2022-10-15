@@ -334,7 +334,7 @@
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
                                 <input type="hidden" id="product_sale_id" name="product_sale_id" value="{{$productSale->id}}">
-                                <span>Print Date: {{$productSale->created_at}} Computer Generated Invoice</span>
+                                <span>Print Date: {{date('Y-m-d H:i:s')}} Computer Generated Invoice</span>
                             </div>
                         </div>
                     </div>
@@ -361,7 +361,7 @@
 {{--    <hr style="border-top:2px dotted black;width: 100%;height:1px;">--}}
 {{--    <div class="row" >--}}
 {{--        <div class="col-md-6" style="width: 500%; float: left;">--}}
-{{--            <span style="text-align: left;width:400px">Print Date:{{$productSale->created_at}}</span>--}}
+{{--            <span style="text-align: left;width:400px">Print Date:{{date('Y-m-d H:i:s')}}</span>--}}
 {{--            <span style="text-align: left;width:400px">Printed By: {{\Illuminate\Support\Facades\Auth::user()->name}}</span>--}}
 {{--        </div>--}}
 {{--        <div class="col-md-6" style="width: 50%; float: right;margin-right: -240px;">--}}

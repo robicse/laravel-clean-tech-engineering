@@ -1,6 +1,7 @@
 <?php
 
 use App\Stock;
+use App\User;
 use App\StockMinusLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -381,6 +382,14 @@ if (!function_exists('stock_minus_log')) {
         }else{
             return false;
         }
+
+    }
+}
+
+if (!function_exists('user_name')) {
+    function user_name($id)
+    {
+        return User::where('id',$id)->pluck('name')->first();
 
     }
 }

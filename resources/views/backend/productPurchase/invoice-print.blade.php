@@ -157,6 +157,7 @@
                             <th >SL NO.</th>
                             <th>Product Information</th>
                             <th>Qty</th>
+                            <th>Unit</th>
                             <th>Unit Price BDT</th>
                             <th>Amount BDT</th>
                         </tr>
@@ -170,6 +171,7 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$productPurchaseDetail->product->name}}</td>
                                 <td>{{$productPurchaseDetail->qty}}</td>
+                                <td>{{$productPurchaseDetail->product_unit->name}}</td>
                                 <td> {{number_format($productPurchaseDetail->price,2,".",",")}}</td>
                                 <td>
                                     @php
@@ -310,7 +312,7 @@
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
-                                <span>Print Date: {{$productPurchase->created_at}} Computer Generated Invoice</span>
+                                <span>Print Date: {{date('Y-m-d H:i:s')}} Computer Generated Invoice</span>
                             </div>
                         </div>
                     </div>

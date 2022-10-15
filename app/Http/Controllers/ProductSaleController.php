@@ -421,7 +421,8 @@ For any queries call our support 09638-888 000";
             $total_amount += $request->sub_total[$i];
         }
 
-        $productSale->user_id = Auth::id();
+
+        $productSale->updated_by_user_id = Auth::user()->id;
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->provider_id = $request->provider_id;
@@ -440,6 +441,7 @@ For any queries call our support 09638-888 000";
         $productSale->transport_cost = $request->transport_cost;
         $productSale->transport_area = $request->transport_area;
         $productSale->conditions = $request->conditions;
+        $productSale->updated_at = date('Y-m-d H:i:s');
 
         for($i=0; $i<$row_count;$i++)
         {

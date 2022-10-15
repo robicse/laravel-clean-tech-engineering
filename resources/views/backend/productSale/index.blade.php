@@ -80,7 +80,14 @@
                             @endphp
                             <tr>
                                 <td>{{ ($key+1 )}}</td>
-                                <td>{{ $productSale->user->name}}</td>
+                                <td>
+                                    {{ $productSale->user->name}}
+                                    @if($productSale->updated_by_user_id)
+                                    <br/>
+                                    Updated By: {{user_name($productSale->updated_by_user_id)}}<br/>
+                                    Updated Date: {{$productSale->updated_at}}
+                                    @endif
+                                </td>
                                 <td>{{ $productSale->date}}</td>
                                 <td>
                                     {{ $productSale->invoice_no}}

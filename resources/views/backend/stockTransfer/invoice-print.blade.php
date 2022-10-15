@@ -151,6 +151,7 @@
                             <th style="font-size: 18px">SL NO.</th>
                             <th style="font-size: 18px">Product Information</th>
                             <th style="font-size: 18px">Qty</th>
+                            <th style="font-size: 18px">Unit</th>
                             <th style="font-size: 18px">Brand</th>
                             <th style="font-size: 18px">Unit Price BDT</th>
                             <th style="font-size: 18px">Amount BDT</th>
@@ -166,6 +167,7 @@
                                 <td>{{$stockTransferDetail->product->name}}</td>
                                 <td>{{$stockTransferDetail->qty}}</td>
                                 <td>{{$stockTransferDetail->product->product_brand->name}}</td>
+                                <td>{{$stockTransferDetail->product->product_unit->name}}</td>
                                 <td>{{$stockTransferDetail->price}}</td>
                                 <td>
                                     @php
@@ -230,7 +232,7 @@
                         <hr style="border-top:1px dotted black;width: 100%;height:1px;">
                         <div class="row" >
                             <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">
-                                <span>Print Date: {{$stockTransfer->created_at}} Computer Generated Invoice</span>
+                                <span>Print Date: {{date('Y-m-d H:i:s')}} Computer Generated Invoice</span>
                             </div>
                         </div>
                     </div>

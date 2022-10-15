@@ -130,13 +130,13 @@
                         </tbody>
                     </table>
                     <div style="margin-top: 20px; ">
-                        <span style="float: right">Print Date: {{date('d-m-Y')}}  Computer Generated Invoice</span>
+                        <span style="float: right">Print Date: {{date('Y-m-d H:i:s')}}  Computer Generated Invoice</span>
                     </div>
 {{--                    <div class="row footer_div" style="margin-top: 210px;display: block" >--}}
 {{--                        <hr style="border-top:1px dotted black;width: 100%;height:1px;">--}}
 {{--                        <div class="row" >--}}
 {{--                            <div class="col-md-6" style="text-align:right;float:right;margin-right: 10px;">--}}
-{{--                                <span>Print Date: {{date('d-m-Y')}}  Computer Generated Invoice</span>--}}
+{{--                                <span>Print Date: {{date('Y-m-d H:i:s')}}  Computer Generated Invoice</span>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}

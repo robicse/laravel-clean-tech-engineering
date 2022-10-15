@@ -122,6 +122,7 @@
 {{--                                                <th>Reason </th>--}}
                                                 <th>Product </th>
                                                 <th>Qty</th>
+                                                <th>Unit</th>
                                                 <th>Brand</th>
                                                 <th>Unit Price BDT</th>
                                                 <th>Amount BDT</th>
@@ -136,6 +137,7 @@
                                                     <td>{{$key+1}}</td>
                                                     <td>{{$stockTransferDetail->product->name}}</td>
                                                     <td>{{$stockTransferDetail->qty}}</td>
+                                                    <td>{{$stockTransferDetail->product->product_unit->name}}</td>
                                                     <td>{{$stockTransferDetail->product->product_brand->name}}</td>
                                                     <td>{{$stockTransferDetail->price}}</td>
                                                     <td>
