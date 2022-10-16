@@ -54,7 +54,14 @@
                                $return = \App\ProductPurchaseReturn::where('purchase_invoice_no',$productPurches->invoice_no)->first();
                             @endphp
                             <td>{{ $key+1 }}</td>
-                            <td>{{ $productPurches->user->name}}</td>
+                            <td>
+                                {{ $productPurches->user->name}}
+                                @if($productPurches->updated_by_user_id)
+                                    <br/>
+                                    Updated By: {{user_name($productPurches->updated_by_user_id)}}<br/>
+                                    Updated Date: {{$productPurches->updated_at}}
+                                @endif
+                            </td>
                             <td>{{ $productPurches->party->name}}</td>
                             <td>
                                 {{ $productPurches->invoice_no}}

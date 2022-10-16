@@ -421,12 +421,22 @@ class LedgerController extends Controller
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
         $group_3 = $request->group_3;
-        //dd($general_ledger);
         $date_from = $request->date_from;
         $date_to = $request->date_to;
 
-//dd($gl_pre_valance_data);
-        //dd($request->all());
+        $count_account_id = count($request->account_id);
+        $ledger_name = '';
+        if($general_ledger){
+            $ledger_name = Ledger::where('id',$general_ledger)->pluck('name')->first();
+        }elseif($count_account_id > 0){
+            $chartOfAccount = ChartOfAccount::where('id',$request->account_id[0])->first();
+            if($chartOfAccount){
+                $ledger_name = $chartOfAccount->group_1.'.'.$chartOfAccount->group_2.'.'.$chartOfAccount->group_3.'.'.$chartOfAccount->group_4;
+            }
+        }else{
+            $ledger_name = '';
+        }
+
         if((!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) && (empty($group_2)) && (empty($group_3)))
         {
             $gl_pre_valance_data = DB::table('posting_form_details')
@@ -526,7 +536,7 @@ class LedgerController extends Controller
 
         //dd($general_ledger_infos);
 
-        return view('backend.new-account.bankbook_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3','gl_pre_valance_data'));
+        return view('backend.new-account.bankbook_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3','gl_pre_valance_data','ledger_name'));
     }
     public function receiptPayment_form()
     {

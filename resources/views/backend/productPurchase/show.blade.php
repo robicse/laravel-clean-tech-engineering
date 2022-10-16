@@ -21,9 +21,19 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <th>User</th>
+                            <th>Created By User</th>
                             <td>{{$productPurchase->user->name}}</td>
                         </tr>
+                        @if($productPurchase->updated_by_user_id)
+                            <tr>
+                                <th>Updated By User</th>
+                                <td>{{user_name($productPurchase->updated_by_user_id)}}</td>
+                            </tr>
+                            <tr>
+                                <th>Updated Date Time</th>
+                                <td>{{$productPurchase->updated_at}}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Store</th>
                             <td>{{$productPurchase->store->name}}</td>

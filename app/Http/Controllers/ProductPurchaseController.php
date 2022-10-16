@@ -275,7 +275,7 @@ class ProductPurchaseController extends Controller
         $previous_store_id = $productPurchase->store_id;
         $productPurchase ->party_id = $request->party_id;
         $productPurchase ->store_id = $request->store_id;
-        $productPurchase ->user_id = Auth::id();
+        $productPurchase ->updated_by_user_id = Auth::id();
         $productPurchase ->date = $request->date;
         $productPurchase ->note = $request->note;
         $productPurchase ->payment_type = $request->payment_type;

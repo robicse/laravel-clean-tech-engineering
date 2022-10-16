@@ -25,7 +25,6 @@
 
 
             <div class="tile">
-                {{--<h3 class="tile-title">Accounts</h3>--}}
                 <div class="col-sm-4" style="width: 33.33333333%;height:180px; float: left;">
                     <h2>Clean Tech Engineering</h2>
                     <p style="margin: 0px">Corporate Office : House-1, Road-16, Section-10, Block-C, Mirpur, Dhaka-1216</p>
@@ -35,7 +34,7 @@
 
                 <div class="col-sm-4" style="text-align: center; width: 33.33333333%; float: left;">
                     <h1>Bank Book</h1>
-                    <h4>@if(!empty($gl_pre_valance_data)) {{$gl_pre_valance_data->ledger_name}} @endif</h4>
+                    <h4>{{$ledger_name}}</h4>
                     <h4>For The Period Of {{ $date_from }} to {{ $date_to }}</h4>
                 </div>
                 <div class="col-sm-4" style="text-align: right; width: 33.33333333%; float: left;">
@@ -43,19 +42,6 @@
                     <br/>
                     To Date : {{ $date_to }}
                     <br>
-
-{{--                        Account Name : {{ \App\Ledger::where('id', $general_ledger)->pluck('name')->first() }}--}}
-
-
-{{--                    @if(!empty ($group_2) && empty($group_3) )--}}
-{{--                        Account Name :  {{ $group_2}}--}}
-
-{{--                    @endif--}}
-{{--                    @if(!empty ($group_3) && ($group_2) )--}}
-{{--                        Account Name :  {{ $group_3}}--}}
-
-{{--                    @endif--}}
-
                 </div>
                 <div class="table-responsive" style="margin-top: 240px">
                     <table id="example1" class="table table-bordered table-striped">
