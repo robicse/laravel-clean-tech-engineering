@@ -194,8 +194,6 @@
                         <td align="right">Total</td>
                         <td>{{ number_format($sum_debit,2,'.',',') }}</td>
                         <td>{{ number_format($sum_credit,2,'.',',') }}</td>
-
-
                     </tr>
                     </tbody>
                 </table>
@@ -214,19 +212,8 @@
 @section('footer')
 
     <script src="{{asset('js/form.js')}}"></script>
-
-    {{--<script>--}}
-    {{--$('#create-form').function({--}}
-    {{--formReset: false,--}}
-    {{--redirectPath: location.href,--}}
-    {{--});--}}
-    {{--</script>--}}
 @section('other')
     <script>
-        // $('button').load(function(){
-        //     $('submit').modal('show');
-        //  });
-
         $("form").on('submit', function(){
             $('.modal').show();
         })
