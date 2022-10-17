@@ -491,7 +491,7 @@ class LedgerController extends Controller
         return view('backend.new-account.receipt_form',compact('bankbooks','ledgers'));
     }
 
-    public function view_receiptPayment(Request $request)
+    public function view_receiptPayment_previous(Request $request)
     {
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
@@ -589,7 +589,7 @@ class LedgerController extends Controller
         return view('backend.new-account.receipt_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3'));
     }
 
-    public function view_receiptPayment_backup(Request $request)
+    public function view_receiptPayment_new(Request $request)
     {
         $date_from = $request->date_from;
         $date_to = $request->date_to;
@@ -598,7 +598,7 @@ class LedgerController extends Controller
             ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
             ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
             ->where('posting_date', '<',$date_from)
-            ->whereIn('posting_forms.voucher_type_id',[1,2])
+            ->whereIn('posting_forms.voucher_type_id',[1,2,6])
             ->groupBy('ledger_id')
             ->first();
 
@@ -621,7 +621,8 @@ class LedgerController extends Controller
         $general_ledger_infos = DB::table('posting_form_details')
             ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
             ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
-            ->whereIn('posting_forms.voucher_type_id',[1,2])
+            ->whereIn('posting_forms.voucher_type_id',[1,2,6])
+            ->where('posting_form_details.chart_of_account_id',1)
             ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
             ->get();
 

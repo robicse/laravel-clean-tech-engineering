@@ -133,7 +133,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('account/bank-book','LedgerController@bankBook_form')->name('account.bank.book');
     Route::post('account/bank-book-view','LedgerController@view_bankBook')->name('account.general.bankbook_view');
     Route::get('account/receipt-payment','LedgerController@receiptPayment_form')->name('account.receipt.payment');
-    Route::post('account/receipt-payment-view','LedgerController@view_receiptPayment')->name('account.receipt.payment_view');
+    Route::post('account/receipt-payment-view-previous','LedgerController@view_receiptPayment_previous')->name('account.receipt.payment_view.previous');
+    Route::post('account/receipt-payment-view-new','LedgerController@view_receiptPayment_new')->name('account.receipt.payment_view.new');
 
 
 
