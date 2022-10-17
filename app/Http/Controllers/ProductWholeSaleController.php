@@ -217,6 +217,7 @@ class ProductWholeSaleController extends Controller
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
             $transaction->check_date = $request->check_date ? $request->check_date : '';
+            $transaction->bkash_number = $request->bkash_number ? $request->bkash_number : '';
             //$transaction->amount = $total_amount;
             $transaction->amount = $request->paid_amount;
             $transaction->save();
@@ -451,6 +452,7 @@ For any queries call our support 09638-888 000";
             $transaction->payment_type = $request->payment_type;
             $transaction->check_number = $request->check_number ? $request->check_number : '';
             $transaction->check_date = $request->check_date ? $request->check_date : '';
+            $transaction->bkash_number = $request->bkash_number ? $request->bkash_number : '';
             $transaction->amount = $total_amount;
             $transaction->update();
         }

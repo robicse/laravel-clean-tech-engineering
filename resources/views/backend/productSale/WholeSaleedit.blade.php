@@ -64,6 +64,9 @@
                                 <select name="payment_type" id="payment_type" class="form-control" >
                                     <option value="Cash" {{'Cash' == $transaction->payment_type ? 'selected' : ''}}>Cash</option>
                                     <option value="Check" {{'Check' == $transaction->payment_type ? 'selected' : ''}}>Check</option>
+                                    <option value="BKash" {{'BKash' == $transaction->payment_type ? 'selected' : ''}}>BKash</option>
+                                    <option value="SSL COMMERZ" {{'SSL COMMERZ' == $transaction->payment_type ? 'selected' : ''}}>SSL COMMERZ</option>
+                                    <option value="POS SYSTEM" {{'POS SYSTEM' == $transaction->payment_type ? 'selected' : ''}}>POS SYSTEM</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
@@ -643,14 +646,33 @@
             <?php
             if($transaction->payment_type == 'Cash'){
             ?>
+            $('#bkash_number').hide();
             $('#check_number').hide();
             $('#check_date').hide();
+            <?php } ?>
+            <?php
+            if($transaction->payment_type == 'BKash'){
+            ?>
+            $('#check_number').hide();
+            $('#check_date').hide();
+            <?php } ?>
+            <?php
+            if($transaction->payment_type == 'Check'){
+            ?>
+            $('#bkash_number').hide();
             <?php } ?>
             $('#payment_type').change(function(){
                 if($('#payment_type').val() == 'Check') {
                     $('#check_number').show();
                     $('#check_date').show();
+                    $('#bkash_number').hide();
+                }else if($('#payment_type').val() == 'BKash') {
+                    $('#bkash_number').show();
+                    $('#check_number').hide();
+                    $('#check_date').hide();
                 } else {
+                    $('#bkash_number').val('');
+                    $('#bkash_number').hide();
                     $('#check_number').val('');
                     $('#check_number').hide();
                     $('#check_date').hide();

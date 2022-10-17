@@ -80,71 +80,43 @@
                             </div>
                         </div>
                     </form>
-<hr/>
-                        <h3>New</h3>
-                        <form method="post" action="{{ route('account.receipt.payment_view.new') }}">
-                            @csrf
-                            <div class="form-group row">
-                                <label class="control-label col-md-3 text-right">From</label>
-                                <div class="col-md-8">
-                                    <input type="date" class="form-control-sm" name="date_from" required>
-                                    @if ($errors->has('date_from'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('date_from') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
+
+                    <hr/>
+
+                    <h3>New</h3>
+                    <form method="post" action="{{ route('account.receipt.payment_view.new') }}">
+                        @csrf
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">From</label>
+                            <div class="col-md-8">
+                                <input type="date" class="form-control-sm" name="date_from" required>
+                                @if ($errors->has('date_from'))
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('date_from') }}</strong>
+                                </span>
+                                @endif
                             </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-3 text-right">To</label>
-                                <div class="col-md-8">
-                                    <input type="date" class="form-control-sm" name="date_to" required>
-                                    @if ($errors->has('date_to'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('date_to') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">To</label>
+                            <div class="col-md-8">
+                                <input type="date" class="form-control-sm" name="date_to" required>
+                                @if ($errors->has('date_to'))
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('date_to') }}</strong>
+                                </span>
+                                @endif
                             </div>
-                            {{--                        <div class="form-group row" style="display:none;">--}}
-                            {{--                            <label class="control-label col-md-3 text-right">Chart Of Account</label>--}}
-                            {{--                            <div class="col-md-8">--}}
-                            {{--                                <select class="form-control account_id select2" name="account_id[]" id="account_id_1">--}}
-                            {{--                                    @foreach($bankbooks as $account)--}}
-                            {{--                                        <option value="{{$account->id}}">{{$account->group_1}}.{{$account->group_2}}.{{$account->group_3}}.{{$account->group_4}}</option>--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </select>--}}
-                            {{--                                @if ($errors->has('general_ledger'))--}}
-                            {{--                                    <span class="invalid-feedback" role="alert">--}}
-                            {{--                                        <strong>{{ $errors->first('general_ledger') }}</strong>--}}
-                            {{--                                    </span>--}}
-                            {{--                                @endif--}}
-                            {{--                            </div>--}}
-                            {{--                        </div>--}}
-                            {{--                        <div class="form-group row" style="display:none;">--}}
-                            {{--                            <label class="control-label col-md-3 text-right">General Ledger Head</label>--}}
-                            {{--                            <div class="col-md-8">--}}
-                            {{--                                <select class="form-control ledger_id select2" name="ledger_id" id="ledger_id_1">--}}
-                            {{--                                    @foreach($ledgers as $ledger)--}}
-                            {{--                                        <option value="{{$ledger->id}}">{{$ledger->name}}</option>--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </select>--}}
-                            {{--                                @if ($errors->has('general_ledger'))--}}
-                            {{--                                    <span class="invalid-feedback" role="alert">--}}
-                            {{--                                        <strong>{{ $errors->first('general_ledger') }}</strong>--}}
-                            {{--                                    </span>--}}
-                            {{--                                @endif--}}
-                            {{--                            </div>--}}
-                            {{--                        </div>--}}
-                            <div class="form-group row">
-                                <label class="control-label col-md-3"></label>
-                                <div class="col-md-8">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-fw fa-lg fa-check-circle"></i>View
-                                    </button>
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-8">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa fa-fw fa-lg fa-check-circle"></i>View
+                                </button>
                             </div>
-                        </form>
+                        </div>
+                    </form>
                 </div>
                 <div class="tile-footer">
                 </div>

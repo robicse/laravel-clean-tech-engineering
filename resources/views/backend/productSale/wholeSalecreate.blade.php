@@ -61,6 +61,9 @@
                                 <select name="payment_type" id="payment_type" class="form-control" required>
                                     <option value="Cash" selected >Cash</option>
                                     <option value="Check">Check</option>
+                                    <option value="BKash">BKash</option>
+                                    <option value="SSL COMMERZ">SSL COMMERZ</option>
+                                    <option value="POS SYSTEM">POS SYSTEM</option>
                                 </select>
                                 <span>&nbsp;</span>
                                 <span>&nbsp;</span>
@@ -775,19 +778,28 @@
         }
 
         $(function() {
+            $('#bkash_number').hide();
             $('#check_number').hide();
             $('#check_date').hide();
             $('#payment_type').change(function(){
                 if($('#payment_type').val() == 'Check') {
                     $('#check_number').show();
                     $('#check_date').show();
+                    $('#bkash_number').hide();
+                }else if($('#payment_type').val() == 'BKash') {
+                    $('#bkash_number').show();
+                    $('#check_number').hide();
+                    $('#check_date').hide();
                 } else {
+                    $('#bkash_number').val('');
+                    $('#bkash_number').hide();
                     $('#check_number').val('');
                     $('#check_number').hide();
                     $('#check_date').hide();
                 }
             });
         });
+
         {{--$(function() {--}}
         {{--    $('#online_platform_invoice_no').hide();--}}
         {{--    $('#online_platform_id').change(function(){--}}
