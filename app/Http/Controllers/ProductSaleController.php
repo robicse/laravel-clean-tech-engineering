@@ -353,6 +353,7 @@ For any queries call our support 09638-888 000";
         $productSale = ProductSale::find($id);
         $productSaleDetails = ProductSaleDetail::where('product_sale_id',$id)->get();
         $transactions = Transaction::where('ref_id',$id)->first();
+        // $transactions = Transaction::where('ref_id',$id)->where('invoice_no',$productSale->invoice_no)->get();
 
         return view('backend.productSale.show', compact('productSale','productSaleDetails','transactions'));
     }

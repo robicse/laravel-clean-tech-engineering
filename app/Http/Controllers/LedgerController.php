@@ -598,6 +598,7 @@ class LedgerController extends Controller
             ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
             ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
             ->where('posting_date', '<',$date_from)
+            ->where('posting_form_details.chart_of_account_id',1)
             ->whereIn('posting_forms.voucher_type_id',[1,2,6])
             ->groupBy('ledger_id')
             ->first();

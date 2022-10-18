@@ -103,13 +103,31 @@
                             <td>
                                 {{$transactions->payment_type}}
                                 @if($transactions->payment_type == 'BKash')
-                                    {{ $transactions->bkash_number }}
+                                    ({{ $transactions->bkash_number }})
                                 @elseif($transactions->payment_type == 'Check')
-                                    {{ $transactions->check_number }}
+                                    ({{ $transactions->check_number }})
                                 @else
 
                                 @endif
                             </td>
+                            {{-- <td>
+                                @if(count($transactions) > 0)
+                                    @foreach($transactions as $transaction)
+                                        <li>
+                                            {{$transaction->payment_type}}
+                                            @if($transaction->payment_type == 'BKash')
+                                                ( BKash Number: {{$transaction->bkash_number}} )
+                                            @elseif($transactions->payment_type == 'Check')
+                                                ( Cheque Number: {{$transaction->cheque_number}} )
+                                            @else
+
+                                            @endif
+                                            :
+                                            Tk.{{number_format($transaction->amount,2)}} ({{$transaction->created_at}})
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </td> --}}
                         </tr>
                         <tr>
                             <th>Discount Amount</th>
