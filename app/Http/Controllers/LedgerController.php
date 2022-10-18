@@ -594,40 +594,14 @@ class LedgerController extends Controller
         $date_from = $request->date_from;
         $date_to = $request->date_to;
 
-        $gl_pre_valance_data = DB::table('posting_form_details')
-            ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-            ->select('ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-            ->where('posting_date', '<',$date_from)
-            ->where('posting_form_details.chart_of_account_id',1)
-            ->whereIn('posting_forms.voucher_type_id',[1,2,6])
-            ->groupBy('ledger_id')
-            ->first();
-
-        $PreBalance=0;
-        $preDebCre = 'De/Cr';
-        if(!empty($gl_pre_valance_data))
-        {
-            $debit = $gl_pre_valance_data->debit;
-            $credit = $gl_pre_valance_data->credit;
-            if($debit > $credit)
-            {
-                $PreBalance = $debit - $credit;
-                $preDebCre = 'De';
-            }else{
-                $PreBalance = $credit - $debit;
-                $preDebCre = 'Cr';
-            }
-        }
-
         $general_ledger_infos = DB::table('posting_form_details')
-            ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-            ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
-            ->whereIn('posting_forms.voucher_type_id',[1,2,6])
-            ->where('posting_form_details.chart_of_account_id',1)
-            ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
-            ->get();
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('group_3','Cash in Hand')
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
 
-        return view('backend.new-account.receipt_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'date_from', 'date_to'));
+        return view('backend.new-account.receipt_view', compact('general_ledger_infos', 'date_from', 'date_to'));
     }
 
 }
