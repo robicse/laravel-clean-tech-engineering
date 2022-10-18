@@ -100,7 +100,16 @@
                         </tr>
                         <tr>
                             <th>Payment Type</th>
-                            <td>{{$transactions->payment_type ? 'cash' : 'check' }}</td>
+                            <td>
+                                {{$transactions->payment_type}}
+                                @if($transactions->payment_type == 'BKash')
+                                    {{ $transactions->bkash_number }}
+                                @elseif($transactions->payment_type == 'Check')
+                                    {{ $transactions->check_number }}
+                                @else
+
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>Discount Amount</th>
@@ -132,6 +141,7 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
+
 
                             <th>id</th>
                             <th>Category</th>

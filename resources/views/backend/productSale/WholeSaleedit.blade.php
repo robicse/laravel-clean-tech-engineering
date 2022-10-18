@@ -70,6 +70,7 @@
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
+                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" value="{{$transaction->bkash_number}}" placeholder="BKash Number">
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_date" id="check_date" class="datepicker form-control" value="{{$transaction->check_date}}" placeholder="Issue Deposit Date ">
                             </div>

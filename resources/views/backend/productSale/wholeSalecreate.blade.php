@@ -67,7 +67,10 @@
                                 </select>
                                 <span>&nbsp;</span>
                                 <span>&nbsp;</span>
+
+
                                 <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
+                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" placeholder="BKash Number">
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_date" id="check_date" class="datepicker form-control" placeholder="Issue Deposit Date ">
                             </div>
@@ -783,14 +786,17 @@
             $('#check_date').hide();
             $('#payment_type').change(function(){
                 if($('#payment_type').val() == 'Check') {
+                    console.log('1')
                     $('#check_number').show();
                     $('#check_date').show();
                     $('#bkash_number').hide();
                 }else if($('#payment_type').val() == 'BKash') {
+                    console.log('2')
                     $('#bkash_number').show();
                     $('#check_number').hide();
                     $('#check_date').hide();
                 } else {
+                    console.log('3')
                     $('#bkash_number').val('');
                     $('#bkash_number').hide();
                     $('#check_number').val('');

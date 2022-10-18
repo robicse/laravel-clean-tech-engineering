@@ -337,7 +337,7 @@ For any queries call our support 09638-888 000";
             $total_amount += $request->sub_total[$i];
         }
 
-        $productSale->user_id = Auth::id();
+        $productSale->updated_by_user_id = Auth::user()->id;
         $productSale->party_id = $request->party_id;
         $productSale->store_id = $request->store_id;
         $productSale->provider_id = $request->provider_id;
