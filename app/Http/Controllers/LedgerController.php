@@ -268,7 +268,7 @@ class LedgerController extends Controller
         return view('backend.new-account.cashbook_form',compact('cashbooks','ledgers'));
     }
 
-    public function view_cashBook(Request $request)
+    public function view_cashBook_old(Request $request)
     {
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
@@ -365,6 +365,51 @@ class LedgerController extends Controller
 
         return view('backend.new-account.cashbook_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3'));
     }
+
+    public function view_cashBook(Request $request)
+    {
+        $general_ledger = $request->ledger_id;
+        $group_2 = $request->group_2;
+        $group_3 = $request->group_3;
+        $date_from = $request->date_from;
+        $date_to = $request->date_to;
+
+        if( (empty($group_2)) && (empty($group_3) ))
+        {
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('ledger_id',$general_ledger)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        } elseif ((!empty($group_2)) &&  (empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('group_2',$group_2)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        elseif ( (!empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('group_3',$group_3)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        else
+        {
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+
+        return view('backend.new-account.cashbook_view', compact('general_ledger_infos', 'general_ledger', 'date_from', 'date_to','group_2','group_3'));
+    }
+
     public function bankBook_form()
     {
         $bankbooks= ChartOfAccount::where('id',2)->get();

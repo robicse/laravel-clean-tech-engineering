@@ -59,14 +59,6 @@
                         $flag = 0;
                         $first_day = date('Y-m-01',strtotime($date_from));
                         $last_day = date('Y-m-t',strtotime($date_from));
-
-                        $previous_date_from_date = date('Y-m-d', strtotime('-1 day', strtotime($date_from)));
-                        $previous_date_data = cash_in_hands_assets($previous_date_from_date);
-                        $PreBalance = $previous_date_data['PreBalance'];
-                        $preDebCre = $previous_date_data['preDebCre'];
-                        $to_date_data = cash_in_hands_assets($date_to);
-                        $ToBalance = $to_date_data['PreBalance'];
-                        $ToDebCre = $to_date_data['preDebCre'];
                     @endphp
                     @if($PreBalance > 0)
                         @php
@@ -82,8 +74,8 @@
                         <tr style="background-color: #b5b5b5">
                             <td>{{ $first_day }}</td>
                             <td>{{ $pre_particulars }}</td>
-                            <td>{{ $preDebCre == 'De' ? number_format($PreBalance, 2, '.', ',') : '' }}</td>
-                            <td>{{ $preDebCre == 'Cr' ? number_format($PreBalance, 2, '.', ',') : '' }}</td>
+                            <td>{{ $preDebCre == 'De' ? number_format($PreBalance,2,'.',',') : '' }}</td>
+                            <td>{{ $preDebCre == 'Cr' ? number_format($PreBalance,2,'.',',') : '' }}</td>
                             <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>
                         </tr>
                     @endif
@@ -184,8 +176,9 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                            <td>{{ $ToDebCre == 'De' ? number_format($ToBalance, 2, '.', ',') : '' }}</td>
-                            <td>{{ $ToDebCre == 'Cr' ? number_format($ToBalance, 2, '.', ',') : '' }}</td>
+                            <td>{{ $sum_credit > $sum_debit ? number_format($PreBalance,2,'.',',') : '' }}</td>
+                            <td>{{ $sum_debit > $sum_credit ? number_format($PreBalance,2,'.',',') : '' }}</td>
+
                         </tr>
                     @endif
                     <tr>
