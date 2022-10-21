@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productProductions','ProductProductionController');
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
     Route::resource('service','ServiceController');
+    Route::resource('productService','ProductServiceController');
     Route::resource('offers','OfferController');
     Route::resource('customer_complain','CustomerComplainController');
     Route::resource('online_platform','OnlinePlatFormController');

@@ -21,8 +21,8 @@
             //if(Auth::User()->getRoleNames()[0] == "Admin"){
             //if(Auth::User()->role=='1'){
         @endphp
-        <li><a class="app-menu__item" href="{{ route('service.index') }}"><i class="app-menu__icon fa fa-folder-open"></i><span class="app-menu__label">Service </span><i class="treeview-indicator fa fa-angle-right"></i></a>
-        </li>
+        <li><a class="app-menu__item" href="{{ route('service.index') }}"><i class="app-menu__icon fa fa-folder-open"></i><span class="app-menu__label">Service </span><i class="treeview-indicator fa fa-angle-right"></i></a></li>
+        {{-- <li><a class="app-menu__item" href="{{ route('productService.index') }}"><i class="app-menu__icon fa fa-folder-open"></i><span class="app-menu__label">Product Service </span><i class="treeview-indicator fa fa-angle-right"></i></a></li> --}}
         <li class="treeview{{Request::is('productCategories*')|| Request::is('free-products*') || Request::is('productBrands') || Request::is('productUnit') || Request::is('products*') ? ' is-expanded': ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-product-hunt"></i><span class="app-menu__label">Products </span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li class="custom_li_bg"><a class="app-menu__item custom_li_a_position" href="{{ route('productCategories.index') }}"><i class="app-menu__icon fa fa-deviantart"></i><span class="app-menu__label">Product Category</span></a></li>
