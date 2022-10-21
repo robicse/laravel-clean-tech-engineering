@@ -658,4 +658,20 @@ class ProductPurchaseController extends Controller
 
     }
 
+    public function FindProductBySearchProductName(Request $request)
+    {
+        // return response($request->all());
+        if ($request->has('q')) {
+            $data = Product::wherestatus(1)
+                ->where(function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->q . '%');
+                })->select('id','name')->get();
+            if ($data) {
+                return response()->json($data);
+            } else {
+                return response()->json(['success' => false, 'customer' => 'Error!!']);
+            }
+        }
+    }
+
 }

@@ -65,8 +65,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //});
 
 Route::group(['middleware' => ['auth']], function() {
-        Route::get('change-password/{id}','UserController@changedPassword')->name('password.change_password');
-        Route::post ('change-password-update','UserController@changedPasswordUpdated')->name('password.change_password_update');
+    Route::get('change-password/{id}','UserController@changedPassword')->name('password.change_password');
+    Route::post ('change-password-update','UserController@changedPasswordUpdated')->name('password.change_password_update');
 
     Route::resource('roles','RoleController');
     Route::resource('users','UserController');
@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('free-products','FreeProductController');
     Route::resource('party','PartyController');
     Route::resource('productPurchases','ProductPurchaseController');
+    Route::get('get-product-by-search','ProductPurchaseController@FindProductBySearchProductName');
     Route::resource('productSales','ProductSaleController');
     Route::resource('productWholeSales','ProductWholeSaleController');
     Route::resource('productSaleReturns','ProductSaleReturnController');

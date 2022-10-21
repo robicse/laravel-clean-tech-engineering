@@ -89,7 +89,12 @@
                                 <thead>
                                 <tr>
                                     <th >ID</th>
-                                    <th>Product <small class="requiredCustom">*</small></th>
+                                    <th>
+                                        Product <small class="requiredCustom">*</small>
+                                        <button type="button" class="btn btn-primary btn-sm" title="Add New Product And Find Product By Type Product Name" onclick="showCustomerForm()">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </th>
                                     <th style="display: none">Category</th>
 {{--                                    <th>Sub Category</th>--}}
                                     <th>Brand</th>
@@ -108,10 +113,10 @@
                                     <td width="5%" class="no">1</td>
                                     <td width="20%">
                                         <select class="form-control product_id select2" name="product_id[]" id="product_id_1" onchange="getval(1,this);" required>
-                                            <option value="">Select  Product</option>
+                                            {{-- <option value="">Select  Product</option>
                                             @foreach($products as $product)
                                                 <option value="{{$product->id}}">{{$product->name}}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </td>
                                     <td style="display: none">
@@ -384,7 +389,7 @@
                 var product = $('.product_id').html();
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required>' + product + '</select></td>' +
+                    '<td><select class="form-control product_id select2" name="product_id[]" id="product_id_'+n+'" onchange="getval('+n+',this);" required></select></td>' +
                     '<td style="display: none"><div id="product_category_id_'+n+'"><select class="form-control product_category_id select2" name="product_category_id[]" required>' + productCategory + '</select></div></td>' +
                     '<td><div id="product_brand_id_'+n+'"><select class="form-control product_brand_id select2" name="product_brand_id[]" id="product_brand_id_'+n+'" required>' + productBrand + '</select></div></td>' +
                     '<td style="display: none"><div id="product_unit_id_'+n+'"><select class="form-control product_unit_id select2" name="product_unit_id[]" required>' + productunit + '</select></div></td>' +
@@ -401,6 +406,38 @@
                 //initSelect2();
 
                 $('.select2').select2();
+
+                // search product start
+                $('#product_id_'+n).select2({
+                    placeholder: 'Type Product Name',
+                    minimumInputLength: 1,
+                    ajax: {
+                        type: "GET",
+                        url : "{{URL('get-product-by-search')}}",
+                        dataType: "JSON",
+                        delay: 250,
+                        data: function(params) {
+                            console.log('params', params)
+                            return {
+                                q: params.term
+                            };
+                        },
+                        //mark:select
+                        processResults: function(data) {
+                            console.log('data2', data)
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
+                // search product end
 
             });
             $('.neworderbody').delegate('.delete', 'click', function () {
@@ -544,6 +581,51 @@
                 }
             });
         });
+
+        // search product by name search
+        $(document).ready(function() {
+            var product = $('.product_id').html();
+            var n = ($('.neworderbody tr').length - 0);
+
+            $('#product_id_'+n).select2({
+                placeholder: 'Type Product Name',
+                minimumInputLength: 1,
+                ajax: {
+                    type: "GET",
+                    url : "{{URL('get-product-by-search')}}",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        // console.log('params', params)
+                        return {
+                            q: params.term
+                        };
+                    },
+                    //mark:select
+                    processResults: function(data) {
+                        // console.log('data', data)
+                        return {
+                            results: $.map(data, function(item) {
+                                // console.log('item', item)
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        })
+
+        function showCustomerForm() {
+            var page = "{{ url('/products/create') }}";
+            var myWindow = window.open(page, "_blank", "scrollbars=yes,width=700,height=1000,top=30");
+            // focus on the popup //
+            myWindow.focus();
+        }
+
     </script>
     @endpush
 
