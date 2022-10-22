@@ -107,7 +107,7 @@ class LedgerController extends Controller
         return view('backend.new-account.general_ledger_form', compact('chartOfAccounts','ledgers','chartOfAccountGroup2s'));
     }
 
-    public function view_general_ledger(Request $request)
+    public function view_general_ledger_old(Request $request)
     {
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
@@ -188,6 +188,134 @@ class LedgerController extends Controller
             $general_ledger_infos = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 ->where('group_3',$group_3)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        else
+        {
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+
+        return view('backend.new-account.general_ledger_view', compact('general_ledger_infos','PreBalance', 'preDebCre', 'general_ledger', 'date_from', 'date_to','group_2','group_3'));
+    }
+
+    public function view_general_ledger(Request $request)
+    {
+        //dd($request->all());
+        $general_ledger = $request->ledger_id;
+        $group_2 = $request->group_2;
+        $group_3 = $request->group_3;
+        $date_from = $request->date_from;
+        $date_to = $request->date_to;
+
+        if((!empty($general_ledger)) && (!empty($date_from)) && (!empty($date_to)) && (empty($group_2)) && (empty($group_3)))
+        {
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('posting_form_details.ledger_id', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_forms.posting_date', '<',$date_from)
+                ->where('posting_form_details.ledger_id',$general_ledger)
+                ->groupBy('posting_form_details.ledger_id')
+                ->first();
+        }
+        elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('posting_form_details.group_3', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_forms.posting_date', '<',$date_from)
+                ->where('posting_form_details.group_3',$group_3)
+                ->groupBy('posting_form_details.group_3')
+                ->first();
+        }
+        elseif((!empty($group_2)) && (!empty($date_from)) && (!empty($date_to)) ){
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('posting_form_details.group_2', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_forms.posting_date', '<',$date_from)
+                ->where('posting_form_details.group_2',$group_2)
+                ->groupBy('posting_form_details.group_2')
+                ->first();
+        }
+        else{
+            $gl_pre_valance_data = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->select('posting_form_details.ledger_id', DB::raw('SUM(posting_form_details.debit) as debit, SUM(posting_form_details.credit) as credit'))
+                ->where('posting_forms.posting_date', '<',$date_from)
+                ->groupBy('posting_form_details.ledger_id')
+                ->first();
+        }
+
+        $PreBalance=0;
+        $preDebCre = 'De/Cr';
+        if(!empty($gl_pre_valance_data))
+        {
+            $debit = $gl_pre_valance_data->debit;
+            $credit = $gl_pre_valance_data->credit;
+            if($debit > $credit)
+            {
+                $PreBalance = $debit - $credit;
+                $preDebCre = 'De';
+            }else{
+                $PreBalance = $credit - $debit;
+                $preDebCre = 'Cr';
+            }
+        }
+
+        if( (empty($group_2)) && (empty($group_3) ))
+        {
+            $general_ledger_data = DB::table('posting_form_details')
+                ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('posting_form_details.ledger_id',$general_ledger)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_form_details.posting_form_id')
+                ->groupBy('posting_form_details.posting_form_id')
+                ->get();
+                $general_ledger_infos = [];
+                if(count($general_ledger_data) > 0){
+                    foreach($general_ledger_data as $gl){
+                        $posting_forms = DB::table('posting_forms')
+                        ->where('id',$gl->posting_form_id)
+                        ->select('voucher_type_id','voucher_no', 'posting_date', 'description')
+                        ->first();
+
+                        if($posting_forms){
+                            $nestedData['posting_form_id']=$gl->posting_form_id;
+                            $nestedData['voucher_type_id']=$posting_forms->voucher_type_id;
+                            $nestedData['voucher_no']=$posting_forms->voucher_no;
+                            $nestedData['posting_date']=$posting_forms->posting_date;
+                            $nestedData['description']=$posting_forms->description;
+
+                            $posting_form_details = DB::table('posting_form_details')
+                                ->where('ledger_id',$general_ledger)
+                                ->where('posting_form_id',$gl->posting_form_id)
+                                ->select('debit', 'credit')
+                                ->first();
+
+                                if($posting_form_details){
+                                    $nestedData['debit']=$posting_form_details->debit;
+                                    $nestedData['credit']=$posting_form_details->credit;
+                                }
+                            array_push($general_ledger_infos, $nestedData);
+                        }
+                    }
+                }
+        } elseif ((!empty($group_2)) &&  (empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('posting_form_details.group_2',$group_2)
+                ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
+                ->get();
+        }
+        elseif ( (!empty($group_3)) ){
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+                ->where('posting_form_details.group_3',$group_3)
                 ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
                 ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
                 ->get();
