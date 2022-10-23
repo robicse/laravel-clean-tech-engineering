@@ -22,7 +22,7 @@ class ProductServiceController extends Controller
 
     public function index()
     {
-        $productServices = ProductService::latest()->get();
+        $productServices = ProductService::orderBy('product_id','asc')->get();
         return view('backend.product_service.index',compact('productServices'));
     }
 
@@ -37,25 +37,29 @@ class ProductServiceController extends Controller
     {
         $this->validate($request, [
             'product_id' => 'required',
-            'service_id' => 'required',
-            'total_day_from_start_date' => 'required',
-            'service_month_duration' => 'required',
-            'status' => 'required',
+            'service_id*' => 'required',
+            'total_day_from_start_date*' => 'required',
+            'service_month_duration*' => 'required'
         ]);
 
-        $check_exists = ProductService::where('product_id',$request->product_id)->where('service_id',$request->service_id)->first();
-        if($check_exists){
-            Toastr::warning('This Product Service Already Exists!', 'Warning');
-            return redirect()->route('productService.create');
+        $row_count = count($request->service_id);
+
+        for($i=0; $i<$row_count; $i++){
+            $check_exists = ProductService::where('product_id',$request->product_id)->where('service_id',$request->service_id[$i])->first();
+            if($check_exists){
+                Toastr::warning('This Product Service Already Exists!', 'Warning');
+                return redirect()->route('productService.create');
+            }
+
+            $productService = new ProductService();
+            $productService->product_id = $request->product_id;
+            $productService->service_id = $request->service_id[$i];
+            $productService->total_day_from_start_date = $request->total_day_from_start_date[$i];
+            $productService->service_month_duration = $request->service_month_duration[$i];
+            $productService->status = 1;
+            $productService->save();
         }
 
-        $productService = new ProductService();
-        $productService->product_id = $request->product_id;
-        $productService->service_id = $request->service_id;
-        $productService->total_day_from_start_date = $request->total_day_from_start_date;
-        $productService->service_month_duration = $request->service_month_duration;
-        $productService->status = $request->status;
-        $productService->save();
         Toastr::success('Product Service Created Successfully', 'Success');
         return redirect()->route('productService.index');
     }

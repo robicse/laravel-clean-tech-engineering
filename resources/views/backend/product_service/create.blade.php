@@ -34,44 +34,45 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Service <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <select class="form-control select2" name="service_id" id="service_id" required>
-                                    <option value="">Select Service</option>
-                                    @foreach($services as $service)
-                                        <option value="{{$service->id}}">{{$service->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right ">Total Day From Start Date <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <input type="number" id="total_day_from_start_date" name="total_day_from_start_date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right ">Service Month duration <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <input type="number" id="service_month_duration" name="service_month_duration" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Status <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <select name="status" id="status" class="form-control">
-                                    <option value="1">active</option>
-                                    <option value="2">inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group row" style="margin-top: 20px">
+
+                        <div class="table-responsive">
+                            <input type="button" class="btn btn-primary add " style="margin-left: 804px; margin-bottom: 10px;" value="Add More Product">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th >ID</th>
+                                        <th>Service <small class="requiredCustom">*</small></th>
+                                        <th>Total Day From Start Date <small class="requiredCustom">*</small></th>
+                                        <th>Service Month duration <small class="requiredCustom">*</small></th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="neworderbody">
+                                    <tr>
+                                        <td width="5%" class="no">1</td>
+                                        <td width="20%">
+                                            <select class="form-control select2 service_id" name="service_id[]" id="service_id_1" required>
+                                                <option value="">Select Service</option>
+                                                @foreach($services as $service)
+                                                    <option value="{{$service->id}}">{{$service->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td width="10%">
+                                            <input type="text" min="1" max="" class="form-control" name="total_day_from_start_date[]" required >
+                                        </td>
+                                        <td width="10%">
+                                            <input type="text" min="1" max="" class="form-control" name="service_month_duration[]" required >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                            <div class="form-group row">
                                 <label class="control-label col-md-3"></label>
                                 <div class="col-md-8">
-                                    <button class="btn btn-primary" type="submit"><i
-                                            class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
                                 </div>
                             </div>
                         </div>
@@ -83,3 +84,24 @@
         </div>
     </main>
 @endsection
+@push('js')
+    <script>
+        $(function () {
+            $('.add').click(function () {
+                var service = $('.service_id').html();
+                var n = ($('.neworderbody tr').length - 0) + 1;
+                var tr = '<tr><td class="no">' + n + '</td>' +
+                    '<td><select class="form-control select2 service_id" name="service_id[]" id="service_id_'+n+'" required>'+ service +'</select></td>' +
+                    '<td><input type="text" min="1" max="" class="form-control" name="total_day_from_start_date[]" required></td>' +
+                    '<td><input type="text" min="1" max="" class="form-control" name="service_month_duration[]" required></td>' +
+                    '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
+                $('.neworderbody').append(tr);
+                $('.select2').select2();
+            });
+        });
+
+    </script>
+    @endpush
+
+
+
