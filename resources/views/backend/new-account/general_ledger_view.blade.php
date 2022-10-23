@@ -104,8 +104,8 @@
                     @endif
                     @foreach($general_ledger_infos as $key => $general_ledger_info)
                         @php
-                            $debit = $general_ledger_info['debit'];
-                            $credit = $general_ledger_info['credit'];
+                            $debit = $general_ledger_info->debit;
+                            $credit = $general_ledger_info->credit;
 
                             $sum_debit  += $debit;
                             $sum_credit += $credit;
@@ -166,21 +166,18 @@
 
                         @endphp
                         <tr>
-                            <td>{{ $general_ledger_info['posting_date'] }}</td>
-                            <td>{{ $general_ledger_info['description'] }}</td>
+                            <td>{{ $general_ledger_info->posting_date }}</td>
+                            <td>{{ $general_ledger_info->description }}</td>
                             <td>
                                 @php
-                                    echo \App\VoucherType::where('id',$general_ledger_info['voucher_type_id'])->pluck('name')->first();
+                                    echo \App\VoucherType::where('id',$general_ledger_info->voucher_type_id)->pluck('name')->first();
                                 @endphp
                             </td>
-                            <td>
-                                @php
-                                    echo \App\VoucherType::where('id',$general_ledger_info['voucher_type_id'])->pluck('name')->first();
-                                @endphp
-                                - {{ $general_ledger_info['voucher_no'] }}
-                            </td>
-                            <td>{{ number_format($general_ledger_info['debit'],2,'.',',') }}</td>
-                            <td>{{ number_format($general_ledger_info['credit'],2,'.',',') }}</td>
+                            <td>@php
+                                    echo \App\VoucherType::where('id',$general_ledger_info->voucher_type_id)->pluck('name')->first();
+                                @endphp - {{ $general_ledger_info->voucher_no }}</td>
+                            <td>{{ number_format($debit,2,'.',',') }}</td>
+                            <td>{{ number_format($credit,2,'.',',') }}</td>
                             <td>{{ number_format($PreBalance,2,'.',',') }} {{ $preDebCre }}</td>
                         </tr>
                     @endforeach

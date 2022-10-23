@@ -24,6 +24,22 @@ class PostingFormController extends Controller
 
     public function index()
     {
+        // $postingFormDetails = PostingFormDetails::all();
+        // foreach($postingFormDetails as $postingFormDetail){
+        //     $posting_form_id = $postingFormDetail->posting_form_id;
+        //     $posting_form = PostingForm::where('id',$posting_form_id)->first();
+        //     if($posting_form){
+        //         $posting_form_detail = PostingFormDetails::where('id',$postingFormDetail->id)->first();
+        //         $posting_form_detail->voucher_type_id=$posting_form->voucher_type_id;
+        //         $posting_form_detail->voucher_no=$posting_form->voucher_no;
+        //         $posting_form_detail->posting_date=$posting_form->posting_date;
+        //         $posting_form_detail->posting_date=$posting_form->posting_date;
+        //         $posting_form_detail->description=$posting_form->description;
+        //         $posting_form_detail->save();
+        //     }
+        // }
+        // dd('done');
+
         $postingForms = PostingForm::latest('id')->get();
         return view('backend.postingform.index',compact('postingForms'));
     }

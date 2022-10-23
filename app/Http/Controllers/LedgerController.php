@@ -268,42 +268,14 @@ class LedgerController extends Controller
 
         if( (empty($group_2)) && (empty($group_3) ))
         {
-            $general_ledger_data = DB::table('posting_form_details')
-                ->join('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
+            $general_ledger_infos = DB::table('posting_form_details')
+                ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
                 ->where('posting_form_details.ledger_id',$general_ledger)
+                ->where('posting_form_details.chart_of_account_id',$request->account_id[0])
                 ->whereBetween('posting_forms.posting_date',[$date_from, $date_to])
-                ->select('posting_form_details.posting_form_id')
-                ->groupBy('posting_form_details.posting_form_id')
+                ->select('posting_forms.voucher_type_id','posting_forms.voucher_no', 'posting_forms.posting_date', 'posting_forms.description', 'posting_form_details.debit', 'posting_form_details.credit')
                 ->get();
-                $general_ledger_infos = [];
-                if(count($general_ledger_data) > 0){
-                    foreach($general_ledger_data as $gl){
-                        $posting_forms = DB::table('posting_forms')
-                        ->where('id',$gl->posting_form_id)
-                        ->select('voucher_type_id','voucher_no', 'posting_date', 'description')
-                        ->first();
 
-                        if($posting_forms){
-                            $nestedData['posting_form_id']=$gl->posting_form_id;
-                            $nestedData['voucher_type_id']=$posting_forms->voucher_type_id;
-                            $nestedData['voucher_no']=$posting_forms->voucher_no;
-                            $nestedData['posting_date']=$posting_forms->posting_date;
-                            $nestedData['description']=$posting_forms->description;
-
-                            $posting_form_details = DB::table('posting_form_details')
-                                ->where('ledger_id',$general_ledger)
-                                ->where('posting_form_id',$gl->posting_form_id)
-                                ->select('debit', 'credit')
-                                ->first();
-
-                                if($posting_form_details){
-                                    $nestedData['debit']=$posting_form_details->debit;
-                                    $nestedData['credit']=$posting_form_details->credit;
-                                }
-                            array_push($general_ledger_infos, $nestedData);
-                        }
-                    }
-                }
         } elseif ((!empty($group_2)) &&  (empty($group_3)) ){
             $general_ledger_infos = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
