@@ -30,26 +30,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($saleServices as $saleService)
-                            @php
-                                $saleServicesDurations =  \App\SaleServiceDuration::where('sale_service_id',$saleService->id)->get();
-                                    //dd($saleServicesDuration)
-                                    foreach ($saleServicesDurations as $saleServicesDuration)
-                            @endphp
-                            <tr>
-                                <td>
-                                    @php
-                                        echo $product_name = \Illuminate\Support\Facades\DB::table('products')
-                                                ->join('product_sale_details','products.id','product_sale_details.product_id')
-                                                ->where('product_sale_details.id',$saleService->product_sale_detail_id)
-                                                ->pluck('products.name')
-                                                ->first();
-                                    @endphp
-                                </td>
-                                <td>{{$saleService->service->name}}</td>
-                                <td>{{$saleServicesDuration->service_date}}</td>
-                            </tr>
-                        @endforeach
+                            @foreach($saleServices as $saleService)
+                                @php
+                                    // $saleServicesDurations =  \App\SaleServiceDuration::where('sale_service_id',$saleService->id)->get();
+                                @endphp
+                                <tr>
+                                    {{-- <td>
+                                        @php
+                                            echo $product_name = \Illuminate\Support\Facades\DB::table('products')
+                                                    ->join('product_sale_details','products.id','product_sale_details.product_id')
+                                                    ->where('product_sale_details.id',$saleService->product_sale_detail_id)
+                                                    ->pluck('products.name')
+                                                    ->first();
+                                        @endphp
+                                    </td> --}}
+                                    <td>{{$saleService->product_name}}</td>
+                                    <td>{{$saleService->service_name}}</td>
+                                    <td>{{$saleService->service_date}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 

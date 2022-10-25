@@ -279,7 +279,7 @@ class ProductSaleController extends Controller
                 }
 
                 // service start
-                $check_product_services = ProductService::where('product_id',$product_id)->get();
+                $check_product_services = ProductService::where('product_id',$product_id)->where('status',1)->get();
                 if(count($check_product_services) > 0){
                     foreach($check_product_services as $check_product_service){
                         $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_day_from_start_date.' days'));
@@ -645,14 +645,18 @@ For any queries call our support 09638-888 000";
         return redirect()->route('productSales.index');
     }
     public function Showservice(Request $request, $id){
-        //dd($id);
-        $productSaleDetail = ProductSaleDetail::where('id',$id)->get();
-        //dd($productSaleDetail);
-        //$saleService =  SaleService::find($id);
-        $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
+        // $productSaleDetail = ProductSaleDetail::where('id',$id)->get();
+        // $saleServices =  SaleService::where('product_sale_detail_id',$id)->get();
+        // $services = Service::latest()->get();
 
-        //dd($saleServicesDuration);
-        $services = Service::latest()->get();
+        $productSaleDetail = ProductSaleDetail::where('id',$id)->get();
+        $saleServices =  SaleServiceDuration::leftJoin('sale_services','sale_services.id','sale_service_durations.sale_service_id')
+        ->leftJoin('services','services.id','sale_services.service_id')
+        ->leftJoin('product_sale_details','product_sale_details.id','sale_services.product_sale_detail_id')
+        ->leftJoin('products','products.id','product_sale_details.product_id')
+        ->where('sale_services.product_sale_detail_id',$id)
+        ->select('products.name as product_name','services.name as service_name','sale_service_durations.service_date')
+        ->get();
         return view('backend.productSale.showServices',compact('productSaleDetail','services','saleServices'));
     }
 

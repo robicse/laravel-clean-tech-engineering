@@ -191,7 +191,7 @@ class ProductWholeSaleController extends Controller
                 }
 
                 // service start
-                $check_product_services = ProductService::where('product_id',$product_id)->get();
+                $check_product_services = ProductService::where('product_id',$product_id)->where('status',1)->get();
                 if(count($check_product_services) > 0){
                     foreach($check_product_services as $check_product_service){
                         $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_day_from_start_date.' days'));
