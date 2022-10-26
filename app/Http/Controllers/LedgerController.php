@@ -518,6 +518,7 @@ class LedgerController extends Controller
     }
     public function view_bankBook(Request $request)
     {
+        // dd($request->all());
         $general_ledger = $request->ledger_id;
         $group_2 = $request->group_2;
         $group_3 = $request->group_3;
@@ -541,11 +542,13 @@ class LedgerController extends Controller
         {
             $gl_pre_valance_data = DB::table('posting_form_details')
                 ->leftJoin('posting_forms', 'posting_forms.id', '=', 'posting_form_details.posting_form_id')
-                ->select('ledger_name','ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
-                ->where('posting_date', '<',$date_from)
-                ->where('ledger_id',$general_ledger)
-                ->groupBy('ledger_id')
-                ->groupBy('ledger_name')
+                //->select('posting_form_details.ledger_name','posting_form_details.ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->select('posting_form_details.ledger_id', DB::raw('SUM(debit) as debit, SUM(credit) as credit'))
+                ->where('posting_forms.posting_date', '<',$date_from)
+                ->where('posting_form_details.ledger_id',$general_ledger)
+                ->where('posting_form_details.chart_of_account_id',$request->account_id[0])
+                ->groupBy('posting_form_details.ledger_id')
+                //->groupBy('posting_form_details.ledger_name')
                 ->first();
         }
         elseif((!empty($group_3)) && (!empty($date_from)) && (!empty($date_to)) ){
