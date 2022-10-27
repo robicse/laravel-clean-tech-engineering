@@ -36,26 +36,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Service <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <select class="form-control select2" name="service_id" id="service_id" required>
-                                    <option value="">Select Service</option>
-                                    @foreach($services as $service)
-                                        <option value="{{$service->id}}" {{$service->id == $productService->service_id ? 'selected' : ''}}>{{$service->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3 text-right ">Total Day From Start Date <small class="text-danger">*</small></label>
                             <div class="col-md-5">
-                                <input type="number" id="total_day_from_start_date" name="total_day_from_start_date" value="{{ $productService->total_day_from_start_date }}"  class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 text-right ">Service Month duration <small class="text-danger">*</small></label>
-                            <div class="col-md-5">
-                                <input type="number" id="service_month_duration" name="service_month_duration" value="{{ $productService->service_month_duration }}" class="form-control">
+                                <input type="number" id="total_year_from_start_date" name="total_year_from_start_date" value="{{ $productService->total_year_from_start_date }}"  class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

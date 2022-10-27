@@ -15,8 +15,9 @@ class CreateProductServicesTable extends Migration
     {
         Schema::create('product_services', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_id');
-            $table->integer('total_day_from_start_date');
+            $table->bigInteger('product_service_id');
+            $table->bigInteger('service_id');
+            $table->integer('service_month_duration');
             $table->string('status')->default(1);
             $table->timestamps();
         });

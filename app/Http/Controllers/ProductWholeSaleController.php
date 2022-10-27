@@ -191,10 +191,14 @@ class ProductWholeSaleController extends Controller
                 }
 
                 // service start
-                $check_product_services = ProductService::where('product_id',$product_id)->where('status',1)->get();
+                $check_product_services = ProductServiceDetail::join('product_services','product_services.id','product_service_details.product_service_id')
+                                        ->where('product_services.product_id',$product_id)
+                                        ->where('product_services.status',1)
+                                        ->select('product_services.total_year_from_start_date','product_service_details.service_id','product_service_details.service_month_duration')
+                                        ->get();
                 if(count($check_product_services) > 0){
                     foreach($check_product_services as $check_product_service){
-                        $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_day_from_start_date.' days'));
+                        $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_year_from_start_date.' years'));
                         $saleServices = new SaleService();
                         $saleServices->product_sale_detail_id = $purchase_sale_detail->id;
                         $saleServices->created_user_id = Auth::id();

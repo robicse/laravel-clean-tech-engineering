@@ -91,7 +91,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('productProductions','ProductProductionController');
     Route::resource('productSaleReplacement','ProductSaleReplacementController');
     Route::resource('service','ServiceController');
+    Route::post('productServiceDetail','ProductServiceController@ProductServiceDetailStore')->name('productServiceDetail.store');
+    Route::post('productServiceDetail/{id}','ProductServiceController@ProductServiceDetailUpdate')->name('productServiceDetail.update');
     Route::resource('productService','ProductServiceController');
+
     Route::resource('offers','OfferController');
     Route::resource('customer_complain','CustomerComplainController');
     Route::resource('online_platform','OnlinePlatFormController');

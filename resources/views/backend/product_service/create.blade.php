@@ -34,15 +34,20 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3 text-right">Total Day From Start Date <small class="text-danger">*</small></label>
+                            <div class="col-md-5">
+                                <input type="text" min="1" max="" class="form-control" name="total_year_from_start_date" required >
+                            </div>
+                        </div>
 
                         <div class="table-responsive">
-                            <input type="button" class="btn btn-primary add " style="margin-left: 804px; margin-bottom: 10px;" value="Add More Product">
+                            <input type="button" class="btn btn-primary add " style="margin-left: 804px; margin-bottom: 10px;" value="Add More Services">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th >ID</th>
                                         <th>Service <small class="requiredCustom">*</small></th>
-                                        <th>Total Day From Start Date <small class="requiredCustom">*</small></th>
                                         <th>Service Month duration <small class="requiredCustom">*</small></th>
                                         <th>Action</th>
                                     </tr>
@@ -57,9 +62,6 @@
                                                     <option value="{{$service->id}}">{{$service->name}}</option>
                                                 @endforeach
                                             </select>
-                                        </td>
-                                        <td width="10%">
-                                            <input type="text" min="1" max="" class="form-control" name="total_day_from_start_date[]" required >
                                         </td>
                                         <td width="10%">
                                             <input type="text" min="1" max="" class="form-control" name="service_month_duration[]" required >
@@ -92,7 +94,6 @@
                 var n = ($('.neworderbody tr').length - 0) + 1;
                 var tr = '<tr><td class="no">' + n + '</td>' +
                     '<td><select class="form-control select2 service_id" name="service_id[]" id="service_id_'+n+'" required>'+ service +'</select></td>' +
-                    '<td><input type="text" min="1" max="" class="form-control" name="total_day_from_start_date[]" required></td>' +
                     '<td><input type="text" min="1" max="" class="form-control" name="service_month_duration[]" required></td>' +
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
                 $('.neworderbody').append(tr);
