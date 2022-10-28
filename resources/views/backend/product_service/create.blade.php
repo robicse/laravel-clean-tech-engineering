@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3 text-right">Total Day From Start Date <small class="text-danger">*</small></label>
+                            <label class="control-label col-md-3 text-right">Total Year From Start Date <small class="text-danger">*</small></label>
                             <div class="col-md-5">
                                 <input type="text" min="1" max="" class="form-control" name="total_year_from_start_date" required >
                             </div>
@@ -98,6 +98,10 @@
                     '<td><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
                 $('.neworderbody').append(tr);
                 $('.select2').select2();
+            });
+
+            $('.neworderbody').delegate('.delete', 'click', function () {
+                $(this).parent().parent().remove();
             });
         });
 

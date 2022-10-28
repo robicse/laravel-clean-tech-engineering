@@ -26,6 +26,7 @@ use App\StockMinusLog;
 use App\StockTransfer;
 use App\Transaction;
 use App\ProductService;
+use App\ProductServiceDetail;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
