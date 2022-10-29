@@ -106,6 +106,8 @@
                                     ({{ $transactions->bkash_number }})
                                 @elseif($transactions->payment_type == 'Check')
                                     ({{ $transactions->check_number }})
+                                @elseif($transactions->payment_type == 'POS SYSTEM')
+                                    ({{ $transactions->note }})
                                 @else
 
                                 @endif
@@ -116,7 +118,7 @@
                                         <li>
                                             {{$transaction->payment_type}}
                                             @if($transaction->payment_type == 'BKash')
-                                                ( BKash Number: {{$transaction->bkash_number}} )
+                                                ( Transaction Number: {{$transaction->bkash_number}} )
                                             @elseif($transactions->payment_type == 'Check')
                                                 ( Cheque Number: {{$transaction->cheque_number}} )
                                             @else

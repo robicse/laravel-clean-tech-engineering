@@ -70,7 +70,8 @@
                                 </select>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" value="{{$transaction->check_number}}" placeholder="Check Number">
-                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" value="{{$transaction->bkash_number}}" placeholder="BKash Number">
+                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" value="{{$transaction->bkash_number}}" placeholder="Transaction Number">
+                                <input type="text" name="note" id="note" class="form-control" placeholder="POS System Note">
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_date" id="check_date" class="datepicker form-control" value="{{$transaction->check_date}}" placeholder="Issue Deposit Date ">
                             </div>
@@ -640,6 +641,7 @@
             <?php
             if($transaction->payment_type == 'Cash'){
             ?>
+            $('#note').hide();
             $('#bkash_number').hide();
             $('#check_number').hide();
             $('#check_date').hide();
@@ -649,22 +651,41 @@
             ?>
             $('#check_number').hide();
             $('#check_date').hide();
+            $('#note').hide();
             <?php } ?>
             <?php
             if($transaction->payment_type == 'Check'){
             ?>
             $('#bkash_number').hide();
+            $('#note').hide();
+            <?php } ?>
+            <?php
+            if($transaction->payment_type == 'POS SYSTEM'){
+            ?>
+            $('#bkash_number').hide();
+            $('#check_number').hide();
+            $('#check_date').hide();
             <?php } ?>
             $('#payment_type').change(function(){
                 if($('#payment_type').val() == 'Check') {
                     $('#check_number').show();
                     $('#check_date').show();
                     $('#bkash_number').hide();
+                    $('#note').hide();
                 }else if($('#payment_type').val() == 'BKash') {
                     $('#bkash_number').show();
+                    $('#note').hide();
                     $('#check_number').hide();
                     $('#check_date').hide();
+                }else if($('#payment_type').val() == 'POS SYSTEM') {
+                    console.log('sss')
+                    $('#note').show();
+                    $('#check_number').hide();
+                    $('#check_date').hide();
+                    $('#bkash_number').hide();
                 } else {
+                    $('#note').val('');
+                    $('#note').hide();
                     $('#bkash_number').val('');
                     $('#bkash_number').hide();
                     $('#check_number').val('');

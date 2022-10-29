@@ -68,7 +68,8 @@
                                 <span>&nbsp;</span>
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_number" id="check_number" class="form-control" placeholder="Check Number">
-                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" placeholder="BKash Number">
+                                <input type="text" name="bkash_number" id="bkash_number" class="form-control" placeholder="Transaction Number">
+                                <input type="text" name="note" id="note" class="form-control" placeholder="POS System Note">
                                 <span>&nbsp;</span>
                                 <input type="text" name="check_date" id="check_date" class="datepicker form-control" placeholder="Issue Deposit Date ">
                             </div>
@@ -777,6 +778,7 @@
         }
 
         $(function() {
+            $('#note').hide();
             $('#bkash_number').hide();
             $('#check_number').hide();
             $('#check_date').hide();
@@ -785,12 +787,20 @@
                     $('#check_number').show();
                     $('#check_date').show();
                     $('#bkash_number').hide();
+                    $('#note').hide();
                 }else if($('#payment_type').val() == 'BKash') {
                     $('#bkash_number').show();
                     $('#check_number').hide();
                     $('#check_date').hide();
+                    $('#note').hide();
+                }else if($('#payment_type').val() == 'POS SYSTEM') {
+                    $('#note').show();
+                    $('#check_number').hide();
+                    $('#check_date').hide();
+                    $('#bkash_number').hide();
                 } else {
-                    $('#bkash_number').val('');
+                    $('#note').val('');
+                    $('#note').hide();
                     $('#bkash_number').hide();
                     $('#check_number').val('');
                     $('#check_number').hide();
