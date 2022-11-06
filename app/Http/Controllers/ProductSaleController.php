@@ -301,17 +301,53 @@ class ProductSaleController extends Controller
                             $duration_row_count = $check_product_service->service_month_duration;
                             if ($duration_row_count != NULL){
                                 $service_date = $request->date;
+                                // do {
+                                //     $saleServiceDuration = new SaleServiceDuration();
+                                //     $saleServiceDuration->sale_service_id = $saleServices->id;
+                                //     $saleServiceDuration->service_date = $service_date;
+                                //     $saleServiceDuration->save();
+
+                                //     $add_next_service_date = $service_date."+".$duration_row_count." month";
+                                //     $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+                                //     $service_date = $nextServiceDate;
+                                // } while ($service_date <= $end_date);
+
+
+
+
+
+
+
+                                // while($service_date <= $end_date) {
+                                //     $add_next_service_date = $service_date."+".$duration_row_count." month";
+                                //     $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+                                //     $service_date = $nextServiceDate;
+
+                                //     $saleServiceDuration = new SaleServiceDuration();
+                                //     $saleServiceDuration->sale_service_id = $saleServices->id;
+                                //     $saleServiceDuration->service_date = $service_date;
+                                //     $saleServiceDuration->save();
+                                // }
+
                                 do {
-                                    // initial
+                                    $add_next_service_date = $service_date."+".$duration_row_count." month";
+                                    $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+                                    $service_date = $nextServiceDate;
+
                                     $saleServiceDuration = new SaleServiceDuration();
                                     $saleServiceDuration->sale_service_id = $saleServices->id;
                                     $saleServiceDuration->service_date = $service_date;
                                     $saleServiceDuration->save();
 
-                                    $add_next_service_date = $service_date."+".$duration_row_count." month";
-                                    $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
-                                    $service_date = $nextServiceDate;
+
                                 } while ($service_date <= $end_date);
+
+                                // update service start date
+                                $update_start_date = SaleServiceDuration::where('sale_service_id',$saleServices->id)->pluck('service_date')->first();
+                                $update_sale_service = SaleService::find($saleServices->id);
+                                $update_sale_service->start_date = $update_start_date;
+                                $update_sale_service->save();
+
                             }
                         }
                     }
@@ -662,8 +698,9 @@ For any queries call our support 09638-888 000";
         ->leftJoin('products','products.id','product_sale_details.product_id')
         ->where('sale_services.product_sale_detail_id',$id)
         ->select('products.name as product_name','services.name as service_name','sale_service_durations.service_date')
+        ->orderBy('sale_service_durations.service_date','asc')
         ->get();
-        return view('backend.productSale.showServices',compact('productSaleDetail','services','saleServices'));
+        return view('backend.productSale.showServices',compact('productSaleDetail','saleServices'));
     }
 
     public function Editservice($id){

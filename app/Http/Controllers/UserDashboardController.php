@@ -59,7 +59,7 @@ class   UserDashboardController extends Controller
             ->where('sale_services.product_sale_detail_id','=',$id)
             //->where('service_date','<=',$custom_date_end)
             ->select('sale_service_durations.service_date','sale_services.*','services.name')
-            ->orderby('service_date','ASC')
+            ->orderby('sale_service_durations.service_date','asc')
             ->get();
        // dd($saleServiceDurations);
         return view('backend.user-dashboard.service-list', compact('saleServiceDurations'));

@@ -2758,6 +2758,17 @@ if (!function_exists('opening_balance_for_trial_balance')) {
             'preDebCre' =>$preDebCre
         ];
     }
+
+    if (!function_exists('check_already_service_entry')) {
+        function check_already_service_entry($product_id,$service_id)
+        {
+            return $productSaleReturn = DB::table('sale_services')
+            ->join('product_sale_details','sale_services.product_sale_detail_id','product_sale_details.id')
+                ->where('sale_services.service_id',$service_id)
+                ->where('product_sale_details.product_id',$product_id)
+                ->get();
+        }
+    }
 }
 
 ?>

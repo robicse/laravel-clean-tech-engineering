@@ -158,4 +158,13 @@ class ProductServiceController extends Controller
         Toastr::success('Service Deleted Successfully', 'Success');
         return redirect()->route('productService.index');
     }
+
+    public function ProductServiceDetailRemove($rowId){
+        if($rowId){
+            $productServiceDetail = ProductServiceDetail::find($rowId);
+            $productServiceDetail->delete();
+        }
+        $info['success'] = true;
+        echo json_encode($info);
+    }
 }

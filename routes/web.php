@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('service','ServiceController');
     Route::post('productServiceDetail','ProductServiceController@ProductServiceDetailStore')->name('productServiceDetail.store');
     Route::post('productServiceDetail/{id}','ProductServiceController@ProductServiceDetailUpdate')->name('productServiceDetail.update');
+    Route::get('productServiceDetailRemove/{id}','ProductServiceController@ProductServiceDetailRemove');
     Route::resource('productService','ProductServiceController');
 
     Route::resource('offers','OfferController');

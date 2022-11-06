@@ -44,9 +44,9 @@
                                                     ->first();
                                         @endphp
                                     </td> --}}
-                                    <td>{{$saleService->product_name}}</td>
-                                    <td>{{$saleService->service_name}}</td>
-                                    <td>{{$saleService->service_date}}</td>
+                                    <td>{{@$saleService->product_name}}</td>
+                                    <td>{{@$saleService->service_name}}</td>
+                                    <td>{{@$saleService->service_date}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

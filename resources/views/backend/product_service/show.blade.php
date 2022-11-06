@@ -30,7 +30,17 @@
                                 <tr @if($productServiceDetail->status == '2') style="background-color:red;" @endif>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $productService->product->name}}</td>
-                                    <td>{{ $productServiceDetail->service->name}}</td>
+                                    <td>
+                                        <span  style="margin-left: 5px">{{ $productServiceDetail->service->name}}</span>
+                                        <span>
+                                        @php
+                                            $check_already_service_entry = check_already_service_entry($productService->product->id,$productServiceDetail->service->id)
+                                        @endphp
+                                        @if(count( $check_already_service_entry) == 0)
+                                            <a class=" btn btn-danger btn-sm float-left"  style="margin-left: 5px"  onclick="deleteService({{ $productServiceDetail->id }})" data-toggle="modal" title="Are you sure you want to delete This Service?"><i class="fa fa-minus"></i></a>
+                                        @endif
+                                        </span>
+                                    </td>
                                     <td>
                                         <input type="hidden" id="product_service_detail_id" name="product_service_detail_id[]" value="{{ $productServiceDetail->id }}"  class="form-control">
                                         <input type="number" id="service_month_duration" name="service_month_duration[]" value="{{ $productServiceDetail->service_month_duration }}"  class="form-control">
@@ -61,5 +71,26 @@
         </div>
     </main>
 @endsection
+
+@push('js')
+    <script>
+        function deleteService(rowId) {
+            if (confirm("Are you sure, delete this Service!")) {
+                $.ajax({
+                    url: "{{ URL('/productServiceDetailRemove') }}/" + rowId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data)
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+            }
+        }
+    </script>
+@endpush()
 
 

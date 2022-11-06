@@ -32,14 +32,14 @@
                                     <td>{{ $productService->total_year_from_start_date}}</td>
                                     <td>{{ $productService->status == '1' ? 'Active' : 'Inactive'}}</td>
                                     <td>
-                                        <a href="{{ route('productService.edit',$productService->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
-                                        <a href="{{ route('productService.show',$productService->id) }}" class="btn btn-sm btn-success float-left" style="margin-left: 5px"><i class="fa fa-eye"></i></a>
-                                        <a  class=" btn btn-info btn-sm float-left"  style="margin-left: 5px" onclick="modal_customer()" data-toggle="modal"><i class="fa fa-plus"></i></a>
+                                        <a href="{{ route('productService.edit',$productService->id) }}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px" title="Edit Product Year And Active Inactive"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('productService.show',$productService->id) }}" class="btn btn-sm btn-success float-left" style="margin-left: 5px" title="Show And Edit Product Service Month And Active Inactive"><i class="fa fa-eye"></i></a>
+                                        <a  class=" btn btn-info btn-sm float-left"  style="margin-left: 5px" onclick="modal_add_more()" data-toggle="modal" title="Add More Services"><i class="fa fa-plus"></i></a>
                                     </td>
                                 </tr>
 
                                 <!-- Credit Sale -->
-                                <div id="customar_modal" class="modal fade" role="dialog">
+                                <div id="add_more_modal" class="modal fade" role="dialog">
                                     <div class="modal-dialog modal-md">
                                         <div class="modal-content">
                                             <div class="modal-header" style="background-color:green; color: white">
@@ -101,8 +101,8 @@
 @endsection
 @push('js')
     <script>
-        function modal_customer(){
-            $('#customar_modal').modal('show');
+        function modal_add_more(){
+            $('#add_more_modal').modal('show');
         }
     </script>
 @endpush

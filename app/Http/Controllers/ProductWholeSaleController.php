@@ -194,41 +194,41 @@ class ProductWholeSaleController extends Controller
                 }
 
                 // service start
-                $check_product_services = ProductServiceDetail::join('product_services','product_services.id','product_service_details.product_service_id')
-                                        ->where('product_services.product_id',$product_id)
-                                        ->where('product_services.status',1)
-                                        ->select('product_services.total_year_from_start_date','product_service_details.service_id','product_service_details.service_month_duration')
-                                        ->get();
-                if(count($check_product_services) > 0){
-                    foreach($check_product_services as $check_product_service){
-                        $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_year_from_start_date.' years'));
-                        $saleServices = new SaleService();
-                        $saleServices->product_sale_detail_id = $purchase_sale_detail->id;
-                        $saleServices->created_user_id = Auth::id();
-                        $saleServices->service_id = $check_product_service->service_id;
-                        $saleServices->duration = $check_product_service->service_month_duration;
-                        $saleServices->start_date = $request->date;
-                        $saleServices->end_date = $end_date;
-                        $saleServices->status = 0;
-                        if($saleServices->save()){
-                            $duration_row_count = $check_product_service->service_month_duration;
-                            if ($duration_row_count != NULL){
-                                $service_date = $request->date;
-                                do {
-                                    // initial
-                                    $saleServiceDuration = new SaleServiceDuration();
-                                    $saleServiceDuration->sale_service_id = $saleServices->id;
-                                    $saleServiceDuration->service_date = $service_date;
-                                    $saleServiceDuration->save();
+                // $check_product_services = ProductServiceDetail::join('product_services','product_services.id','product_service_details.product_service_id')
+                //                         ->where('product_services.product_id',$product_id)
+                //                         ->where('product_services.status',1)
+                //                         ->select('product_services.total_year_from_start_date','product_service_details.service_id','product_service_details.service_month_duration')
+                //                         ->get();
+                // if(count($check_product_services) > 0){
+                //     foreach($check_product_services as $check_product_service){
+                //         $end_date = date('Y-m-d', strtotime($request->date. ' + '.$check_product_service->total_year_from_start_date.' years'));
+                //         $saleServices = new SaleService();
+                //         $saleServices->product_sale_detail_id = $purchase_sale_detail->id;
+                //         $saleServices->created_user_id = Auth::id();
+                //         $saleServices->service_id = $check_product_service->service_id;
+                //         $saleServices->duration = $check_product_service->service_month_duration;
+                //         $saleServices->start_date = $request->date;
+                //         $saleServices->end_date = $end_date;
+                //         $saleServices->status = 0;
+                //         if($saleServices->save()){
+                //             $duration_row_count = $check_product_service->service_month_duration;
+                //             if ($duration_row_count != NULL){
+                //                 $service_date = $request->date;
+                //                 do {
+                //                     // initial
+                //                     $saleServiceDuration = new SaleServiceDuration();
+                //                     $saleServiceDuration->sale_service_id = $saleServices->id;
+                //                     $saleServiceDuration->service_date = $service_date;
+                //                     $saleServiceDuration->save();
 
-                                    $add_next_service_date = $service_date."+".$duration_row_count." month";
-                                    $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
-                                    $service_date = $nextServiceDate;
-                                } while ($service_date <= $end_date);
-                            }
-                        }
-                    }
-                }
+                //                     $add_next_service_date = $service_date."+".$duration_row_count." month";
+                //                     $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+                //                     $service_date = $nextServiceDate;
+                //                 } while ($service_date <= $end_date);
+                //             }
+                //         }
+                //     }
+                // }
                 // service end
             }
 

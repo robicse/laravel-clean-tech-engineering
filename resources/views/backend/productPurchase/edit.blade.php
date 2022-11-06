@@ -87,7 +87,7 @@
                                     <th>Brand</th>
                                     <th style="display: none">Unit</th>
                                     <th>Qty<small class="requiredCustom">*</small></th>
-                                    <th>Purchase Price<small class="requiredCustom">*</small></th>
+                                    <th>Purchase Price1<small class="requiredCustom">*</small></th>
                                     <th>MRP Price<small class="requiredCustom">*</small></th>
                                     <th>WholeSale Price <small class="requiredCustom">*</small></th>
                                     <th>Sub Total</th>
@@ -145,16 +145,16 @@
                                             </div>
                                         </td>
                                         <td width="13%">
-                                            <input type="number" min="1" max="" class="qty form-control" name="qty[]" value="{{$productPurchaseDetail->qty}}" required >
+                                            <input type="number" min="1" max="" step="any" class="qty form-control" name="qty[]" value="{{$productPurchaseDetail->qty}}" required >
                                         </td>
                                         <td width="13%">
-                                            <input type="number" min="0" max="" class="price form-control" name="price[]"  id="price_1" value="{{$productPurchaseDetail->price}}" required >
+                                            <input type="number" min="0" max="" step="any" class="price form-control" name="price[]"  id="price_1" value="{{$productPurchaseDetail->price}}" required >
                                         </td>
                                         <td width="10%">
-                                            <input type="number" min="0" max="" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >
+                                            <input type="number" min="0" max="" step="any" class="form-control" name="mrp_price[]" value="{{$productPurchaseDetail->mrp_price}}" required >
                                         </td>
                                         <td width="10%">
-                                            <input type="number" min="0" max="" class="form-control" name="wholeSale_price[]" value="{{$productPurchaseDetail->wholeSale_price}}" required >
+                                            <input type="number" min="0" max="" step="any" class="form-control" name="wholeSale_price[]" value="{{$productPurchaseDetail->wholeSale_price}}" required >
                                         </td>
                                         <td width="15%">
                                             <input type="text" class="amount form-control" name="sub_total[]" value="{{$productPurchaseDetail->sub_total}}">
