@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('productServiceDetail/{id}','ProductServiceController@ProductServiceDetailUpdate')->name('productServiceDetail.update');
     Route::get('productServiceDetailRemove/{id}','ProductServiceController@ProductServiceDetailRemove');
     Route::resource('productService','ProductServiceController');
+    Route::get('check-product-service-exists','ProductServiceController@getVoucherNumberEdit');
 
     Route::resource('offers','OfferController');
     Route::resource('customer_complain','CustomerComplainController');

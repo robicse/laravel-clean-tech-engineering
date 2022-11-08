@@ -28,6 +28,7 @@
     {{--toastr css--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="{{asset('backend/plugins/datatables/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/plugins/select2/select2.min.css')}}">
 
     <!--Date-Picker Stylesheet-->
     <link rel="stylesheet" href="{{asset('backend/css/datepicker.css')}}">

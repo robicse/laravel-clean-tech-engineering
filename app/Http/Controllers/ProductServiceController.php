@@ -167,4 +167,21 @@ class ProductServiceController extends Controller
         $info['success'] = true;
         echo json_encode($info);
     }
+
+    public function getVoucherNumberEdit(Request $request){
+
+        $current_service_id = $request->current_service_id;
+        $current_product_id = $request->current_product_id;
+
+        $check_exists = ProductServiceDetail::join('product_services','product_services.id','product_service_details.product_service_id')
+            ->where('product_services.product_id',$current_product_id)
+            ->where('product_service_details.service_id',$current_service_id)
+            ->first();
+        if($check_exists){
+            $check_status = 1;
+        }else{
+            $check_status = 0;
+        }
+        return response()->json(['success'=>true,'data'=>$check_status]);
+    }
 }
