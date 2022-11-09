@@ -105,6 +105,31 @@
             });
         });
 
+        $('#product_id').on('change',function (){
+            // var current_service_id = $('#service_id').val();
+            var current_product_id = $('#product_id').val();
+
+            $.ajax({
+                url : "{{URL('check-service-exists')}}",
+                method : "get",
+                data : {
+                    // current_service_id : current_service_id,
+                    current_product_id : current_product_id,
+                },
+                success : function (res){
+                    console.log(res.data)
+                    if(res.data == 1){
+                        alert('Already added this product! Please another service.');
+                        $("#product_id").val("");
+                    }
+                },
+                error : function (err){
+                    console.log(err)
+                }
+            })
+
+        });
+
     </script>
     @endpush
 

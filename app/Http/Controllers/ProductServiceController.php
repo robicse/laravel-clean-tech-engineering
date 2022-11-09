@@ -184,4 +184,18 @@ class ProductServiceController extends Controller
         }
         return response()->json(['success'=>true,'data'=>$check_status]);
     }
+
+    public function getCheckProductExists(Request $request){
+
+        $current_product_id = $request->current_product_id;
+
+        $check_exists = ProductService::where('product_id',$current_product_id)
+            ->first();
+        if($check_exists){
+            $check_status = 1;
+        }else{
+            $check_status = 0;
+        }
+        return response()->json(['success'=>true,'data'=>$check_status]);
+    }
 }
