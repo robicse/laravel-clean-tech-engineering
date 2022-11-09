@@ -219,7 +219,7 @@
 
                                 </tbody>
                                 <tfoot>
-                                <tr>
+                                {{-- <tr>
                                     <th></th>
 
 
@@ -256,6 +256,59 @@
                                     <th width="15%">
                                         Due Amount:
                                         <input type="text" id="due_amount" class="backmoney form-control" name="due_amount">
+                                    </th>
+                                </tr> --}}
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>
+                                        Sub Total Amount:
+                                        <input type="text" id="store_total_amount" class="form-control" value="0" readonly>
+                                    </th>
+                                    <th>
+                                        After Vat Amount:
+                                        <input type="number" class="form-control" id="after_vat_amount" value="0"readonly>
+                                    </th>
+                                    <th>
+                                        After Trans:
+                                        <input type="text" id="after_transport" class="form-control"  value="0" readonly>
+                                    </th>
+                                    <th>
+                                        After Dis:
+                                        <input type="text" id="after_discount_amount" class="form-control" value="0" readonly>
+                                    </th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>
+                                        Vat(Percentage):
+                                        <input type="number" class="form-control" name="vat_amount" id="vat_amount" onkeyup="priceCalculation('')" value="0">
+                                    </th>
+                                    <th >
+                                        Transport/Labour:
+                                        <input type="text" id="transport" name="transport_cost" class="form-control" placeholder="Transport Cost" onkeyup="priceCalculation('')" value="0">
+                                    </th>
+                                    <th>
+                                        Type:
+                                        <select name="discount_type" id="discount_type" class="form-control" onchange="priceCalculation('')">
+                                            <option value="flat">flat</option>
+                                            <option value="percentage">percentage</option>
+                                        </select>
+                                        Discount:
+                                        <input type="text" id="discount_amount" class="discount_amount form-control" name="discount_amount" onkeyup="priceCalculation('')" value="0">
+                                    </th>
+                                    <th>
+                                        Total:
+                                        <input type="text" id="total_amount" class="form-control" name="total_amount" value="0" readonly>
+                                    </th>
+                                    <th>
+                                        Paid Amount:
+                                        <input type="text" id="paid_amount" class="getmoney form-control" name="paid_amount" onkeyup="paidAmount('')" value="0">
+                                    </th>
+                                    <th>
+                                        Due Amount:
+                                        <input type="text" id="due_amount" class="backmoney form-control" name="due_amount" value="0" readonly>
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -381,6 +434,122 @@
     <script>
         CKEDITOR.replace( 'conditions' );
 
+        // function totalAmount(){
+        //     var t = 0;
+        //     $('.amount').each(function(i,e){
+        //         var amt = $(this).val()-0;
+        //         t += amt;
+        //     });
+        //     $('#store_total_amount').val(t);
+        //     $('#total_amount').val(t);
+        //     $('#due_amount').val(t);
+        // }
+
+        // // onblur
+        // function vatAmount(){
+        //     var sub_total = $('#store_total_amount').val();
+        //     console.log('sub_total= ' + sub_total);
+        //     console.log('sub_total= ' + typeof sub_total);
+        //     sub_total = parseFloat(sub_total);
+
+        //     var vat_amount = $('#vat_amount').val();
+        //     console.log('vat_amount= ' + vat_amount);
+        //     console.log('vat_amount= ' + typeof vat_amount);
+        //     vat_amount = (vat_amount);
+
+        //     var vat_subtraction = (sub_total*vat_amount)/100;
+        //     console.log('vat_subtraction= ' + vat_subtraction);
+        //     console.log('vat_subtraction= ' + typeof vat_subtraction);
+
+        //     var transport = $('#transport').val();
+        //     console.log('transport= ' + transport);
+        //     console.log('transport= ' + typeof transport);
+        //     transport = parseFloat(transport);
+
+        //     var grand_total =( sub_total + vat_subtraction + transport);
+        //     console.log('grand_total= ' + grand_total);
+        //     console.log('grand_total= ' + typeof grand_total);
+        //     grand_total = (grand_total);
+
+        //     $('#show_vat_amount').val(vat_subtraction);
+        //     $('#store_total_amount').val(grand_total);
+        //     $('#total_amount').val(grand_total);
+        //     $('#due_amount').val(grand_total);
+        // }
+        // function transportCost(){
+
+        //     var sub_total = $('#store_total_amount').val();
+        //     console.log('sub_total= ' + sub_total);
+        //     console.log('sub_total= ' + typeof sub_total);
+        //     sub_total = parseFloat(sub_total);
+
+        //     var transport = $('#transport').val();
+        //     console.log('transport= ' + transport);
+        //     console.log('transport= ' + typeof transport);
+        //     transport = parseFloat(transport);
+
+        //     var grand_total =( sub_total + transport);
+        //     console.log('grand_total= ' + grand_total);
+        //     console.log('grand_total= ' + typeof grand_total);
+        //     grand_total = parseFloat(grand_total);
+
+        //     $('#total_amount').val(grand_total);
+        //     $('#due_amount').val(grand_total);
+        // }
+        // // onkeyup
+        // function discountAmount(){
+        //     var discount_type = $('#discount_type').val();
+
+        //     var store_total_amount = $('#store_total_amount').val();
+        //     console.log('store_total_amount= ' + store_total_amount);
+        //     console.log('store_total_amount= ' + typeof store_total_amount);
+        //     store_total_amount = parseFloat(store_total_amount);
+        //     console.log('total= ' + typeof store_total_amount);
+
+        //     var discount_amount = $('#discount_amount').val();
+        //     console.log('discount_amount= ' + discount_amount);
+        //     console.log('discount_amount= ' + typeof discount_amount);
+        //     discount_amount = parseFloat(discount_amount);
+        //     console.log('discount_amount= ' + discount_amount);
+        //     console.log('discount_amount= ' + typeof discount_amount);
+
+        //     var transport = $('#transport').val();
+        //     console.log('transport= ' + transport);
+        //     console.log('transport= ' + typeof transport);
+        //     transport = parseFloat(transport);
+
+        //     if(discount_type == 'flat'){
+        //         var final_amount = (store_total_amount+transport) - discount_amount ;
+        //     }
+        //     else{
+        //         var per = ((store_total_amount+transport)*discount_amount)/100;
+        //         var final_amount = store_total_amount - per +transport ;
+        //     }
+        //     console.log('final_amount= ' + final_amount);
+        //     console.log('final_amount= ' + typeof final_amount);
+
+        //     $('#total_amount').val(final_amount);
+        //     $('#due_amount').val(final_amount);
+        // }
+
+        // // onkeyup
+        // function paidAmount(){
+        //     console.log('okk');
+        //     var total = $('#total_amount').val();
+        //     console.log('total= ' + total);
+        //     console.log('total= ' + typeof total);
+
+        //     var paid_amount = $('#paid_amount').val();
+        //     console.log('paid_amount= ' + paid_amount);
+        //     console.log('paid_amount= ' + typeof paid_amount);
+
+        //     var due = total - paid_amount;
+        //     console.log('due= ' + due);
+        //     console.log('due= ' + typeof due);
+
+        //     $('.backmoney').val(due);
+        // }
+
         function totalAmount(){
             var t = 0;
             $('.amount').each(function(i,e){
@@ -388,155 +557,128 @@
                 t += amt;
             });
             $('#store_total_amount').val(t);
-            $('#total_amount').val(t);
-            $('#due_amount').val(t);
-        }
-        // onkeyup
-        // function vatAmount(){
-        //     var sub_total = $('#total_amount').val();
-        //     console.log('sub_total= ' + sub_total);
-        //     console.log('sub_total= ' + typeof sub_total);
-        //     sub_total = parseInt(sub_total);
-        //
-        //     var vat_amount = $('#vat_amount').val();
-        //     console.log('vat_amount= ' + vat_amount);
-        //     console.log('vat_amount= ' + typeof vat_amount);
-        //     vat_amount = (vat_amount);
-        //
-        //     var vat_subtraction = (sub_total*vat_amount)/100;
-        //     console.log('vat_subtraction= ' + vat_subtraction);
-        //     console.log('vat_subtraction= ' + typeof vat_subtraction);
-        //
-        //     var grand_total =( sub_total + vat_subtraction);
-        //     console.log('grand_total= ' + grand_total);
-        //     console.log('grand_total= ' + typeof grand_total);
-        //     grand_total = (grand_total);
-        //
-        //     $('#show_vat_amount').val(vat_subtraction);
-        //     $('#store_total_amount').val(grand_total);
-        //     $('#total_amount').val(grand_total);
-        //     $('#due_amount').val(grand_total);
-        // }
 
-        // onblur
-        function vatAmount(){
-           //  var sub_total = $('#sub_total').val();
-           //  console.log('sub_total= ' + sub_total);
-           //  console.log('sub_total= ' + typeof sub_total);
-           //  var vat_amount = parseInt($('#vat_amount').val()).toFixed(2);
-           //  console.log('vat_amount= ' + vat_amount);
-           //  console.log('vat_amount= ' + typeof vat_amount);
-           //  var vat_subtraction = parseInt((sub_total*vat_amount)/100);
-           //  console.log('vat_subtraction= ' + vat_subtraction);
-           //  console.log('vat_subtraction= ' + typeof vat_subtraction);
-           //  var grand_total = (sub_total + vat_subtraction);
-           //  // console.log(grand_total);
-           // // var vat_subtraction = parseFloat(vat_subtraction).toFixed(2);
-           //  var grand_total = parseInt(grand_total).toFixed(2);
-           //  //$('#vat_amount').val(vat_subtraction);
-           //  //$('#discount_amount').val(discount_amount);
-           //  $('#grand_total').val(grand_total);
-           //  $('#total_amount').val(grand_total);
-           //  $('#due_amount').val(grand_total);
+            var vat_amount = $('#vat_amount').val();
+            //console.log('vat_amount= ' + vat_amount);
+            //console.log('vat_amount= ' + typeof vat_amount);
+            vat_amount = (vat_amount);
+            var vat_subtraction = (t*vat_amount)/100;
+            //console.log('vat_subtraction= ' + vat_subtraction);
+            //console.log('vat_subtraction= ' + typeof vat_subtraction);
+            var after_vat_amount = t+vat_subtraction
+            $('#after_vat_amount').val(after_vat_amount);
 
+            var transport = $('#transport').val();
+            //console.log('transport= ' + transport);
+            //console.log('transport= ' + typeof transport);
+            transport = parseFloat(transport);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
 
+            var discount_type = $('#discount_type').val();
+            var store_total_amount = $('#store_total_amount').val();
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            //console.log('total= ' + typeof store_total_amount);
+            var discount_amount = $('#discount_amount').val();
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
+            discount_amount = parseFloat(discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
 
-                var sub_total = $('#store_total_amount').val();
-                console.log('sub_total= ' + sub_total);
-                console.log('sub_total= ' + typeof sub_total);
-                sub_total = parseFloat(sub_total);
+            if(discount_type == 'flat'){
+                var discount = (store_total_amount+transport) - discount_amount ;
+                var final_amount = discount ;
+            }
+            else{
+                var discount = ((store_total_amount+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
+            }
+            //console.log('discount= ' + discount);
+            //console.log('discount= ' + typeof discount);
+            //console.log('final_amount= ' + final_amount);
+            //console.log('final_amount= ' + typeof final_amount);
+            if(discount_amount == 0){
+                var after_discount_amount = after_transport;
+            }else{
+                var after_discount_amount = after_transport - discount;
+            }
+            $('#after_discount_amount').val(after_discount_amount);
 
-                var vat_amount = $('#vat_amount').val();
-                console.log('vat_amount= ' + vat_amount);
-                console.log('vat_amount= ' + typeof vat_amount);
-                vat_amount = (vat_amount);
+            $('#total_amount').val(final_amount);
 
-                var vat_subtraction = (sub_total*vat_amount)/100;
-                console.log('vat_subtraction= ' + vat_subtraction);
-                console.log('vat_subtraction= ' + typeof vat_subtraction);
+            var paid_amount = $('#paid_amount').val();
+            paid_amount = parseFloat(paid_amount);
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
 
-                var transport = $('#transport').val();
-                console.log('transport= ' + transport);
-                console.log('transport= ' + typeof transport);
-                transport = parseFloat(transport);
-
-                var grand_total =( sub_total + vat_subtraction + transport);
-                console.log('grand_total= ' + grand_total);
-                console.log('grand_total= ' + typeof grand_total);
-                grand_total = (grand_total);
-
-                $('#show_vat_amount').val(vat_subtraction);
-                $('#store_total_amount').val(grand_total);
-                $('#total_amount').val(grand_total);
-                $('#due_amount').val(grand_total);
-
-
+            $('#due_amount').val(final_amount - paid_amount);
 
         }
-        function transportCost(){
 
-            var sub_total = $('#store_total_amount').val();
-            console.log('sub_total= ' + sub_total);
-            console.log('sub_total= ' + typeof sub_total);
-            sub_total = parseFloat(sub_total);
+
+        //onkeyup
+        function priceCalculation(){
+            var discount_type = $('#discount_type').val();
+
+            var store_total_amount = $('#store_total_amount').val();
+            //console.log('store_total_amount= ' + store_total_amount);
+            //console.log('store_total_amount= ' + typeof store_total_amount);
+            store_total_amount = parseFloat(store_total_amount);
+            console.log('store_total_amount= ' + typeof store_total_amount);
+
+            var vat_amount = $('#vat_amount').val();
+            console.log('vat_amount= ' + vat_amount);
+            console.log('vat_amount= ' + typeof vat_amount);
+            vat_amount = (vat_amount);
+            var vat_subtraction = (store_total_amount*vat_amount)/100;
+            console.log('vat_subtraction= ' + vat_subtraction);
+            console.log('vat_subtraction= ' + typeof vat_subtraction);
+            var after_vat_amount = store_total_amount+vat_subtraction
+            $('#after_vat_amount').val(after_vat_amount);
 
             var transport = $('#transport').val();
             console.log('transport= ' + transport);
             console.log('transport= ' + typeof transport);
             transport = parseFloat(transport);
-
-                var grand_total =( sub_total + transport);
-                console.log('grand_total= ' + grand_total);
-                console.log('grand_total= ' + typeof grand_total);
-                grand_total = parseFloat(grand_total);
-
-                $('#total_amount').val(grand_total);
-                $('#due_amount').val(grand_total);
-               // $('#store_total_amount').val(grand_total);
-
-
-
-        }
-        // onkeyup
-        function discountAmount(){
-            var discount_type = $('#discount_type').val();
-
-            //var total = $('#total_amount').val();
-            //console.log('total= ' + total);
-            //console.log('total= ' + typeof total);
-            //total = parseInt(total);
-            //console.log('total= ' + typeof total);
-
-            var store_total_amount = $('#store_total_amount').val();
-            console.log('store_total_amount= ' + store_total_amount);
-            console.log('store_total_amount= ' + typeof store_total_amount);
-            store_total_amount = parseFloat(store_total_amount);
-            console.log('total= ' + typeof store_total_amount);
+            var after_transport = after_vat_amount + transport;
+            $('#after_transport').val(after_transport);
 
             var discount_amount = $('#discount_amount').val();
-            console.log('discount_amount= ' + discount_amount);
-            console.log('discount_amount= ' + typeof discount_amount);
+            //console.log('discount_amount= ' + discount_amount);
+            //console.log('discount_amount= ' + typeof discount_amount);
             discount_amount = parseFloat(discount_amount);
             console.log('discount_amount= ' + discount_amount);
             console.log('discount_amount= ' + typeof discount_amount);
 
-            var transport = $('#transport').val();
-            console.log('transport= ' + transport);
-            console.log('transport= ' + typeof transport);
-            transport = parseFloat(transport);
-
             if(discount_type == 'flat'){
-                var final_amount = (store_total_amount+transport) - discount_amount ;
+                var discount = (store_total_amount+vat_subtraction+transport) - discount_amount ;
+                var final_amount = discount ;
             }
             else{
-                var per = ((store_total_amount+transport)*discount_amount)/100;
-                var final_amount = store_total_amount - per +transport ;
+                var discount = ((store_total_amount+vat_subtraction+transport)*discount_amount)/100;
+                var final_amount = (store_total_amount+vat_subtraction+transport) - discount ;
             }
+            console.log('discount= ' + discount);
+            console.log('discount= ' + typeof discount);
             console.log('final_amount= ' + final_amount);
             console.log('final_amount= ' + typeof final_amount);
 
+            var after_discount_amount = after_transport - discount;
+            console.log('after_discount_amount= ' + after_discount_amount);
+            console.log('after_discount_amount= ' + typeof after_discount_amount);
+            $('#after_discount_amount').val(final_amount);
+
             $('#total_amount').val(final_amount);
-            $('#due_amount').val(final_amount);
+
+            var paid_amount = $('#paid_amount').val();
+            paid_amount = parseFloat(paid_amount);
+            //console.log('paid_amount= ' + paid_amount);
+            //console.log('paid_amount= ' + typeof paid_amount);
+
+            $('#due_amount').val(final_amount - paid_amount);
         }
 
         // onkeyup
