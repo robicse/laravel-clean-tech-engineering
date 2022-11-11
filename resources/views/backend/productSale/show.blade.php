@@ -189,8 +189,14 @@
                                 <td>{{$productSaleDetail->price}}</td>
                                 <td>{{$productSaleDetail->sub_total}}</td>
                                 <td class="d-inline-flex">
+                                    @if(check_product_service( ($productSaleDetail->product->id) && empty(check_sale_service($productSaleDetail->id))) )
+                                    {{-- @if(check_product_service($productSaleDetail->product->id)) --}}
                                     <a type="button" class="test btn btn-primary btn-sm" href="{{route('productSales-addServices',$productSaleDetail->id)}}"><i class="fa fa-plus"></i></a>
+                                    @endif
+
+                                    @if(check_sale_service($productSaleDetail->id))
                                     <a href="{{route('productSales-showServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-eye"></i></a>
+                                    @endif
                                     <a href="{{route('productSales-editServices',$productSaleDetail->id)}}" class="btn btn-sm btn-primary float-left" style="margin-left: 5px"><i class="fa fa-edit"></i></a>
                                 </td>
 

@@ -1187,7 +1187,8 @@ For any queries call our support 09638-888 000..";
 
     // make sure few rows limit
     public function setServiceDurationPreviousSaleProduct_backup(){
-        $product_sale_details = ProductSaleDetail::where('id','>=',1)->where('id','<=',100)->get();
+        $product_sale_details = ProductSaleDetail::join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                ->where('product_sales.sale_type','Retail Sale')->where('id','>=',1)->where('id','<=',100)->get();
         if(count($product_sale_details) > 0){
             foreach($product_sale_details as $product_sale_detail){
                 $product_sale_detail_id = $product_sale_detail->id;
@@ -1274,20 +1275,28 @@ For any queries call our support 09638-888 000..";
 
     // make sure few rows limit
     public function setServiceDurationPreviousSaleProduct(){
-        $product_sale_details = ProductSaleDetail::where('id','>=',1)->where('id','<=',100)->get();
+        $product_sale_details = ProductSaleDetail::join('product_sales','product_sale_details.product_sale_id','product_sales.id')
+                                ->where('product_sales.sale_type','Retail Sale')
+                                ->where('product_sale_details.id','>=',1)
+                                ->where('product_sale_details.id','<=',1000)
+                                ->select('product_sales.date','product_sale_details.id','product_sale_details.product_id')
+                                ->get();
         if(count($product_sale_details) > 0){
             foreach($product_sale_details as $product_sale_detail){
+                $start_date = $product_sale_detail->date;
                 $product_sale_detail_id = $product_sale_detail->id;
                 $product_id = $product_sale_detail->product_id;
 
-                $start_date = ProductSale::where('id',$product_sale_detail->product_sale_id)->pluck('date')->first();
-
-                $sale_service = SaleService::where('product_sale_detail_id',$product_sale_detail_id)->first();
-                if($sale_service){
-                    $sale_service_id = $sale_service->id;
-                }else{
+                $sale_services = SaleService::where('product_sale_detail_id',$product_sale_detail_id)->get();
+                if(count($sale_services) == 0){
+                    echo '<br/>';
+                    echo 'NO exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                    echo '<br/>';
                     $product_service = ProductService::where('product_id',$product_id)->first();
                     if($product_service){
+                        echo '<br/>';
+                        echo 'ProductService exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                        echo '<br/>';
                         $product_service_detail_infos = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
                                                     ->where('product_services.product_id',$product_id)
                                                     ->select(
@@ -1298,6 +1307,9 @@ For any queries call our support 09638-888 000..";
 
                         if(count($product_service_detail_infos) > 0){
                             foreach($product_service_detail_infos as $product_service_detail_info){
+                                echo '<br/>';
+                                echo 'ProductServiceDetail exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ' .$product_service_detail_info->service_id;
+                                echo '<br/>';
                                 $service_id = $product_service_detail_info->service_id;
                                 $product_service_detail = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
                                                     ->where('product_services.product_id',$product_id)
@@ -1307,6 +1319,8 @@ For any queries call our support 09638-888 000..";
                                                         'product_service_details.service_month_duration'
                                                         )
                                                     ->first();
+                                $insert_increment = 1;
+                                $no_insert_increment = 1;
                                 if($product_service_detail){
                                     $duration = $product_service_detail->total_year_from_start_date;
                                     $service_month_duration = $product_service_detail->service_month_duration;
@@ -1326,12 +1340,24 @@ For any queries call our support 09638-888 000..";
                                     if($insert_id){
                                         if ($service_month_duration != NULL){
                                             $service_date = $start_date;
+                                            $start_service_date_flag = 1;
                                             do {
-                                                // initial
-                                                $saleServiceDuration = new SaleServiceDuration();
-                                                $saleServiceDuration->sale_service_id = $insert_id;
-                                                $saleServiceDuration->service_date = $service_date;
-                                                $saleServiceDuration->save();
+                                                // skip previous date from current date
+                                                if($service_date > date('Y-m-d')){
+                                                    $saleServiceDuration = new SaleServiceDuration();
+                                                    $saleServiceDuration->sale_service_id = $insert_id;
+                                                    $saleServiceDuration->service_date = $service_date;
+                                                    $saleServiceDuration->save();
+
+                                                    $start_service_date_flag += 1;
+                                                    //$start_service_date = $service_date;
+                                                }
+
+                                                if($start_service_date_flag == 2){
+                                                    $saleServiceUpdate = SaleService::find($insert_id);
+                                                    $saleServiceUpdate->start_date = $service_date;
+                                                    $saleServiceUpdate->save();
+                                                }
 
                                                 $add_next_service_date = $service_date."+".$service_month_duration." month";
                                                 $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
@@ -1340,14 +1366,31 @@ For any queries call our support 09638-888 000..";
                                             } while ($service_date <= $end_date);
                                         }
                                     }
-
                                     echo '<br/>';
-                                    echo '*************** Done ***************';
+                                    echo '*************** Done ProductServiceDetail ***************'.$insert_increment += 1;
+                                    echo '<br/>';
+                                    echo '<br/>';
+                                }else{
+                                    echo '<br/>';
+                                    echo '*************** No Done ProductServiceDetail ***************'.$no_insert_increment += 1;;
+                                    echo '<br/>';
                                     echo '<br/>';
                                 }
                             }
+                        }else{
+                            echo '<br/>';
+                            echo 'No exists ProductServiceDetail => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ';
+                            echo '<br/>';
                         }
+                    }else{
+                        echo '<br/>';
+                        echo 'No exists ProductService => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                        echo '<br/>';
                     }
+                }else{
+                    echo '<br/>';
+                    echo 'Exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                    echo '<br/>';
                 }
             }
             dd('final done');

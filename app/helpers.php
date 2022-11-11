@@ -2769,6 +2769,20 @@ if (!function_exists('opening_balance_for_trial_balance')) {
                 ->get();
         }
     }
+
+    if (!function_exists('check_product_service')) {
+        function check_product_service($product_id)
+        {
+            return \App\ProductService::where('product_id',$product_id)->first();
+        }
+    }
+
+    if (!function_exists('check_sale_service')) {
+        function check_sale_service($product_sale_detail_id)
+        {
+            return \App\SaleService::where('product_sale_detail_id',$product_sale_detail_id)->first();
+        }
+    }
 }
 
 ?>
