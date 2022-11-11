@@ -1277,8 +1277,8 @@ For any queries call our support 09638-888 000..";
     public function setServiceDurationPreviousSaleProduct(){
         $product_sale_details = ProductSaleDetail::join('product_sales','product_sale_details.product_sale_id','product_sales.id')
                                 ->where('product_sales.sale_type','Retail Sale')
-                                ->where('product_sale_details.id','>=',1)
-                                ->where('product_sale_details.id','<=',1000)
+                                ->where('product_sale_details.id','>=',5501)
+                                ->where('product_sale_details.id','<=',6000)
                                 ->select('product_sales.date','product_sale_details.id','product_sale_details.product_id')
                                 ->get();
         if(count($product_sale_details) > 0){
@@ -1289,14 +1289,14 @@ For any queries call our support 09638-888 000..";
 
                 $sale_services = SaleService::where('product_sale_detail_id',$product_sale_detail_id)->get();
                 if(count($sale_services) == 0){
-                    echo '<br/>';
-                    echo 'NO exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
-                    echo '<br/>';
+                    // echo '<br/>';
+                    // echo 'NO exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                    // echo '<br/>';
                     $product_service = ProductService::where('product_id',$product_id)->first();
                     if($product_service){
-                        echo '<br/>';
-                        echo 'ProductService exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
-                        echo '<br/>';
+                        // echo '<br/>';
+                        // echo 'ProductService exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                        // echo '<br/>';
                         $product_service_detail_infos = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
                                                     ->where('product_services.product_id',$product_id)
                                                     ->select(
@@ -1307,9 +1307,9 @@ For any queries call our support 09638-888 000..";
 
                         if(count($product_service_detail_infos) > 0){
                             foreach($product_service_detail_infos as $product_service_detail_info){
-                                echo '<br/>';
-                                echo 'ProductServiceDetail exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ' .$product_service_detail_info->service_id;
-                                echo '<br/>';
+                                // echo '<br/>';
+                                // echo 'ProductServiceDetail exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ' .$product_service_detail_info->service_id;
+                                // echo '<br/>';
                                 $service_id = $product_service_detail_info->service_id;
                                 $product_service_detail = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
                                                     ->where('product_services.product_id',$product_id)
@@ -1322,16 +1322,15 @@ For any queries call our support 09638-888 000..";
                                 $insert_increment = 1;
                                 $no_insert_increment = 1;
                                 if($product_service_detail){
-                                    $duration = $product_service_detail->total_year_from_start_date;
+                                    $total_year_from_start_date = $product_service_detail->total_year_from_start_date;
                                     $service_month_duration = $product_service_detail->service_month_duration;
-                                    $add_end_date = $duration." year";
-                                    $end_date = date("Y-m-d",strtotime($add_end_date));
+                                    $end_date = date('Y-m-d', strtotime($start_date. ' + '.$total_year_from_start_date.' years'));
 
                                     $saleServices = new SaleService();
                                     $saleServices->product_sale_detail_id = $product_sale_detail_id;
                                     $saleServices->created_user_id = Auth::id();
                                     $saleServices->service_id = $service_id;
-                                    $saleServices->duration = $duration;
+                                    $saleServices->duration = $total_year_from_start_date;
                                     $saleServices->start_date = $start_date;
                                     $saleServices->end_date = $end_date;
                                     $saleServices->status = 0;
@@ -1350,10 +1349,10 @@ For any queries call our support 09638-888 000..";
                                                     $saleServiceDuration->save();
 
                                                     $start_service_date_flag += 1;
-                                                    //$start_service_date = $service_date;
                                                 }
 
                                                 if($start_service_date_flag == 2){
+                                                    // start date update
                                                     $saleServiceUpdate = SaleService::find($insert_id);
                                                     $saleServiceUpdate->start_date = $service_date;
                                                     $saleServiceUpdate->save();
@@ -1365,33 +1364,38 @@ For any queries call our support 09638-888 000..";
                                                 $service_date = $nextServiceDate;
                                             } while ($service_date <= $end_date);
                                         }
+
                                     }
-                                    echo '<br/>';
-                                    echo '*************** Done ProductServiceDetail ***************'.$insert_increment += 1;
-                                    echo '<br/>';
-                                    echo '<br/>';
-                                }else{
-                                    echo '<br/>';
-                                    echo '*************** No Done ProductServiceDetail ***************'.$no_insert_increment += 1;;
-                                    echo '<br/>';
-                                    echo '<br/>';
+                                    // echo '<br/>';
+                                    // echo '*************** Done ProductServiceDetail ***************'.$insert_increment += 1;
+                                    // echo '<br/>';
+                                    // echo '<br/>';
                                 }
+                                // else{
+                                    // echo '<br/>';
+                                    // echo '*************** No Done ProductServiceDetail ***************'.$no_insert_increment += 1;;
+                                    // echo '<br/>';
+                                    // echo '<br/>';
+                                // }
                             }
-                        }else{
-                            echo '<br/>';
-                            echo 'No exists ProductServiceDetail => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ';
-                            echo '<br/>';
                         }
-                    }else{
-                        echo '<br/>';
-                        echo 'No exists ProductService => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
-                        echo '<br/>';
+                        // else{
+                            // echo '<br/>';
+                            // echo 'No exists ProductServiceDetail => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id. 'service_id => ';
+                            // echo '<br/>';
+                        // }
                     }
-                }else{
-                    echo '<br/>';
-                    echo 'Exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
-                    echo '<br/>';
+                    // else{
+                        // echo '<br/>';
+                        // echo 'No exists ProductService => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                        // echo '<br/>';
+                    // }
                 }
+                // else{
+                    // echo '<br/>';
+                    // echo 'Exists => '.'product => '.$product_id . 'product_sale_detail_id => ' .$product_sale_detail_id;
+                    // echo '<br/>';
+                // }
             }
             dd('final done');
         }
