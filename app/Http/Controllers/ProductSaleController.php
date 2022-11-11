@@ -1185,4 +1185,174 @@ For any queries call our support 09638-888 000..";
         return view('backend.productSale.customer_due',compact('productSales'));
     }
 
+    // make sure few rows limit
+    public function setServiceDurationPreviousSaleProduct_backup(){
+        $product_sale_details = ProductSaleDetail::where('id','>=',1)->where('id','<=',100)->get();
+        if(count($product_sale_details) > 0){
+            foreach($product_sale_details as $product_sale_detail){
+                $product_sale_detail_id = $product_sale_detail->id;
+                $product_id = $product_sale_detail->product_id;
+                echo 'product_sale_detail_id => '.$product_sale_detail_id;
+                echo '<br/>';
+                echo 'product_id => '.$product_id;
+                echo '<br/>';
+
+                $start_date = ProductSale::where('id',$product_sale_detail->product_sale_id)->pluck('date')->first();
+
+                $sale_service = SaleService::where('product_sale_detail_id',$product_sale_detail_id)->first();
+                if($sale_service){
+                    $sale_service_id = $sale_service->id;
+                }else{
+                    $product_service = ProductService::where('product_id',$product_id)->first();
+                    if($product_service){
+                        $product_service_detail_infos = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
+                                                    ->where('product_services.product_id',$product_id)
+                                                    ->select(
+                                                        'product_services.product_id',
+                                                        'product_service_details.service_id'
+                                                        )
+                                                    ->get();
+
+                        if(count($product_service_detail_infos) > 0){
+                            foreach($product_service_detail_infos as $product_service_detail_info){
+                                $service_id = $product_service_detail_info->service_id;
+                                $product_service_detail = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
+                                                    ->where('product_services.product_id',$product_id)
+                                                    ->where('product_service_details.service_id',$service_id)
+                                                    ->select(
+                                                        'product_services.total_year_from_start_date',
+                                                        'product_service_details.service_month_duration'
+                                                        )
+                                                    ->first();
+                                if($product_service_detail){
+                                    $duration = $product_service_detail->total_year_from_start_date;
+                                    $service_month_duration = $product_service_detail->service_month_duration;
+                                    $add_end_date = $duration." year";
+                                    $end_date = date("Y-m-d",strtotime($add_end_date));
+
+                                    $saleServices = new SaleService();
+                                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                                    $saleServices->created_user_id = Auth::id();
+                                    $saleServices->service_id = $service_id;
+                                    $saleServices->duration = $duration;
+                                    $saleServices->start_date = $start_date;
+                                    $saleServices->end_date = $end_date;
+                                    $saleServices->status = 0;
+                                    $saleServices->save();
+                                    $insert_id = $saleServices->id;
+                                    if($insert_id){
+                                        if ($service_month_duration != NULL){
+                                            $service_date = $start_date;
+                                            do {
+                                                // initial
+                                                $saleServiceDuration = new SaleServiceDuration();
+                                                $saleServiceDuration->sale_service_id = $insert_id;
+                                                $saleServiceDuration->service_date = $service_date;
+                                                $saleServiceDuration->save();
+
+                                                $add_next_service_date = $service_date."+".$service_month_duration." month";
+                                                $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+
+                                                $service_date = $nextServiceDate;
+                                            } while ($service_date <= $end_date);
+                                        }
+                                    }
+
+                                    echo '<br/>';
+                                    echo '*************** Done ***************';
+                                    echo '<br/>';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            dd('final done');
+        }
+        dd('no found any data');
+    }
+
+    // make sure few rows limit
+    public function setServiceDurationPreviousSaleProduct(){
+        $product_sale_details = ProductSaleDetail::where('id','>=',1)->where('id','<=',100)->get();
+        if(count($product_sale_details) > 0){
+            foreach($product_sale_details as $product_sale_detail){
+                $product_sale_detail_id = $product_sale_detail->id;
+                $product_id = $product_sale_detail->product_id;
+
+                $start_date = ProductSale::where('id',$product_sale_detail->product_sale_id)->pluck('date')->first();
+
+                $sale_service = SaleService::where('product_sale_detail_id',$product_sale_detail_id)->first();
+                if($sale_service){
+                    $sale_service_id = $sale_service->id;
+                }else{
+                    $product_service = ProductService::where('product_id',$product_id)->first();
+                    if($product_service){
+                        $product_service_detail_infos = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
+                                                    ->where('product_services.product_id',$product_id)
+                                                    ->select(
+                                                        'product_services.product_id',
+                                                        'product_service_details.service_id'
+                                                        )
+                                                    ->get();
+
+                        if(count($product_service_detail_infos) > 0){
+                            foreach($product_service_detail_infos as $product_service_detail_info){
+                                $service_id = $product_service_detail_info->service_id;
+                                $product_service_detail = ProductServiceDetail::join('product_services','product_service_details.product_service_id','product_services.id')
+                                                    ->where('product_services.product_id',$product_id)
+                                                    ->where('product_service_details.service_id',$service_id)
+                                                    ->select(
+                                                        'product_services.total_year_from_start_date',
+                                                        'product_service_details.service_month_duration'
+                                                        )
+                                                    ->first();
+                                if($product_service_detail){
+                                    $duration = $product_service_detail->total_year_from_start_date;
+                                    $service_month_duration = $product_service_detail->service_month_duration;
+                                    $add_end_date = $duration." year";
+                                    $end_date = date("Y-m-d",strtotime($add_end_date));
+
+                                    $saleServices = new SaleService();
+                                    $saleServices->product_sale_detail_id = $product_sale_detail_id;
+                                    $saleServices->created_user_id = Auth::id();
+                                    $saleServices->service_id = $service_id;
+                                    $saleServices->duration = $duration;
+                                    $saleServices->start_date = $start_date;
+                                    $saleServices->end_date = $end_date;
+                                    $saleServices->status = 0;
+                                    $saleServices->save();
+                                    $insert_id = $saleServices->id;
+                                    if($insert_id){
+                                        if ($service_month_duration != NULL){
+                                            $service_date = $start_date;
+                                            do {
+                                                // initial
+                                                $saleServiceDuration = new SaleServiceDuration();
+                                                $saleServiceDuration->sale_service_id = $insert_id;
+                                                $saleServiceDuration->service_date = $service_date;
+                                                $saleServiceDuration->save();
+
+                                                $add_next_service_date = $service_date."+".$service_month_duration." month";
+                                                $nextServiceDate = date("Y-m-d",strtotime($add_next_service_date));
+
+                                                $service_date = $nextServiceDate;
+                                            } while ($service_date <= $end_date);
+                                        }
+                                    }
+
+                                    echo '<br/>';
+                                    echo '*************** Done ***************';
+                                    echo '<br/>';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            dd('final done');
+        }
+        dd('no found any data');
+    }
+
 }

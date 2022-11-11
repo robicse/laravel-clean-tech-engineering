@@ -243,6 +243,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('productSales-showServices/{id}','ProductSaleController@Showservice')->name('productSales-showServices');
     Route::get('productSales-editServices/{id}','ProductSaleController@Editservice')->name('productSales-editServices');
     Route::post('productSales-updateServices/{id}','ProductSaleController@Updateeservice')->name('productSales-update-services');
+    // set service duration previous sale product
+    Route::get('set-service-duration-previous-sale-product','ProductSaleController@setServiceDurationPreviousSaleProduct');
+
     //excel
     Route::get('export', 'UserController@export')->name('export');
     Route::get('importExportView', 'UserController@importExportView');
